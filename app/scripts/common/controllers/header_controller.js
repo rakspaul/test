@@ -155,6 +155,15 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             }
         };
 
+        $scope.getDashboardUrl = function() {
+            var url = 'a/'+$routeParams.accountId;
+            if($routeParams.subAccountId) {
+                url+= '/sa/'+$routeParams.subAccountId;
+            }
+            url+='/dashboard';
+            $location.url(url);
+        };
+
         $scope.showProfileMenu = function () {
             $('#profileDropdown').toggle();
             $('#brandsList').hide();
@@ -182,7 +191,6 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
             //On click of strategy dropdown we are not making a call, on page refresh strategy is becoming blank, so it shouldn't be reset here.
             //strategySelectModel.reset();
-
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'mediaplanList') {
@@ -210,6 +218,9 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
                 $location.url(urlBuilder.uploadReportsListUrl());
+            }else if (page === 'reportsOverview') {
+                targetUrl = urlBuilder.reportsOverviewUrl(url, fromView);
+                $scope.reportsUrl[index] = targetUrl;
             }
 
             return url;

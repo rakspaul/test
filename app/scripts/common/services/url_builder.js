@@ -1,7 +1,7 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService',
-            function ($location, $routeParams, accountService, subAccountService) {
+        angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService','campaignSelectModel',
+            function ($location, $routeParams, accountService, subAccountService,campaignSelectModel) {
 
             var buildBaseUrl = function () {
                     // this method can be used for building base url which can be used everywhere
@@ -150,6 +150,64 @@ define(['angularAMD'],
 
                     url += '/mediaplan/create';
                     $location.url(url);
+                },
+
+                reportOverCampaignUrl = function(url,subAccountId){
+                    var selectedCampaign = campaignSelectModel.getSelectedCampaign();
+
+                    //Attach campaign
+                    if($routeParams.campaignId) {
+                        url += '/mediaplans/' + $routeParams.campaignId+'/overview';
+                        $location.url(url);
+                    } else if(selectedCampaign.length){
+                        url += '/mediaplans/' + selectedCampaign.id+'/overview';
+                        $location.url(url);
+                    } else {
+                        //you should redirect to mediaplan list
+                        campaignSelectModel.fetchCampaigns(subAccountId || $routeParams.accountId, -1, -1).then(function(response) {
+                            var campaignArr = response.data.data,
+                                campaignId;
+                            if (campaignArr && campaignArr.length > 0 && campaignArr[0].campaign_id) {
+                                campaignId = campaignArr[0].campaign_id;
+
+                                //set first campaign as selected campaign
+                                campaignSelectModel.setSelectedCampaign(campaignArr[0]);
+                                url += '/mediaplans/' + campaignId+'/overview';
+                                $location.url(url);
+                            } else {
+                                console.log('No campaings for the account');
+                            }
+                        });
+                    }
+                },
+
+                reportsOverviewUrl =  function () {
+                    //Attach account
+                    var url = '/a/' + $routeParams.accountId,
+                        acccountData =  accountService.getSelectedAccount();
+
+                    //Attach subaccount if not a leaf node
+                    if (!acccountData.isLeafNode) {
+                        if($routeParams.subAccountId  && ($routeParams.subAccountId !== $routeParams.accountId)){
+                            url += '/sa/' + $routeParams.subAccountId;
+                            reportOverCampaignUrl(url,$routeParams.subAccountId);
+                        } else {
+                            if(subAccountService.getSubAccounts().length && (subAccountService.getSubAccounts()[0].id !== $routeParams.accountId)) {
+                                url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                                reportOverCampaignUrl(url,subAccountService.getSubAccounts()[0].id);
+                            } else {
+                                subAccountService
+                                    .fetchSubAccountList($routeParams.accountId)
+                                    .then(function () {
+                                        url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                                        url = reportOverCampaignUrl(url,subAccountService.getSubAccounts()[0].id);
+                                    });
+                            }
+                        }
+                    } else {
+                        reportOverCampaignUrl(url);
+                    }
+
                 },
 
                 cannedReportsUrl =  function (reportName, fromView) {
@@ -454,7 +512,8 @@ define(['angularAMD'],
                 invoiceTool: invoiceTool,
                 goToPreviewUrl: goToPreviewUrl,
                 gotoInvoiceReport: gotoInvoiceReport,
-                goToCreativeList : goToCreativeList
+                goToCreativeList : goToCreativeList,
+                reportsOverviewUrl: reportsOverviewUrl
             };
         }]);
     });
