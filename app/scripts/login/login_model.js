@@ -34,7 +34,8 @@ define(['angularAMD'], function (angularAMD) {
             var nameEQ = name + '=',
                 ca = document.cookie.split(';'),
                 i,
-                c;
+                c,
+                retValue = '';
 
             for(i = 0; i < ca.length; i++) {
                 c = ca[i];
@@ -44,15 +45,16 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 if (c.indexOf(nameEQ) === 0) {
-                    return c.substring(nameEQ.length, c.length);
+                    retValue = c.substring(nameEQ.length, c.length);
+                    break;
                 }
             }
 
-            return null;
+            return retValue;
         }
 
         // This is to ensure the cookie's path is set to the domain root path
-        setCookie('cdesk_session', readCookie('cdesk_session'));
+        //setCookie('cdesk_session', readCookie('cdesk_session'));
 
         // TODO: Temp console.log
         console.log('login(): readCookie = ', readCookie('cdesk_session'));
