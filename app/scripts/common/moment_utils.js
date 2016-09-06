@@ -22,6 +22,8 @@ define(['angularAMD'], function (angularAMD) {
                 return Date.parse(dateString);
             };
 
+
+
             this.today = function () {
 
                 var tz = vistoconfig.getClientTimeZone();
@@ -206,5 +208,23 @@ define(['angularAMD'], function (angularAMD) {
                 return moment(dateTime).format(format);
 
             };
+
+            this.postDateModifier = function(UiDate, apiDate, type) {
+                var isDateChanged = true,
+                    utcDateTime;
+
+                if(apiDate && moment(UiDate).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcDateTime = this.localTimeToUTC(UiDate, type, isDateChanged);
+
+                if(apiDate && moment(utcDateTime).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day')))  {
+                    utcDateTime = apiDate;
+                }
+
+                return utcDateTime;
+            };
+
         }]);
 });
