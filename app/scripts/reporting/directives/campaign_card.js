@@ -95,17 +95,17 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                         return tempText.indexOf(phrase) >= 0;
                     };
 
-                    $scope.redirectToOverViewPage = function(mediaplanId) {
+                    $scope.redirectToOverViewPage = function(campaign) {
                         var url = '',
                             accountData = accountService.getSelectedAccount();
 
                         url = '/a/'+ accountData.id;
 
-                        if(!accountData.isLeafNode && subAccountService.getSelectedSubAccount()) {
-                            url += '/sa/' + subAccountService.getSelectedSubAccount().id;
+                        if(!accountData.isLeafNode && campaign.client_id) {
+                            url += '/sa/' + campaign.client_id;
                         }
 
-                        url += '/mediaplan/' + mediaplanId + '/overview';
+                        url += '/mediaplan/' + campaign.orderId + '/overview';
 
                         return url;
                     };

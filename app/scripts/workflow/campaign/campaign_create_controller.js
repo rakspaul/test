@@ -44,7 +44,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
 
                 fetchAdvertisers: function (clientId) {
                     workflowService
-                        .getAdvertisers(clientId, 'write')
+                        .getAdvertisers(clientId, 'all')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 var responseData = result.data.data;
@@ -907,12 +907,12 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 }
 
                 var clientData = accountService.getSelectedAccount();
-                $scope.workflowData.subAccounts = _.sortBy(subAccountService.getSubAccounts(), 'displayName');
+                $scope.workflowData.subAccounts = _.sortBy(subAccountService.getMPSubAccounts(), 'displayName');
                 $scope.isClientDropDownDisable = true;
 
                 if($scope.mode === 'create' && !$scope.cloneMediaPlanName) {
                     if(!clientData.isLeafNode) {
-                        clientData = subAccountService.getSelectedSubAccount();
+                        clientData = subAccountService.getMPSelectedSubAccount();
                         $scope.selectedCampaign.clientName = clientData.displayName;
                     }
 

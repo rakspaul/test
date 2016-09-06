@@ -36,9 +36,7 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
         };
 
-        if (subAccountService.getSelectedDashboardSubAccount()) {
             updateTitle();
-        }
 
         $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
             dashboardModel.setSelectedBrand(vistoconfig.getSelectedBrandId());

@@ -84,9 +84,9 @@ define(['angularAMD'], function (angularAMD) {
 
                         // fetch all the subaccounts including the leaf accounts
                         subAccountService
-                            .fetchDashboardSubAccountList(account.id)
+                            .fetchSubAccountList(account.id)
                             .then(function () {
-                                var subAccountId = subAccountService.getDashboardSubAccountList()[0].id;
+                                var subAccountId = subAccountService.getSubAccountList()[0].id;
                                 url += '/sa/' + subAccountId;
                                 $location.url(page.buildPage(url));
 

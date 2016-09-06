@@ -42,24 +42,43 @@ define(['angularAMD'], function (angularAMD) {
         function fetchSubAccounts() {
             var selectedSubAccount;
 
-            if ($location.path().endsWith('/dashboard')) {
-                $scope.subAccountData.subAccounts = subAccountService.getDashboardSubAccountList();
-                $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedDashboardSubAccount().id;
-                $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedDashboardSubAccount().displayName;
-            } else {
-                $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
+            if($location.path().endsWith('/mediaplan/create')){
+                $scope.subAccountData.subAccounts = subAccountService.fetchMPSubAccountList();
 
                 // TODO: Is this the correct call, or redundant as we have the following code below?
                 $scope.subAccountData.selectedSubAccount.id = vistoconfig.getSelectedAccountId();
 
                 // TODO: Redundant???
                 //$scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount();
-                selectedSubAccount = subAccountService.getSelectedSubAccount();
+                selectedSubAccount = subAccountService.getMPSelectedSubAccount();
                 if (selectedSubAccount) {
                     $scope.subAccountData.selectedSubAccount.id = selectedSubAccount.id;
                     $scope.subAccountData.selectedSubAccount.name = selectedSubAccount.displayName;
                 }
+            }else{
+                $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
+                $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount().id;
+                $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedSubAccount().displayName;
             }
+
+            //if (1 || $location.path().endsWith('/dashboard')) {
+            //    $scope.subAccountData.subAccounts = subAccountService.getDashboardSubAccountList();
+            //    $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedDashboardSubAccount().id;
+            //    $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedDashboardSubAccount().displayName;
+            //} else {
+            //    $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
+            //
+            //    // TODO: Is this the correct call, or redundant as we have the following code below?
+            //    $scope.subAccountData.selectedSubAccount.id = vistoconfig.getSelectedAccountId();
+            //
+            //    // TODO: Redundant???
+            //    //$scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount();
+            //    selectedSubAccount = subAccountService.getSelectedSubAccount();
+            //    if (selectedSubAccount) {
+            //        $scope.subAccountData.selectedSubAccount.id = selectedSubAccount.id;
+            //        $scope.subAccountData.selectedSubAccount.name = selectedSubAccount.displayName;
+            //    }
+            //}
         }
 
         (function getOrFetchSubAccounts() {

@@ -3,16 +3,16 @@ define(['angularAMD'], function (angularAMD) {
         'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, vistoconfig, workflowService, campaignSelectModel,
                                                advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
-            dashboardSubAccountList = [],
+            mpSubAccountList = [],
             selectedSubAccount,
-            selectedDashboardSubAccount,
+            selectedMPSubAccount,
             previousAccountId,
 
             reset = function () {
                 subAccountList = [];
-                dashboardSubAccountList = [];
+                mpSubAccountList = [];
                 selectedSubAccount = undefined;
-                selectedDashboardSubAccount = undefined;
+                selectedMPSubAccount = undefined;
 
                 campaignSelectModel.reset();
                 advertiserModel.reset();
@@ -20,7 +20,7 @@ define(['angularAMD'], function (angularAMD) {
 
             },
 
-            fetchSubAccountList = function (accountId) {
+            fetchMPSubAccountList = function (accountId) {
                 var deferred;
 
                 accountId = accountId || previousAccountId;
@@ -35,7 +35,7 @@ define(['angularAMD'], function (angularAMD) {
                     this.reset();
                 }
 
-                if (subAccountList.length > 0) {
+                if (mpSubAccountList.length > 0) {
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -48,8 +48,16 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function (result) {
                             if (result && result.data.data.length > 0) {
 
-                                subAccountList = _.map(result.data.data, function (a) {
-                                    return {'id': a.id, 'displayName': a.displayName, 'timezone' : a.timezone};
+                                //mpSubAccountList = _.map(result.data.data, function (a) {
+                                //    return {'id': a.id, 'displayName': a.displayName, 'timezone' : a.timezone};
+                                //});
+
+                                mpSubAccountList = mpSubAccountList.concat(_.map(result.data.data, function (a) {
+                                    return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
+                                }));
+
+                                mpSubAccountList = _.filter(mpSubAccountList, function (a) {
+                                    return a.isLeafNode === true;
                                 });
 
                                 // commented by sapna - need to checkout with Abhimanyu that why this sorting has been done though in the subaccount dropdown not applied.
@@ -66,16 +74,16 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-            allowedSubAccount = function (subAccountId) {
+            allowedMPSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
 
                 if (subAccountId) {
-                    selectedSubAccount = _.find(subAccountList, function (client) {
+                    selectedMPSubAccount = _.find(mpSubAccountList, function (client) {
                         return subAccountId === client.id;
                     });
-                    if (selectedSubAccount) {
-                        if(selectedSubAccount.timezone) {
-                            vistoconfig.setClientTimeZone(selectedSubAccount.timezone);
+                    if (selectedMPSubAccount) {
+                        if(selectedMPSubAccount.timezone) {
+                            vistoconfig.setClientTimeZone(selectedMPSubAccount.timezone);
                         }
                         return true;
                     }
@@ -84,7 +92,7 @@ define(['angularAMD'], function (angularAMD) {
                 return false;
             },
 
-            fetchDashboardSubAccountList = function (accountId) {
+            fetchSubAccountList = function (accountId) {
                 var deferred = $q.defer();
 
                 accountId =  Number(accountId);
@@ -93,7 +101,7 @@ define(['angularAMD'], function (angularAMD) {
                     this.reset();
                 }
 
-                if (dashboardSubAccountList.length > 0) {
+                if (subAccountList.length > 0) {
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -101,19 +109,19 @@ define(['angularAMD'], function (angularAMD) {
                     return deferred.promise;
                 }
 
-                dashboardSubAccountList = [{'id': accountId, 'displayName': 'All'}];
+                subAccountList = [{'id': accountId, 'displayName': 'All'}];
 
                 workflowService
                     .getDashboardSubAccount(accountId)
                     .then(function (result) {
                         if (result && result.data.data.length > 0) {
-                            dashboardSubAccountList = dashboardSubAccountList.concat(_.map(result.data.data, function (a) {
+                            subAccountList = subAccountList.concat(_.map(result.data.data, function (a) {
                                 return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
                             }));
 
-                            subAccountList = _.filter(dashboardSubAccountList, function (a) {
-                                return a.isLeafNode === true;
-                            });
+                            //subAccountList = _.filter(dashboardSubAccountList, function (a) {
+                            //    return a.isLeafNode === true;
+                            //});
 
                             previousAccountId = accountId;
                             deferred.resolve();
@@ -125,14 +133,14 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-            allowedDashboardSubAccount = function (subAccountId) {
+            allowedSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
 
                 if (subAccountId) {
-                    selectedDashboardSubAccount = _.find(dashboardSubAccountList, function (client) {
+                    selectedSubAccount = _.find(subAccountList, function (client) {
                         return subAccountId === client.id;
                     });
-                    if (selectedDashboardSubAccount) {
+                    if (selectedSubAccount) {
                         return true;
                     }
                 }
@@ -140,20 +148,20 @@ define(['angularAMD'], function (angularAMD) {
                 return false;
             },
 
+            getMPSubAccounts = function () {
+                return mpSubAccountList;
+            },
+
             getSubAccounts = function () {
                 return subAccountList;
             },
 
-            getDashboardSubAccountList = function () {
-                return dashboardSubAccountList;
+            getMPSelectedSubAccount = function () {
+                return selectedMPSubAccount;
             },
 
             getSelectedSubAccount = function () {
                 return selectedSubAccount;
-            },
-
-            getSelectedDashboardSubAccount = function () {
-                return selectedDashboardSubAccount;
             },
 
             changeSubAccount =  function (account, subAccount) {
@@ -163,15 +171,26 @@ define(['angularAMD'], function (angularAMD) {
             };
 
         return {
+            //reset                          : reset,
+            //fetchSubAccountList            : fetchSubAccountList,
+            //allowedSubAccount              : allowedSubAccount,
+            //fetchDashboardSubAccountList   : fetchDashboardSubAccountList,
+            //allowedDashboardSubAccount     : allowedDashboardSubAccount,
+            //getSubAccounts                 : getSubAccounts,
+            //getDashboardSubAccountList      : getDashboardSubAccountList,
+            //getSelectedSubAccount          : getSelectedSubAccount,
+            //getSelectedDashboardSubAccount : getSelectedDashboardSubAccount,
+            //changeSubAccount               : changeSubAccount
+
             reset                          : reset,
             fetchSubAccountList            : fetchSubAccountList,
             allowedSubAccount              : allowedSubAccount,
-            fetchDashboardSubAccountList   : fetchDashboardSubAccountList,
-            allowedDashboardSubAccount     : allowedDashboardSubAccount,
+            fetchMPSubAccountList          : fetchMPSubAccountList,
+            allowedMPSubAccount            : allowedMPSubAccount,
             getSubAccounts                 : getSubAccounts,
-            getDashboardSubAccountList      : getDashboardSubAccountList,
+            getMPSubAccounts               : getMPSubAccounts,
             getSelectedSubAccount          : getSelectedSubAccount,
-            getSelectedDashboardSubAccount : getSelectedDashboardSubAccount,
+            getMPSelectedSubAccount        : getMPSelectedSubAccount,
             changeSubAccount               : changeSubAccount
         };
     }]);
