@@ -145,7 +145,15 @@ define(['angularAMD'], function (angularAMD) {
 
             creativePreviewResolver = function (args) {
                 var deferred = args.$q.defer(),
-                    redirect = false;
+                    redirect = false,
+                    commonPreviewCheckFunc = function(args, deferred, redirect, msg) {
+                        if (args.$route.current.params.accountId === args.$route.current.params.subAccountId) {
+                            fetchAccountDataSetWSInfo(args, deferred, redirect, msg);
+                        } else {
+                            console.log('account not allowed');
+                            args.$location.url('/tmp');
+                        }
+                    };
 
                 args
                     .accountService
@@ -163,14 +171,15 @@ define(['angularAMD'], function (angularAMD) {
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
                                             fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                        } else {
+                                            commonPreviewCheckFunc(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                                         }
                                     });
                             } else {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                             }
                         } else {
-                            console.log('account not allowed');
-                            args.$location.url('/tmp');
+                            commonPreviewCheckFunc(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE)
                         }
                     });
 
