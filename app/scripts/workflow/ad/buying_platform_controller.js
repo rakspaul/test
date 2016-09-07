@@ -160,7 +160,6 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                             _buyingPlatform.setPlatform(event, platform, seat);
                         }
                     } else {
-                        //$rootScope.$broadcast('resetTargeting');
                         _buyingPlatform.setPlatform(event, platform, seat);
                     }
 
