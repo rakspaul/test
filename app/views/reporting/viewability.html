@@ -127,7 +127,7 @@
                              data-ng-if="(dataNotFound  && !strategyBusy)"
                              data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                         </div>
-                        <div class="strategy_total_container ">
+                        <div class="strategy_total_container " data-ng-if="!dataNotFound">
                             <div class="common-load-icon_viewability"
                                  id="strategy_activityLoader"
                                  data-ng-show="strategyBusy">
