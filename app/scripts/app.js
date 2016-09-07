@@ -17,23 +17,20 @@ define(['common'], function (angularAMD) {
 
             $routeProvider
                 .when('/', angularAMD.route({
-                    title: 'Bootstrapping the Visto',
+                    title: 'Bootstrapping Visto',
                     templateUrl: 'home.html',
-                    controller: function ($cookieStore, $location, RoleBasedService, dataService, accountService) {
+                    controller: function ($cookieStore, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
-
-                        console.log('Home page controller is initialized');
                         if ($cookieStore.get('cdesk_session')) {
                             preferredClientId = RoleBasedService.getUserData().preferred_client;
-                            console.log('preferredClientId', preferredClientId);
-
                             dataService.updateRequestHeader();
 
                             accountService
                                 .fetchAccountList()
                                 .then(function () {
                                     var account,
-                                        url;
+                                        url,
+                                        features;
 
                                     if (preferredClientId) {
                                         account = _.find(accountService.getAccounts(), function (client) {
@@ -47,13 +44,24 @@ define(['common'], function (angularAMD) {
                                         account = accountService.getAccounts()[0];
                                     }
 
-                                    if (account.isLeafNode) {
-                                        url = '/a/' + account.id + '/dashboard';
-                                    } else {
-                                        url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
-                                    }
+                                    if (accountService.allowedAccount(account.id)) {
 
-                                    $location.url(url);
+                                        accountService
+                                            .fetchAccountData(account.id)
+                                            .then(function (response) {
+                                                features = response.data.data.features;
+                                                if (features.indexOf('ENABLE_ALL') !== -1) {
+                                                    $location.url(urlBuilder.dashboardUrl(account.id));
+                                                } else {
+
+                                                    if (features.indexOf('DASHBOARD') !== -1) {
+                                                        $location.url(urlBuilder.dashboardUrl(account.id));
+                                                    } else {
+                                                        urlBuilder.mediaPlansListUrl(account.id);
+                                                    }
+                                                }
+                                            });
+                                    }
                                 });
                         }
                     },
@@ -143,7 +151,6 @@ define(['common'], function (angularAMD) {
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
-                                                console.log('advertiser not allowed');
                                                 routeResolversParams.$location.url('/tmp');
                                             }
                                         });
@@ -230,7 +237,6 @@ define(['common'], function (angularAMD) {
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
-                                                console.log('advertiser not allowed');
                                                 routeResolversParams.$location.url('/tmp');
                                             }
                                         });
@@ -390,7 +396,20 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            console.log('Reports overview..........');
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/mediaplans/:campaignId/overview', angularAMD.route({
+                    templateUrl: assets.html_campaign_details,
+                    title: 'Reports Overview',
+                    controller: 'CampaignDetailsController',
+                    controllerUrl: 'campaign-details-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
@@ -1277,7 +1296,6 @@ define(['common'], function (angularAMD) {
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            console.log('v1sto/invoices route!');
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }
@@ -1328,7 +1346,34 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/sa/:subAccountId/admin/accounts', angularAMD.route({
+                    templateUrl: assets.html_accounts,
+                    title: 'Accounts',
+                    controller: 'AccountsController',
+                    controllerUrl: 'accounts-controller',
+                    showHeader: true,
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/admin/users', angularAMD.route({
+                    templateUrl: assets.html_users,
+                    title: 'Users',
+                    controller: 'UsersController',
+                    controllerUrl: 'users-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/admin/users', angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
@@ -1356,7 +1401,35 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/sa/:subAccountId/admin/brands', angularAMD.route({
+                    templateUrl: assets.html_brands,
+                    title: 'AdminBrands',
+                    controller: 'AdminAdvertisersController',
+                    controllerUrl: 'admin-brands-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/admin/advertisers', angularAMD.route({
+                    templateUrl: assets.html_advertisers,
+                    title: 'AdminAdvertisers',
+                    controller: 'AdminUsersController',
+                    controllerUrl: 'admin-advertisers-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/admin/advertisers', angularAMD.route({
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',

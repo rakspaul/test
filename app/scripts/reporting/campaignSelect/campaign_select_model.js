@@ -58,7 +58,6 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
                         deferred = $q.defer();
 
                     if (campaign.getSelectedCampaign() && campaign.getSelectedCampaign().id === campaignId) {
-                        console.log('fetchCampaign', 'already fetched', campaign.getSelectedCampaign());
                         $timeout(function() {
                             deferred.resolve();
                         }, 5);

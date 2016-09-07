@@ -28,8 +28,6 @@ define(['angularAMD'], function (angularAMD) {
 
                 deferred = $q.defer();
 
-                console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ',
-                    previousAccountId, 'typeof previousAccountId = ', typeof previousAccountId);
 
                 if (previousAccountId !== accountId) {
                     this.reset();
@@ -68,7 +66,6 @@ define(['angularAMD'], function (angularAMD) {
 
             allowedSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
-
                 if (subAccountId) {
                     selectedSubAccount = _.find(subAccountList, function (client) {
                         return subAccountId === client.id;

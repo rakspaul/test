@@ -6,7 +6,9 @@ define(['angularAMD'], function (angularAMD) {
                 var timeZoneDesignatorMap = {
                     akdt : '-0800',
                     akst : '-0900',
-                    art : '-0300'
+                    art : '-0300',
+                    hadt : '-0900',
+                    hst : '-1000'
                 };
 
                 var name, newDateString, regex;
@@ -21,6 +23,8 @@ define(['angularAMD'], function (angularAMD) {
 
                 return Date.parse(dateString);
             };
+
+
 
             this.today = function () {
 
@@ -206,5 +210,23 @@ define(['angularAMD'], function (angularAMD) {
                 return moment(dateTime).format(format);
 
             };
+
+            this.postDateModifier = function(UiDate, apiDate, type) {
+                var isDateChanged = true,
+                    utcDateTime;
+
+                if(apiDate && moment(UiDate).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcDateTime = this.localTimeToUTC(UiDate, type, isDateChanged);
+
+                if(apiDate && moment(utcDateTime).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day')))  {
+                    utcDateTime = apiDate;
+                }
+
+                return utcDateTime;
+            };
+
         }]);
 });

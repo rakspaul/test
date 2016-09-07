@@ -23,6 +23,8 @@ define(['angularAMD'],
                     pageName = 'cannedReports';
                 } else if (path.endsWith('invoices')) {
                     pageName = 'invoices';
+                } else if (path.includes('/admin')){
+                    pageName = 'admin';
                 }
 
                 return {
@@ -53,6 +55,9 @@ define(['angularAMD'],
                     isInoviceListPage: function() {
                         return pageName === 'invoices';
                     },
+                    isAdminPage: function(){
+                        return pageName === 'admin';
+                    },
 
                     /*
                      Use this method on change of account, subaccount, advertiser and brand only.
@@ -77,6 +82,8 @@ define(['angularAMD'],
                             url += '/creative/list';
                         } else if(this.isInoviceListPage()) {
                             url += '/v1sto/invoices';
+                        } else if(this.isAdminPage()){
+                            url += '/admin/accounts';
                         }
                         console.log('url', url);
                         return url;

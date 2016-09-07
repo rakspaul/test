@@ -41,7 +41,6 @@ define(['angularAMD', 'url-service', 'request-cancel-service'], function (angula
                         }
 
                         previousCampaignId = campaignId;
-                        console.log('fetchStrategyList', 'is fetched');
                         deferred.resolve();
                     });
                 },

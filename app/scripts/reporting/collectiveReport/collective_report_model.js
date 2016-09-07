@@ -5,7 +5,15 @@ define(['angularAMD', 'url-service', 'data-store-model'],
         angularAMD.factory('collectiveReportModel', ['urlService', 'dataService', 'advertiserModel', 'brandsModel',
             'dataStore', function (urlService, dataService, advertiserModel, brandsModel,dataStore) {
 
-                var getReportList = function (clientId, advertiserId, brandId, campaignId) {
+                var reportList = [],
+
+                    setReportList = function(data){
+                        reportList = data;
+                    },
+                    getReportListData = function(){
+                        return reportList;
+                    },
+                    getReportList = function (clientId, advertiserId, brandId, campaignId) {
                     var url = urlService.APIReportList(clientId, advertiserId, brandId, campaignId);
                         return dataService.getReportListData(url);
                         },
@@ -159,6 +167,8 @@ define(['angularAMD', 'url-service', 'data-store-model'],
 
                 return {
                     getReportList: getReportList,
+                    setReportList: setReportList,
+                    getReportListData: getReportListData,
                     deleteReport: deleteReport,
                     getScheduleReportList: getScheduleReportList,
                     deleteScheduledReport: deleteScheduledReport,

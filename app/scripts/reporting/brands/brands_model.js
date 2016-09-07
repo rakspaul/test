@@ -32,7 +32,6 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 }
                 var deferred = $q.defer();
                 if (brand.brandList.length > 0) {
-                    console.log('fetchBrandList ', 'already fetched');
                     $timeout(function() {
                         deferred.resolve();
                     }, 10);

@@ -69,14 +69,6 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
         // Assign isNaN to scope variable to use it from view template
         $scope.isNaN = window.isNaN;
 
-        $scope.mplUrl = '';
-        $scope.reportsUrl = [];
-        $scope.creativeListUrl = '';
-        $scope.adminUrl = '';
-        $scope.invoiceToolUrl = '';
-        $scope.customReportsUrl = '';
-        $scope.scheduleReportsUrl = [];
-
         $scope.getClientData = function () {
             var clientId = localStorageService.masterClient.get().id;
 
@@ -118,33 +110,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
                             accountChangeAction: function () {
                                 return function () {
-                                    var deferred = $q.defer(),
-                                        url;
-
                                     setMasterClientData(id, name, isLeafNode, event);
-
-                                    // when enters as workflow user should we broadcast masterclient - sapna
-                                    if (moduleObj.redirect) {
-                                        url = '/a/' + id;
-
-                                        if (!isLeafNode) {
-                                            subAccountService
-                                                .fetchSubAccountList (id)
-                                                .then(function () {
-                                                    var subAccountId;
-
-                                                    deferred.resolve();
-                                                    subAccountId = subAccountService.getSubAccounts()[0].id;
-                                                    url += '/sa/' + subAccountId + '/mediaplans';
-                                                    $location.url(url);
-                                                });
-                                        } else {
-                                            $location.url(url + '/mediaplans');
-                                        }
-                                    } else {
-                                        $route.reload();
-                                    }
-                                    return deferred.promise;
                                 };
                             }
                         }
@@ -155,6 +121,15 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             }
         };
 
+        $scope.getDashboardUrl = function() {
+            var url = 'a/'+$routeParams.accountId;
+            if($routeParams.subAccountId) {
+                url+= '/sa/'+$routeParams.subAccountId;
+            }
+            url+='/dashboard';
+            $location.url(url);
+        };
+
         $scope.showProfileMenu = function () {
             $('#profileDropdown').toggle();
             $('#brandsList').hide();
@@ -162,9 +137,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             $('#cdbDropdown').hide();
         };
 
-        $scope.navigateToTab = function (url, event, page, fromView, index) {
-            var targetUrl;
-
+        $scope.navigateToTab = function (url, event, page) {
             // TODO: Temp code - get rid of it later.
             if (_.isEmpty($routeParams) && page !== 'creativelist') {
                 return;
@@ -182,36 +155,31 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
             //On click of strategy dropdown we are not making a call, on page refresh strategy is becoming blank, so it shouldn't be reset here.
             //strategySelectModel.reset();
-
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
             } else if (page === 'mediaplanList') {
-                targetUrl = urlBuilder.mediaPlansListUrl(fromView);
-                $scope.mplUrl = targetUrl;
+                urlBuilder.mediaPlansListUrl();
             } else if (page === 'reportsSubPage') {
-                targetUrl = urlBuilder.cannedReportsUrl(url, fromView);
-                $scope.reportsUrl[index] = targetUrl;
+                urlBuilder.cannedReportsUrl(url);
             } else if (page === 'creativelist') {
-                targetUrl = urlBuilder.creativeListUrl(fromView);
-                $scope.creativeListUrl = targetUrl;
+                urlBuilder.creativeListUrl();
             } else if (page === 'adminOverview') {
-                targetUrl = urlBuilder.adminUrl(fromView);
-                $scope.adminUrl = targetUrl;
+                urlBuilder.adminUrl();
             } else if (page === 'invoiceTool') {
-                targetUrl = urlBuilder.invoiceTool(fromView);
-                $scope.invoiceToolUrl = targetUrl;
+                urlBuilder.invoiceTool();
             } else if (page === 'customReports') {
-                targetUrl = urlBuilder.customReportsUrl(fromView);
-                $scope.customReportsUrl = targetUrl;
+                $location.url(urlBuilder.customReportsUrl());
             } else if (page === 'scheduleReports') {
-                targetUrl = urlBuilder.customReportsListUrl(url, fromView);
-                $scope.scheduleReportsUrl[index] = targetUrl;
-            } else if (page === 'uploadReports') {
+                urlBuilder.customReportsListUrl(url);
+            } else if (page === 'collectiveInsights') {
+                urlBuilder.collectiveInsightsUrl(url);
+            }else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
                 $location.url(urlBuilder.uploadReportsListUrl());
+            }else if (page === 'reportsOverview') {
+                urlBuilder.reportsOverviewUrl(url);
             }
-
             return url;
         };
 
@@ -279,7 +247,10 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
 
             featurePermission();
-            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+
+            if(loginModel.getClientData()) {
+                $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+            }
         });
         /* End Feature Permission */
 

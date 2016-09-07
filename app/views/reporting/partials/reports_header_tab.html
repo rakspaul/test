@@ -1,7 +1,6 @@
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" data-ng-if="buildReport">
-        <a data-ng-href="{{customReportsUrl ? customReportsUrl : navigateToTab('/customreport', $event , 'customReports', true)}}"
-           data-ng-click="navigateToTab('/customreport', $event , 'customReports', false)"
+        <a data-ng-click="navigateToTab('/customreport', $event , 'customReports')"
            class="clearfix new_report_generate_btn">
             <span class="icon-report-builder-1 pull-left"></span>
             <span class="pull-left" data-ng-bind="textConstants.BUILD_REPORT" style="margin-top: 3px;"></span>
@@ -16,7 +15,7 @@
              class="header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === filters.activeTab}"
              id="{{tab.href}}">
-            <a data-ng-click="navigateToTab('/' + tab.href, $event , 'reportsSubPage', false, $index)"
+            <a data-ng-click="navigateToTab('/' + tab.href, $event ,(tab.title === ('Reports Overview'))?'reportsOverview': 'reportsSubPage', false, $index)"
                id="performance_tab_{{tab.href}}"
                style="text-transform: capitalize;"
                reportTitle="{{tab.title}}"
@@ -33,7 +32,7 @@
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === customFilters.activeTab}">
             <a class="pull-left reports_list_link"
-               data-ng-click="navigateToTab(tab.href, $event, 'scheduleReports', false, $index)"
+               data-ng-click="navigateToTab(tab.href, $event, tab.moduleName)"
                data-ng-bind="tab.title">
             </a>
             <div class="icon-upload"

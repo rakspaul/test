@@ -130,12 +130,12 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
 
                         if (showManageButton) {
                             if (campaign.is_archived) {
-                                url = '/mediaplans/' + campaign.orderId;
+                                url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id + '/overview';
                             } else {
-                                url = urlBuilder.mediaPlanOverviewUrl(campaign.orderId);
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id);
                             }
                         } else {
-                            url = '/mediaplans/' + campaign.orderId;
+                            url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id +'/overview';
                         }
 
                         if (event && (event.ctrlKey || event.metaKey)) {

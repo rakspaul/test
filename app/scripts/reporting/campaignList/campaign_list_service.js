@@ -647,8 +647,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                             if (campaign.kpiType === 'IMPRESSIONS') {
                                 campaign.kpiTypeDisplayName = 'Impressions';
                             } else {
-                                campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
-                                    return obj.kpi === campaign.kpiType;
+                                campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiList, function (obj) {
+                                    return obj.kpiType === campaign.kpiType;
                                 });
                                 campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : (campaign.kpiType).toUpperCase();
                             }
