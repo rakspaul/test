@@ -1321,7 +1321,7 @@ define(['common'], function (angularAMD) {
                     css: assets.css_table_list
                 }))
 
-                .when('/a/:accountId/admin/accounts', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
@@ -1334,7 +1334,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/admin/users', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/admin/users', angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
@@ -1348,7 +1348,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/admin/brands', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/admin/brands', angularAMD.route({
                     templateUrl: assets.html_brands,
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
@@ -1362,7 +1362,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/admin/advertisers', angularAMD.route({
+                .when('/a/:accountId/sa/:subAccountId/admin/advertisers', angularAMD.route({
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
