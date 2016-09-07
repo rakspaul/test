@@ -45,7 +45,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                         _.each(tacticData, function (tactic) {
                             var tactic1 = {
                                 id: tactic.id,
-                                media_type_icon: mediaTypeIcon,
+                                media_type_icon: mediaTypeIconMap[tactic.media_type.toLowerCase()] || 'icon-desktop',
                                 name: tactic.name,
                                 startDate: momentInNetworkTZ.utcToLocalTime(tactic.start_date, 'YYYY-MM-DD'),
                                 endDate: momentInNetworkTZ.utcToLocalTime(tactic.end_date, 'YYYY-MM-DD'),
@@ -71,8 +71,6 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                 spend:tactic.spend
                             };
 
-                            mediaTypeIcon = mediaTypeIconMap[tactic.media_type.toLowerCase()];
-                            mediaTypeIcon || (mediaTypeIcon = 'icon-desktop');
 
                             tactic1.durationCompletion = campaign.durationCompletion.bind(tactic1);
                             tactic1.durationLeft = campaign.durationLeft.bind(tactic1);
