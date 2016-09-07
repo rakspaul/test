@@ -160,7 +160,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                             _buyingPlatform.setPlatform(event, platform, seat);
                         }
                     } else {
-                        $rootScope.$broadcast('resetTargeting');
+                        //$rootScope.$broadcast('resetTargeting');
                         _buyingPlatform.setPlatform(event, platform, seat);
                     }
 
@@ -422,11 +422,11 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 .left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
-            
-            setTimeout(function(){ 
+
+            setTimeout(function(){
                 $('.buyingPlatformHolder .popUpCue').css({
                     top: '-10px',
-                    left: relativeX + 'px' 
+                    left: relativeX + 'px'
                 });
             }, 5);
             $('.buying-platform-popup').show();
