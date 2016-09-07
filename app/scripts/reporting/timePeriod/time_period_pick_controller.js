@@ -32,10 +32,15 @@ define(['angularAMD', 'time-period-model'], function (angularAMD) {
         }
 
         $scope.datePickerfilterByTimePeriod = function (key, startDate, endDate) {
-            key.key = 'custom&start_date=' + startDate + '&end_date=' + endDate;
-            timePeriodModel.selectTimePeriod(key);
-            $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
-            timePeriodModel.setTimeFilterCustomDates({startDate : startDate, endDate : endDate});
+            if( startDate && endDate) {
+                key.key = 'custom&start_date=' + startDate + '&end_date=' + endDate;
+                timePeriodModel.selectTimePeriod(key);
+                $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
+                timePeriodModel.setTimeFilterCustomDates({startDate : startDate, endDate : endDate});
+            } else {
+                $rootScope.setErrAlertMessage('Date field cannot be empty' , 1 );
+                return false ;
+            }
         };
 
         $(document).ready(function () {
