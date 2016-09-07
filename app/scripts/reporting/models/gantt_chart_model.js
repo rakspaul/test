@@ -14,7 +14,7 @@ define(['angularAMD', 'url-service', 'dashboard-model'], function (angularAMD) {
                 var url,
                     clientId = vistoconfig.getSelectedAccountId(),
                     advertiserId = vistoconfig.getSelectAdvertiserId(),
-                    brandId = vistoconfig.getSelectedBrandId();
+                    brandId = (Number(vistoconfig.getSelectedBrandId()) === 0)?-1:vistoconfig.getSelectedBrandId();
 
                 if (advertiserId !== -1) {
                     url = urlService.APICalendarWidgetForAdvertiser(clientId, advertiserId, brandId, this.filter,
@@ -25,7 +25,7 @@ define(['angularAMD', 'url-service', 'dashboard-model'], function (angularAMD) {
                     url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId, this.filter,
                         dashboardModel.campaignStatusToSend());
                 }
-
+console.log("calendar url: ",url);
                 return dataService
                     .fetch(url, {cache: false})
                     .then(function (response) {
