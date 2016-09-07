@@ -1321,12 +1321,39 @@ define(['common'], function (angularAMD) {
                     css: assets.css_table_list
                 }))
 
+                .when('/a/:accountId/admin/accounts', angularAMD.route({
+                    templateUrl: assets.html_accounts,
+                    title: 'Accounts',
+                    controller: 'AccountsController',
+                    controllerUrl: 'accounts-controller',
+                    showHeader: true,
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/sa/:subAccountId/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'accounts-controller',
                     showHeader: true,
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/admin/users', angularAMD.route({
+                    templateUrl: assets.html_users,
+                    title: 'Users',
+                    controller: 'UsersController',
+                    controllerUrl: 'users-controller',
+                    showHeader: true,
+
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
                             return routeResolvers.adminHeaderResolver(routeResolversParams);
@@ -1348,11 +1375,39 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/admin/brands', angularAMD.route({
+                    templateUrl: assets.html_brands,
+                    title: 'AdminBrands',
+                    controller: 'AdminAdvertisersController',
+                    controllerUrl: 'admin-brands-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/sa/:subAccountId/admin/brands', angularAMD.route({
                     templateUrl: assets.html_brands,
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
                     controllerUrl: 'admin-brands-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/admin/advertisers', angularAMD.route({
+                    templateUrl: assets.html_advertisers,
+                    title: 'AdminAdvertisers',
+                    controller: 'AdminUsersController',
+                    controllerUrl: 'admin-advertisers-controller',
                     showHeader: true,
 
                     resolve: {
