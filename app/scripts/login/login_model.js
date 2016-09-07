@@ -25,8 +25,17 @@ define(['angularAMD'], function (angularAMD) {
         }
 
         // function to delete cookie by setting its Expires value to the past
-        function deleteCookie(name) {
-            document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        function deleteCookie(name, path) {
+            path = path || '';
+
+            // Don't delete cookie if path is set to root.
+            if (path !== ' Path=/;') {
+                document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;' + path;
+            }
+        }
+
+        function deleteRootCookie(name) {
+            document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;';
         }
 
         // function to read the value of a cookie whose name is given
@@ -52,15 +61,6 @@ define(['angularAMD'], function (angularAMD) {
 
             return retValue;
         }
-
-        // This is to ensure the cookie's path is set to the domain root path
-        //setCookie('cdesk_session', readCookie('cdesk_session'));
-
-        // TODO: Temp console.log
-        console.log('login(): readCookie = ', readCookie('cdesk_session'));
-        console.log('Login(), cookies = ', $cookies,
-            ', cdesk_session = ', $cookieStore.get('cdesk_session'),
-            ', document.cookie = ', document.cookie);
 
         return {
             deleteData: function () {
@@ -119,6 +119,7 @@ define(['angularAMD'], function (angularAMD) {
             setUser: function (user) {
                 data = user;
                 $cookieStore.put('cdesk_session', user);
+                setCookie('cdesk_session', window.escape(JSON.stringify(user)));
 
                 // campaignDetails object is required for reports tab.
                 localStorage.setItem('selectedCampaign', JSON.stringify({
@@ -196,10 +197,14 @@ define(['angularAMD'], function (angularAMD) {
                 }
             },
 
-            getauth_token: function () {
+            getAuthToken: function () {
                 if ($cookieStore.get('cdesk_session')) {
                     data.auth_token = $cookieStore.get('cdesk_session').auth_token;
-                    return $cookieStore.get('cdesk_session').auth_token;
+
+                    // This is to ensure the cookie's path is set to the domain root path
+                    setCookie('cdesk_session', readCookie('cdesk_session'));
+
+                    return data.auth_token;
                 }
             },
 
@@ -208,9 +213,17 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             checkCookieExpiry: function () {
+                var cookiesLen = document.cookie.split('cdesk_session').length - 1;
+
+                if (cookiesLen > 1) {
+                    // Any cookie whose path is not ' Path=/;'
+                    deleteCookie('cdesk_session');
+                }
+
                 if (!$cookieStore.get('cdesk_session')) {
                     localStorage.clear();
                     updateRedirectUrl($location.$$path);
+
                     $location.url('/login');
 
                     // remove header bar on login page
@@ -226,11 +239,7 @@ define(['angularAMD'], function (angularAMD) {
                 $location.url('/login');
 
                 // 'Manually' delete cookie using pure JS if AngularJS failed to delete it
-                deleteCookie('cdesk_session');
-                // TODO: Temp console.log. Remove after testing is done.
-                console.log('Logout(), cookies = ', $cookies,
-                    ', cdesk_session = ', $cookieStore.get('cdesk_session'),
-                    ', document.cookie = ', document.cookie);
+                deleteRootCookie('cdesk_session');
 
                 // remove header bar on login page
                 $('.main_navigation_holder').hide();

@@ -26,6 +26,7 @@ define(['common'], function (angularAMD) {
                         if ($cookieStore.get('cdesk_session')) {
                             preferredClientId = RoleBasedService.getUserData().preferred_client;
                             console.log('preferredClientId', preferredClientId);
+
                             dataService.updateRequestHeader();
 
                             accountService
@@ -1696,13 +1697,11 @@ define(['common'], function (angularAMD) {
             var loginCheckFunc = function () {
                     var locationPath = $location.path();
 
-
                     if (locationPath !== '/login') {
                         brandsModel.enable();
                     }
 
                     dataService.updateRequestHeader();
-
                     loginModel.checkCookieExpiry();
                 },
 

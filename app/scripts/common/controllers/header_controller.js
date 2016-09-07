@@ -166,10 +166,10 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             var targetUrl;
 
             // TODO: Temp code - get rid of it later.
-            console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
             if (_.isEmpty($routeParams) && page !== 'creativelist') {
                 return;
             }
+
             if (event && event.originalEvent.metaKey) {
                 return;
             }
