@@ -524,13 +524,18 @@ define(['angularAMD'],
             .filter('nrFormat', function () {
                 return function (value, key) {
                     var returnValue,
-                    y = Math.abs(value);
+                        y = Math.abs(value);
+
                     if (y <= 0) {
                         returnValue = y;
                     } else {
-                        if(key === undefined) {
-                            key = key || 2 ;
-                        } 
+
+                        if(key === 0) {
+                            key = 0 ;
+                        } else {
+                            key = key || 2;
+                        }
+
                         if (y < 9999) {
                             returnValue = value.toFixed(key);
                         } else if (y < 1000000) {
