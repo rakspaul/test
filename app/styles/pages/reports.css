@@ -342,7 +342,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .one_section_reports_holder .reports_section_details_container .each_reports_row_details {
   border-bottom: solid 1px #ccd9e3;
-  color: #57606d;
+  color: #21252b;
   font-size: 14px;
 }
 .one_section_reports_holder .reports_section_details_container .each_reports_row_details:hover {
@@ -1031,7 +1031,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .inventory_strategy_chart .inventory_each_chart_details .imps_del_data,
 .breadcrumb_campaign_strategy .inventory_strategy_chart .inventory_each_chart_details .imps_del_data,
 .smallScreenScrollDiv .inventory_strategy_chart .inventory_each_chart_details .imps_del_data {
-  color: #57606d;
+  color: #21252b;
   font-size: 14px;
   width: 102px;
   padding-top: 10px;
@@ -1045,7 +1045,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   height: 34px;
   overflow: hidden;
   white-space: nowrap;
-  color: #57606d;
+  color: #21252b;
   font-size: 14px;
 }
 .common_reports_container .inventory_strategy_chart.no_data_found,
@@ -1520,13 +1520,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .strategy_total_container .strategy_total_container_header,
 .viewability_details_video_mode_outer_container .strategy_total_container .strategy_total_container_header {
   /*border-top: 0px ;*/
+  border-bottom: 1px;
 }
 .viewability_details_outer_container .strategy_total_container .each_quality.media_plan_totals,
 #reports_platform_viewability_block .strategy_total_container .each_quality.media_plan_totals,
 .viewability_details_video_mode_outer_container .strategy_total_container .each_quality.media_plan_totals {
   font-family: "Avenir-bold";
   margin-left: 40px ;
-  color: #57606d;
+  color: #21252b;
 }
 .viewability_details_outer_container .strategy_total_container .each_col.first_col,
 #reports_platform_viewability_block .strategy_total_container .each_col.first_col,
@@ -1603,7 +1604,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 25px;
   padding-top: 15px;
   padding-bottom: 10px ;
-  color: #57606d;
+  color: #21252b;
   font-size: 14px;
 }
 .viewability_details_outer_container .each_col > span,
@@ -1878,7 +1879,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .media_plan_totals {
   font-family: "Avenir-bold";
   margin-left: 50px ;
-  color: #57606d;
+  color: #21252b;
 }
 .viewability_details_outer_container .sort_order_down.active:hover {
   background-position: right -65px;
@@ -2735,12 +2736,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding-left: 20px;
 }
 .reports_tabs_content_container .reports_block .row_list_holder .each_row_list {
-  color: #57606d;
+  color: #21252b;
   font-size: 14px;
   /* padding:6px 20px 0px 20px;*/
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorCls {
-  border-bottom: 2px solid #ccd9e3;
+  border-bottom: 1px solid #ccd9e3;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -2761,7 +2762,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-family: "Avenir-bold";
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorCls_platform {
-  border-bottom: 2px solid #ccd9e3;
+  border-bottom: 1px solid #ccd9e3;
   /*position: absolute;
                 top: 0px;
                 left: -15px;
@@ -3481,7 +3482,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_cost_header_holder .media_plan_totals,
 #reports_platform_cost_block .media_plan_totals {
   font-family: "Avenir-bold";
-  color: #57606d;
+  color: #21252b;
 }
 .reports_cost_header_holder .more_options .dd_txt,
 #reports_platform_cost_block .more_options .dd_txt,
@@ -3492,7 +3493,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_cost_header_holder .each_cost_col,
 #reports_platform_cost_block .each_cost_col {
   font-family: "Avenir";
-  color: #57606d;
+  color: #21252b;
   font-size: 14px;
 }
 .reports_cost_header_holder .each_cost_col.active,
