@@ -3,8 +3,7 @@ define(['angularAMD'], function (angularAMD) {
         'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig', 'pageFinder',
         function ($rootScope, $location, $q, $route, $timeout, workflowService, subAccountService, RoleBasedService, featuresService, dataService, vistoconfig, pageFinder) {
         var accountList = [],
-            selectedAccount,
-            accountDataMap = {};
+            selectedAccount;
 
         return {
             fetchAccountList: function() {
@@ -112,13 +111,6 @@ define(['angularAMD'], function (angularAMD) {
                 accountId = Number(accountId);
                 var deferred = $q.defer();
 
-                if (accountDataMap.id === accountId) {
-                    $timeout(function() {
-                        deferred.resolve();
-                    }, 5);
-                    return deferred.promise;
-                }
-
                 workflowService.getClientData(accountId).then(function(response) {
 
                     if (response && response.data.data) {
@@ -126,8 +118,7 @@ define(['angularAMD'], function (angularAMD) {
                         RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                         RoleBasedService.setCurrencySymbol();
                         featuresService.setFeatureParams(response.data.data.features);
-                        accountDataMap.id = accountId;
-                        deferred.resolve();
+                        deferred.resolve(response);
 
                     } else {
                         deferred.reject('account data not found');
