@@ -25,7 +25,7 @@ define(['angularAMD', 'url-service', 'dashboard-model'], function (angularAMD) {
                     url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId, this.filter,
                         dashboardModel.campaignStatusToSend());
                 }
-console.log("calendar url: ",url);
+
                 return dataService
                     .fetch(url, {cache: false})
                     .then(function (response) {
