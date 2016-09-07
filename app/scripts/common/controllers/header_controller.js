@@ -142,6 +142,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             if (_.isEmpty($routeParams) && page !== 'creativelist') {
                 return;
             }
+
             if (event && event.originalEvent.metaKey) {
                 return;
             }

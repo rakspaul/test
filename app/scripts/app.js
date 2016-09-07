@@ -1770,13 +1770,11 @@ define(['common'], function (angularAMD) {
             var loginCheckFunc = function () {
                     var locationPath = $location.path();
 
-
                     if (locationPath !== '/login') {
                         brandsModel.enable();
                     }
 
                     dataService.updateRequestHeader();
-
                     loginModel.checkCookieExpiry();
                 },
 

@@ -2,8 +2,7 @@ define(['app', 'common-utils'],function (app) {
     'use strict';
 
     app.controller('loginController', ['$scope', '$sce', '$window', 'loginService', 'utils', 'constants', 'RoleBasedService',
-        'loginModel', 'vistoconfig', function ($scope, $sce, $window, loginService, utils, constants, RoleBasedService,
-                                                loginModel, vistoconfig) {
+        'loginModel', 'vistoconfig', function ($scope, $sce, $window, loginService, utils, constants, RoleBasedService, loginModel, vistoconfig) {
         $scope.textConstants = constants;
         $scope.loadingClass = '';
         $scope.loginErrorMsg = undefined;
@@ -84,15 +83,14 @@ define(['app', 'common-utils'],function (app) {
 
         $scope.checkoutBrowserInfo = function () {
             var browserInfo = utils.detectBrowserInfo(),
-
-                findData = _.where(vistoconfig.supportedBrowser, {
-                    name: browserInfo.browserName
-                }),
-                browserList;
+                findData = _.where(vistoconfig.supportedBrowser, {name: browserInfo.browserName}),
+                browserList,
+                findName,
+                findVersion;
 
             if (findData.length > 0) {
-                var findName = findData[0].name,
-                    findVersion = findData[0].version;
+                findName = findData[0].name;
+                findVersion = findData[0].version;
 
                 if (browserInfo.majorVersion >= findVersion) {
                     $scope.showMessage = false;
@@ -101,28 +99,20 @@ define(['app', 'common-utils'],function (app) {
                 } else {
                     if (findName === 'Internet Explorer') {
                         $scope.showMessage = true;
-
                         $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE1.replace(/\{findVersion}/g, findVersion);
-
                         $scope.disabledFormFields = true;
                     } else {
                         $scope.showMessage = true;
-
-                        $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE2.replace(/\{browserName}/g, findName)
-                            .replace(/\{findVersion}/g, findVersion);
-
+                        $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE2.replace(/\{browserName}/g, findName).replace(/\{findVersion}/g, findVersion);
                         $scope.disabledFormFields = false;
                     }
                 }
-
             } else {
-
                 // unsupported Browser
                 $scope.showMessage = true;
                 browserList = $scope.getBrowserNameList(vistoconfig.supportedBrowser);
                 $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE3.replace(/\{browserList}/g, browserList);
                 $scope.disabledFormFields = true;
-
             }
         };
 

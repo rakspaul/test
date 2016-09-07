@@ -8,7 +8,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                 },
 
                 updateRequestHeader =  function () {
-                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
                 },
 
                 getSingleCampaign =  function (urlPath) {
@@ -175,7 +175,6 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                     return this.post( urlService.createScheduledRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
-
                 createSaveReport =  function (clientId, data) {
                     return this.post( urlService.createSaveRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
@@ -261,7 +260,8 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                 },
 
                 downloadFile = function (url, httpMethod, data, headers) {
-                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
+
                     httpMethod = httpMethod ? httpMethod : 'GET';
                     data = data ? data : '';
                     headers = headers ? headers: {'Content-Type': 'application/json'};
@@ -361,7 +361,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
 
                 post = function (url, data, header,dataToJson) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
 
                     return $http({
                             url: url,
@@ -405,7 +405,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
 
                 put = function (url, data) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
 
                     return $http
                         .put(url, angular.toJson(data))
@@ -440,7 +440,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
 
                 deleteRequest = function (url, data, header) {
                     loginModel.checkCookieExpiry();
-                    $http.defaults.headers.common.Authorization = loginModel.getauth_token();
+                    $http.defaults.headers.common.Authorization = loginModel.getAuthToken();
 
                     return $http({
                             url: url,
