@@ -56,7 +56,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                 audience_targeting: adSize || null,
                                 zip_targeting: zipValues,
                                 geo_targeting: geoValues,
-                                totalImpressions: tactic.impressions,
+                                totalImpressions: 0,
                                 grossRev: null,
                                 totalMediaCost: tactic.total_media_cost,
                                 expectedMediaCost: tactic.expected_media_cost,
@@ -95,7 +95,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                     filterEndDate = campaign.endDate;
                             }
 1
-                            getTacticsCdbLineChart(clientId, campaign, strategy, tactic1, timePeriod, filterStartDate, filterEndDate);
+                            getTacticsCdbLineChart(clientId, campaign, strategy, tactic1    , timePeriod, filterStartDate, filterEndDate);
                         });
 
                         return tacticObj;
