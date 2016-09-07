@@ -1180,7 +1180,7 @@ define(['angularAMD'], function (angularAMD) {
                         });
 
                         // if value exists return the corresponding Key else return value
-                        return (key !== undefined ? key.toUpperCase() : value.toUpperCase());
+                        return (key !== undefined ? key.toUpperCase() : (value ? value.toUpperCase() : ''));
                     },
 
                     chartDataFun: function (lineData, threshold, kpiType, chartFrom, deliveryData) {
@@ -1635,7 +1635,7 @@ define(['angularAMD'], function (angularAMD) {
                 reverseUpperPacing = [];
                 pacing = [];
 
-                if ((dataObj.kpiType).toLowerCase() === 'impressions') {
+                if (dataObj.kpiType && dataObj.kpiType.toLowerCase() === 'impressions') {
                     // create reverse line for delivery polygon
                     _.each(chartDataset, function (d) {
                         pacing.push(
@@ -1713,7 +1713,7 @@ define(['angularAMD'], function (angularAMD) {
                     lineData.defaultGrey = dataObj.defaultGrey || undefined;
                 }
 
-                if ((dataObj.kpiType).toLowerCase() === 'impressions') {
+                if (dataObj.kpiType && dataObj.kpiType.toLowerCase() === 'impressions') {
                     // disabling ticks for y axis when kpi is delivery
                     lineData.keys.yAxis.ticks = 0;
                 }

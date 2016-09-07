@@ -12,7 +12,7 @@ define(['angularAMD'], function (angularAMD) {
            });
 
            // if value exists return the corresponding Key else return value
-           return (key !== undefined ? key.toUpperCase() : value.toUpperCase());
+           return (key !== undefined ? key.toUpperCase() : (value ? value.toUpperCase() : ''));
         };
 
         var lineChart = function (lineDate, threshold, kpiType,chartFrom) {
