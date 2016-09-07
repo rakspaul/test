@@ -39,8 +39,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                             },
 
                             filterStartDate = '',
-                            filterEndDate = '',
-                            mediaTypeIcon;
+                            filterEndDate = '';
 
                         _.each(tacticData, function (tactic) {
                             var tactic1 = {

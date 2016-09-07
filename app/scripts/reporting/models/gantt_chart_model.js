@@ -14,7 +14,7 @@ define(['angularAMD', 'url-service', 'dashboard-model'], function (angularAMD) {
                 var url,
                     clientId = vistoconfig.getSelectedAccountId(),
                     advertiserId = vistoconfig.getSelectAdvertiserId(),
-                    brandId = vistoconfig.getSelectedBrandId();
+                    brandId = (Number(vistoconfig.getSelectedBrandId()) === 0)?-1:vistoconfig.getSelectedBrandId();
 
                 if (advertiserId !== -1) {
                     url = urlService.APICalendarWidgetForAdvertiser(clientId, advertiserId, brandId, this.filter,
