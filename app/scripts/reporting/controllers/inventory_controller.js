@@ -161,6 +161,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
             // This function is called for tactics Table data
             getTacticsChartData: function() {
                 var topPerformance,
+                    HighChartTopPerformanceData,
                     resultTableData,
                     topChartObj,
                     isGraphPlot,
@@ -183,13 +184,12 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
 
                     // For Top Chart
                     if (topPerformance.length > 2) {
-                        topPerformance = _.filter(topPerformance,
+                        HighChartTopPerformanceData = _.filter(topPerformance,
                             function (obj) {
                                 return (obj.dimension.toLowerCase() !== 'ad totals');
                             });
 
-                        console.log('topPerformance', topPerformance);
-                        topChartObj = columnline.highChart(topPerformance, $scope.selectedFilters.kpi_type);
+                        topChartObj = columnline.highChart(HighChartTopPerformanceData, $scope.selectedFilters.kpi_type);
                     }
 
                     if (topChartObj === undefined || topPerformance.length === 0) {
