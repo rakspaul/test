@@ -29,7 +29,6 @@ define(['common'], function (angularAMD) {
                                 .fetchAccountList()
                                 .then(function () {
                                     var account,
-                                        url,
                                         features;
 
                                     if (preferredClientId) {

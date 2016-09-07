@@ -94,7 +94,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                     filterStartDate = campaign.startDate;
                                     filterEndDate = campaign.endDate;
                             }
-1
+
                             getTacticsCdbLineChart(clientId, campaign, strategy, tactic1    , timePeriod, filterStartDate, filterEndDate);
                         });
 
