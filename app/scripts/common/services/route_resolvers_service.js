@@ -14,6 +14,7 @@ define(['angularAMD'], function (angularAMD) {
                             )
                             .then(function (response) {
                                 if (response && response.data.data) {
+                                    args.collectiveReportModel.setReportList(response.data.data);
                                     deferred.resolve(response.data.data);
                                 } else {
                                     deferred.resolve([]);
@@ -903,6 +904,7 @@ define(['angularAMD'], function (angularAMD) {
                             .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
                             .then(function (response) {
                                 if (response && response.data.data) {
+                                    args.collectiveReportModel.setReportList(response.data.data);
                                     deferred.resolve(response.data.data);
                                 } else {
                                     deferred.resolve([]);
