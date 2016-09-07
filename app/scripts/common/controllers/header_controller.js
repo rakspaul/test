@@ -167,10 +167,12 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             } else if (page === 'invoiceTool') {
                 urlBuilder.invoiceTool();
             } else if (page === 'customReports') {
-                urlBuilder.customReportsUrl();
+                $location.url(urlBuilder.customReportsUrl());
             } else if (page === 'scheduleReports') {
                 urlBuilder.customReportsListUrl(url);
-            } else if (page === 'uploadReports') {
+            } else if (page === 'collectiveInsights') {
+                urlBuilder.collectiveInsightsUrl(url);
+            }else if (page === 'uploadReports') {
                 $location.url(urlBuilder.uploadReportsUrl());
             } else if (page === 'uploadedReportsList') {
                 $location.url(urlBuilder.uploadReportsListUrl());
@@ -244,7 +246,10 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             $scope.pageName = pageFinder.pageBuilder($location.path()).pageName();
 
             featurePermission();
-            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+
+            if(loginModel.getClientData()) {
+                $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+            }
         });
         /* End Feature Permission */
 

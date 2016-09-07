@@ -32,7 +32,7 @@
              class="clearfix header_tab_dropdown"
              data-ng-class="{'active_tab': tab.href === customFilters.activeTab}">
             <a class="pull-left reports_list_link"
-               data-ng-click="navigateToTab(tab.href, $event, 'scheduleReports', false, $index)"
+               data-ng-click="navigateToTab(tab.href, $event, tab.moduleName)"
                data-ng-bind="tab.title">
             </a>
             <div class="icon-upload"

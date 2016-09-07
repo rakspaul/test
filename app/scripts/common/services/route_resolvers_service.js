@@ -892,43 +892,63 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
+            fetchAccountDataWithReports = function(args, deferred) {
+                var params = args.$route.current.params;
+                args
+                    .accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
+                    .then(function () {
+                        args
+                            .collectiveReportModel
+                            .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
+                            .then(function (response) {
+                                if (response && response.data.data) {
+                                    deferred.resolve(response.data.data);
+                                } else {
+                                    deferred.resolve([]);
+                                }
+
+                                params.campaignId && args.campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
+
+                                !params.campaignId && args.campaignSelectModel.setSelectedCampaign({
+                                    id: -1,
+                                    name: 'All Media Plans',
+                                    kpi: 'ctr',
+                                    startDate: '-1',
+                                    endDate: '-1'
+                                });
+
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            });
+                    });
+            },
+
             uploadReportsHeaderResolver = function (args) {
                 var deferred = args.$q.defer(),
-                    params = args.$route.current.params;
-
+                    isLeafNode;
                 args
                     .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args
-                                .accountService
-                                .fetchAccountData(args.$route.current.params.accountId)
-                                .then(function () {
-                                    args
-                                        .collectiveReportModel
-                                        .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
-                                        .then(function (response) {
-                                            if (response && response.data.data) {
-                                                deferred.resolve(response.data.data);
-                                            } else {
-                                                deferred.resolve([]);
-                                            }
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
+                            if (!isLeafNode) {
+                                args
+                                    .subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
+                                    .then(function () {
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataWithReports(args, deferred);
+                                        } else {
+                                            console.log('sub account not allowed');
+                                            args.$location.url('/tmp');
+                                        }
+                                    });
+                            } else {
+                                fetchAccountDataWithReports(args, deferred);
+                            }
 
-                                            params.campaignId && args.campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
-
-                                            !params.campaignId && args.campaignSelectModel.setSelectedCampaign({
-                                                id: -1,
-                                                name: 'All Media Plans',
-                                                kpi: 'ctr',
-                                                startDate: '-1',
-                                                endDate: '-1'
-                                            });
-
-                                            params.advertiserId && fetchCurrentAdvertiser(args);
-                                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
-                                        });
-                                });
                         } else {
                             console.log('account not allowed');
                             args.$location.url('/tmp');

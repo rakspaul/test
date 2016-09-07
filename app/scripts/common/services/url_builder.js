@@ -25,8 +25,10 @@ define(['angularAMD'],
                 },
 
 
-                dashboardUrl = function () {
-                    var url = '/a/' + $routeParams.accountId,
+                dashboardUrl = function (accountId) {
+                    accountId =  $routeParams.accountId || accountId;
+
+                    var url = '/a/' + accountId,
                         selectedAccount;
 
                     if ($routeParams.subAccountId) {
@@ -34,11 +36,11 @@ define(['angularAMD'],
                     } else {
                         // user navigating from custom reports to media plans
                         selectedAccount = _.find(accountService.getAccounts(), function (a) {
-                            return Number(a.id) === Number($routeParams.accountId);
+                            return Number(a.id) === Number(accountId);
                         });
 
                         if (!selectedAccount.isLeafNode) {
-                            url += '/sa/' + $routeParams.accountId;
+                            url += '/sa/' + accountId;
                         }
                     }
 
@@ -48,8 +50,10 @@ define(['angularAMD'],
                 },
 
                 // this method returns the url if fromView is true, and changes the current location if fromView is false
-                mediaPlansListUrl  = function () {
-                    var url = '/a/' + $routeParams.accountId,
+                mediaPlansListUrl  = function (accountId) {
+                    accountId =  $routeParams.accountId || accountId;
+
+                    var url = '/a/' + accountId,
                         leafSubAccount,
                         selectedAccount,
                         subAccounts;
@@ -71,7 +75,7 @@ define(['angularAMD'],
                             }
                         } else {
                             subAccounts = subAccountService.getSubAccounts();
-                            url += '/sa/' + (subAccounts.length ? subAccounts[0].id : $routeParams.accountId);
+                            url += '/sa/' + (subAccounts.length ? subAccounts[0].id : accountId);
                         }
 
                         url += '/mediaplans';
@@ -79,7 +83,7 @@ define(['angularAMD'],
                     } else {
                         // user navigating from custom reports to media plans
                         selectedAccount = _.find(accountService.getAccounts(), function (a) {
-                            return Number(a.id) === Number($routeParams.accountId);
+                            return Number(a.id) === Number(accountId);
                         });
 
                         if (selectedAccount && selectedAccount.isLeafNode) {
@@ -87,9 +91,9 @@ define(['angularAMD'],
                             $location.url(url);
                         } else {
                             subAccountService
-                                .fetchSubAccountList($routeParams.accountId)
+                                .fetchSubAccountList(accountId)
                                 .then(function () {
-                                    console.log('$routeParams.accountId = ', $routeParams.accountId);
+                                    console.log('$routeParams.accountId = ', accountId);
                                     url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                                     url += '/mediaplans';
                                     $location.url(url);
@@ -248,11 +252,37 @@ define(['angularAMD'],
 
                 customReportsUrl = function () {
                     var url = '/a/' + $routeParams.accountId + '/customreport';
-                    $location.url(url);
+                    return url;
                 },
 
                 customReportsListUrl = function (inputUrl) {
                     var url = '/a/' + $routeParams.accountId + '/' + inputUrl;
+                    $location.url(url);
+                },
+
+
+                collectiveInsightsUrl = function(inputUrl) {
+                    var url = '/a/' + $routeParams.accountId,
+                        leafSubAccount;
+
+                    if ($routeParams.subAccountId) {
+                        leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
+                            return Number(a.id) === Number($routeParams.subAccountId);
+                        });
+
+                        if (leafSubAccount) {
+                            url += '/sa/' + $routeParams.subAccountId;
+                        }
+                    }
+
+                    if (!$routeParams.subAccountId || !leafSubAccount) {
+                        if (subAccountService.getSubAccounts().length) {
+                            console.log('$routeParams.accountId = ', $routeParams.accountId);
+                            url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                        }
+                    }
+
+                    url += '/' + inputUrl;
                     $location.url(url);
                 },
 
@@ -478,7 +508,8 @@ define(['angularAMD'],
                 goToPreviewUrl: goToPreviewUrl,
                 gotoInvoiceReport: gotoInvoiceReport,
                 goToCreativeList : goToCreativeList,
-                reportsOverviewUrl: reportsOverviewUrl
+                reportsOverviewUrl: reportsOverviewUrl,
+                collectiveInsightsUrl : collectiveInsightsUrl
             };
         }]);
     });

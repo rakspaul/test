@@ -17,9 +17,9 @@ define(['common'], function (angularAMD) {
 
             $routeProvider
                 .when('/', angularAMD.route({
-                    title: 'Bootstrapping the Visto',
+                    title: 'Bootstrapping Visto',
                     templateUrl: 'home.html',
-                    controller: function ($cookieStore, $location, RoleBasedService, dataService, accountService) {
+                    controller: function ($cookieStore, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
                         if ($cookieStore.get('cdesk_session')) {
                             preferredClientId = RoleBasedService.getUserData().preferred_client;
@@ -29,7 +29,8 @@ define(['common'], function (angularAMD) {
                                 .fetchAccountList()
                                 .then(function () {
                                     var account,
-                                        url;
+                                        url,
+                                        features;
 
                                     if (preferredClientId) {
                                         account = _.find(accountService.getAccounts(), function (client) {
@@ -43,13 +44,24 @@ define(['common'], function (angularAMD) {
                                         account = accountService.getAccounts()[0];
                                     }
 
-                                    if (account.isLeafNode) {
-                                        url = '/a/' + account.id + '/dashboard';
-                                    } else {
-                                        url = '/a/' + account.id + '/sa/' + account.id + '/dashboard';
-                                    }
+                                    if (accountService.allowedAccount(account.id)) {
 
-                                    $location.url(url);
+                                        accountService
+                                            .fetchAccountData(account.id)
+                                            .then(function (response) {
+                                                features = response.data.data.features;
+                                                if (features.indexOf('ENABLE_ALL') !== -1) {
+                                                    $location.url(urlBuilder.dashboardUrl(account.id));
+                                                } else {
+
+                                                    if (features.indexOf('DASHBOARD') !== -1) {
+                                                        $location.url(urlBuilder.dashboardUrl(account.id));
+                                                    } else {
+                                                        urlBuilder.mediaPlansListUrl(account.id);
+                                                    }
+                                                }
+                                            });
+                                    }
                                 });
                         }
                     },
