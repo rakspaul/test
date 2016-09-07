@@ -282,7 +282,11 @@ define(['angularAMD'],
                 },
 
                 adminUrl = function () {
-                    var url = '/a/' + $routeParams.accountId + '/admin/accounts';
+                    var url = '/a/' + $routeParams.accountId;
+                    if($routeParams.subAccountId) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    }
+                    url += '/admin/accounts';
                     $location.url(url);
                 },
 
