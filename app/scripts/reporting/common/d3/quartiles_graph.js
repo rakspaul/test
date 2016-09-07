@@ -280,7 +280,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 lineChartService.updateConfig({
                     rawSvg: rawSvg,
-                    dataToPlot: _.sortBy(lineData.json[0], 'vtc').reverse(),
+                    dataToPlot: _.sortBy(lineData.json[0], 'vtc'),
                     margin: lineData.margin,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,

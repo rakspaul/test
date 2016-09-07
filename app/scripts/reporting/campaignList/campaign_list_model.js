@@ -800,11 +800,15 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         },
 
                         _campaignServiceUrl = function (from) {
-                            var clientId = vistoconfig.getSelectedAccountId(),
-                                advertiserId = vistoconfig.getSelectAdvertiserId(),
-                                brandId = vistoconfig.getSelectedBrandId(),
-                                nextPageNumber,
-                                params;
+                            var nextPageNumber,
+                                paramObj = {
+                                    'queryId' : 42,
+                                    'clientId': vistoconfig.getSelectedAccountId(),
+                                    'advertiserId': vistoconfig.getSelectAdvertiserId(),
+                                    'brandId':    vistoconfig.getSelectedBrandId(),
+                                    'dateFilter': this.timePeriod
+                                },
+                                params = urlService.buildParams(paramObj);
 
                             if (from === 'costBreakdown') {
                                 nextPageNumber = this.CBdownParams.nextPage;
@@ -812,44 +816,51 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                 nextPageNumber = this.performanceParams.nextPage;
                             }
 
-                            params = [
-                                'client_id=' + clientId,
-                                'advertiser_id=' + advertiserId,
-                                'brand_id=' + brandId,
-                                'date_filter=' + this.timePeriod,
-                                'page_num=' + nextPageNumber,
-                                'page_size=' + this.pageSize
-                            ];
+                            params += '&page_num=' + nextPageNumber + '&page_size=' + this.pageSize;
+
 
                             if (this.searchTerm) {
-                                params.push('search_term=' + this.searchTerm);
+                                params += '&search_term=' + this.searchTerm;
                             }
 
-                            // NOTE: Please avoid these kind of cryptic code in the following 2 lines
-                            // (Comment by Lalding)
-                            this.sortParam && params.push('sort_column=' + this.sortParam);
-                            this.sortDirection && params.push('sort_direction=' + this.sortDirection);
+                            if(this.sortParam) {
+                                params += '&sort_column=' + this.sortParam;
+                            }
+
+                            if(this.sortDirection) {
+                                params += '&sort_direction=' + this.sortDirection;
+                            }
+
 
                             if (this.appliedQuickFilter === 'endingSoon') {
-                                params.push('condition=all');
+                                params += '&condition=all';
                             } else {
-                                params.push('condition=' + this.appliedQuickFilter);
+                                params += '&condition=' + this.appliedQuickFilter;
                             }
 
                             if (this.appliedQuickFilter === 'archived') {
-                                params.push('cond_type=archived');
+
+                                params += '&cond_type=archived';
+
                             } else if (this.appliedQuickFilter === 'ontrack' || this.appliedQuickFilter === 'underperforming') {
-                                params.push('cond_type=kpi_status');
+
+                                params += '&cond_type=kpi_status';
+
                             } else if(this.appliedQuickFilter === 'endingSoon'){
-                                params.push('cond_type=end_soon');
+
+                                params += '&cond_type=end_soon';
+
                             } else {
-                                params.push('cond_type=status');
+
+                                params += '&cond_type=status';
+
                             }
 
                             if (this.searchTerm) {
-                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/search/campaigns?' + params.join('&');
+
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/search/campaigns?' + params;
                             } else {
-                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
                             }
                         },
 

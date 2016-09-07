@@ -144,7 +144,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                             $scope.strategyHeading = Number($scope.selectedStrategy.id) ===
                                 vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
-                                constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
+                                constants.MEDIA_PLAN_TOTALS : constants.LINE_ITEM_TOTALS;
                         } else {
                             errorHandler();
                         }
