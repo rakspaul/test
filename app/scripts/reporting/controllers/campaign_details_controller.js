@@ -50,7 +50,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 });
 
             function getCustomQueryParams(queryId) {
-                var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+                var dateFilter = constants.PERIOD_LIFE_TIME;//timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
 
                 return {
                     queryId: queryId,
@@ -301,36 +301,6 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     $scope.details.sortStrategies(fieldName);
                 }
             };
-
-            $scope.init = function () {
-                var campListCampaign,
-                    listCampaign;
-
-                if ($rootScope.isFromCampaignList === true) {
-                    listCampaign = campaignListService.getListCampaign();
-
-                    if (angular.isObject(listCampaign)) {
-                        campListCampaign = {
-                            id: listCampaign.id,
-                            name: listCampaign.name,
-                            startDate: listCampaign.start_date,
-                            endDate: listCampaign.end_date,
-                            kpi: listCampaign.kpi_type
-                        };
-
-                        campaignSelectModel.setSelectedCampaign(campListCampaign);
-                        campaignListService.setListCampaign('');
-                        $location.path('/mediaplans/' + listCampaign.id);
-                    }
-                }
-            };
-
-            // init function sets the selected campaign onclick of campaign in campaign list page. CRPT-3440
-            $scope.init();
-
-            $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-                $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
-            });
 
             $scope.getCostBreakdownData  = function (campaign) {
                 //  get cost break down data
@@ -742,6 +712,10 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                                 $scope.chartDataScreen = _.map(sortedData, function (data) {
                                     var kpiData = data[kpiModel],
                                         screenType = data.dimension.toLowerCase();
+
+                                    if(String(kpiModel) === 'action_rate') {
+                                        kpiData = 'NA';
+                                    }
 
                                     return {
                                         gross_env: data.gross_rev,
@@ -1690,17 +1664,17 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 .find('#reports_nav_link')
                 .addClass('active');
 
-            angularAMD.inject(function ($rootScope, $route, vistoconfig) {
-                $rootScope.$on('$locationChangeSuccess',function (evt, absNewUrl, absOldUrl) {
-                    var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
-
-                    if ((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
-                        $rootScope.isFromCampaignList = true;
-                    } else {
-                        $rootScope.isFromCampaignList = false;
-                    }
-                });
-            });
+            // angularAMD.inject(function ($rootScope, $route, vistoconfig) {
+            //     $rootScope.$on('$locationChangeSuccess',function (evt, absNewUrl, absOldUrl) {
+            //         var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
+            //
+            //         if ((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
+            //             $rootScope.isFromCampaignList = true;
+            //         } else {
+            //             $rootScope.isFromCampaignList = false;
+            //         }
+            //     });
+            // });
         }]);
     }
 );

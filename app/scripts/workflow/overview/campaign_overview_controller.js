@@ -980,10 +980,7 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 dataArray = [],
                 i,
                 postCreateAdObj,
-                utcStartTime,
-                utcEndTime,
                 clientId = vistoconfig.getSelectedAccountId(),
-                isDateChanged = true,
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1019,30 +1016,9 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
-                    moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day'))) {
-                    isDateChanged = false;
-                }
+                postCreateAdObj.startTime = momentService.postDateModifier(formData.startTime, $scope.adGroupData.modifiedAdGroupAPIStartTime, 'startTime');
+                postCreateAdObj.endTime = momentService.postDateModifier(formData.endTime, $scope.adGroupData.modifiedAdGroupAPIEndTime, 'endTime');
 
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', isDateChanged);
-
-                if ($scope.adGroupData.editAdGroupFlag) {
-                    if (moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day')))  {
-                        utcStartTime = $scope.adGroupData.modifiedAdGroupAPIStartTime;
-                    }
-                }
-
-                postCreateAdObj.startTime = utcStartTime;
-                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-
-                if ($scope.adGroupData.editAdGroupFlag) {
-                    // if api end unix time and form end unix time is same then will take api end time
-                    if (moment(utcEndTime).unix() === moment($scope.adGroupData.modifiedAdGroupAPIEndTime).unix())  {
-                        utcEndTime = $scope.adGroupData.modifiedAdGroupAPIEndTime;
-                    }
-                }
-
-                postCreateAdObj.endTime = utcEndTime;
                 postCreateAdObj.createdAt = '';
                 postCreateAdObj.updatedAt = formData.adgroupId ? formData.updatedAt : '';
                 postCreateAdObj.deliveryBudget = utils.stripCommaFromNumber(formData.adIGroupBudget);

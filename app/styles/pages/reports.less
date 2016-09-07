@@ -1793,7 +1793,16 @@ div.strategy_total_container {
         .first_col {
             padding-left: 10px ;
         }
-    } 
+    }
+}
+#reports_bydiscrepancy_block {
+    .all_strategies_holder {
+        .each_strategy {
+            .first_col {
+                width: 100% ;
+            }
+        }
+    }
 }
 #reports_platform_viewability_block{
     .strategy_total_container_header {
@@ -2604,12 +2613,6 @@ div.strategy_total_container {
             color: @visto-blue;
         }
     }
-
-    .reports_platform_cost_block.reports_platform_header{
-
-    }
-
-
     .viewability_header{
         .platform_name_col.sort_order_up {
             cursor: pointer;
@@ -2736,7 +2739,7 @@ div.strategy_total_container {
             }
             &.quartile_data_platform {
                 .each_strategy_holder {
-                    div.sec_col { 
+                    div.sec_col {
                         width: 265px;
                     }
                 }
@@ -3039,7 +3042,7 @@ div.strategy_total_container {
         }
     }
     #reports_byadsizes_block{
-        
+
         .vid_data_hdr {
             margin-left:1px
             width: 297px;
@@ -3242,7 +3245,7 @@ div.strategy_total_container {
         }
     }
     #reports_byscreens_block , #reports_byformats_block , #reports_byadsizes_block , #reports_bydaysofweek_block , #reports_bydiscrepancy_block , #reports_bycreatives_block  {
-        .first_col { 
+        .first_col {
             padding-left: 6px !important ;
         }
     }
@@ -3313,9 +3316,9 @@ div.strategy_total_container {
                     }
                  }
             }
-            
+
             div.each_col {
-                width : 115px ;
+                width : 97px ;
             }
             div.sec_col {
                 min-width: 70px ;
@@ -3326,11 +3329,11 @@ div.strategy_total_container {
                 }
             }
             .each_strategy_holder {
-                div.sec_col { 
+                div.sec_col {
                     width: 186px;
                 }
             }
-            
+
             div.sec_col.row_open {
                 width: 195px ;
                 &.vid_show{
@@ -3830,7 +3833,10 @@ div.strategy_total_container {
         padding: 10px 15px;
     }
     .strategy_total_container_header {
-        padding: 15px 15px 5px;
+        padding: 0px !important ;
+        .each_row_list {
+            padding-left: 15px ;
+        }
     }
 
     .each_cost_col{

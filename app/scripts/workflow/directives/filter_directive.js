@@ -25,8 +25,10 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                                 name: constants.ALL_ADVERTISERS
                             }].concat(advertiserData);
 
-                            $scope.filterData.advertiserSelectedId  = Number($scope.filterData.advertiserList[0].id);
-                            $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+                            if($scope.filterData.advertiserList) {
+                                $scope.filterData.advertiserSelectedId = Number($scope.filterData.advertiserList[0].id);
+                                $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+                            }
 
                             $rootScope.$broadcast('filterChanged', {
                                 clientId: clientId,
@@ -45,7 +47,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                     $('#profileDropdown').hide();
                     $('#advertisersDropDownList').hide();
                 };
-                
+
                 $scope.showAdvertisersDropDown = function () {
                     $('#advertisersDropDownList')
                         .toggle()
@@ -57,18 +59,20 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                 $scope.selectAdvertisers = function (advertiser) {
                      var args;
 
-                     $scope.filterData.advertiserSelectedName = advertiser.name;
-                     $scope.filterData.advertiserSelectedId = advertiser.id;
-                     //set to localstorage
+                     if(advertiser) {
+                         $scope.filterData.advertiserSelectedName = advertiser.name;
+                         $scope.filterData.advertiserSelectedId = advertiser.id;
+                         //set to localstorage
 
-                     args = {
-                         from: $scope.from,
-                         clientId: $scope.filterData.subAccSelectedId,
-                         advertiserId: advertiser.id
-                     };
-                     $rootScope.$broadcast('filterChanged',args);
-                     $scope.selectedAdvertiser = '';
-                     
+                         args = {
+                             from: $scope.from,
+                             clientId: advertiser.clientId,
+                             advertiserId: advertiser.id
+                         };
+                         $rootScope.$broadcast('filterChanged', args);
+                         $scope.selectedAdvertiser = '';
+                     }
+
                 };
 
                 $scope.changeSubAccount =  function(account) {

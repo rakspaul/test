@@ -9,10 +9,12 @@ define(['angularAMD', 'time-period-model'],
 
         $scope.filterByTimePeriod = function (timePeriod) {
             timePeriodModel.selectTimePeriod(timePeriod);
-
             if (!timePeriod.key.startsWith('custom')) {
+                $('#newDatePickerBox').hide();
                 $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
-            }
+            } else {
+                $('#newDatePickerBox').show();
+            }   
         };
 
         $scope.timePeriodClicked = function () {
@@ -34,16 +36,13 @@ define(['angularAMD', 'time-period-model'],
             brandsList.hide();
             $('#profileDropdown').hide();
 
-            cdbDropdown.click(
+            cdbDropdown.find('li').click(
                 function (e) {
                     var clickedDateRange = e.target.id,
                         clickedDateText = $(e.target).text();
 
                     if (clickedDateRange.startsWith('custom')) {
-                        $('#newDatePickerBox').show();
-                        $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, clickedDateRange);
-                    } else {
-                        $('#newDatePickerBox').hide();
+                        $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
                     }
 
                     localStorage.setItem('timeSetLocStore', JSON.stringify(clickedDateRange));

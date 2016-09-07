@@ -14,6 +14,7 @@ define(['angularAMD'], function (angularAMD) {
                             )
                             .then(function (response) {
                                 if (response && response.data.data) {
+                                    args.collectiveReportModel.setReportList(response.data.data);
                                     deferred.resolve(response.data.data);
                                 } else {
                                     deferred.resolve([]);
@@ -145,7 +146,15 @@ define(['angularAMD'], function (angularAMD) {
 
             creativePreviewResolver = function (args) {
                 var deferred = args.$q.defer(),
-                    redirect = false;
+                    redirect = false,
+                    commonPreviewCheckFunc = function(args, deferred, redirect, msg) {
+                        if (args.$route.current.params.accountId === args.$route.current.params.subAccountId) {
+                            fetchAccountDataSetWSInfo(args, deferred, redirect, msg);
+                        } else {
+                            console.log('account not allowed');
+                            args.$location.url('/tmp');
+                        }
+                    };
 
                 args
                     .accountService
@@ -163,14 +172,15 @@ define(['angularAMD'], function (angularAMD) {
                                     .then(function () {
                                         if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
                                             fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
+                                        } else {
+                                            commonPreviewCheckFunc(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                                         }
                                     });
                             } else {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                             }
                         } else {
-                            console.log('account not allowed');
-                            args.$location.url('/tmp');
+                            commonPreviewCheckFunc(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE);
                         }
                     });
 
@@ -331,28 +341,31 @@ define(['angularAMD'], function (angularAMD) {
                             .fetchCampaigns(params.subAccountId, params.advertiserId || -1, params.brandId || -1)
                             .then(function (campaignsResponse) {
                                 var campaign,
-                                    url;
+                                    url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
 
                                 if (campaignsResponse && campaignsResponse.data.data) {
                                     campaign = campaignsResponse.data.data[0];
-                                    url = '/a/' + params.accountId + '/sa/' + params.subAccountId;
+
 
                                     if (campaign) {
                                         if (params.advertiserId) {
-
                                             //When user selects all brand, it will not be selected as campaign brand id is getting used - Sapna
-                                            //url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                                             url += '/adv/' + campaign.advertiser_id + '/b/' + (params.brandId || 0);
                                         }
-
                                         url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                     } else {
-                                        localStorage.setItem('topAlertMessage', args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
-                                        (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
-                                        (params.advertiserId > 0) && (url += '/b/0');
-                                        url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
-                                    }
 
+                                        if (params.advertiserId) {
+                                            args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
+                                            (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
+                                            (params.advertiserId > 0) && (url += '/b/0');
+                                            url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
+                                        } else {
+                                            args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT);
+                                            url += '/mediaplans';
+                                        }
+
+                                    }
                                     args.$location.url(url);
                                 }
 
@@ -371,7 +384,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 args
                     .campaignSelectModel
-                    .fetchCampaign(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
+                    .fetchCampaign(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
@@ -385,7 +398,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 args
                     .strategySelectModel
-                    .fetchStrategyList(args.$route.current.params.subAccountId, args.$route.current.params.campaignId)
+                    .fetchStrategyList(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (args.strategySelectModel.allowedStrategy(args.$route.current.params.lineitemId)) {
                             console.log('broadcast set strategy');
@@ -719,9 +732,6 @@ define(['angularAMD'], function (angularAMD) {
 
             reportsHeaderResolver2 = function (args) {
                 var deferred = args.$q.defer();
-
-                console.log('reportsHeaderResolver2(): CALLED FROM Reports overview..........args.$route.current.params.accountId = ', args.$route.current.params.accountId);
-
                 args
                     .accountService
                     .fetchAccountList()
@@ -883,43 +893,64 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
+            fetchAccountDataWithReports = function(args, deferred) {
+                var params = args.$route.current.params;
+                args
+                    .accountService
+                    .fetchAccountData(args.$route.current.params.accountId)
+                    .then(function () {
+                        args
+                            .collectiveReportModel
+                            .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
+                            .then(function (response) {
+                                if (response && response.data.data) {
+                                    args.collectiveReportModel.setReportList(response.data.data);
+                                    deferred.resolve(response.data.data);
+                                } else {
+                                    deferred.resolve([]);
+                                }
+
+                                params.campaignId && args.campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
+
+                                !params.campaignId && args.campaignSelectModel.setSelectedCampaign({
+                                    id: -1,
+                                    name: 'All Media Plans',
+                                    kpi: 'ctr',
+                                    startDate: '-1',
+                                    endDate: '-1'
+                                });
+
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            });
+                    });
+            },
+
             uploadReportsHeaderResolver = function (args) {
                 var deferred = args.$q.defer(),
-                    params = args.$route.current.params;
-
+                    isLeafNode;
                 args
                     .accountService
                     .fetchAccountList()
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            args
-                                .accountService
-                                .fetchAccountData(args.$route.current.params.accountId)
-                                .then(function () {
-                                    args
-                                        .collectiveReportModel
-                                        .getReportList(params.accountId, params.advertiserId || -1, params.brandId || -1, params.campaignId || -1)
-                                        .then(function (response) {
-                                            if (response && response.data.data) {
-                                                deferred.resolve(response.data.data);
-                                            } else {
-                                                deferred.resolve([]);
-                                            }
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
+                            if (!isLeafNode) {
+                                args
+                                    .subAccountService
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
+                                    .then(function () {
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataWithReports(args, deferred);
+                                        } else {
+                                            console.log('sub account not allowed');
+                                            args.$location.url('/tmp');
+                                        }
+                                    });
+                            } else {
+                                fetchAccountDataWithReports(args, deferred);
+                            }
 
-                                            params.campaignId && args.campaignSelectModel.fetchCampaign(params.accountId, params.campaignId);
-
-                                            !params.campaignId && args.campaignSelectModel.setSelectedCampaign({
-                                                id: -1,
-                                                name: 'All Media Plans',
-                                                kpi: 'ctr',
-                                                startDate: '-1',
-                                                endDate: '-1'
-                                            });
-
-                                            params.advertiserId && fetchCurrentAdvertiser(args);
-                                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
-                                        });
-                                });
                         } else {
                             console.log('account not allowed');
                             args.$location.url('/tmp');

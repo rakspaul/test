@@ -70,8 +70,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         $scope.strategyLoading =  true;
 
         $scope.init = function () {
-            var fromLocStore;
-
             $scope.viewData = {};
             $scope.strategyBusy = false;
             $scope.tacticBusy = false;
@@ -79,15 +77,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.isStrategyDropDownShow = true;
             $scope.strategyLoading =  true;
             $scope.selectedFilters = {};
-
-            fromLocStore = localStorage.getItem('timeSetLocStore');
-
-            if (fromLocStore) {
-                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                $scope.selectedFilters.time_filter = fromLocStore;
-            } else {
-                $scope.selectedFilters.time_filter = 'life_time';
-            }
 
             $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
@@ -219,8 +208,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $scope.strategyViewData({
                     campaign_id: $scope.selectedCampaign.id,
                     strategyId: Number($scope.selectedStrategy.id),
-                    kpi_type: $scope.selectedFilters.kpi_type,
-                    time_filter: $scope.selectedFilters.time_filter
+                    kpi_type: $scope.selectedFilters.kpi_type
                 });
             }
 

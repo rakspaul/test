@@ -652,7 +652,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + params.clientId + advertiserString +
                     '/creatives?' + creativeFormats + queryStr + pageSize + pageNo;
-
+                
                 return dataService.fetch(url);
             },
 

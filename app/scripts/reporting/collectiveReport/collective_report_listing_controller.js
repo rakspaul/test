@@ -9,7 +9,7 @@ define(['angularAMD', 'collective-report-model', 'url-service', 'campaign-select
         function ($filter, $scope, $rootScope, $modal, $location, collectiveReportModel, brandsModel, dataService,
                   urlService, campaignSelectModel, constants, dataStore, utils, advertiserModel, domainReports,
                   vistoconfig, reportsList, urlBuilder) {
-            
+
         var browserInfo = utils.detectBrowserInfo();
 
         $scope.reportToEdit = {};
@@ -17,9 +17,9 @@ define(['angularAMD', 'collective-report-model', 'url-service', 'campaign-select
         $scope.campaign = 'Media Plan Name';
         domainReports.highlightHeaderMenu();
         $scope.customFilters = domainReports.getCustomReportsTabs();
-        $scope.reportList = [];
+        $scope.reportList = collectiveReportModel.getReportListData();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-        $scope.nodata = '';
+        $scope.nodata = $scope.reportList.length ? '' : 'No Data Available';
 
         $scope.sort = {
             column: 'updatedAt',
@@ -101,9 +101,10 @@ define(['angularAMD', 'collective-report-model', 'url-service', 'campaign-select
         $scope.downloadCollectiveReport = function (reportId) {
             if (reportId) {
                 $scope.screenBusy = true;
+                var clientId = vistoconfig.getSelectedAccountId();
 
                 dataService
-                    .downloadFile(urlService.APIDownloadReport(reportId))
+                    .downloadFile(urlService.APIDownloadReport(clientId, reportId))
                     .then(function (response) {
                         if (response.status === 'success') {
                             $scope.screenBusy = false;

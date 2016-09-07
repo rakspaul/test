@@ -7,6 +7,7 @@ define(['angularAMD'], function (angularAMD) {
             template: '<svg></svg>',
 
             link: function (scope, elem, attrs) {
+
                 var lineChartService  = {
                         lineChartConfig: {},
 
@@ -259,11 +260,9 @@ define(['angularAMD'], function (angularAMD) {
                                 height: height
                             });
 
-                            that.createVariablesToDrawGraph(_config.dataToPlot[0]);
+                            that.createVariablesToDrawGraph(_config.dataToPlot);
 
-                            _.each(_config.dataToPlot, function (data, idx) {
-                                that.drawPath(data, idx);
-                            });
+                            that.drawPath(_config.dataToPlot, 0);
                         },
 
                         updateConfig: function (configValues) {
@@ -281,7 +280,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 lineChartService.updateConfig({
                     rawSvg: rawSvg,
-                    dataToPlot: lineData.json,
+                    dataToPlot: _.sortBy(lineData.json[0], 'vtc').reverse(),
                     margin: lineData.margin,
                     keys: lineData.keys,
                     showPathLabel: lineData.showPathLabel,

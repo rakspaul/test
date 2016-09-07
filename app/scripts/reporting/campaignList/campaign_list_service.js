@@ -23,7 +23,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                         return listCampaign;
                     },
 
-                    createTacticObject = function (clientId, campaign, strategyId, tacticData, timePeriod) {
+                    createTacticObject = function (clientId, campaign, strategy, tacticData, timePeriod) {
                         var tacticObj = [],
                             adSize = '',
                             geoValues = '',
@@ -94,8 +94,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                     filterStartDate = campaign.startDate;
                                     filterEndDate = campaign.endDate;
                             }
-
-                            getTacticsCdbLineChart(clientId, campaign, strategyId, tactic, timePeriod, filterStartDate, filterEndDate);
+1
+                            getTacticsCdbLineChart(clientId, campaign, strategy, tactic1, timePeriod, filterStartDate, filterEndDate);
                         });
 
                         return tacticObj;
@@ -118,10 +118,10 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                             if (result.status === 'OK' && !angular.isString(data)) {
                                 if (data.length >= 0) {
                                     if (data.length <= pageSize) {
-                                        strategy.strategyTactics = createTacticObject(clientId, campaign, strategy.id,
+                                        strategy.strategyTactics = createTacticObject(clientId, campaign, strategy,
                                             data, timePeriod);
                                     } else {
-                                        strategy.strategyTactics = createTacticObject(clientId, campaign, strategy.id,
+                                        strategy.strategyTactics = createTacticObject(clientId, campaign, strategy,
                                             data.slice(0, pageSize), timePeriod);
                                         strategy.strategyTacticsLoadMore = data.slice(pageSize);
                                     }
@@ -132,9 +132,9 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                         });
                     },
 
-                    getTacticData = function (clientId, campaign, strategy, timePeriod, data) {
+                    getTacticData = function (clientId, campaign, strategy, data, timePeriod) {
                         // create tactic object and request cdb and metric data
-                        return createTacticObject(clientId, campaign, strategy.id, timePeriod, data);
+                        return createTacticObject(clientId, campaign, strategy, data, timePeriod);
                     },
 
                     getTacticsMetrics = function (tactic, tacticMetrics) {
@@ -168,10 +168,11 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                         }
                     },
 
-                    getTacticsCdbLineChart = function (clientId, campaign, strategyId, tactic,
+                    getTacticsCdbLineChart = function (clientId, campaign, strategy, tactic,
                                                        timePeriod, filterStartDate, filterEndDate) {
-                        var kpiType = tactic.kpiType,
-                            kpiValue = tactic.kpiValue,
+
+                        var kpiType = tactic.kpi_type,
+                            kpiValue = tactic.kpi_value,
 
                             kpiMap = {
                                 cpc: 'gross_ecpc',
@@ -183,7 +184,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                             .getCdbTacticsChartData(
                                 clientId,
                                 campaign.orderId,
-                                strategyId,
+                                strategy.id,
                                 tactic.id,
                                 timePeriod,
                                 filterStartDate,
@@ -253,7 +254,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                             });
                     },
 
-                    createStrategyObject = function (clientId, strategyData, timePeriod, campaign, kpiType, kpiValue) {
+                    createStrategyObject = function (clientId, campaign, strategyData, timePeriod, kpiType, kpiValue) {
                         var strategyObj = [],
                             adSize = '',
                             keyValues = '',
@@ -434,9 +435,9 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                 if (result.status === 'success' && !angular.isString(data)) {
                                     if (data.length >= 0) {
                                         if (data.length <= pageSize) {
-                                            campaign.campaignStrategies = createStrategyObject(clientId, data, timePeriod, campaign, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(clientId, campaign, data, timePeriod, kpiType, kpiValue);
                                         } else {
-                                            campaign.campaignStrategies = createStrategyObject(clientId, data.slice(0, pageSize), timePeriod, campaign, kpiType, kpiValue);
+                                            campaign.campaignStrategies = createStrategyObject(clientId, campaign, data.slice(0, pageSize), timePeriod, kpiType, kpiValue);
 
                                             campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                                         }
@@ -447,8 +448,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
 
                     getStrategyData = function (clientId, campaign, timePeriod, data) {
                         // this requests strategy data - invoked when requestStrategiesData is called from controller
-                        return createStrategyObject(clientId, campaign, timePeriod, data,
-                            campaign.kpiType, campaign.kpiValue);
+                        return createStrategyObject(clientId, campaign, data, timePeriod, campaign.kpiType, campaign.kpiValue);
                     },
 
                     vtcMetricsJsonModifier = function (vtcMetricJson) {
@@ -647,8 +647,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                             if (campaign.kpiType === 'IMPRESSIONS') {
                                 campaign.kpiTypeDisplayName = 'Impressions';
                             } else {
-                                campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiDropDown, function (obj) {
-                                    return obj.kpi === campaign.kpiType;
+                                campaign.kpiTypeDisplayName = _.find(vistoconfig.kpiList, function (obj) {
+                                    return obj.kpiType === campaign.kpiType;
                                 });
                                 campaign.kpiTypeDisplayName = campaign.kpiTypeDisplayName ? campaign.kpiTypeDisplayName.displayName : (campaign.kpiType).toUpperCase();
                             }
@@ -662,7 +662,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                     //should be moved to costservice inside cost module later
                     getCampaignCostData = function (campaignIds, filterStartDate, filterEndDate, advertiserId, brandId,
                                                    success, failure) {
-                        var dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+
+                        var dateFilter = constants.PERIOD_LIFE_TIME, //timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                             queryObj = {
                                 queryId: 14,
@@ -695,9 +696,9 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                         return getTacticList(clientId, campaign, strategy, timePeriod, callBackFunction);
                     },
 
-                    moreTacticsData = function (strategy, timePeriod, campaign, data) {
+                    moreTacticsData = function (clientId, campaign, strategy, timePeriod, data) {
                         //request metrics and cdb data
-                        return getTacticData(strategy, timePeriod, campaign, data);
+                        return getTacticData(clientId, campaign, strategy, data, timePeriod);
                     };
 
                 return {
