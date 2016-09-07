@@ -713,6 +713,10 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                                     var kpiData = data[kpiModel],
                                         screenType = data.dimension.toLowerCase();
 
+                                    if(String(kpiModel) === 'action_rate') {
+                                        kpiData = 'NA';
+                                    }
+
                                     return {
                                         gross_env: data.gross_rev,
                                         className: vistoconfig.screenTypeMap[screenType],
