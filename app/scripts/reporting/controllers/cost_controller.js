@@ -13,8 +13,8 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
                                                        domainReports, vistoconfig) {
         var dataHeader = function () {
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
-                constants.MEDIA_PLAN_TOTAL :
-                constants.LINE_ITME_TOTAL;
+                constants.MEDIA_PLAN_TOTALS:
+                constants.LINE_ITME_TOTALS;
 
             $scope.viewLabelTxt = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
                 constants.INCLUDES_FIXED_COSTS :
@@ -157,6 +157,10 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
 
                         if (typeof data !== 'undefined' && data !== null && data.length > 0) {
                             $scope.dataNotFound = false;
+
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
+                                constants.MEDIA_PLAN_TOTALS:
+                                constants.LINE_ITEM_TOTALS;
 
                             _.each(data,function (item) {
                                 if (item.ad_id === undefined || item.ad_id === -1) {

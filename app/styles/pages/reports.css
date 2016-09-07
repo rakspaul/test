@@ -1526,6 +1526,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container .strategy_total_container .each_quality.media_plan_totals {
   font-family: "Avenir-bold";
   margin-left: 40px ;
+  color: #57606d;
 }
 .viewability_details_outer_container .strategy_total_container .each_col.first_col,
 #reports_platform_viewability_block .strategy_total_container .each_col.first_col,
@@ -1877,6 +1878,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .media_plan_totals {
   font-family: "Avenir-bold";
   margin-left: 50px ;
+  color: #57606d;
 }
 .viewability_details_outer_container .sort_order_down.active:hover {
   background-position: right -65px;
@@ -3479,6 +3481,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_cost_header_holder .media_plan_totals,
 #reports_platform_cost_block .media_plan_totals {
   font-family: "Avenir-bold";
+  color: #57606d;
 }
 .reports_cost_header_holder .more_options .dd_txt,
 #reports_platform_cost_block .more_options .dd_txt,

@@ -419,7 +419,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.SUSPICIOUS = 'Suspicious';
         this.TOTAL = 'Total';
-        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals *';
         this.VIEWLABLETXT_COST = '* Totals includes Fixed Costs';
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
@@ -1181,6 +1180,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AD_GROUP_TOTAL = 'Ad Group Total:';
         this.CAMPAIGN_TOTAL = 'Campaign Total:';
         this.LINE_ITME_TOTAL = 'Line Item Total:';
+        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals';
+        this.LINE_ITEM_TOTALS = 'Line Item Totals';
+
         this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
