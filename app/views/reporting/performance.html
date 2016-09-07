@@ -290,7 +290,7 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!creativeBusy">
-                                    
+
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeByCreatives : sortReverse track by $index"
@@ -334,7 +334,7 @@
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
                                     </div> -->
-                                    
+
                                     <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
                                         <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
@@ -370,7 +370,7 @@
                                                      data-ng-include="'AdSizesTpl'">
                                                 </div>
                                             </div>
-                                                
+
                                         </div>
                                     </div>
                                 </div>
@@ -429,9 +429,9 @@
     <div class="each_col forth_col {{screenData.kpi_type === 'CTR' ? 'bold' : ''}}"
          data-ng-bind="((screenData.ctr > 0) || (screenData.ctr === 0)) ? ((screenData.ctr | number : 3) + '%') : '-'">
     </div>
+    <!-- For screen widget we should show action rate as NA  -->
     <div class="each_col fifth_col {{screenData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
-         data-ng-bind="((screenData.action_rate > 0) || (screenData.action_rate === 0)) ?
-            ((screenData.action_rate | number : 3) + '%') : '-'">
+         data-ng-bind="'NA'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
         <div class="each_col sixth_col {{screenData.kpi_type === 'CPA' ? 'bold' : ''}}"
