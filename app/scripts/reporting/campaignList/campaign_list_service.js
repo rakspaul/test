@@ -294,7 +294,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                     getStrategyMetrics = function (strategy, strategyMetrics, adFormats) {
                         strategy.adFormats = domainReports.checkForCampaignFormat(adFormats);
                         strategy.totalImpressions = strategyMetrics.impressions;
-                        strategy.grossRev = strategyMetrics.gross_rev;
+                        strategy.spend = strategyMetrics.spend;
                         strategy.ctr = strategyMetrics.ctr * 100;
                         strategy.actionRate = strategyMetrics.action_rate;
                         strategy.vtcData = vtcMetricsJsonModifier(strategyMetrics.video_metrics);
@@ -331,80 +331,55 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
 
                                         if (result.data.data.measures_by_days.length > 0) {
                                             maxDays = result.data.data.measures_by_days;
-                                            var queryObj = {
-                                                    queryId: 15,
-                                                    clientId: clientId,
-                                                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                                                    brandId: brandsModel.getSelectedBrand().id,
-                                                    dateFilter: 'life_time',
-                                                    campaignId: campaign.id,
-                                                    lineitemId: strategy.id
-                                                },
-
-                                                spendUrl = urlService.getCampaignSpend(queryObj);
                                             (function (strategy) {
-                                                dataService
-                                                    .fetch(spendUrl)
-                                                    .then(function (response) {
-                                                        var res = response.data;
-                                                        if (res && res.data &&
-                                                            res.data.length > 0) {
-                                                            maxDays[maxDays.length - 1].gross_rev =
-                                                            res.data[0].gross_rev;
-                                                            lineItemData[strategy.id] = res.data;
-                                                        } else {
-                                                            maxDays[maxDays.length - 1].gross_rev = 0;
-                                                        }
-                                                        getStrategyMetrics(
-                                                            strategy,
-                                                            _.last(maxDays), // jshint ignore:line
-                                                            result.data.data.adFormats, res.data
-                                                        );
+                                                getStrategyMetrics(
+                                                    strategy,
+                                                    _.last(maxDays), // jshint ignore:line
+                                                    result.data.data.adFormats);
 
-                                                        i = 0;
+                                                i = 0;
 
-                                                        lineData = _.map(maxDays, function (item) { // jshint ignore:line
-                                                            item.ctr *= 100;
-                                                            item.vtc = item.video_metrics.vtc_rate;
+                                                lineData = _.map(maxDays, function (item) { // jshint ignore:line
+                                                    item.ctr *= 100;
+                                                    item.vtc = item.video_metrics.vtc_rate;
 
-                                                            return {
-                                                                x: i + 1,
-                                                                y: utils.roundOff(item[kpiTypeLower], 2),
-                                                                date: item.date
-                                                            };
-                                                        });
+                                                    return {
+                                                        x: i + 1,
+                                                        y: utils.roundOff(item[kpiTypeLower], 2),
+                                                        date: item.date
+                                                    };
+                                                });
 
-                                                        strategy.chart = new line.highChart(
-                                                                                            lineData,
-                                                                                            parseFloat(kpiValue),
-                                                            kpiTypeLower, 'strategy');
+                                                strategy.chart = new line.highChart(
+                                                                                    lineData,
+                                                                                    parseFloat(kpiValue),
+                                                    kpiTypeLower, 'strategy');
 
-                                                        //d3 chart data
-                                                        //REVIEW: TARGET -DELIVERY
-                                                        if (kpiTypeLower === 'impressions') {
-                                                            strategy.targetKPIImpressions =
-                                                                maxDays[maxDays.length - 1].booked_impressions;
-                                                        }
+                                                //d3 chart data
+                                                //REVIEW: TARGET -DELIVERY
+                                                if (kpiTypeLower === 'impressions') {
+                                                    strategy.targetKPIImpressions =
+                                                        maxDays[maxDays.length - 1].booked_impressions;
+                                                }
 
-                                                        strategy.lineChart = {
-                                                            data: lineData,
-                                                            kpiValue: parseFloat(kpiValue),
-                                                            kpiType: kpiTypeLower,
-                                                            from: 'strategy',
+                                                strategy.lineChart = {
+                                                    data: lineData,
+                                                    kpiValue: parseFloat(kpiValue),
+                                                    kpiType: kpiTypeLower,
+                                                    from: 'strategy',
 
-                                                            //for delivery kpi
-                                                            deliveryData: {
-                                                                startDate: strategy.startDate,
-                                                                endDate: strategy.endDate,
-                                                                totalDays: momentInNetworkTZ.dateDiffInDays(
-                                                                    strategy.startDate,
-                                                                    strategy.endDate) + 1,
-                                                                deliveryDays: maxDays.length,
-                                                                bookedImpressions:
-                                                                maxDays[maxDays.length - 1].booked_impressions
-                                                            }
-                                                        };
-                                                    });
+                                                    //for delivery kpi
+                                                    deliveryData: {
+                                                        startDate: strategy.startDate,
+                                                        endDate: strategy.endDate,
+                                                        totalDays: momentInNetworkTZ.dateDiffInDays(
+                                                            strategy.startDate,
+                                                            strategy.endDate) + 1,
+                                                        deliveryDays: maxDays.length,
+                                                        bookedImpressions:
+                                                        maxDays[maxDays.length - 1].booked_impressions
+                                                    }
+                                                };
                                             }(strategy));
                                         } else {
                                             strategy.chart = false;

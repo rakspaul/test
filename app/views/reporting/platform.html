@@ -341,7 +341,7 @@
         <div class="each_col forth_col {{platform.kpi_type === 'CTR' ? 'bold' : ''}}"
              data-ng-bind="((platform.ctr > 0) || (platform.ctr === 0)) ? ((platform.ctr | number : 3) + '%') : '-'">
         </div>
-        <div class="each_col fifth_col {{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+        <div class="each_col fifth_col {{platform.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
              data-ng-bind="((platform.action_rate > 0) || (platform.action_rate === 0)) ?
                 ((platform.action_rate | number : 3) + '%') : '-'">
         </div>
@@ -617,7 +617,7 @@
         </div>
         <div class="each_col six_col">
             <div class="sub_colData">
-                <span class="{{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+                <span class="{{platform.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
                       data-ng-bind="((platform.AR > 0) || (platform.AR === 0)) ?
                         ((platform.AR | number : 3) + '%') : '-'">
                 </span>

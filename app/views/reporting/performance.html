@@ -386,6 +386,7 @@
 </div>
 
 <script type="text/ng-template" id="screenTpl">
+    111->{{screenData.kpi_type}}
     <div class="each_col sec_col" data-ng-bind="screenData.dimension"></div>
     <div class="each_col third_col {{screenData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((screenData.impressions > 0) || (screenData.impressions === 0)) ?
@@ -426,23 +427,23 @@
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{screenData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{screenData.kpi_type === 'str' ? 'bold' : ''}}"
          data-ng-bind="((screenData.ctr > 0) || (screenData.ctr === 0)) ? ((screenData.ctr | number : 3) + '%') : '-'">
     </div>
     <!-- For screen widget we should show action rate as NA  -->
-    <div class="each_col fifth_col {{screenData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{screenData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="'NA'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{screenData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{screenData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((screenData.cpa > 0) || (screenData.cpa === 0)) ?
                 (screenData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{screenData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{screenData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((screenData.cpc > 0) || (screenData.cpc === 0)) ?
                 (screenData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{screenData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{screenData.kpi_type === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((screenData.cpm > 0) || (screenData.cpm === 0)) ?
                 (screenData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -517,24 +518,24 @@
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{daysOfWeekData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{daysOfWeekData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((daysOfWeekData.ctr > 0) || (daysOfWeekData.ctr === 0)) ?
             ((daysOfWeekData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{daysOfWeekData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{daysOfWeekData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="((daysOfWeekData.action_rate > 0) || (daysOfWeekData.action_rate === 0)) ?
             ((daysOfWeekData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{daysOfWeekData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{daysOfWeekData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpa > 0) || (daysOfWeekData.cpa === 0)) ?
                 (daysOfWeekData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{daysOfWeekData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{daysOfWeekData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpc > 0) || (daysOfWeekData.cpc === 0)) ?
                 (daysOfWeekData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpm > 0) || (daysOfWeekData.cpm === 0)) ?
                 (daysOfWeekData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -607,23 +608,23 @@
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{formatData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{formatData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((formatData.ctr > 0) || (formatData.ctr === 0)) ? ((formatData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{formatData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{formatData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="((formatData.action_rate > 0) || (formatData.action_rate === 0)) ?
             ((formatData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{formatData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{formatData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((formatData.cpa > 0) || (formatData.cpa === 0)) ?
                 (formatData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{formatData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{formatData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((formatData.cpc > 0) || (formatData.cpc === 0)) ?
                 (formatData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{formatData.kpi_type === 'CPM' ? 'bold' : ''}}">
+        <div class="each_col eight_col {{formatData.kpi_type === 'cpm' ? 'bold' : ''}}">
             {{((formatData.cpm > 0) || (formatData.cpm === 0)) ? (formatData.cpm | currency : undefined : 2) : '-'}}
         </div>
         <div class="each_col eight_col {{formatData.kpi_type === 'pc_cpa' ? 'bold' : ''}}">
@@ -687,29 +688,29 @@
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}"
+        <div class="each_col third_col {{creativesData.kpi_type === 'vtc_rate' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.vtc_100 > 0) || (creativesData.vtc_100 === 0)) ?
                 ((creativesData.vtc_100 | number : 2) + '%') : '-'">
         </div>
     </span>
-    <div class="each_col forth_col {{creativesData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{creativesData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((creativesData.ctr > 0) || (creativesData.ctr === 0)) ?
             ((creativesData.ctr | number : 3) + '%')  :  '-'">
     </div>
-    <div class="each_col fifth_col {{creativesData.kpi_type === 'ACTION_RATE' ? 'bold'  :  ''}}"
+    <div class="each_col fifth_col {{creativesData.kpi_type.toLowerCase() === 'action rate' ? 'bold'  :  ''}}"
          data-ng-bind="((creativesData.action_rate > 0) || (creativesData.action_rate === 0)) ?
             ((creativesData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{creativesData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{creativesData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.cpa > 0) || (creativesData.cpa === 0)) ?
                 (creativesData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{creativesData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{creativesData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.cpc > 0) || (creativesData.cpc === 0)) ?
                 (creativesData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{creativesData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{creativesData.kpi_type === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.cpm > 0) || (creativesData.cpm === 0)) ?
                 (creativesData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -781,24 +782,24 @@
                 ((adSizesData.vtc_100 | number : 2) + '%') : '-'">
         </div>
     </span>
-    <div class="each_col forth_col {{adSizesData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{adSizesData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((adSizesData.ctr > 0) || (adSizesData.ctr === 0)) ?
             ((adSizesData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{adSizesData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{adSizesData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="((adSizesData.action_rate > 0) || (adSizesData.action_rate === 0)) ?
             ((adSizesData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{adSizesData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{adSizesData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpa > 0) || (adSizesData.cpa === 0)) ?
                 (adSizesData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{adSizesData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{adSizesData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpc > 0) || (adSizesData.cpc === 0)) ?
                 (adSizesData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{adSizesData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{adSizesData.kpi_type.toLowerCase() === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpm > 0) || (adSizesData.cpm === 0)) ?
                 (adSizesData.cpm | currency : undefined : 2) : '-'">
         </div>
