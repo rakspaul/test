@@ -125,7 +125,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 prefillMediaPlan: function (campaignData) {
 
                     var advertiserObj,
-                        accountData,
 
                         flightDateObj = {
                             startTime: momentService.utcToLocalTime(campaignData.startTime),
@@ -143,16 +142,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     if (campaignData.clientId && campaignData.clientName) {
                         $scope.selectedCampaign.clientName = campaignData.clientName;
                         $scope.selectedCampaign.clientId = campaignData.clientId;
-
-                        accountData = accountService.getSelectedAccount();
-
-                        if(!accountData.isLeafNode) {
-                            accountData = _.find(subAccountService.getSubAccounts(), function (data) {
-                                return data.id === campaignData.clientId;
-                            });
-                        }
-
-                        workflowService.setAccountTimeZone(accountData.timezone);
 
                     } else {
                         $scope.selectedCampaign.clientId = vistoconfig.getMasterClientId();
@@ -513,7 +502,6 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     createCampaign.fetchAdvertisers(data.id);
                     $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
-                    workflowService.setAccountTimeZone(data.timezone);
                     break;
 
                 case 'advertiser':
@@ -628,14 +616,10 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
             var formElem,
                 formData,
                 postDataObj,
-                utcStartTime,
-                utcEndTime,
                 campaignCosts = [],
-                dateTimeZone,
                 i,
                 clientId = vistoconfig.getSelectedAccountId(),
-                campaignId = vistoconfig.getSelectedCampaignId(),
-                isDateChanged = true;
+                campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
             $scope.$broadcast('show-errors-check-validity');
@@ -673,32 +657,8 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
-                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day')
-                        .isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day'))) {
-                    isDateChanged = false;
-                }
-
-                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
-                    'startTime', dateTimeZone, isDateChanged);
-
-                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime,
-                    'endTime', dateTimeZone);
-
-                if ($scope.mode ==='edit') {
-
-                    if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day')))  {
-                        utcStartTime = $scope.mediaPlanAPIStartTime;
-                    }
-
-                    if(moment(utcEndTime).unix() === moment($scope.mediaPlanAPIEndTime).unix())  {
-                        utcEndTime = $scope.mediaPlanAPIEndTime;
-                    }
-                }
-
-                postDataObj.startTime = utcStartTime;
-                postDataObj.endTime = utcEndTime;
+                postDataObj.startTime = momentService.postDateModifier($scope.selectedCampaign.startTime, $scope.mediaPlanAPIStartTime, 'startTime');
+                postDataObj.endTime = momentService.postDateModifier($scope.selectedCampaign.endTime, $scope.mediaPlanAPIEndTime, 'endTime');
 
                 postDataObj.kpiType = formData.kpi;
                 postDataObj.kpiValue = formData.kpiValue;

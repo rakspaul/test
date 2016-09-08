@@ -35,8 +35,8 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                     workflowService
                         .getCampaignData(clientId, campaignId)
                         .then(function (result) {
-                            var responseData,
-                                accountData;
+                            var responseData;
+
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 //redirect user to media plan list screen if campaign is archived campaign
@@ -62,15 +62,6 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                                 }
                                 $scope.labels = responseData.labels;
 
-                                accountData = accountService.getSelectedAccount();
-
-                                if (!accountData.isLeafNode) {
-                                    accountData = _.find(subAccountService.getSubAccounts(), function (data) {
-                                        return data.id === responseData.clientId;
-                                    });
-                                }
-
-                                workflowService.setAccountTimeZone(accountData.timezone);
                                 $scope.campaignStartTime = momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
                                 $scope.campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
 
@@ -989,11 +980,7 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 dataArray = [],
                 i,
                 postCreateAdObj,
-                utcStartTime,
-                utcEndTime,
-                dateTimeZone,
                 clientId = vistoconfig.getSelectedAccountId(),
-                isDateChanged = true,
 
                 adGroupSaveErrorHandler = function (data) {
                     var errMsg,
@@ -1029,32 +1016,9 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
 
-                dateTimeZone = workflowService.getAccountTimeZone();
+                postCreateAdObj.startTime = momentService.postDateModifier(formData.startTime, $scope.adGroupData.modifiedAdGroupAPIStartTime, 'startTime');
+                postCreateAdObj.endTime = momentService.postDateModifier(formData.endTime, $scope.adGroupData.modifiedAdGroupAPIEndTime, 'endTime');
 
-                if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
-                    moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day'))) {
-                    isDateChanged = false;
-                }
-
-                utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
-
-                if ($scope.adGroupData.editAdGroupFlag) {
-                    if (moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day')))  {
-                        utcStartTime = $scope.adGroupData.modifiedAdGroupAPIStartTime;
-                    }
-                }
-
-                postCreateAdObj.startTime = utcStartTime;
-                utcEndTime = momentService.localTimeToUTC(formData.endTime, 'endTime', dateTimeZone);
-
-                if ($scope.adGroupData.editAdGroupFlag) {
-                    // if api end unix time and form end unix time is same then will take api end time
-                    if (moment(utcEndTime).unix() === moment($scope.adGroupData.modifiedAdGroupAPIEndTime).unix())  {
-                        utcEndTime = $scope.adGroupData.modifiedAdGroupAPIEndTime;
-                    }
-                }
-
-                postCreateAdObj.endTime = utcEndTime;
                 postCreateAdObj.createdAt = '';
                 postCreateAdObj.updatedAt = formData.adgroupId ? formData.updatedAt : '';
                 postCreateAdObj.deliveryBudget = utils.stripCommaFromNumber(formData.adIGroupBudget);

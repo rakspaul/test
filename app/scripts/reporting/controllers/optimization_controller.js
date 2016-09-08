@@ -13,8 +13,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                                               timePeriodModel, loginModel, momentService, urlService,
                                                               advertiserModel, brandsModel, vistoconfig) {
 
-        var fromLocStore = localStorage.getItem('timeSetLocStore'),
-            getCustomQueryParams,
+        var getCustomQueryParams,
             actionDataForSelectedCampaign,
             actionDataForSelectedStrategy,
             actionDataForTactic,
@@ -59,17 +58,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         };
 
         $scope.strategyLoading =  true;
-console.log('$scope.selectedStrategy = ', $scope.selectedStrategy);
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1;
         $scope.selectedFilters = {};
-
-        if (fromLocStore) {
-            fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-            $scope.selectedFilters.time_filter = fromLocStore;
-        } else {
-            $scope.selectedFilters.time_filter = 'life_time';
-        }
 
         $scope.download_urls = {optimization: null};
         $scope.seeDate = {value : '', className: ''};
@@ -555,8 +546,7 @@ console.log('$scope.selectedStrategy = ', $scope.selectedStrategy);
             $scope.$apply();
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
-            $scope.selectedFilters.time_filter = strategy;
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
             callStrategyChange();
         });
 

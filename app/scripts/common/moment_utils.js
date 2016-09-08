@@ -2,9 +2,33 @@ define(['angularAMD'], function (angularAMD) {
     angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
         function (loginModel, constants, vistoconfig) {
 
+            var mappedDateParse = function(dateString) {
+                var timeZoneDesignatorMap = {
+                    akdt : '-0800',
+                    akst : '-0900',
+                    art : '-0300',
+                    hadt : '-0900',
+                    hst : '-1000'
+                };
+
+                var name, newDateString, regex;
+
+                for (name in timeZoneDesignatorMap) {
+                    regex = new RegExp(name, 'i');
+                    if (dateString.search(regex) !== -1) {
+                        newDateString = dateString.replace(regex, timeZoneDesignatorMap[name]);
+                        return Date.parse(newDateString);
+                    }
+                }
+
+                return Date.parse(dateString);
+            };
+
+
+
             this.today = function () {
 
-                var tz = this.getTimezoneName();
+                var tz = vistoconfig.getClientTimeZone();
                 var m = moment.tz(tz);
                 return m.startOf('day');
             };
@@ -33,7 +57,7 @@ define(['angularAMD'], function (angularAMD) {
 
             this.newMoment = function (date) {
 
-                var tz = this.getTimezoneName();
+                var tz = vistoconfig.getClientTimeZone();
 
                 if (_.isDate(date)) {
                     return this.newMoment(moment(date).format('YYYY-MM-DD'));
@@ -105,30 +129,6 @@ define(['angularAMD'], function (angularAMD) {
 
             };
 
-            /*
-             NEW METHODS START HERE -- Lalding (5th Jan 2016)
-             Get timezone name stored in localStorage ('clientRoleObj').
-             */
-
-            this.getTimezoneName = function () {
-
-                var clientRoleObj = JSON.parse(localStorage.getItem('clientRoleObj'));
-
-                if (clientRoleObj && clientRoleObj.timezoneName) {
-                    return clientRoleObj.timezoneName;
-                }
-
-            };
-
-            /*
-             Set the timezone name based on the timezone abbreviation, and store in localStorage ('clientRoleObj').
-             */
-
-            this.setTimezoneName = function (timezone, clientRoleObj) {
-
-                clientRoleObj.timezoneName = vistoconfig.timeZoneNameMapper[timezone];
-
-            };
 
             /*
              Create a new moment object based on the timezoneName stored in LocalStorage ('clientRoleObj').
@@ -139,51 +139,34 @@ define(['angularAMD'], function (angularAMD) {
 
                 if (typeof dateTime === 'undefined') {
                     // If time is not given, use system date.
-                    return moment.tz(this.getTimezoneName());
+                    return moment.tz(vistoconfig.getClientTimeZone());
                 } else {
                     // If time is given, use it.
-                    return moment.tz(dateTime, this.getTimezoneName());
+                    return moment.tz(dateTime, vistoconfig.getClientTimeZone());
                 }
 
             };
 
-            /*
-             Create a new moment object and store it in LocalStorage ('clientRoleObj').
-             NOTE: The moment object gets serialised when it's stored in LocalStorage.
-             */
-
-            this.setTimezoneMoment = function (clientRoleObj) {
-
-                clientRoleObj.timezoneMoment = moment.tz(this.getTimezoneName());
-
-            };
 
             /*
              Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
              Also, startTime is forced to beginning of day & endTime to end of day.
              */
 
-            this.localTimeToUTC = function (dateTime, type, timezone, isDateChanged) {
+            this.localTimeToUTC = function (dateTime, type, isDateChanged) {
 
                 var clientUTCTime,
                     parseDateTime,
                     currentUTCTime,
                     tz,
-                    timeZoneCode,
                     timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
 
                 if (typeof isDateChanged === 'undefined') {
                     isDateChanged = true;
                 }
 
-                if (timezone) {
-                    timeZoneCode = vistoconfig.timeZoneNameMapper[timezone];
-                    tz = moment(dateTime).tz(timeZoneCode).format('z');
-                } else {
-                    tz = moment(dateTime).tz(this.getTimezoneName()).format('z');
-                }
-
-                parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                tz = moment(dateTime).tz(vistoconfig.getClientTimeZone()).format('z');
+                parseDateTime = mappedDateParse(dateTime + ' ' + timeSuffix + ' ' + tz);
                 clientUTCTime = moment(parseDateTime).tz('UTC');
                 currentUTCTime = moment.utc();
 
@@ -216,7 +199,7 @@ define(['angularAMD'], function (angularAMD) {
 
                     d = dateTime.slice(0, 10).split('-');
                     parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
-                    tz = this.getTimezoneName();
+                    tz = vistoconfig.getClientTimeZone();
                     return moment(parsedDate).tz(tz) && moment(parsedDate).tz(tz).format(format);
                 }
 
@@ -227,5 +210,23 @@ define(['angularAMD'], function (angularAMD) {
                 return moment(dateTime).format(format);
 
             };
+
+            this.postDateModifier = function(UiDate, apiDate, type) {
+                var isDateChanged = true,
+                    utcDateTime;
+
+                if(apiDate && moment(UiDate).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcDateTime = this.localTimeToUTC(UiDate, type, isDateChanged);
+
+                if(apiDate && moment(utcDateTime).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day')))  {
+                    utcDateTime = apiDate;
+                }
+
+                return utcDateTime;
+            };
+
         }]);
 });

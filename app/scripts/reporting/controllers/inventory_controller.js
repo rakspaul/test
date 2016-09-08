@@ -14,7 +14,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
         var _curCtrl = this,
             inventoryWrapper =  {
             // Function called to draw the Strategy chart
-            getStrategyChartData: function () {
+            getStrategyChartData: function () { //TODO : we need to refactor the code and divide into small function.
                 var inventoryQueryIdMapperWithAllAdsGroup = {
                         categories: 25,
                         domains: 27
@@ -54,7 +54,8 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                 return dataService
                     .fetch(url)
                     .then(function (result) {
-                        var adsTempData;
+                        var adsTempData,
+                        InventoryData;
 
                         $scope.loadingFlag = false;
                         $scope.strategyLoading = false;
@@ -113,10 +114,16 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
                                     }
+
                                     if ($scope.strategyTableData.length > 0) {
+                                        InventoryData = _.filter($scope.strategyTableData,
+                                            function (obj) {
+                                                return Number($scope.selectedStrategy.id) >= 0 ?
+                                                    (obj.dimension.toLowerCase() !== 'line item totals') : (obj.dimension.toLowerCase() !== 'media plan totals');
+                                            });
+
                                         $scope.inventoryChart =
-                                            columnline.highChart($scope.strategyTableData,
-                                                _curCtrl.kpi_display);
+                                            columnline.highChart(InventoryData, _curCtrl.kpi_display);
                                     } else {
                                         $scope.inventoryChart = false;
                                     }
@@ -154,6 +161,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
             // This function is called for tactics Table data
             getTacticsChartData: function() {
                 var topPerformance,
+                    HighChartTopPerformanceData,
                     resultTableData,
                     topChartObj,
                     isGraphPlot,
@@ -176,7 +184,12 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
 
                     // For Top Chart
                     if (topPerformance.length > 2) {
-                        topChartObj = columnline.highChart(topPerformance, $scope.selectedFilters.kpi_type);
+                        HighChartTopPerformanceData = _.filter(topPerformance,
+                            function (obj) {
+                                return (obj.dimension.toLowerCase() !== 'ad totals');
+                            });
+
+                        topChartObj = columnline.highChart(HighChartTopPerformanceData, $scope.selectedFilters.kpi_type);
                     }
 
                     if (topChartObj === undefined || topPerformance.length === 0) {
@@ -233,7 +246,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
             },
 
             init: function () {
-                var fromLocStore = localStorage.getItem('timeSetLocStore');
 
                 $scope.strategyFound = false;
                 $scope.strategyTableData = [];
@@ -242,13 +254,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                 $scope.strategyBusy = false;
                 $scope.isStrategyDropDownShow = true;
                 $scope.selectedFilters = {};
-
-                if (fromLocStore) {
-                    fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                    $scope.selectedFilters.time_filter = fromLocStore;
-                } else {
-                    $scope.selectedFilters.time_filter = 'life_time';
-                }
 
                 $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();

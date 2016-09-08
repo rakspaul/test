@@ -261,13 +261,13 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         if(item.dimension === 'Line Item Totals') {
                                             item.sepratorCls = 'sepratorCls';
                                         }
-                                        if(item.dimension === 'Ad Item Totals') {
+                                        if(item.dimension === 'Ad Totals') {
                                             item.sepratorCls = 'sepratorLineCls';
                                         }
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
 
-                                   
+
 
 
                                 $scope.groupThem = _.chain($scope['strategyPerfDataByTactic' + tab])
@@ -531,8 +531,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         // Initializing the variable.
         $scope.init = function () {
-            var fromLocStore = localStorage.getItem('timeSetLocStore');
-
             $scope.strategyFound = false;
             $scope.apiReturnCode = 200;
             $scope.isStrategyDataEmpty = false;
@@ -541,15 +539,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selectedFilters = {};
-
-            if (fromLocStore) {
-                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                $scope.selectedFilters.time_filter = fromLocStore;
-            } else {
-                $scope.selectedFilters.time_filter = 'life_time';
-            }
-
-            $scope.selectedFilters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
+            $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
+            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.selectedFilters.kpi_type = 'cpm';
             $scope.selectedFilters2 = {};
             $scope.selectedFilters2.kpi_type = 'cpm';
@@ -561,8 +552,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         $scope.resetVariables();
         $scope.strategyChangeHandler();
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
-            $scope.selectedFilters.time_filter = strategy;
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
             $scope.resetVariables();
             $scope.strategyChangeHandler();
         });

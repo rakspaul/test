@@ -1081,6 +1081,12 @@
 .nav_filters .lifetime_filter #cdbMenu:focus {
   color: #333;
 }
+.nav_filters .lifetime_filter .cdbMenu_options li {
+  padding: 0 ;
+}
+.nav_filters .lifetime_filter .cdbMenu_options li a {
+  padding: 5px 10px;
+}
 .nav_filters .lifetime_filter .cdbMenu_options li:first-child a {
   color: #817F7F;
   font-style: italic;
@@ -1986,6 +1992,9 @@ tags-input .autocomplete {
 }
 .marginRightFive {
   margin-right: 5px ;
+}
+.marginTopFive {
+  margin-top: 5px ;
 }
 .marginTop {
   margin-top: 10px ;

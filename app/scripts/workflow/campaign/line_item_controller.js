@@ -643,8 +643,7 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
         };
 
         $scope.$parent.createNewLineItemInEditMode = function () {
-            var newItem,
-                dateTimeZone;
+            var newItem;
 
             $scope.Campaign.showBudgetZeroPopup = false;
 
@@ -679,10 +678,8 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
                 // loader for save button
                 $scope.Campaign.createNewLineItemLoaderEdit = true;
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
-                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone);
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
+                newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
 
                 // in case pricerate is 30% markup remove the Markup
                 if (typeof newItem.pricingRate === 'string') {
@@ -722,16 +719,14 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
             $scope.Campaign.createNewLineItemLoaderEdit = false;
         };
 
+
+
         $scope.$parent.updateLineItemInEditMode = function () {
-            var newItem,
-                utcStartTime,
-                utcEndTime,
-                dateTimeZone,
-                isDateChanged = true;
+
+            var newItem = workflowService.getLineItemDataEdit();
 
             // this hack is to make it work in edit mode when media plan save is requierd prior to line item
             // check if we have saved line item details in service or create a new line item object
-            newItem = workflowService.getLineItemDataEdit();
 
             if (!newItem) {
                 newItem = createEditLineItemObj(angular.copy(oldLineItem));
@@ -763,28 +758,8 @@ define(['angularAMD', 'file-reader', 'ng-upload-hidden'], function (angularAMD) 
                     newItem = createEditLineItemObj(angular.copy(oldLineItem));
                 }
 
-                dateTimeZone = workflowService.getAccountTimeZone();
-
-                if(lineItemAPIStartTimeList[oldLineItemIndex] &&
-                    moment(newItem.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day'))) {
-                    isDateChanged = false;
-                }
-
-                utcStartTime = momentService.localTimeToUTC(newItem.startTime, 'startTime', dateTimeZone, isDateChanged);
-
-                if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime(lineItemAPIStartTimeList[oldLineItemIndex])).startOf('day')))  {
-                    utcStartTime = lineItemAPIStartTimeList[oldLineItemIndex];
-                }
-
-                newItem.startTime = utcStartTime;
-
-                utcEndTime = momentService.localTimeToUTC(newItem.endTime, 'endTime', dateTimeZone);
-
-                if(moment(utcEndTime).unix() === moment(lineItemAPIEndTimeList[oldLineItemIndex]).unix())  {
-                    utcEndTime = lineItemAPIEndTimeList[oldLineItemIndex];
-                }
-
-                newItem.endTime = utcEndTime;
+                newItem.startTime = momentService.postDateModifier(newItem.startTime, lineItemAPIStartTimeList[oldLineItemIndex], 'startTime');
+                newItem.endTime = momentService.postDateModifier(newItem.endTime, lineItemAPIEndTimeList[oldLineItemIndex], 'endTime');
 
                 // in case pricerate is 30% markup remove the Markup
                 if (typeof newItem.pricingRate === 'string') {

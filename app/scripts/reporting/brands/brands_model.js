@@ -32,7 +32,6 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 }
                 var deferred = $q.defer();
                 if (brand.brandList.length > 0) {
-                    console.log('fetchBrandList ', 'already fetched');
                     $timeout(function() {
                         deferred.resolve();
                     }, 10);
@@ -108,7 +107,7 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 (advertiserId > 0) && (url += '/adv/' + advertiserId);
                 (brand.id >= 0) && (url += '/b/' + brand.id);
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
-            },
+            }
         };
     }]);
 });

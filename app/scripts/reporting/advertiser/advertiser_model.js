@@ -1,9 +1,9 @@
 define(['angularAMD', 'advertiser-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('advertiserModel', ['$route','$q', '$location', '$timeout', 'advertiserService', 'constants', 'localStorageService', 'workflowService', 'pageFinder',
-        'campaignSelectModel','utils', function ($route,$q, $location, $timeout, advertiserService, constants, localStorageService, workflowService, pageFinder,campaignSelectModel,
-        utils) {
+    angularAMD.factory('advertiserModel', ['$route','$q', '$location', '$rootScope', '$timeout', '$routeParams', 'advertiserService', 'constants', 'localStorageService',
+        'workflowService', 'pageFinder', 'campaignSelectModel','utils', function ($route,$q, $location, $rootScope, $timeout, $routeParams, advertiserService,
+                                                                                  constants, localStorageService, workflowService, pageFinder,campaignSelectModel, utils) {
             var advertiserData = {
                     advertiserList: [],
                     selectedAdvertiser: {id: -1, name: constants.ALL_ADVERTISERS},
@@ -26,7 +26,6 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                     }
 
                     if (advertiserData.advertiserList.length > 0) {
-                        console.log('fetchAdvertiserList ', 'already fetched');
                         $timeout(function() {
                             deferred.resolve();
                         }, 10);
@@ -99,9 +98,14 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                 },
 
                 changeAdvertiser: function(accountId, subAccountId, advertiser) {
-                    var url = '/a/' + accountId;
+                    var url = '/a/' + accountId,
+                        reportUrlWithCampaignOnly,
+                        that = this;
+
                     subAccountId && (url += '/sa/' + subAccountId);
                     var cannedReportName = _.last($location.path().split('/'));
+
+                    reportUrlWithCampaignOnly = url;
 
                     //brand is 0 in url always as when a new advertiser is selected it will be 'All Brands'
                     (advertiser.id > 0)?(url += '/adv/' + advertiser.id+'/b/0'):'';
@@ -123,7 +127,7 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                                 var campaignArr = response.data.data,
                                     campaignId;
 
-                                if(campaignArr[0].campaign_id) {
+                                if(campaignArr && campaignArr.length >0 && campaignArr[0].campaign_id) {
                                     campaignId = campaignArr[0].campaign_id;
 
                                     //set first campaign as selected campaign
@@ -132,6 +136,14 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                                     url += '/mediaplans/' + campaignId;
                                     (cannedReportName && cannedReportName !== 'mediaplans') ? (url += '/' + cannedReportName) : '';
                                     $location.url(url);
+                                } else {
+                                    $rootScope.setErrAlertMessage(constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER);
+                                    utils.cleanSearchParameter();
+                                    that.reset();
+                                    reportUrlWithCampaignOnly += '/mediaplans/' + $routeParams.campaignId;
+                                    (cannedReportName && cannedReportName !== 'mediaplans') ? (reportUrlWithCampaignOnly += '/' + cannedReportName) : '';
+                                    $location.url(reportUrlWithCampaignOnly);
+                                    $route.reload();
                                 }
                             });
                         } else {

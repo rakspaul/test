@@ -24,6 +24,11 @@ define(['angularAMD'], function (angularAMD) {
         $scope.selectSubAccount = function (subAccount) {
             var subAccountNameSelected = $('#sub_account_name_selected');
 
+            /* When a subaccount is selected the campaign search parameter should be cleared else on selecting a subaccount in reports overview it will redirect to mediaplan list
+            since search key will not be available in new subaccount selected.
+            */
+            utils.cleanSearchParameter();
+
             $scope.subAccountData.selectedSubAccount.id = subAccount.id;
             subAccountNameSelected.text(subAccount.displayName);
             subAccountNameSelected.attr('title' , subAccount.displayName);

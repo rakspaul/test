@@ -480,8 +480,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
                 if (templateJson.creativeTemplateCustomInputJson &&
                     templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0] &&
-                    templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0]
-                        .platformCustomInputGroupList.length > 0) {
+                    templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList &&
+                    templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0].platformCustomInputGroupList.length > 0) {
                     inputElements = templateJson.creativeTemplateCustomInputJson.platformCustomInputNamespaceList[0]
                         .platformCustomInputGroupList;
 

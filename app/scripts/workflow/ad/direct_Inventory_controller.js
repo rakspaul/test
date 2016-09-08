@@ -328,6 +328,15 @@ define(['angularAMD'],function (angularAMD) {
             }
         };
 
+        $scope.resetPlacements = function(event) {
+            var target = $(event.currentTarget),
+                parentElem = target.parents().find('.searchBox');
+
+            parentElem.val('');
+            $scope.searchKeyword = null;
+            directInventory.searchGeo('');
+        } ;
+
         $rootScope.$on('directInvenotry', function (event, args) {
             var placementList,
                 placementsData;
