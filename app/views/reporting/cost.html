@@ -29,60 +29,37 @@
                     <div class="reports_cost_header_holder smallScreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="col-md-1 zeroPadding"
-                                 data-ng-class="sortClassFunction('-impressions', sortType,
-                                    sortReverseDefaultSelection)"
-                                 data-ng-click="sortType = '-impressions';
-                                    sortReverse = sortReverseDefaultSelection;
-                                    sortReverseDefaultSelection = !sortReverseDefaultSelection;
-                                    removeKpiActive();">
+                            <div class="col-md-1 zeroPadding">
                                 <span class="pull-left default-kpi-header-icon"
                                       tooltip="Primary KPI"
                                       data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() ===
                                         'impressions'">
                                 </span>
-                                <a class="pull-left">Imps.</a>
+                                <div class="col-md-1 zeroPadding text-center">Imps.</div>
                             </div>
                             <div class="col-md-1 zeroPadding">
                                 <div class="dropdown kpi-dd-holder  col-md-12 zeroPadding" id="kpi_dropdown">
-                                    <kpi-drop-down></kpi-drop-down>
+                                    <kpi-drop-down type="selectedFilters.kpi_type.toLowerCase()"></kpi-drop-down>
                                 </div>
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('inventory_cost', sortType, sortReverse)"
-                                 data-ng-bind="textConstants.INVENTORY"
-                                 data-ng-click="sortType = 'inventory_cost';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                                 data-ng-bind="textConstants.INVENTORY">
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('data_cost', sortType,sortReverse)"
-                                 data-ng-bind="textConstants.DATA"
-                                 data-ng-click="sortType = 'data_cost';
-                                    sortReverse = !sortReverse;removeKpiActive();">
+                                 data-ng-bind="textConstants.DATA">
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('ad_serving_cost', sortType, sortReverse)"
                                  data-ng-bind="textConstants.AD_SERVING"
-                                 data-ng-click="sortType = 'ad_serving_cost';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                                 >
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('ad_verification_cost', sortType, sortReverse)"
                                  data-ng-bind="textConstants.AD_VERIFICATION"
-                                 data-ng-click="sortType = 'ad_verification_cost';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                                 >
                             </div>
                             <div class="col-md-1 zeroPadding text-center" data-ng-bind="textConstants.CREATIVE"></div>
                             <div class="col-md-1 zeroPadding text-center" data-ng-bind="textConstants.RESEARCH"></div>
                             <div class="col-md-2"
-                                 style="margin-top: -12px;"
-                                 data-ng-class="sortClassFunction('collective_cost', sortType, sortReverse)"
-                                 data-ng-click="sortType = 'collective_cost';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                                 style="margin-top: -12px;">
                                 <span class="col-md-12 zeroPadding text-center"
                                       style="border-bottom: 1px solid #000; margin: 0 0 5px;">
                                     Platform Fees

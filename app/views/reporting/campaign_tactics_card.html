@@ -136,7 +136,7 @@
                             <span data-ng-bind="textConstants.CTR"></span>
                         </div>
                         <div class="each_metric_graph_details metric_graph_details_action"
-                             data-ng-if="tactic.vtc_rate < 0">
+                             data-ng-if="tactic.vtc_rate <= 0">
                             <span class="detail_val" data-ng-bind="(tactic.actionRate | number : 3) + '%'"></span>
                             <span data-ng-bind="textConstants.ACTION_RATE"></span>
                         </div>

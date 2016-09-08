@@ -691,7 +691,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -829,7 +829,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1078,7 +1078,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col,
 .smallScreenScrollDiv .reports_chart_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col {
-  width: 122px ;
+  width: 88px ;
+  margin-left: 20px ;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list > .cpa_col .dropdown_ul_text,
@@ -1520,7 +1521,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .strategy_total_container .strategy_total_container_header,
 .viewability_details_video_mode_outer_container .strategy_total_container .strategy_total_container_header {
   /*border-top: 0px ;*/
-  border-bottom: 1px;
 }
 .viewability_details_outer_container .strategy_total_container .each_quality.media_plan_totals,
 #reports_platform_viewability_block .strategy_total_container .each_quality.media_plan_totals,
@@ -2291,7 +2291,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_viewability_block .impressions_col {
   text-align: right ;
-  padding-right: 45px ;
+  padding-right: 36px ;
 }
 #reports_platform_viewability_block .ad_col .common_tooltip {
   width: 140px;
@@ -2544,7 +2544,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container .icon_text_holder {
   padding-right: 17px;
-  cursor: pointer;
 }
 .reports_tabs_content_container .sort_order_up {
   cursor: pointer;
@@ -4394,7 +4393,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
