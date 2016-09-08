@@ -386,7 +386,6 @@
 </div>
 
 <script type="text/ng-template" id="screenTpl">
-    111->{{screenData.kpi_type}}
     <div class="each_col sec_col" data-ng-bind="screenData.dimension"></div>
     <div class="each_col third_col {{screenData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}"
          data-ng-bind="((screenData.impressions > 0) || (screenData.impressions === 0)) ?
