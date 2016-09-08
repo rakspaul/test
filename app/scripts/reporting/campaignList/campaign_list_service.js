@@ -7,12 +7,11 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
         // originally in models/campaign.js
         angularAMD.factory('campaignListService', ['dataService', 'utils', 'modelTransformer', '$routeParams',
             'campaignModel','requestCanceller', 'constants', 'momentService', 'domainReports', 'loginModel',
-            'timePeriodModel','urlService', 'line', 'vistoconfig', 'advertiserModel', 'brandsModel',
+            'timePeriodModel','urlService', 'line', 'vistoconfig',
             function (dataService, utils, modelTransformer, $routeParams, campaignModel, requestCanceller,
                                             constants, momentInNetworkTZ, domainReports, loginModel, timePeriodModel,
-                                            urlService, line,  vistoconfig, advertiserModel, brandsModel) {
+                                            urlService, line,  vistoconfig) {
                 var listCampaign = '',
-                    lineItemData = {},
                     selectedLineItemId = '',
 
                     setListCampaign = function (campaign) {
