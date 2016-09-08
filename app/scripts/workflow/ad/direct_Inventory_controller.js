@@ -1,7 +1,8 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('directInventoryController', function ($scope, $rootScope, $timeout, $routeParams,
+    angularAMD.controller('directInventoryController', ['$scope', '$rootScope', '$timeout', '$routeParams',
+        '$location', 'vistoconfig', 'workflowService', function ($scope, $rootScope, $timeout, $routeParams,
                                                                  $location, vistoconfig, workflowService) {
         var DATA_MAX_SIZE = 200,
             defaultParams = {
@@ -354,5 +355,5 @@ define(['angularAMD'],function (angularAMD) {
 
             directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
         });
-    });
+    }]);
 });

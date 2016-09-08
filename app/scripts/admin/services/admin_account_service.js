@@ -1,19 +1,12 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
-    'common/services/constants_service', 'common/services/request_cancel_service'], function (angularAMD) {
+define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('accountsService', function (vistoconfig, dataService, constants, requestCanceller) {
-
+    angularAMD.factory('adminAccountsService', ['vistoconfig', 'dataService', 'constants', 'requestCanceller', function (vistoconfig, dataService, constants, requestCanceller) {
         var advertiser = null,
-
             brand = null,
-
             client = null,
-
             advertiserMode,
-
             counter = 0,
-
             permission = '',
 
             roleTemplateId = {
@@ -300,19 +293,35 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     '/advertisers/codes/' + code + '/exists');
             },
 
-            getUserAdvertiser = function (clientId) {
+            getUserAdvertiser = function (clientId, query, pageSize, pageNo) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers';
-                if(clientId){
-                    url += '?clientId='+clientId;
+
+                query = query || '';
+                pageSize = pageSize || 200;
+                pageNo = pageNo || 1;
+
+                if (clientId) {
+                    url += '?clientId=' + clientId + '&query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                } else {
+                    url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
+
                 return dataService.fetch(url);
             },
 
-            getUserBrands = function (clientId) {
+            getUserBrands = function (clientId, query, pageSize, pageNo) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands';
-                if(clientId){
-                    url += '?clientId='+clientId;
+
+                query = query || '';
+                pageSize = pageSize || 200;
+                pageNo = pageNo || 1;
+
+                if (clientId) {
+                    url += '?clientId=' + clientId + '&query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
+                } else {
+                    url += '?query=' + query + '&pageSize=' + pageSize + '&pageNo=' + pageNo;
                 }
+
                 return dataService.fetch(url);
             },
 
@@ -359,7 +368,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     {'Content-Type': 'application/json'}
                 );
             },
-            
 
             setPermissions =  function (permissionObj) {
                 permission = permissionObj;
@@ -421,7 +429,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             };
 
         return {
-
             getAllCurrency : getAllCurrency,
             createBillableAccount : createBillableAccount,
             createAgencies : createAgencies,
@@ -432,7 +439,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             getClients : getClients,
             getSubClients :  getSubClients,
             getClientsAdvertisers :  getClientsAdvertisers,
-
             getAdvertisersBrand : getAdvertisersBrand,
             getAdvertiserBrandDetials : getAdvertiserBrandDetials,
             updateAdvertiser : updateAdvertiser,
@@ -482,8 +488,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             getIABCategoryList : getIABCategoryList,
             getIABSubCategoryList : getIABSubCategoryList,
             downloadAdminAdvPixel : downloadAdminAdvPixel,
-            invoiceSaveNote : invoiceSaveNote,
-
+            invoiceSaveNote : invoiceSaveNote
         };
-    });
+    }]);
 });

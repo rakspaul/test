@@ -23,7 +23,7 @@
                 <span class="greyTxt col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY"></span>
                 <div class="btn-group create" role="group" aria-label="...">
                     <button ng-repeat="tabName in adData.customInpNameSpaceList" type="button"
-                            ng-disabled="(tabName.displayName === 'Deal' || tabName.displayName === 'Direct') && adData.budgetType === 'Cost'"
+                            ng-disabled="(!tabName.hasChildren || (tabName.displayName === 'Deal' || tabName.displayName === 'Direct')  && adData.budgetType === 'Cost')"
                             class="btn btn-default {{tabName.className}}" id='{{tabName.name}}'
                             ng-click="showRespectiveSection($event, tabName.name);"><span
                         data-ng-bind="tabName.displayName"></span></button>
@@ -36,7 +36,7 @@
 
         </div>
 
-        <div class="eachBuyingSection appnexus_direct_div staticMarkup" style="display:none;"
+        <div class="eachBuyingSection {{adData.platform | lowercase}}_direct_div staticMarkup" style="display:none;"
              ng-controller="directInventoryController">
             <div class="tab-content">
                 <div class="col-md-12 zeroPadding tab-pane fade in active">

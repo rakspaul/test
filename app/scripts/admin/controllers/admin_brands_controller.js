@@ -1,17 +1,13 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
-    'login/login_model', 'common/services/vistoconfig_service', 'common/utils',
-    'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
-    'common/controllers/accounts/accounts_add_or_edit_brand_controller',
-    'common/controllers/accounts/accounts_add_or_edit_controller' ], function (angularAMD) {
+define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
+    'accounts-add-or-edit-controller', 'admin-account-service' ], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile, $filter,
-                                                                  constants, accountsService, momentService,
-                                                                    loginModel, vistoconfig, utils) {
+    angularAMD.controller('AdminAdvertisersController', ['$scope', '$rootScope', '$modal', '$compile', '$filter', 'constants', 'adminAccountsService', 'momentService',
+        'loginModel', 'vistoconfig', 'utils', function ($scope, $rootScope, $modal, $compile, $filter, constants, adminAccountsService, momentService,
+                                                        loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
+
         _curCtrl.clientId = vistoconfig.getSelectedAccountId();
         _curCtrl.masterClientId = vistoconfig.getMasterClientId();
 
@@ -23,7 +19,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         $scope.fetchAllBrands = function () {
             $scope.loadBrandList = true;
-            accountsService
+            adminAccountsService
                 .getUserBrands(_curCtrl.masterClientId)
                 .then(function (res) {
                     $scope.loadBrandList = false;
@@ -33,8 +29,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         _curCtrl.brandsData = $scope.brandsData;
 
                         _.each($scope.brandsData, function (item, i) {
-                            $scope.brandsData[i].createdAt =
-                                momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
+                            $scope.brandsData[i].createdAt = momentService.newMoment($scope.brandsData[i].createdAt).format('YYYY-MM-DD');
                         });
                     }
                 });
@@ -55,7 +50,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 data.name = $scope.brandName;
                 data.ownerClientId = _curCtrl.masterClientId;
 
-                accountsService
+                adminAccountsService
                     .updateBrand(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
@@ -73,7 +68,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     name: $scope.brandName,
                     ownerClientId: _curCtrl.masterClientId
                 };
-                accountsService
+                adminAccountsService
                     .createBrand(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
@@ -119,5 +114,5 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.searchHideInput();
             }
         });
-    });
+    }]);
 });

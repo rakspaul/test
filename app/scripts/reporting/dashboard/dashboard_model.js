@@ -1,8 +1,4 @@
-define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/brands/brands_model', 'reporting/timePeriod/time_period_model', 'common/services/constants_service',
-    'common/services/url_service', 'common/services/request_cancel_service',
-    'common/services/data_service', 'common/utils',
-    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-service', 'common-utils'], function (angularAMD) {
     'use strict';
 
     angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel',

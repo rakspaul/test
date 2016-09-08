@@ -1,13 +1,12 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
-    'reporting/models/domain_reports', 'common/services/constants_service', 'common/services/vistoconfig_service',
-    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/url_service',
-    'common/utils', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
+    'time-period-model', 'url-service', 'common-utils', 'strategy-select-directive', 'strategy-select-controller',
+    'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel,
+    angularAMD.controller('ViewabilityController', ['$scope', 'kpiSelectModel', 'campaignSelectModel',
+        'strategySelectModel', 'dataService', 'domainReports', 'constants',
+        'vistoconfig', 'timePeriodModel', 'loginModel', 'urlService',
+        'utils', function ($scope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              vistoconfig, timePeriodModel, loginModel, urlService,
                                                              utils) {
@@ -278,5 +277,5 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             mainNavigation.find('.reports_sub_menu_dd_holder').find('#quality').addClass('active_tab');
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
-    });
+    }]);
 });

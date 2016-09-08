@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service'],
+define(['angularAMD', 'common-utils'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCostCard', function ($location, utils, constants) {
+    angularAMD.directive('campaignCostCard', ['$location', 'utils', 'constants', function ($location, utils, constants) {
         return {
             restrict:'EAC',
 
@@ -162,5 +162,5 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service']
                 };
             }
         };
-    });
+    }]);
 });

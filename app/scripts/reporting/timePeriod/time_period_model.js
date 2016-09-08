@@ -1,7 +1,7 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('timePeriodModel', function (constants) {
+    angularAMD.factory('timePeriodModel', ['constants', function (constants) {
         var buildTimePeriodList = function () {
                 return [
                     createTimePeriodObject('Last 7 days', 'last_7_days'),
@@ -80,5 +80,5 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
             };
 
         return new tpModel();
-    });
+    }]);
 });

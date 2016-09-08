@@ -1,10 +1,7 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_store_model',
-    'common/utils', 'common/services/url_service', 'login/login_model', 'common/services/constants_service'],
+define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
     function (angularAMD) {
-        'use strict';
-
-        angularAMD.factory('dataService', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig,
-                                                    dataStore, utils, urlService, loginModel, constants) {
+        angularAMD.factory('dataService', ['$q', '$http', '$cookieStore', '$location', '$routeParams', 'vistoconfig', 'dataStore', 'utils', 'urlService', 'loginModel',
+            'constants', function ($q, $http, $cookieStore, $location, $routeParams, vistoconfig, dataStore, utils, urlService, loginModel, constants) {
             var errorObject = {
                     status: 'error',
                     data: {message: 'Error'}
@@ -65,8 +62,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return this.fetch(urlPath);
                 },
 
-                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate,
-                                                   filterEndDate) {
+                getCdbTacticsChartData = function (clientId, campaignId, strategyId, adId, timePeriod, filterStartDate, filterEndDate) {
                     var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
@@ -180,18 +176,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 },
 
 
-                createSaveReport =  function (data) {
-                    return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'});
+                createSaveReport =  function (clientId, data) {
+                    return this.post( urlService.createSaveRpt(clientId), data, {'Content-Type': 'application/json'});
                 },
 
-                updateScheduleReport = function (reportId,data) {
-                    var url = urlService.updateScheduledRpt(reportId);
+                updateScheduleReport = function (clientId,reportId,data) {
+                    var url = urlService.updateScheduledRpt(clientId,reportId);
 
                     return this.put(url,data);
                 },
 
-                updateSavedReport = function (reportId, data) {
-                    var url = urlService.updateSavedRpt(reportId);
+                updateSavedReport = function (clientId,reportId, data) {
+                    var url = urlService.updateSavedRpt(clientId,reportId);
 
                     return this.put(url,data);
                 },
@@ -219,6 +215,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                         })
                         .then(function (response) {
                             var urlIndex = utils.getParameterByName(url, 'urlIndex'),
+
                                 objOnSuccess = {
                                     status: 'success',
                                     data: response.data
@@ -230,12 +227,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
 
                             if (response.status === 401) {
                                 loginModel.unauthorized();
+
                                 return errorObject;
                             } else if (response.status === 403) {
                                 loginModel.forbidden();
+
                                 return errorObject;
                             } else if (response.status === 204) {
-                                objOnSuccess.status=constants.DATA_NOT_AVAILABLE;
+                                objOnSuccess.status = constants.DATA_NOT_AVAILABLE;
                             }
 
                             dataStore.cacheByUrl(url, objOnSuccess);
@@ -245,9 +244,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                             if (error.status !== 0) {
                                 if (error.status === 401) {
                                     loginModel.unauthorized();
+
                                     return errorObject;
                                 } else if (error.status === 403) {
                                     loginModel.forbidden();
+
                                     return errorObject;
                                 }
 
@@ -513,6 +514,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 put: put,
                 deleteRequest: deleteRequest
             };
-        });
+        }]);
     }
 );

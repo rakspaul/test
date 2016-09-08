@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/action_sub_type'], function (angularAMD) {
+define(['angularAMD', 'action-sub-type'], function (angularAMD) {
     'use strict';
 
     var ActionSubType = function() {

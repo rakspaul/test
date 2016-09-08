@@ -56,14 +56,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="screenBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="screenBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="screenBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{screenData.sepratorCls}}"
                                              data-ng-show="!screenBusy"
                                              data-ng-repeat="screenData in strategyPerfDataByScreen |
                                                 orderBy : sortTypeScreens : sortReverse track by $index"
@@ -71,18 +71,18 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!screenBusy">
-                                    <div class="each_strategy_holder clearfix"
+                                    <div class="each_strategy_holder clearfix "
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeScreens : sortReverse track by $index"
-                                         data-ng-if="showPerfMetrix === true">
+                                         data-ng-if="showPerfMetrix === true" >
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div class="clearfix each_row_list {{screenData.sepratorCls}}"
                                                      data-ng-repeat="screenData in tactic.perf_metrics |
                                                         orderBy : sortTypeScreens : sortReverse track by $index"
-                                                     data-ng-include="'screenTpl'">
+                                                     data-ng-include="'screenTpl'" >
                                                 </div>
                                             </div>
                                         </div>
@@ -107,14 +107,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="dowBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="dowBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="dowBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
                                              data-ng-show="!dowBusy"
                                              data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW |
                                                 orderBy : sortTypebydaysofweek : sortReverse track by $index"
@@ -129,9 +129,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="col-md-12 zeroPadding  each_col first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding  row_list_holder">
+                                                <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
                                                      data-ng-repeat="daysOfWeekData in tactic.perf_metrics |
                                                         orderBy : sortTypebydaysofweek : sortReverse
                                                         track by $index"
@@ -188,9 +188,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{vendor.sepratorCls}}"
                                                      data-ng-repeat="vendor in tactic.perf_metrics |
                                                         orderBy : sortTypediscrepancy : sortReverse track by $index"
                                                      data-ng-include="'discrepancyTpl'">
@@ -218,14 +218,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="formatBusy">
+                                   <!-- <div class="each_col first_col" data-ng-hide="formatBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="formatBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{formatData.sepratorCls}}"
                                              data-ng-show="!formatBusy"
                                              data-ng-repeat="formatData in strategyPerfDataByFormat |
                                                 orderBy : sortTypebyformats : sortReverse track by $index"
@@ -240,9 +240,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col zeroPadding col-md-12 first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div class="clearfix each_row_list {{formatData.sepratorCls}}"
                                                      data-ng-repeat="formatData in tactic.perf_metrics |
                                                         orderBy : sortTypebyformats : sortReverseFormatTab
                                                         track by $index"
@@ -273,14 +273,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="creativeBusy">
+                                    <!--<div class="each_col first_col" data-ng-hide="creativeBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="creativeBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
                                              data-ng-show="!creativeBusy"
                                              data-ng-repeat="creativesData in strategyPerfDataByCreatives |
                                                 orderBy : sortTypeByCreatives : sortReverse
@@ -290,18 +290,19 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!creativeBusy">
+                                    
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeByCreatives : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col"
+                                            <div class="each_col first_col col-md-12 zeroPadding"
                                                  style="width: 100%"
                                                  data-ng-bind="tactic.name">
                                             </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
                                                      data-ng-repeat="creativesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByCreatives : sortReverseCreativesTab
                                                         track by $index"
@@ -328,14 +329,15 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="adSizeBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="adSizeBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
                                              data-ng-show="!adSizesBusy"
                                              data-ng-repeat="adSizesData in strategyPerfDataByAdsizes |
                                                 orderBy : sortTypeByAdSizes : sortReverse track by $index"
@@ -350,12 +352,12 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col"
+                                            <div class="each_col first_col col-md-12 zeroPadding"
                                                  style="width: 100%"
                                                  data-ng-bind="tactic.name">
                                             </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
                                                      data-ng-repeat="adSizesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByAdSizes : sortReverseAdSizes
                                                         track by $index"
@@ -653,7 +655,7 @@
          data-ng-bind="((creativesData.clicks > 0) || (creativesData.clicks === 0)) ?
         (creativesData.clicks | number : 0) : '-'">
     </div>
-    <span  data-ng-if="adFormats.videoAds">
+    <span class="vid_col creativesTpl_vid_col"  data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
              data-ng-bind="((creativesData.video_played > 0) || (creativesData.video_played === 0)) ?
                 (creativesData.video_played | number : 0) : '-'">
@@ -742,7 +744,7 @@
          data-ng-bind="((adSizesData.clicks > 0) || (adSizesData.clicks === 0)) ?
         (adSizesData.clicks | number : 0) : '-'">
     </div>
-    <span  data-ng-if="adFormats.videoAds">
+    <span class="vid_col" data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
              data-ng-bind="((adSizesData.video_played > 0) || (adSizesData.video_played === 0)) ?
                 (adSizesData.video_played | number : 0) : '-'">

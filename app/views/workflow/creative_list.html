@@ -1,5 +1,5 @@
 <popup-msg data-ng-show="alertMessage" data-ng-controller="popUpMsgCtr"
-           data-ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')">
+           data-ng-init="init('alertMessage')">
 </popup-msg>
 
 <div id="creativeList">
@@ -383,7 +383,7 @@
                       class="icon-warning"
                       title="{{adData.message}}">
                 </span>
-                <a data-ng-click="redirectAdEditPage(adData)"
+                <a data-ng-click="redirectAdEditPage(adData, creativeData)"
                    tooltip="{{adData.campaignName}}/{{adData.adName}}"
                    data-ng-bind="(adData.campaignName | textEllipsis: 42) + ' / ' +  (adData.adName | textEllipsis: 42)">
                 </a>

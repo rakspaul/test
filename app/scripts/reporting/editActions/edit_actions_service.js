@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/data_service', 'common/services/url_service'],
+define(['angularAMD', 'url-service'],
     function (angularAMD) {
         'use strict';
 

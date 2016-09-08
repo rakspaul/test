@@ -1,9 +1,4 @@
-/**
- * Created by collective on 07/08/15.
- */
-
-define(['angularAMD', 'common/services/url_service', 'common/services/data_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/data_store_model'],
+define(['angularAMD', 'url-service', 'data-store-model'],
     function (angularAMD) {
         'use strict';
 

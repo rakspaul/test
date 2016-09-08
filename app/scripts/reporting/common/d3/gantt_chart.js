@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 

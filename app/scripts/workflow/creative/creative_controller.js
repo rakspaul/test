@@ -1,14 +1,11 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
-    'workflow/services/creative_custom_module', 'login/login_model', 'common/utils',
-    'common/services/local_storage_service', 'common/services/vistoconfig_service', 'common/services/account_service',
-    'workflow/directives/creative_drop_down', 'common/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-down', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeController', function ($scope, $rootScope, $routeParams, $location,
-                                                         constants, workflowService, creativeCustomModule,
-                                                         loginModel, utils, localStorageService,
-                                                          vistoconfig, accountService, subAccountService, advertiserModel,
-                                                          urlBuilder) {
+    angularAMD.controller('CreativeController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'constants', 'workflowService', 'creativeCustomModule', 'loginModel', 'utils', 'localStorageService',
+        'vistoconfig', 'accountService', 'subAccountService', 'advertiserModel', 'urlBuilder',
+        function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule,
+                  loginModel, utils, localStorageService, vistoconfig, accountService, subAccountService, advertiserModel, urlBuilder) {
 
 
         var postCrDataObj = {},
@@ -99,7 +96,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         {id: 1, name: 'Display',    active: true,  disabled:false},
                         {id: 2, name: 'Video',      active: false, disabled:true},
                         {id: 3, name: 'Rich Media', active: false, disabled:true},
-                        {id: 4, name: 'Social',     active: false, disabled:true}
+                        {id: 4, name: 'Social',     active: false, disabled:true},
+                        {id: 5, name: 'Native',     active: false, disabled:true}
+
                     ];
 
                     // default value
@@ -213,7 +212,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 {id: 1, name: 'Display',    active: false, disabled: true},
                                 {id: 2, name: 'Video',      active: false, disabled: true},
                                 {id: 3, name: 'Rich Media', active: false, disabled: true},
-                                {id: 4, name: 'Social',     active: false, disabled: true}
+                                {id: 4, name: 'Social',     active: false, disabled: true},
+                                {id: 5, name: 'Native',     active: false, disabled: true}
+
                             ];
                             if ($scope.creativeMode === 'edit') {
                                 processEditCreative(responseData.clientId);
@@ -550,20 +551,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             creativeType: creativeValidateObj.data.format
                         });
 
-                        // creativeValidateObj.subAccountId = $routeParams.subAccountId || '' ;
-                        // creativeValidateObj.creativeId = $scope.creativeId || -1;
-
-                        url = '/a/' + $routeParams.accountId;
-                        var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
-
-                        if(!hasSubaccount) {
-                            url += '/sa/' + $routeParams.subAccountId;
-                        }
-
-
-                        url += '/adv/' + creativeValidateObj.advertiserId;
-
-                        url = urlBuilder.goToPreviewUrl(creativeValidateObj) + '/preview';
+                        url = urlBuilder.goToPreviewUrl(creativeValidateObj);
 
                         appendEle = '<div class="creativePreviewBtn"><a target="_blank" href="' +
                             url +'">Preview</a></div>';
@@ -856,7 +844,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                url = urlBuilder.goToPreviewUrl(urlInfo) + '/creative/list';
+                url = urlBuilder.goToCreativeList(urlInfo) + '/creative/list';
                 $location.url(url);
 
             } else {
@@ -989,5 +977,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.adData.thirdPartyTracker = '';
             }
         };
-    });
+    }]);
 });

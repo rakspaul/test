@@ -1,8 +1,31 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', function ($location, $routeParams, accountService, subAccountService) {
+        angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService',
+            function ($location, $routeParams, accountService, subAccountService) {
 
-            var dashboardUrl = function () {
+            var buildBaseUrl = function () {
+                    // this method can be used for building base url which can be used everywhere
+                    var url = '/a/' + $routeParams.accountId,
+                        selectedAccount;
+
+                    if ($routeParams.subAccountId) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    } else {
+                        // user navigating from custom reports to media plans
+                        selectedAccount = _.find(accountService.getAccounts(), function (a) {
+                            return Number(a.id) === Number($routeParams.accountId);
+                        });
+
+                        if (!selectedAccount.isLeafNode) {
+                            url += '/sa/' + $routeParams.accountId;
+                        }
+                    }
+
+                    return url;
+                },
+
+
+                dashboardUrl = function () {
                     var url = '/a/' + $routeParams.accountId,
                         selectedAccount;
 
@@ -30,7 +53,6 @@ define(['angularAMD'],
                         leafSubAccount,
                         selectedAccount,
                         subAccounts;
-console.log('mediaPlanOverviewUrl(), $routeParams = ', $routeParams);
 
                     if ($routeParams.subAccountId) {
                         leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
@@ -221,7 +243,7 @@ console.log('mediaPlanOverviewUrl(), $routeParams = ', $routeParams);
                     }
 
                     url += '/creative/list';
-console.log('creativeListUrl!!! url = ', url);
+                    console.log('creativeListUrl!!! url = ', url);
 
                     if (fromView) {
                         return url;
@@ -354,6 +376,22 @@ console.log('creativeListUrl!!! url = ', url);
                 },
 
                 goToPreviewUrl = function (obj) {
+                    var url = '/a/' + $routeParams.accountId;
+                    var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
+
+                    if(!hasSubaccount) {
+                        url += '/sa/' + $routeParams.subAccountId;
+                    }
+
+                    url += '/adv/' + obj.advertiserId;
+                    url += '/creative/';
+                    url += $routeParams.creativeId ?  $routeParams.creativeId : -1;
+                    url +='/preview';
+
+                    return url;
+                },
+
+                goToCreativeList = function(obj) {
                     var url = '/a/'+ obj.clientId;
 
                     url += obj.subAccountId ? '/sa/' + obj.subAccountId : '';
@@ -399,6 +437,7 @@ console.log('creativeListUrl!!! url = ', url);
                 };
 
             return {
+                buildBaseUrl : buildBaseUrl,
                 dashboardUrl : dashboardUrl,
                 mediaPlansListUrl : mediaPlansListUrl,
                 mediaPlanCreateUrl : mediaPlanCreateUrl,
@@ -414,7 +453,8 @@ console.log('creativeListUrl!!! url = ', url);
                 adminUrl: adminUrl,
                 invoiceTool: invoiceTool,
                 goToPreviewUrl: goToPreviewUrl,
-                gotoInvoiceReport: gotoInvoiceReport
+                gotoInvoiceReport: gotoInvoiceReport,
+                goToCreativeList : goToCreativeList
             };
-        });
+        }]);
     });

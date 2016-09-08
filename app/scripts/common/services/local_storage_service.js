@@ -1,6 +1,4 @@
 define(['angularAMD'], function (angularAMD) {
-    'use strict';
-
     angularAMD.factory('localStorageService', function () {
         return {
             masterClient: {

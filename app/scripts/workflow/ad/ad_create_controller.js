@@ -1,19 +1,17 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
-    'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
-    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'common/utils',
-    'common/services/url_builder', 'common/services/sub_account_service', 'workflow/ad/budget_delivery_controller',
-    'workflow/ad/buying_platform_controller', 'workflow/ad/targetting_controller',
-    'workflow/ad/geo_targetting_controller', 'workflow/ad/audience_targetting_controller',
-    'workflow/ad/daypart_create_controller', 'workflow/ad/video_targetting_controller',
-    'workflow/ad/inventory_filters_controller', 'workflow/creative/creative_controller',
-    'workflow/creative/creative_list_controller', 'workflow/creative/creative_tag_controller',
-    'workflow/services/platform_custom_module', 'workflow/ad/ad_clone_controller'], function (angularAMD) {
-    angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope, $routeParams,
-                                                                   $locale, $location,  $filter, $timeout,
-                                                                   constants, workflowService, loginModel,
-                                                                   dataService, audienceService, RoleBasedService,
-                                                                   momentService, vistoconfig, videoService,
-                                                                   utils, urlBuilder, accountService, subAccountService) {
+define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budget-delivery-controller',
+    'buying-platform-controller', 'targetting-controller', 'geo-targetting-controller', 'audience-targetting-controller',
+    'daypart-create-controller', 'video-targetting-controller', 'inventory-filters-controller', 'creative-controller',
+    'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller'], function (angularAMD) {
+
+    angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams',
+        '$locale', '$location', '$filter', '$timeout', 'constants', 'workflowService', 'loginModel',
+        'dataService', 'audienceService', 'RoleBasedService', 'momentService', 'vistoconfig', 'videoService',
+        'utils', 'urlBuilder', 'accountService', 'subAccountService',
+
+        function ($scope, $modal, $rootScope, $routeParams, $locale, $location,  $filter, $timeout, constants, workflowService, loginModel,
+                  dataService, audienceService, RoleBasedService, momentService, vistoconfig, videoService,
+                  utils, urlBuilder, accountService, subAccountService) {
+
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -1220,7 +1218,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
-                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day'))) {
+                if($scope.apiStartTime && moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
@@ -1230,7 +1228,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     // fixed for CW-4102
                     if ($scope.mode ==='edit') {
 
-                        if(moment(utcStartTime).startOf('day').isSame(moment($scope.apiStartTime).startOf('day')))  {
+                        if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.apiStartTime)).startOf('day')))  {
                             utcStartTime = $scope.apiStartTime;
                         }
                     }
@@ -1884,5 +1882,5 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $location.url('/' + customReportUrl);
             }
         });
-    });
+    }]);
 });

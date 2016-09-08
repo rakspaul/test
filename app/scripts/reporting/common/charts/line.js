@@ -1,8 +1,7 @@
-// global angObj, angular
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('line', function ($timeout) {
+    angularAMD.factory('line', ['$timeout', function ($timeout) {
         var findKey = function (obj, value) {
            var key;
 
@@ -294,5 +293,5 @@ define(['angularAMD'], function (angularAMD) {
         return {
             highChart: lineChart
         };
-    });
+    }]);
 });

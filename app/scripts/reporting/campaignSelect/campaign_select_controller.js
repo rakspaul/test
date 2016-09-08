@@ -1,11 +1,12 @@
-define(['angularAMD','reporting/campaignSelect/campaign_select_model',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/utils',
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD','campaign-select-model',  'common-utils'], function (angularAMD) {
     'use strict';
 
-        angularAMD.controller('CampaignSelectController', function ($location, $scope, $rootScope, $routeParams,
-                                                                campaignSelectModel, constants, brandsModel,
-                                                                loginModel, utils, vistoconfig, pageFinder) {
+        angularAMD.controller('CampaignSelectController', ['$location', '$scope', '$rootScope', '$routeParams',
+            'campaignSelectModel', 'constants', 'brandsModel', 'loginModel', 'utils', 'vistoconfig', 'pageFinder',
+            function ($location, $scope, $rootScope, $routeParams, campaignSelectModel, constants, brandsModel,
+                      loginModel, utils, vistoconfig, pageFinder) {
+
+
             var searchCriteria = utils.typeAheadParams,
                 campaignsList,
                 loadCampaigns = true,
@@ -176,7 +177,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                     url += '/sa/' + $routeParams.subAccountId;
                 }
 
-                url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                if($routeParams.advertiserId) {
+                    url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                }
                 url += '/mediaplans/' + campaign.campaign_id;
                 var page = pageFinder.pageBuilder($location.path());
                 if (page.isCannedReportsPage()) {
@@ -199,6 +202,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model',
                     $scope.loadMore();
                 }
             });
-        });
+        }]);
     }
 );

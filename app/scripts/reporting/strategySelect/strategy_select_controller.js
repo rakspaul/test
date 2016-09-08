@@ -1,8 +1,8 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'strategy-select-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('StrategySelectController', function ($scope, $rootScope, $routeParams, $location,
+    angularAMD.controller('StrategySelectController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'campaignSelectModel', 'strategySelectModel' , 'constants', function ($scope, $rootScope, $routeParams, $location,
                                                                 campaignSelectModel, strategySelectModel , constants) {
 
         $scope.strategyData = {
@@ -54,6 +54,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 $scope.strategyData.selectedStrategy.name = constants.NO_ADGROUPS_FOUND;
             }
         };
-    });
+    }]);
 });
 

@@ -1,14 +1,12 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/dashboard_model',
-    'reporting/brands/brands_model', 'reporting/advertiser/advertiser_model',
-    'reporting/campaignSelect/campaign_select_model','login/login_model',
-    'reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive',
-    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('DashboardController', function ($scope, $rootScope, $routeParams, $location, constants,
+    angularAMD.controller('DashboardController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants',
+        'dashboardModel', 'brandsModel', 'advertiserModel', 'campaignSelectModel', 'loginModel', 'subAccountService',
+        'vistoconfig', function ($scope, $rootScope, $routeParams, $location, constants,
                                                            dashboardModel, brandsModel, advertiserModel,
                                                            campaignSelectModel, loginModel, subAccountService,
-                                                           vistoconfig, workflowService) {
+                                                           vistoconfig) {
 
         var updateTitle = function () {
                 dashboardModel.setTitle();
@@ -24,10 +22,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
             .addClass('active');
 
         $scope.data = dashboardModel.getData();
+        $scope.data.advertiserSelected = false;
         $scope.textConstants = constants;
-
-
-
 
         $scope.statusDropdown = function (status, eventType) {
             var obj = {
@@ -54,22 +50,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
             $('.bubble_tooltip').hide();
         };
 
-        /*
-        Purpose:  Show the advertiser name Oval structure
-        Desc:  If the advertiser adv id is available in the URL.
-         */
-        $scope.data.advertiserSelected = false;
-        if($routeParams.advertiserId){
-            workflowService.getAdvertisers($routeParams.subAccountId || $routeParams.accountId, 'read')
-                .then(function(res){
-                    if(res.status === 'success' || res.status === 'OK'){
-                        var advertiser = _.find(res.data.data, function(obj){
-                            return obj.id === Number($routeParams.advertiserId);
-                        });
-                        dashboardModel.setSelectedAdvertiser(advertiser);
-                    }
-                });
-        }
+
+
 
         $scope.removeAdvertiserButton = function () {
             var url = '/a/' + $routeParams.accountId;
@@ -85,5 +67,5 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
 
         };
 
-    });
+    }]);
 });

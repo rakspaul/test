@@ -1,17 +1,13 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
-    'login/login_model', 'common/services/vistoconfig_service', 'common/utils',
-    'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
-    'common/controllers/accounts/accounts_add_or_edit_brand_controller',
-    'common/controllers/accounts/accounts_add_or_edit_controller' ], function (angularAMD) {
+define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
+    'accounts-add-or-edit-controller', 'admin-account-service' ], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AdminUsersController', function ($scope, $rootScope, $modal, $compile, $filter,
-                                                            constants, accountsService, momentService,
-                                                            loginModel, vistoconfig, utils) {
+    angularAMD.controller('AdminUsersController', ['$scope', '$rootScope', '$modal', '$compile', '$filter', 'constants', 'adminAccountsService',
+        'momentService', 'loginModel', 'vistoconfig', 'utils',
+        function ($scope, $rootScope, $modal, $compile, $filter, constants, adminAccountsService, momentService, loginModel, vistoconfig, utils) {
         var _curCtrl = this,
             winHeight = $(window).height();
+
         _curCtrl.clientId = vistoconfig.getSelectedAccountId();
         _curCtrl.masterClientId = vistoconfig.getMasterClientId();
 
@@ -32,7 +28,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         _curCtrl.getAdvertiserCode = function () {
             if ($scope.advertiserName) {
-                accountsService
+                adminAccountsService
                     .getUserAdvertiserCode($scope.advertiserName)
                     .then(function (result) {
                         var res;
@@ -61,7 +57,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchAllAdvertisers = function () {
             $scope.loadAdvertiserList = true;
 
-            accountsService
+            adminAccountsService
                 .getUserAdvertiser(_curCtrl.masterClientId)
                 .then(function (res) {
                     $scope.loadAdvertiserList = false;
@@ -95,7 +91,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 data.nickname = nickname;
                 data.ownerClientId = _curCtrl.masterClientId;
 
-                accountsService
+                adminAccountsService
                     .updateAdvertiser(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
@@ -124,7 +120,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     nickname:nickname,
                     ownerClientId: _curCtrl.masterClientId
                 };
-                accountsService
+                adminAccountsService
                     .createAdvertiser(data)
                     .then(function (res) {
                         if (res.status === 'CREATED' || res.status === 'success') {
@@ -180,7 +176,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     return;
                 }
 
-                accountsService
+                adminAccountsService
                     .checkAdvertiserCodeExist($scope.customAdvertiserCode)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
@@ -218,5 +214,5 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.searchHideInput();
             }
         });
-    });
+    }]);
 });

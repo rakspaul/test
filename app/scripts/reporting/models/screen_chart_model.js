@@ -1,7 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service',
-    'reporting/brands/brands_model', 'reporting/dashboard/dashboard_model', 'common/services/constants_service',
-    'login/login_model', 'common/services/role_based_service', 'reporting/advertiser/advertiser_model',
-    'common/services/vistoconfig_service', 'common/services/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'dashboard-model'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('screenChartModel', ['$rootScope', '$filter', 'urlService', 'dataService', 'brandsModel',

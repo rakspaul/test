@@ -1,9 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils', 'login/login_model',
-    'common/services/vistoconfig_service', 'common/services/account_service', 'reporting/advertiser/advertiser_model', 'workflow/creative/creative_bulk_controller',
-    'workflow/directives/filter_directive'], function (angularAMD) {
+define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeListController', function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
+    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$location', '$window', 'constants', 'domainReports', 'workflowService',
+        'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder',
+        function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
                                                               momentService, loginModel, vistoconfig,accountService, urlBuilder) {
         var creativeDataArr,
             winHeight = $(window).height(),
@@ -108,7 +108,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.successfulRecords = [];
         $scope.isCreativeSearched =  false;
         $scope.checkedCreativeArr=[];
-        $scope.clientId = vistoconfig.getMasterClientId();
 
         domainReports.highlightHeaderMenu();
         $scope.isLeafNode = accountService.getSelectedAccount().isLeafNode;
@@ -121,16 +120,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             'z-index': '999'
         });
 
-        $scope.redirectAdEditPage=function (adData) {
+        $scope.redirectAdEditPage=function (adData, creativeData) {
+            var url;
+            url = urlBuilder.buildBaseUrl() + '/adv/' + creativeData.advertiserId;
             if (adData.adGroupId) {
-                $location.url('/mediaplan/' + adData.campaignId +
-                              '/lineItem/' + adData.lineItemId +
-                              '/adGroup/' + adData.adGroupId +
-                              '/ads/' + adData.adId +
-                              '/edit');
+                url += '/mediaplan/' + adData.campaignId + '/lineItem/' + adData.lineItemId + '/adGroup/' + adData.adGroupId + '/ads/' + adData.adId +'/edit';
             } else {
-                $location.url('/mediaplan/' + adData.campaignId + '/ads/' + adData.adId + '/edit');
+                url += '/mediaplan/' + adData.campaignId + '/ads/' + adData.adId + '/edit';
             }
+            $location.url(url);
         };
 
         $scope.selectAllCreative=function () {
@@ -202,7 +200,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 video: 'icon-video',
                 'rich media': 'icon-rich-media',
                 social: 'icon-social',
-                native : 'native'
+                native : 'icon-native'
             };
 
             adFormat = adFormat || 'display';
@@ -584,5 +582,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $scope.clearHoverPreview = function () {
             $('.hideOption').removeClass('open');
         };
-    });
+    }]);
 });

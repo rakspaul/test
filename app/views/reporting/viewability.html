@@ -19,7 +19,6 @@
             </span>
             <span class="video_on_icon" data-ng-class="{active: videoMode}"></span>
         </div>
-        <div class="common-load-icon_viewability" data-ng-show="strategyLoading && selectedCampaign.id !== -1"></div>
         <div class="smallScreenScrollContainer">
             <div class="viewability_container smallScreenScrollDiv"
                  data-ng-hide="strategyLoading && selectedCampaign.id !== -1">
@@ -133,9 +132,13 @@
                                  id="strategy_activityLoader"
                                  data-ng-show="strategyBusy">
                             </div>
+                            <div class="strategy_total_container_header">
+                                     <div class="each_quality media_plan_totals"  data-ng-bind="textConstants.MEDIA_PLAN_TOTALS"></div>
+                            </div>
                             <div class="strategy_total_container_header clearfix"
                                  data-ng-if="!dataNotFound && strategyFound && viewData.view_metrics">
-                                <div class="each_col first_col" data-ng-bind="strategyHeading"></div>
+
+                                <!-- <div class="each_col first_col" data-ng-bind="strategyHeading"></div> -->
                                 <div class="each_col sec_col">
                                     <div class="sub_col">
                                         <span data-ng-bind="((viewData.view_metrics.display_deliverable_imps > 0) ||
@@ -244,7 +247,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="each_col suspicious_col"
+                                        <div class="each_col suspicious_col text-center"
                                              data-ng-bind="((tactic.susp_activity_perc > 0) ||
                                                 (tactic.susp_activity_perc === 0)) ?
                                                 ((tactic.susp_activity_perc | number : 2) + '%') : '-'">
@@ -332,8 +335,7 @@
                             <span class="pull-left tooltip_holder">
                                 <span class="tooltip_show_icon"></span>
                                 <span class="clearfix common_tooltip"
-                                      data-ng-bind="
-                                        textConstants.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD">
+                                      data-ng-bind="textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD">
                                 </span>
                             </span>
                         </div>
@@ -402,9 +404,13 @@
                              id="strategy_activityLoader"
                              data-ng-show="strategyBusy">
                         </div>
+
+                        <div class="strategy_total_container_header">
+                            <div class="each_quality media_plan_totals"  data-ng-bind="textConstants.MEDIA_PLAN_TOTALS"></div>
+                        </div>
                         <div class="strategy_total_container_header clearfix"
                              data-ng-if=" !dataNotFound && strategyFound && viewData.view_metrics">
-                            <div class="each_col first_col" data-ng-bind="strategyHeading"></div>
+                           <!-- <div class="each_col first_col" data-ng-bind="strategyHeading"></div> -->
                             <div class="each_col sec_col"
                                  data-ng-bind="(selectedStrategy.id >= 0) ?
                                     (((viewData.view_metrics.video_deliverable_imps > 0) ||
@@ -462,39 +468,38 @@
                             <div class="each_col sub_four_cols">
                                 <div class="sub_col">
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
-                                        (((viewData.view_metrics.videos_1q_view_perc > 0) ||
-                                        (viewData.view_metrics.videos_1q_view_perc === 0)) ?
-                                        ((viewData.view_metrics.videos_1q_view_perc | number : 0) + '%') : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc > 0)
-                                        || (viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc ===
-                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc
+                                        (((viewData.view_metrics.video_viewability_metrics.video_1q_view_perc > 0) ||
+                                        (viewData.view_metrics.video_viewability_metrics.video_1q_view_perc === 0)) ?
+                                        ((viewData.view_metrics.video_viewability_metrics.video_1q_view_perc | number : 0) + '%') : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.video_1q_view_perc > 0)
+                                        || (viewData.view_metrics.video_viewability_metrics.video_1q_view_perc ===
+                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.video_1q_view_perc| number : 0) + '%') : '-')">
+                                    </span>
+                                    <span data-ng-bind="(selectedStrategy.id >= 0) ?
+                                        (((viewData.view_metrics.video_viewability_metrics.video_2q_view_perc > 0) ||
+                                        (viewData.view_metrics.video_viewability_metrics.video_2q_view_perc === 0)) ?
+                                        ((viewData.view_metrics.video_viewability_metrics.video_2q_view_perc | number : 0) + '%') : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.video_2q_view_perc > 0)
+                                        || (viewData.view_metrics.video_viewability_metrics.video_2q_view_perc ===
+                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.video_2q_view_perc
                                         | number : 0) + '%') : '-')">
                                     </span>
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
-                                        (((viewData.view_metrics.videos_2q_view_perc > 0) ||
-                                        (viewData.view_metrics.videos_2q_view_perc === 0)) ?
-                                        ((viewData.view_metrics.videos_2q_view_perc | number : 0) + '%') : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc > 0)
-                                        || (viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc ===
-                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc
+                                        (((viewData.view_metrics.video_viewability_metrics.video_3q_view_perc > 0) ||
+                                        (viewData.view_metrics.video_viewability_metrics.video_3q_view_perc === 0)) ?
+                                        ((viewData.view_metrics.video_viewability_metrics.video_3q_view_perc | number : 0) + '%') : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.video_3q_view_perc > 0)
+                                        || (viewData.view_metrics.video_viewability_metrics.video_3q_view_perc ===
+                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.video_3q_view_perc
                                         | number : 0) + '%') : '-')">
                                     </span>
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
-                                        (((viewData.view_metrics.videos_3q_view_perc > 0) ||
-                                        (viewData.view_metrics.videos_3q_view_perc === 0)) ?
-                                        ((viewData.view_metrics.videos_3q_view_perc | number : 0) + '%') : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc > 0)
-                                        || (viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc ===
-                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc
-                                        | number : 0) + '%') : '-')">
-                                    </span>
-                                    <span data-ng-bind="(selectedStrategy.id >= 0) ?
-                                        (((viewData.view_metrics.videos_4q_view_perc > 0) ||
-                                        (viewData.view_metrics.videos_4q_view_perc === 0)) ?
-                                        ((viewData.view_metrics.videos_4q_view_perc | number : 0) + '%') : '-') :
-                                        (((viewData.view_metrics.video_viewability_metrics.videos_4q_view_perc > 0)
-                                        || (viewData.view_metrics.video_viewability_metrics.videos_4q_view_perc ===
-                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.videos_4q_view_perc
+                                        (((viewData.view_metrics.video_viewability_metrics.video_4q_view_perc > 0) ||
+                                        (viewData.view_metrics.video_viewability_metrics.video_4q_view_perc === 0)) ?
+                                        ((viewData.view_metrics.video_viewability_metrics.video_4q_view_perc | number : 0) + '%') : '-') :
+                                        (((viewData.view_metrics.video_viewability_metrics.video_4q_view_perc > 0)
+                                        || (viewData.view_metrics.video_viewability_metrics.video_4q_view_perc ===
+                                        0)) ? ((viewData.view_metrics.video_viewability_metrics.video_4q_view_perc
                                         | number : 0) + '%') : '-')">
                                     </span>
                                 </div>

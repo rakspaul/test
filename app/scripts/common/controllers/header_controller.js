@@ -1,12 +1,13 @@
-define(['angularAMD', 'common/services/constants_service', 'login/login_model', 'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_model',
-    'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service', 'common/services/account_service',
-    'common/services/sub_account_service', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout,
-                                                        constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService,
-                                                        accountService, subAccountService, vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel,
-                                                        pageFinder, urlBuilder) {
+    angularAMD.controller('HeaderController', ['$http', '$q', '$scope', '$rootScope', '$route', '$cookieStore', '$location',
+        '$modal', '$routeParams', '$sce', '$timeout', 'constants', 'loginModel', 'domainReports', 'campaignSelectModel', 'RoleBasedService',
+        'workflowService', 'featuresService', 'accountService', 'subAccountService', 'vistoconfig', 'localStorageService', 'advertiserModel', 'brandsModel',
+        'strategySelectModel', 'pageFinder', 'urlBuilder',
+        function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout, constants, loginModel,
+                  domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
+                  vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
         var featurePermission = function () {
                 var fParams = featuresService.getFeatureParams();
 
@@ -150,7 +151,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                setMasterClientData(id, name,isLeafNode, event);
+                setMasterClientData(id, name, isLeafNode, event);
             }
         };
 
@@ -163,19 +164,24 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
         $scope.navigateToTab = function (url, event, page, fromView, index) {
             var targetUrl;
-console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
-if (_.isEmpty($routeParams) && page !== 'creativelist') {
-    return;
-}
+
+            // TODO: Temp code - get rid of it later.
+            console.log('navigateToTab()!!!!!!!!!!, $scope.mplUrl = ', $scope.mplUrl, ', $scope.reportsUrl[' + (index || 'none') + '] = ', $scope.reportsUrl[index]);
+            if (_.isEmpty($routeParams) && page !== 'creativelist') {
+                return;
+            }
             if (event && event.originalEvent.metaKey) {
                 return;
             }
+            // TODO: END temp code - get rid of it later.
 
             $('.each_nav_link').removeClass('active_tab active selected');
 
             advertiserModel.reset();
             brandsModel.reset();
-            strategySelectModel.reset();
+
+            //On click of strategy dropdown we are not making a call, on page refresh strategy is becoming blank, so it shouldn't be reset here.
+            //strategySelectModel.reset();
 
             if (page === 'dashboard') {
                 $location.url(urlBuilder.dashboardUrl());
@@ -213,10 +219,13 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
             var elem = $(event.target),
                 minHeight,
                 argMenu = $('#' + arg + '-menu');
+
             if( arg === 'help' ) {
-                var elem_dropdown = $('.help-link-tab').offset().left - ( $('#help-menu').width()/2 ) + 10 ;
-                argMenu.css({'left':elem_dropdown + 'px', 'right': 'auto'});
+                var elem_dropdown = $('.help-link-tab').offset().left - ($('#help-menu').width() / 2) + 10;
+
+                argMenu.css({'left': elem_dropdown + 'px', 'right': 'auto'});
             }
+
             if (argMenu.is(':visible') === false) {
                 $('.main_nav_dropdown').hide();
                 minHeight = argMenu.css('min-height');
@@ -278,6 +287,7 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
             var closeMenuPopUs = function (event) {
                 var cdbDropdownId = $('#cdbDropdown'),
                     brandsListId = $('#brandsList'),
+                    platform_popup = $('.buying-platform-popup'),
                     advertisersDropDownList = $('#advertisersDropDownList'),
                     dropdownMenuWithSearch = $('.dropdown-menu-with-search'),
                     subAccountDropDownList = $('#subAccountDropDownList'),
@@ -294,6 +304,10 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
                     childTier = $('.childTier'),
                     quickFilterId,
                     regionTooltipId;
+
+                if (platform_popup.is(':visible') && ($(event.target).closest('div').hasClass('select-btn') === false) ) {
+                    platform_popup.hide();
+                }
 
                 if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') === false) ) {
                     cdbDropdownId.closest('.each_filter').removeClass('filter_dropdown_open');
@@ -465,5 +479,5 @@ if (_.isEmpty($routeParams) && page !== 'creativelist') {
                 });
             };
         });
-    });
+    }]);
 });

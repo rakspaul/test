@@ -1,5 +1,5 @@
 define(['angularAMD'], function(angularAMD) { // jshint ignore:line
-    angularAMD.service('constants', function($locale) {
+    angularAMD.service('constants', ['$locale', function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 10;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
@@ -421,7 +421,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.SUSPICIOUS = 'Suspicious';
         this.TOTAL = 'Total';
-
+        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals *';
+        this.VIEWLABLETXT_COST = '* Totals includes Fixed Costs';
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
         this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
@@ -1244,7 +1245,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.NOTHINGSELECTED = 'Nothing is Selected' ;
         this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
-        this.ERROR = 'Error:';
+        this.ERROR = 'Unkown Error:';
         this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
@@ -1260,5 +1261,5 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
         this.LINEITEM_SETUP = 'Line Item Setup' ;
         this.LINEITEM_EDIT = 'Line Item Edit' ;
-    });
+    }]);
 });

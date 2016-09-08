@@ -1,4 +1,4 @@
-define(['angularAMD', '../common/services/data_service', 'common/services/url_service', 'login/login_model'],
+define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 

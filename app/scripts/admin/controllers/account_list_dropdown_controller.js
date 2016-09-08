@@ -1,17 +1,17 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service','login/login_model', 'workflow/directives/ng_update_hidden_dropdown'],
-    function (angularAMD) {
+define(['angularAMD', 'ng-update-hidden-dropdown', 'admin-account-service'], function (angularAMD) {
+    'use strict';
 
-    angularAMD.controller('AccountListDropdownController', function ($scope, $rootScope, $compile, $q, constants, accountsService) {
+    angularAMD.controller('AccountListDropdownController', ['$scope', '$rootScope', '$compile', '$q', 'constants', 'adminAccountsService',
+        function ($scope, $rootScope, $compile, $q, constants, adminAccountsService) {
 
-        $scope.initddl = function(){
-
+        $scope.initddl = function () {
             var ddlIndex = Math.floor(Math.random() * 1000);
 
             $scope.loadingClientDropDown = false;
             $scope.ddlID = 'accountDropDown_1';
             $scope.clientddlID = 'clientDropdown_' + ddlIndex + '_';
 
-            $scope.$parent.$watch('userConsoleFormDetails.homeClientId', function(){
+            $scope.$parent.$watch('userConsoleFormDetails.homeClientId', function () {
                 $scope.currentClientName = $scope.$parent.userConsoleFormDetails.homeClientName;
             });
         };
@@ -21,12 +21,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         };
 
         $scope.selectClientOption = function (id, name) {
+            $scope.$parent.userConsoleFormDetails.homeClientId = id;
+            $scope.$parent.userConsoleFormDetails.homeClientName = name;
 
-                $scope.$parent.userConsoleFormDetails.homeClientId = id;
-                $scope.$parent.userConsoleFormDetails.homeClientName = name;
-
-                $('#' +  $scope.ddlID + ' .clientDropdownCnt , .childTier').hide();
-
+            $('#' +  $scope.ddlID + ' .clientDropdownCnt , .childTier').hide();
         };
 
         $scope.goToParentClientList = function (parentContianerId, clientId) {
@@ -37,19 +35,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         };
 
         $scope.getSubClientList = function (clientId, name, parentContianerId) {
-
-            var sel = '#' + $scope.clientddlID;
-            var accountIndex = 0;
+            var sel = '#' + $scope.clientddlID,
+                accountIndex = 0;
 
             if ($(sel + clientId).length) {
                 $(sel + parentContianerId).hide();
                 $(sel + clientId).show();
+
                 return;
             }
 
             $scope.loadingClientDropDown = true;
 
-            accountsService
+            adminAccountsService
                 .getSubClients(clientId)
                 .then(function (res) {
                     var result = res.data.data;
@@ -83,7 +81,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     console.log('Error: To get the sub-client list of ' + name, ' (', err, ')');
                 });
         };
-
-
-        });
-    });
+    }]);
+});

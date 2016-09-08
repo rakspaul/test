@@ -154,12 +154,15 @@
   width: 255px;
 }
 #creativeList .creativeAdBulkDiv .channel-dd {
-  margin-left: 20px;
+  margin-left: 0px;
 }
 #creativeList .creativeAdBulkDiv .crt-dd {
-  margin-left: 20px;
+  margin-left: 0px;
   max-width: 255px;
   width: 255px;
+}
+#creativeList .creativeAdBulkDiv .download-template {
+  margin: 40px 0 0 12px;
 }
 #creativeList .creativeUploadedNow .td {
   background-color: rgba(235, 171, 52, 0.04);
@@ -308,6 +311,9 @@
 }
 #creativeList .mainWrap .btn_list_filters {
   margin-bottom: 30px;
+}
+#creativeList #advertiser_name_selected {
+  cursor: pointer;
 }
 #creativeList .each_filter {
   float: left;

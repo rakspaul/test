@@ -1,5 +1,5 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','ERROR')"></popup-msg>
+           ng-init="init('flashMessage')"></popup-msg>
 <admin-header></admin-header>
 <div class="users-creation-page" >
     <!--Header-->
@@ -72,7 +72,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="col-md-2 customAdvertiserCode" style="padding: 0 0 0 10px;" data-ng-show="setSelectedAdvertiserCode == 'Others'">
                 <label class="greyTxt">Enter Code:</label>
                 <input type="text"
@@ -91,7 +91,7 @@
                     <span class="txtError codeExist" ng-if="advertiserCodeExist" data-ng-bind="textConstants.ADVERTISER_CODE_EXIST"></span>
                 </div>
             </div>
-            
+
             <div class="col-md-3" style="padding: 0 0 0 10px;">
                 <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.NICK_NAME"></label>
                 <input type="text"
@@ -102,16 +102,16 @@
                 <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
 
             </div>
-            
+
             <div class="col-md-1" style="padding: 0 0 0 10px;">
                 <span class="icon-clear" ng-show="isEditAdvertiser" data-ng-click="clearEdit()"
                   style="position: absolute;top: 42px;left: 10px;"></span>
             </div>
         </div>
-        
-        
+
+
     </div>
-    
+
     <!--User List-->
     <div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
         <div class="vistoTable" id="visto_table">

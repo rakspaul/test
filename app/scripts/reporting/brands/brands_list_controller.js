@@ -1,7 +1,7 @@
-define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BrandsListController', function ($scope, constants) {
+    angularAMD.controller('BrandsListController', ['$scope', 'constants', function ($scope, constants) {
         function applyBrandFilter() {
             var filter = $scope.selectedBrand.name.toUpperCase(),
                 value = $scope.brand.name.toUpperCase(),
@@ -37,5 +37,5 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
             applyBrandFilter();
         });
-    });
+    }]);
 });

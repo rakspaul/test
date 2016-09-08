@@ -1,5 +1,4 @@
-define(['angularAMD', 'common/services/url_service', 'common/services/data_service', 'reporting/kpiSelect/kpi_select_model', 'login/login_model',
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) {
         angularAMD.factory('campaignSelectModel', ['$q', '$rootScope', '$routeParams', '$timeout', 'urlService', 'dataService', 'kpiSelectModel', 'loginModel',
             'localStorageService', 'brandsModel', 'utils', 'vistoconfig', 'strategySelectModel',
             function ($q, $rootScope, $routeParams, $timeout, urlService, dataService, kpiSelectModel, loginModel, localStorageService, brandsModel, utils,

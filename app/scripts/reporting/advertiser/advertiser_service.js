@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/services/constants_service',
-    'workflow/services/workflow_service'], function(angularAMD) {
+define(['angularAMD'], function(angularAMD) {
     'use strict';
 
-    angularAMD.service('advertiserService', function($location, $rootScope, $http, constants, workflowService) {
+    angularAMD.service('advertiserService', ['$location', '$rootScope', '$http', 'constants', 'workflowService',
+        function($location, $rootScope, $http, constants, workflowService) {
         //default values
         var fetchAdvertisers = function() {
                 return workflowService.getAdvertisers('read');
@@ -31,5 +31,5 @@ define(['angularAMD', '../../common/services/constants_service',
             preForAdvertiserBroadcast: preForAdvertiserBroadcast,
             isDashboardAdvertiser: isDashboardAdvertiser
         };
-    });
+    }]);
 });

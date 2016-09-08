@@ -65,13 +65,13 @@ define(['common'], function (angularAMD) {
                     title: 'Login',
                     controller: 'loginController',
                     showHeader: false,
-                    controllerUrl: 'login/login_controller'
+                    controllerUrl: 'login-controller'
                 }))
 
                 .when('/a/:accountId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    controllerUrl: 'dashboard-controller',
                     title: 'Dashboard',
                     showHeader: true,
                     bodyclass: 'dashboard_body',
@@ -86,7 +86,7 @@ define(['common'], function (angularAMD) {
                 .when('/a/:accountId/adv/:advertiserId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    controllerUrl: 'dashboard-controller',
                     title: 'Dashboard',
                     showHeader: true,
                     bodyclass: 'dashboard_body',
@@ -101,7 +101,7 @@ define(['common'], function (angularAMD) {
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    controllerUrl: 'dashboard-controller',
                     title: 'Dashboard',
                     showHeader: true,
                     bodyclass: 'dashboard_body',
@@ -156,7 +156,7 @@ define(['common'], function (angularAMD) {
                 .when('/a/:accountId/sa/:subAccountId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    controllerUrl: 'dashboard-controller',
                     title: 'Dashboard',
                     showHeader: true,
                     bodyclass: 'dashboard_body',
@@ -171,7 +171,7 @@ define(['common'], function (angularAMD) {
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    controllerUrl: 'dashboard-controller',
                     title: 'Dashboard',
                     showHeader: true,
                     bodyclass: 'dashboard_body',
@@ -186,7 +186,7 @@ define(['common'], function (angularAMD) {
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
-                    controllerUrl: 'reporting/dashboard/dashboard_controller',
+                    controllerUrl: 'dashboard-controller',
                     title: 'Dashboard',
                     showHeader: true,
                     bodyclass: 'dashboard_body',
@@ -205,9 +205,13 @@ define(['common'], function (angularAMD) {
                                         .fetchAdvertiserList(params.subAccountId)
                                         .then(function () {
                                             if (routeResolversParams.advertiserModel.allowedAdvertiser(params.advertiserId)) {
+
+                                                //To fetch branch we have to send the selected advertisers clientId
+                                                var subAccountId = routeResolversParams.advertiserModel.getSelectedAdvertiser().clientId;
+
                                                 routeResolversParams
                                                     .brandsModel
-                                                    .fetchBrandList(params.subAccountId, params.advertiserId)
+                                                    .fetchBrandList(subAccountId, params.advertiserId)
                                                     .then(function () {
                                                         if (routeResolversParams.brandsModel.allowedBrand(params.brandId)) {
                                                             deferrer.resolve();
@@ -215,7 +219,7 @@ define(['common'], function (angularAMD) {
                                                             $timeout(function () { // jshint:ignore
                                                                 // hack -> wait till the dashboard (with header) page loads
                                                                 params.advertiserId && routeResolvers.fetchCurrentAdvertiser(routeResolversParams);
-                                                                params.advertiserId && params.brandId && routeResolvers.fetchCurrentBrand(routeResolversParams);
+                                                                params.advertiserId && params.brandId && routeResolvers.fetchCurrentBrand(routeResolversParams,subAccountId);
                                                             }, 1000);
                                                         } else {
                                                             deferrer.reject('brand not allowed');
@@ -240,7 +244,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -254,7 +258,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -268,7 +272,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -282,7 +286,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
-                    controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    controllerUrl: 'campaign-details-controller',
                     showHeader: true,
 
                     resolve: {
@@ -296,7 +300,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
-                    controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    controllerUrl: 'campaign-details-controller',
                     showHeader: true,
 
                     resolve: {
@@ -310,7 +314,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -324,7 +328,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -338,7 +342,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -352,7 +356,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
-                    controllerUrl: 'reporting/controllers/campaign_reports_controller',
+                    controllerUrl: 'campaign-reports-controller',
                     showHeader: true,
 
                     resolve: {
@@ -366,7 +370,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
-                    controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    controllerUrl: 'campaign-details-controller',
                     showHeader: true,
 
                     resolve: {
@@ -380,7 +384,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
-                    controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    controllerUrl: 'campaign-details-controller',
                     showHeader: true,
 
                     resolve: {
@@ -395,7 +399,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -409,7 +413,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -423,7 +427,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -437,7 +441,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -451,7 +455,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -466,7 +470,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -480,7 +484,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -494,7 +498,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
-                    controllerUrl: 'reporting/controllers/cost_controller',
+                    controllerUrl: 'cost-controller',
                     showHeader: true,
 
                     resolve: {
@@ -508,7 +512,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
-                    controllerUrl: 'reporting/controllers/cost_controller',
+                    controllerUrl: 'cost-controller',
                     showHeader: true,
 
                     resolve: {
@@ -522,7 +526,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
-                    controllerUrl: 'reporting/controllers/cost_controller',
+                    controllerUrl: 'cost-controller',
                     showHeader: true,
 
                     resolve: {
@@ -537,7 +541,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
-                    controllerUrl: 'reporting/controllers/cost_controller',
+                    controllerUrl: 'cost-controller',
                     showHeader: true,
 
                     resolve: {
@@ -551,7 +555,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
-                    controllerUrl: 'reporting/controllers/cost_controller',
+                    controllerUrl: 'cost-controller',
                     showHeader: true,
 
                     resolve: {
@@ -565,7 +569,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
-                    controllerUrl: 'reporting/controllers/platform_controller',
+                    controllerUrl: 'platform-controller',
                     showHeader: true,
 
                     resolve: {
@@ -580,7 +584,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
-                    controllerUrl: 'reporting/controllers/platform_controller',
+                    controllerUrl: 'platform-controller',
                     showHeader: true,
 
                     resolve: {
@@ -595,7 +599,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
-                    controllerUrl: 'reporting/controllers/platform_controller',
+                    controllerUrl: 'platform-controller',
                     showHeader: true,
 
                     resolve: {
@@ -610,7 +614,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
-                    controllerUrl: 'reporting/controllers/platform_controller',
+                    controllerUrl: 'platform-controller',
                     showHeader: true,
 
                     resolve: {
@@ -624,7 +628,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
-                    controllerUrl: 'reporting/controllers/platform_controller',
+                    controllerUrl: 'platform-controller',
                     showHeader: true,
 
                     resolve: {
@@ -638,7 +642,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    controllerUrl: 'inventory-controller',
                     showHeader: true,
 
                     resolve: {
@@ -652,7 +656,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    controllerUrl: 'inventory-controller',
                     showHeader: true,
 
                     resolve: {
@@ -666,7 +670,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    controllerUrl: 'inventory-controller',
                     showHeader: true,
 
                     resolve: {
@@ -680,7 +684,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    controllerUrl: 'inventory-controller',
                     showHeader: true,
 
                     resolve: {
@@ -694,7 +698,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    controllerUrl: 'inventory-controller',
                     showHeader: true,
 
                     resolve: {
@@ -708,7 +712,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    controllerUrl: 'viewability-controller',
                     showHeader: true,
 
                     resolve: {
@@ -722,7 +726,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    controllerUrl: 'viewability-controller',
                     showHeader: true,
 
                     resolve: {
@@ -737,7 +741,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    controllerUrl: 'viewability-controller',
                     showHeader: true,
 
                     resolve: {
@@ -752,7 +756,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    controllerUrl: 'viewability-controller',
                     showHeader: true,
 
                     resolve: {
@@ -766,7 +770,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    controllerUrl: 'viewability-controller',
                     showHeader: true,
 
                     resolve: {
@@ -780,7 +784,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -794,7 +798,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -808,7 +812,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -822,7 +826,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -836,7 +840,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
-                    controllerUrl: 'reporting/controllers/campaign_details_controller',
+                    controllerUrl: 'campaign-details-controller',
                     showHeader: true,
 
                     resolve: {
@@ -850,7 +854,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
-                    controllerUrl: 'reporting/controllers/performance_controller',
+                    controllerUrl: 'performance-controller',
                     showHeader: true,
 
                     resolve: {
@@ -864,7 +868,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
-                    controllerUrl: 'reporting/controllers/cost_controller',
+                    controllerUrl: 'cost-controller',
                     showHeader: true,
 
                     resolve: {
@@ -878,7 +882,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
-                    controllerUrl: 'reporting/controllers/platform_controller',
+                    controllerUrl: 'platform-controller',
                     showHeader: true,
 
                     resolve: {
@@ -892,7 +896,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
-                    controllerUrl: 'reporting/controllers/inventory_controller',
+                    controllerUrl: 'inventory-controller',
                     showHeader: true,
 
                     resolve: {
@@ -906,7 +910,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
-                    controllerUrl: 'reporting/controllers/viewability_controller',
+                    controllerUrl: 'viewability-controller',
                     showHeader: true,
 
                     resolve: {
@@ -920,7 +924,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -935,7 +939,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -950,7 +954,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
-                    controllerUrl: 'reporting/controllers/optimization_controller',
+                    controllerUrl: 'optimization-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1041,7 +1045,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_reports_schedule_list,
                     title: 'Scheduled Reports',
                     controller: 'ReportsScheduleListController',
-                    controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
+                    controllerUrl: 'reports-schedule-list-controller',
                     showHeader: true,
                     css: assets.css_reports_schedule_list,
 
@@ -1056,7 +1060,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_custom_report,
                     title: 'Report Builder',
                     controller: 'CustomReportController',
-                    controllerUrl: 'reporting/controllers/custom_report_controller',
+                    controllerUrl: 'custom-report-controller',
                     showHeader: true,
                     bodyclass: 'custom_report_page',
 
@@ -1071,7 +1075,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_custom_report,
                     title: 'Report Builder',
                     controller: 'CustomReportController',
-                    controllerUrl: 'reporting/controllers/custom_report_controller',
+                    controllerUrl: 'custom-report-controller',
                     showHeader: true,
                     bodyclass: 'custom_report_page',
 
@@ -1086,7 +1090,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
-                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    controllerUrl: 'custom-report-upload-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1101,7 +1105,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
-                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    controllerUrl: 'custom-report-upload-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1116,7 +1120,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
-                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    controllerUrl: 'custom-report-upload-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1131,7 +1135,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
-                    controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                    controllerUrl: 'custom-report-upload-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1146,7 +1150,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1161,7 +1165,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1176,7 +1180,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1191,7 +1195,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1206,7 +1210,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1221,7 +1225,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1236,7 +1240,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1251,7 +1255,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
-                    controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                    controllerUrl: 'collective-report-listing-controller',
                     showHeader: true,
                     css: assets.css_custom_reports,
 
@@ -1266,7 +1270,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_reports_invoice_list,
                     title: 'Invoices Reports',
                     controller: 'ReportsInvoiceListController',
-                    controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
+                    controllerUrl: 'reports-invoice-list-controller',
                     showHeader: true,
                     css: assets.css_reports_invoice_list,
 
@@ -1282,7 +1286,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_reports_invoice,
                     title: 'Media Plan - Overview',
                     controller: 'reportsInvoiceController',
-                    controllerUrl: 'reporting/collectiveReport/reports_invoice_controller',
+                    controllerUrl: 'reports-invoice-controller',
                     showHeader: true,
                     css: assets.css_reports_invoice_list,
 
@@ -1297,7 +1301,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_vendor_create,
                     title: 'Create - Vendor',
                     controller: 'CreateVendorController',
-                    controllerUrl: '/workflow/vendors/vendor_create_controller',
+                    controllerUrl: 'vendor-create-controller',
                     showHeader: true
                 }))
 
@@ -1305,7 +1309,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_vendors_list,
                     title: 'Vendors - List',
                     controller: 'VendorsListController',
-                    controllerUrl: 'workflow/vendors/vendors_list_controller',
+                    controllerUrl: 'vendors-list-controller',
                     showHeader: true,
                     css: assets.css_table_list
                 }))
@@ -1314,7 +1318,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
-                    controllerUrl: 'common/controllers/accounts/accounts_controller',
+                    controllerUrl: 'accounts-controller',
                     showHeader: true,
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
@@ -1327,7 +1331,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
-                    controllerUrl: 'common/controllers/users/users_controller',
+                    controllerUrl: 'users-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1341,7 +1345,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_brands,
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
-                    controllerUrl: 'common/controllers/accounts/admin_brands_controller',
+                    controllerUrl: 'admin-brands-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1355,7 +1359,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
-                    controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
+                    controllerUrl: 'admin-advertisers-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1369,7 +1373,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create,
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: 'workflow/campaign/campaign_create_controller',
+                    controllerUrl: 'campaign-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1383,7 +1387,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create,
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: 'workflow/campaign/campaign_create_controller',
+                    controllerUrl: 'campaign-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1397,7 +1401,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: 'workflow/campaign/campaign_create_controller',
+                    controllerUrl: 'campaign-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1411,7 +1415,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
-                    controllerUrl: 'workflow/campaign/campaign_create_controller',
+                    controllerUrl: 'campaign-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1425,7 +1429,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_ad,
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
-                    controllerUrl: 'workflow/overview/campaign_overview_controller',
+                    controllerUrl: 'campaign-overview-controller',
                     showHeader: true,
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
@@ -1438,7 +1442,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_ad,
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
-                    controllerUrl: 'workflow/overview/campaign_overview_controller',
+                    controllerUrl: 'campaign-overview-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1452,7 +1456,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/ad/ad_create_controller',
+                    controllerUrl: 'ad-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1467,7 +1471,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/ad/ad_create_controller',
+                    controllerUrl: 'ad-create-controller',
                     showHeader: true,
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
@@ -1480,7 +1484,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/ad/ad_create_controller',
+                    controllerUrl: 'ad-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1494,7 +1498,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'workflow/ad/ad_create_controller',
+                    controllerUrl: 'ad-create-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1508,7 +1512,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/creative/creative_controller',
+                    controllerUrl: 'creative-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1522,7 +1526,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/creative/creative_controller',
+                    controllerUrl: 'creative-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1537,7 +1541,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/creative/creative_controller',
+                    controllerUrl: 'creative-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1551,7 +1555,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
-                    controllerUrl: 'workflow/creative/creative_controller',
+                    controllerUrl: 'creative-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1565,7 +1569,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/creative/creative_list_controller',
+                    controllerUrl: 'creative-list-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1579,7 +1583,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
-                    controllerUrl: 'workflow/creative/creative_list_controller',
+                    controllerUrl: 'creative-list-controller',
                     showHeader: true,
 
                     resolve: {
@@ -1593,7 +1597,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
+                    controllerUrl: 'creative-preview-controller',
                     showHeader: false,
 
                     resolve: {
@@ -1607,7 +1611,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
+                    controllerUrl: 'creative-preview-controller',
                     showHeader: false,
 
                     resolve: {
@@ -1621,7 +1625,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
+                    controllerUrl: 'creative-preview-controller',
                     showHeader: false,
 
                     resolve: {
@@ -1635,7 +1639,7 @@ define(['common'], function (angularAMD) {
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
-                    controllerUrl: 'workflow/creative/creative_preview_controller',
+                    controllerUrl: 'creative-preview-controller',
                     showHeader: false,
 
                     resolve: {
@@ -1690,12 +1694,8 @@ define(['common'], function (angularAMD) {
                        workflowService , subAccountService, $window) {
 
             var loginCheckFunc = function () {
-                    var locationPath = $location.path(),
-                        authorizationKey;
+                    var locationPath = $location.path();
 
-                    if (JSON.parse(localStorage.getItem('userObj'))) {
-                        authorizationKey = JSON.parse(localStorage.getItem('userObj')).authorizationKey;
-                    }
 
                     if (locationPath !== '/login') {
                         brandsModel.enable();
@@ -1704,12 +1704,6 @@ define(['common'], function (angularAMD) {
                     dataService.updateRequestHeader();
 
                     loginModel.checkCookieExpiry();
-
-                    // if some one try to change the authorization key or delete the key manually
-                    // this is getting after successful login.
-                    if ($cookieStore.get('cdesk_session') && authorizationKey !== loginModel.getauth_token()) {
-                        loginModel.unauthorized();
-                    }
                 },
 
                 locationChangeStartFunc = $rootScope.$on('$locationChangeStart', function () {

@@ -1037,7 +1037,7 @@
 		}
 		#advertisersDropDownList {
 			width: 280px;
-			left: 0px;
+			left: -1px;
 			padding: 0;
 			.brandsList_ul2 {
 				max-height: 200px;
@@ -2157,6 +2157,9 @@ tags-input .autocomplete {
 .marginTop {
 	margin-top: 10px ;
 }
+.paddingBottom {
+	padding-bottom: 10px ;
+}
 .marginRightFive {
 	margin-right: 5px ;
 }
@@ -2645,9 +2648,9 @@ tags-input .autocomplete {
 }
 
 .linkText {
-	color : #428bca; 
+	color : #428bca;
 	cursor: pointer;
-	&:hover { 
+	&:hover {
 		color : #2a6496 ;
 	}
 }
@@ -2660,8 +2663,107 @@ tags-input .autocomplete {
 	}
 }
 
+// Styles for Admin Brands & Advertisers popup
+#brandsPopup .form-group,
+#advertisersWrapper .form-group {
+    height: 70px;
+	margin-bottom: -32px;
+}
 
+#brandsPopup .brand-name-selected,
+#advertisersWrapper .advertiser-selected {
+	cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    border: 1px solid #bfc9d7;
+    width: 100%;
+    padding: 5px 10px;
+}
 
+#brandsPopup .icon-arrow-solid-down,
+#advertisersWrapper .icon-arrow-solid-down {
+	position: absolute;
+	z-index: 2;
+	bottom: 8px;
+	right: 3px;
+	cursor: pointer;
+	font-size: 10px;
+	color: #939eae; //@label-gray;
+}
 
+#brandsPopup .admin-brand-dropdown-menu,
+#advertisersWrapper .admin-advertisers-dropdown-menu {
+	border: 1px solid #bfc9d7;
+	display: none;
+	padding: 0;
+    border-radius: 1px;
+    -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15)!important;
+    box-shadow: 0 1px 7px rgba(0,0,0,.15)!important;
+}
 
+#advertisersWrapper .admin-advertisers-dropdown-menu {
+    margin-bottom: -30px;
+}
 
+#brandsPopup #brandsDropdownDiv,
+#advertisersWrapper #advertisersDropdownDiv {
+	border-bottom: solid 1px #bfc9d7;
+	padding: 0 10px;
+}
+
+#brandsPopup #brandsSearchBox,
+#advertisersWrapper #advertisersSearchBox {
+	background: url(/images/cdesk/search_input.png) #fff no-repeat right center !important;
+	border: medium none;
+	cursor: pointer;
+	font-family: Avenir, sans-serif;
+	font-size: 11pt;
+	height: 30px;
+	padding-right: 20px;
+	text-overflow: ellipsis;
+	width: 100%;
+}
+
+#brandsPopup #dropdown,
+#advertisersWrapper #dropdown {
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+#brandsPopup #dropdown ul,
+#advertisersWrapper #dropdown ul {
+	margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+	padding: 0;
+}
+
+#brandsPopup #dropdown li,
+#advertisersWrapper #dropdown li {
+	color: #21252b;
+	cursor: pointer;
+	font-family: Avenir, sans-serif;
+	font-size: 14px;
+	line-height: 100%;
+	list-style: none;
+	padding: 9px 15px;
+}
+
+#brandsPopup #dropdown li:hover,
+#advertisersWrapper #dropdown li:hover {
+	background: #E1EDF9;
+}
+
+#brandsPopup #dropdown li.active,
+#advertisersWrapper #dropdown li.active {
+	font-family: Avenir-bold, sans-serif !important;
+}
+
+#advertisersWrapper .campaignUrl {
+    margin-top: 45px;
+}
+
+#advertisersWrapper {
+    margin-bottom: 15px;
+}
+// END Styles for Admin Brands & Advertisers popup

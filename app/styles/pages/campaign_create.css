@@ -2748,6 +2748,7 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-tracking,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-tracking {
   color: #fff;
+  margin: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning,
 #vendorCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning {
@@ -4797,6 +4798,9 @@
 }
 .goalBtnWithPopup .popUpCue {
   top: -82px;
+}
+.buying-platform-popup {
+  display: none;
 }
 .keywordWrap {
   background: #edf2f8;

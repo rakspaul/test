@@ -1,14 +1,12 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
-    'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
-    'reporting/brands/brands_model', 'login/login_model', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service', 'common/services/features_service',
-     'common/utils', 'reporting/timePeriod/time_period_controller', 'reporting/kpiSelect/kpi_select_directive',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model',
+    'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'time-period-controller',
+    'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
+    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
+        'strategySelectModel', 'dataService', 'domainReports', 'constants',
+        'timePeriodModel', 'brandsModel', 'loginModel', 'urlService',
+        'advertiserModel', 'vistoconfig', 'featuresService', 'utils', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
                                                              advertiserModel, vistoconfig, featuresService, utils) {
@@ -258,9 +256,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 });
 
                                 $scope['strategyPerfDataByTactic' + tab]  =
+
                                     _.filter(result.data.data, function (item) {
+                                        if(item.dimension === 'Line Item Totals') {
+                                            item.sepratorCls = 'sepratorCls';
+                                        }
+                                        if(item.dimension === 'Ad Item Totals') {
+                                            item.sepratorCls = 'sepratorLineCls';
+                                        }
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
+
+                                   
+
 
                                 $scope.groupThem = _.chain($scope['strategyPerfDataByTactic' + tab])
                                     .groupBy('ad_id')
@@ -278,6 +286,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 $scope['strategyPerfDataBy' + tab]  = result.data.data;
 
                                 _.each($scope['strategyPerfDataBy' + tab], function (item) {
+                                    if(item.dimension === 'Media Plan Totals') {
+                                        item.sepratorCls = 'sepratorCls';
+                                    }
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
                             }
@@ -660,5 +671,5 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             return '/images/platform_favicons/' + ((!iconName || iconName === 'Unknown') ?
                     'platform_logo.png' : iconName.toLowerCase().replace(/ /g, '_') + '.png');
         };
-    });
+    }]);
 });

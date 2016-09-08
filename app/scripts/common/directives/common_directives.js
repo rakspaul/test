@@ -1,4 +1,4 @@
-define(['angularAMD', '../services/constants_service'],  function (angularAMD) {
+define(['angularAMD'],  function (angularAMD) {
     'use strict';
 
     angularAMD.directive('header', ['$http', '$compile', 'constants',  function ($http, $compile, constants) {

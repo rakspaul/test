@@ -1,4 +1,4 @@
-define(['angularAMD', '../../controllers/gauge_controller'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('gauge', function () {

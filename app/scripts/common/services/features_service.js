@@ -1,9 +1,8 @@
-define(['angularAMD', 'workflow/services/workflow_service',
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
 
     'use strict';
 
-    angularAMD.service('featuresService', function ($rootScope, $location, workflowService, vistoconfig) {
+    angularAMD.service('featuresService', ['$rootScope', '$location', 'workflowService', 'vistoconfig', function ($rootScope, $location, workflowService, vistoconfig) {
         var params = [
                 'dashboard',
                 'report_overview',
@@ -171,5 +170,5 @@ define(['angularAMD', 'workflow/services/workflow_service',
             setFeatureParams: setFeatureParams,
             getFeatureParams: getFeatureParams
         };
-    });
+    }]);
 });

@@ -1,8 +1,8 @@
-define(['angularAMD', 'reporting/brands/brands_service', 'common/services/constants_service',
-    'common/services/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'brands-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('brandsModel', function ($q, $timeout, $location, brandsService, constants,
+    angularAMD.factory('brandsModel', ['$q', '$timeout', '$location', 'brandsService', 'constants',
+        'localStorageService', 'workflowService', 'pageFinder', function ($q, $timeout, $location, brandsService, constants,
                                                 localStorageService, workflowService, pageFinder) {
         var brand = {
                 brandList: [],
@@ -110,5 +110,5 @@ define(['angularAMD', 'reporting/brands/brands_service', 'common/services/consta
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             },
         };
-    });
+    }]);
 });

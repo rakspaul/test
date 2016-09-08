@@ -1,7 +1,5 @@
-define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
-    'reporting/models/campaign_cost', 'common/services/request_cancel_service', 'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model',
-    'reporting/advertiser/advertiser_model', 'common/services/url_service', 'common/services/vistoconfig_service','../../common/services/data_service'], function (angularAMD) {
-        // originally part of controllers/campaign_controller.js
+define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-cdb-data',
+    'campaign-cost', 'request-cancel-service', 'url-service'], function (angularAMD) {
         angularAMD.factory('campaignListModel', ['$route','$rootScope', '$location', 'campaignListService', 'modelTransformer', 'campaignCDBData', 'campaignCost',
             'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'advertiserModel', 'urlService', 'vistoconfig', 'dataService', 'localStorageService',
             function ($route,$rootScope, $location, campaignListService, modelTransformer, campaignCDBData, campaignCost, requestCanceller, constants, brandsModel, loginModel,
@@ -458,6 +456,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     self.dashboard.completed = result.data.data.completed.total;
                                     self.dashboard.archived = result.data.data.archived;
                                     self.dashboard.total = result.data.data.total;
+                                    self.dashboard.endSoon = result.data.data.end_soon;
                                     self.dashboard.all = result.data.data.all;
                                     self.noData = true;
 
@@ -708,7 +707,7 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
                                     break;
 
                                 case 'endingSoon' :
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+                                    this.dashboard.quickFilterSelectedCount = this.dashboard.endSoon;
                                     this.dashboard.status.active.endingSoon = 'active';
                                     this.appliedQuickFilter = 'endingSoon';
                                     this.sortParam = 'end_date';
@@ -833,16 +832,16 @@ define(['angularAMD', 'reporting/campaignList/campaign_list_service', 'common/se
 
                             if (this.appliedQuickFilter === 'endingSoon') {
                                 params.push('condition=all');
-                                params.push('end_soon=true');
                             } else {
                                 params.push('condition=' + this.appliedQuickFilter);
-                                params.push('end_soon=false');
                             }
 
                             if (this.appliedQuickFilter === 'archived') {
                                 params.push('cond_type=archived');
                             } else if (this.appliedQuickFilter === 'ontrack' || this.appliedQuickFilter === 'underperforming') {
                                 params.push('cond_type=kpi_status');
+                            } else if(this.appliedQuickFilter === 'endingSoon'){
+                                params.push('cond_type=end_soon');
                             } else {
                                 params.push('cond_type=status');
                             }

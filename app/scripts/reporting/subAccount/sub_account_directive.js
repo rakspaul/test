@@ -1,4 +1,4 @@
-define(['angularAMD','reporting/subAccount/sub_account_controller'], function (angularAMD) {
+define(['angularAMD','sub-account-controller'], function (angularAMD) {
     'use strict';
 
     angularAMD.directive('subAccountDropDown',  function () {

@@ -1,9 +1,7 @@
-define(['angularAMD', 'common/services/vistoconfig_service',
-    'common/services/constants_service', 'login/login_model'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
         'use strict';
 
-        angularAMD.service('urlService', ['vistoconfig', 'constants', 'loginModel',
-            function (vistoconfig) {
+        angularAMD.service('urlService', ['vistoconfig', function (vistoconfig) {
 
 
                 var APIeditAction = function (clientId, actionId) {

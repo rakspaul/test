@@ -1,6 +1,6 @@
 
 <popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+           ng-init="init('partialSaveAlertMessage')"></popup-msg>
 
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="CreativeController">
 <div id="creative">
@@ -222,7 +222,7 @@
                         <div class="col-md-12 zeroPadding marginTop form-group">
                             <label class="col-md-12 zeroPadding">
                                 <input  type="checkbox" data-ng-checked="toggleCodeField" data-ng-click="clickTrackingBox()">
-                                <span class="label-txt">{{textConstants.TRACKING_MESSAGE}}</span>
+                                <span class="label-txt" style="font-weight: normal">{{textConstants.TRACKING_MESSAGE}}</span>
                             </label>
                             <div class="col-md-4 zeroPadding" ng-show="toggleCodeField" >
                                 <span class="greyTxt col-md-12 zeroPadding" for="name">Tracking Code</span>

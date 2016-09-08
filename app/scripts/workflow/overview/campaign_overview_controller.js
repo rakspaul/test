@@ -1,12 +1,15 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/overview/campaign_overview_service', 'common/moment_utils',
-    'common/services/vistoconfig_service', 'workflow/overview/get_adgroups_controller', 'workflow/directives/edit_ad_group_section', 'login/login_model','common/utils',
-    'common/services/account_service', 'common/services/sub_account_service', 'workflow/overview/campaign_clone_controller', 'workflow/campaign/campaign_archive_controller',
-    'common/directives/decorate_numbers', 'common/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgroups-controller', 'edit-ad-group-section',
+    'campaign-clone-controller', 'campaign-archive-controller', 'decorate-numbers', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams, $timeout, $location, $route, constants, workflowService, momentService,
-                                                                  vistoconfig, featuresService, dataService, loginModel,utils, accountService, subAccountService, urlBuilder,
-                                                                  campaignOverviewService, $sce) {
+    angularAMD.controller('CampaignOverViewController', ['$scope', '$modal', '$rootScope', '$routeParams', '$timeout', '$location',
+        '$route', 'constants', 'workflowService', 'momentService', 'vistoconfig', 'featuresService', 'dataService', 'loginModel', 'utils',
+        'accountService', 'subAccountService', 'urlBuilder', 'campaignOverviewService', '$sce',
+
+        function ($scope, $modal, $rootScope, $routeParams, $timeout, $location, $route, constants, workflowService, momentService,
+                  vistoconfig, featuresService, dataService, loginModel,utils, accountService, subAccountService, urlBuilder,
+                  campaignOverviewService, $sce) {
+
         var campaignOverView = {
                 modifyCampaignData: function () {
                     var campaignData = $scope.workflowData.campaignData,
@@ -1029,14 +1032,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 dateTimeZone = workflowService.getAccountTimeZone();
 
                 if($scope.adGroupData.modifiedAdGroupAPIStartTime &&
-                    moment(formData.startTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day'))) {
+                    moment(formData.startTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
                 utcStartTime = momentService.localTimeToUTC(formData.startTime, 'startTime', dateTimeZone, isDateChanged);
 
                 if ($scope.adGroupData.editAdGroupFlag) {
-                    if (moment(utcStartTime).startOf('day').isSame(moment($scope.adGroupData.modifiedAdGroupAPIStartTime).startOf('day')))  {
+                    if (moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.adGroupData.modifiedAdGroupAPIStartTime)).startOf('day')))  {
                         utcStartTime = $scope.adGroupData.modifiedAdGroupAPIStartTime;
                     }
                 }
@@ -1258,5 +1261,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.$on('$locationChangeSuccess', function() {
             $(document).unbind('changeDate');
         });
-    });
+    }]);
 });

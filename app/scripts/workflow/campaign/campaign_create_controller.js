@@ -1,14 +1,12 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service',
-    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils',
-    'workflow/campaign/campaign_service','common/utils', 'common/services/account_service',
-    'workflow/directives/clear_row',
-    'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller',
-    'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller',
-    'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller',
-    'common/directives/decorate_numbers'], function (angularAMD) {
+define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload-hidden', 'pixels-controller', 'budget-controller',
+    'line-item-controller', 'confirmation-modal-controller', 'custom-date-picker', 'campaign-archive-controller',
+    'decorate-numbers'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams,
+    angularAMD.controller('CreateCampaignController', ['$scope', '$window', '$rootScope', '$filter', '$routeParams',
+        '$locale', '$location', '$timeout', '$modal', 'constants', 'workflowService', 'vistoconfig', 'loginModel',
+        'momentService', 'campaignService', 'utils', 'accountService', 'urlBuilder', 'subAccountService',
+        function ($scope, $window, $rootScope, $filter, $routeParams,
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
                                                                 momentService, campaignService, utils,
@@ -677,7 +675,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 dateTimeZone = workflowService.getAccountTimeZone();
 
-                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day'))) {
+                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day')
+                        .isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day'))) {
                     isDateChanged = false;
                 }
 
@@ -689,7 +688,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if ($scope.mode ==='edit') {
 
-                    if(moment(utcStartTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day')))  {
+                    if(moment(utcStartTime).startOf('day').isSame(moment(momentService.utcToLocalTime($scope.mediaPlanAPIStartTime)).startOf('day')))  {
                         utcStartTime = $scope.mediaPlanAPIStartTime;
                     }
 
@@ -1158,5 +1157,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $(window).resize(function () {
             colResize();
         });
-    });
+    }]);
 });

@@ -1,9 +1,8 @@
-// global angObj, angular
-define(['angularAMD', '../../../login/login_model', 'common/services/constants_service', 'common/utils'],
+define(['angularAMD', 'common-utils'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('actionChart', function ($timeout, loginModel, constants, utils) {
+    angularAMD.factory('actionChart', ['$timeout', 'loginModel', 'constants', 'utils', function ($timeout, loginModel, constants, utils) {
         var browserInfo = utils.detectBrowserInfo(),
             adjustY = browserInfo.browserName === 'Firefox' ? 8 : 7,
             adjustX = browserInfo.browserName === 'Firefox' ? 1 : 0,
@@ -613,18 +612,6 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
                             }
                         },
 
-                        // TODO - remove this after the date ticks are rewritten
-                        /*plotBands: [{ // Light air
-                            color: '#ffefef',
-                            label: {
-                              enabled: false,
-                              text: '',
-                              style: {
-                                  color: 'red'
-                              }
-                            }
-                        }],*/
-
                         plotLines: [{
                             label: {
                                 text: 'Baseline',
@@ -1105,5 +1092,5 @@ define(['angularAMD', '../../../login/login_model', 'common/services/constants_s
         return {
             lineChart: lineChart
         };
-    });
+    }]);
 });

@@ -1,11 +1,11 @@
-define(['angularAMD', 'login/login_model','login/login_service', 'reporting/common/d3/bubble_chart',
-    'reporting/models/bubble_chart_model','reporting/brands/brands_model', 'common/services/constants_service',
-    'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'bubble-chart', 'bubble-chart-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService,
-                                                             bubbleChart, bubbleChartModel, brandsModel, constants,
-                                                             advertiserModel, vistoconfig) {
+    angularAMD.controller('BubbleChartController', ['$scope', '$cookieStore', '$location', 'loginModel', 'loginService',
+        'bubbleChart', 'bubbleChartModel', 'brandsModel', 'constants', 'advertiserModel', 'vistoconfig',
+        function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel,
+                  constants,advertiserModel, vistoconfig) {
+
         var _curCtrl = this;
 
         _curCtrl.defaultFilter = {
@@ -114,5 +114,5 @@ define(['angularAMD', 'login/login_model','login/login_service', 'reporting/comm
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
-    });
+    }]);
 });
