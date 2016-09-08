@@ -67,7 +67,7 @@
         <div class="col-md-6 each_campaign_section metric_campaign_section">
             <div class="clearfix metric_graph_header">
                 <span class="metric_title" data-ng-bind="textConstants.SPEND"></span>
-                <span class="metric_val" ng-if="strategy.grossRev > 0" data-ng-bind="strategy.grossRev | currency:undefined"></span>
+                <span class="metric_val" ng-if="strategy.spend > 0" data-ng-bind="strategy.spend | currency:undefined"></span>
             </div>
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                 <div class="full_metric_graph">
