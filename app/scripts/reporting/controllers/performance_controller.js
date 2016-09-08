@@ -539,7 +539,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             $scope.strategies = {};
             $scope.resetVariables();
             $scope.selectedFilters = {};
-            $scope.selectedFilters.campaign_default_kpi_type =  kpiSelectModel.getSelectedKpi();
+            $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
+            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
             $scope.selectedFilters.kpi_type = 'cpm';
             $scope.selectedFilters2 = {};
             $scope.selectedFilters2.kpi_type = 'cpm';

@@ -1,60 +1,51 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('dimension',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'dimension'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.AD_SIZE}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.AD_SIZE}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-impressions',sortTypeByAdSizes,!sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = '-impressions'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-clicks',sortTypeByAdSizes,!sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = '-clicks'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
 </div>
 <span  data-ng-show="adFormats.videoAds  == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" data-ng-class="sortClassFunction('video_played',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'video_played'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
+        <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
     </div>
 <div class="vid_data_hdr">
     <span>{{textConstants.QUARTILE_DATA}}</span> <br>
     <div class="vid_sub_col">
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_25',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'vtc_25'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();">25%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_50',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'vtc_50'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();">50%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_75',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'vtc_75'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();">75%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_100',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'vtc_100'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();">100%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder">25%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder">50%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder">75%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder">100%</span></div>
     </div>
 </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_100',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'vtc_100'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+        <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
     </div>
 </span>
 <div class="each_col forth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('ctr',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'ctr'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
 </div>
 <div class="each_col forth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('action_rate',sortTypeByAdSizes,sortReverseAdSizes)" data-ng-click="sortTypeByAdSizes = 'action_rate'; sortReverseAdSizes = !sortReverseAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 <span  data-ng-show="adFormats.videoAds  == false">
     <div class="each_col seventh_col">
-        <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpa',sortTypeByAdSizes,sortReverseForCostscpaAdsizes)" data-ng-click="sortTypeByAdSizes = '-cpa'; sortReverseAdSizes = sortReverseForCostscpaAdSizes; sortReverseForCostscpaAdSizes = !sortReverseForCostscpaAdSizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+        <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
     </div>
 <div class="each_col sixth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpc',sortTypeByAdSizes,sortReverseForCostscpcAdsizes)" data-ng-click="sortTypeByAdSizes = '-cpc'; sortReverseAdSizes = sortReverseForCostscpcAdsizes; sortReverseForCostscpcAdsizes = !sortReverseForCostscpcAdsizes;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpm',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-cpm'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-pc_cpa',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-pc_cpa'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-spend',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-spend'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
 </div>
-<!-- <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-suspicious_impressions_perc',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-suspicious_impressions_perc'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'"></span>{{textConstants.SUSPICIOUS_ACTIVITY}}</span>
-</div>
-<div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-viewable_impressions'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'"></span>{{textConstants.VIEWABLE_IMPRESSION}}</span>
-</div>
-<div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions_perc',sortTypeByAdSizes,sortReverseForCostscpmAdsizes)" data-ng-click="sortTypeByAdSizes = '-viewable_impressions_perc'; sortReverseAdSizes = sortReverseForCostscpmAdsizes; sortReverseForCostscpmAdsizes = !sortReverseForCostscpmAdsizes; removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'"></span>{{textConstants.VIEWABLE_RATE}}</span>
-</div> -->
 </span>
 <div class="each_col seventh_col">
     <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder">

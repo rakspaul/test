@@ -352,7 +352,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $scope.resetVariables();
                 $scope.selectedFilters = {};
 
-                $scope.selectedFilters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+                $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
                 $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
