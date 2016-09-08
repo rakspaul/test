@@ -48,10 +48,6 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function (result) {
                             if (result && result.data.data.length > 0) {
 
-                                //mpSubAccountList = _.map(result.data.data, function (a) {
-                                //    return {'id': a.id, 'displayName': a.displayName, 'timezone' : a.timezone};
-                                //});
-
                                 mpSubAccountList = mpSubAccountList.concat(_.map(result.data.data, function (a) {
                                     return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
                                 }));
@@ -119,10 +115,6 @@ define(['angularAMD'], function (angularAMD) {
                                 return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
                             }));
 
-                            //subAccountList = _.filter(dashboardSubAccountList, function (a) {
-                            //    return a.isLeafNode === true;
-                            //});
-
                             previousAccountId = accountId;
                             deferred.resolve();
                         } else {
@@ -171,16 +163,6 @@ define(['angularAMD'], function (angularAMD) {
             };
 
         return {
-            //reset                          : reset,
-            //fetchSubAccountList            : fetchSubAccountList,
-            //allowedSubAccount              : allowedSubAccount,
-            //fetchDashboardSubAccountList   : fetchDashboardSubAccountList,
-            //allowedDashboardSubAccount     : allowedDashboardSubAccount,
-            //getSubAccounts                 : getSubAccounts,
-            //getDashboardSubAccountList      : getDashboardSubAccountList,
-            //getSelectedSubAccount          : getSelectedSubAccount,
-            //getSelectedDashboardSubAccount : getSelectedDashboardSubAccount,
-            //changeSubAccount               : changeSubAccount
 
             reset                          : reset,
             fetchSubAccountList            : fetchSubAccountList,

@@ -105,12 +105,11 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     isBillingInvoice = $location.path().endsWith('/invoices'),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
 
-                //if (accessLevel && !isDashboardSubAccount && !isBillingInvoice) {
-                //    url = url + '?access_level=' + accessLevel;
-                //} else if (isDashboardSubAccount || isBillingInvoice) {
-                //    url = url + '?level=all';
-                //}
-                url = url + '?access_level=all';// + (accessLevel || 'all');
+                if (accessLevel && !isDashboardSubAccount && !isBillingInvoice) {
+                    url = url + '?access_level=' + accessLevel;
+                } else if (isDashboardSubAccount || isBillingInvoice) {
+                    url = url + '?level=all';
+                }
                 return dataService.fetch(url);
             },
 
@@ -120,11 +119,9 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     '/advertisers/' + advertiserId +
                     '/brands';
 
-                //if (accessLevel) {
-                //    url += '?access_level=' + accessLevel;
-                //}
-
-                url += '?access_level=all';
+                if (accessLevel) {
+                    url += '?access_level=' + accessLevel;
+                }
                 return dataService.fetch(url);
             },
 
