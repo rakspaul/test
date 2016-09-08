@@ -221,13 +221,6 @@
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col">
                         <span class="icon_text_holder"
-                              data-ng-class="
-                                sortClassFunction('-view_metrics.video_viewability_metrics.video_deliverable_imps',
-                                sortTypeForVideos, sortReverseForVidView)"
-                              data-ng-click="sortTypeForVideos =
-                                '-view_metrics.video_viewability_metrics.video_deliverable_imps';
-                                sortReverse = sortReverseForVidView;
-                                sortReverseForVidView = !sortReverseForVidView;"
                               data-ng-bind="textConstants.DELIVERED_IMPS">
                         </span>
                     </div>
@@ -235,24 +228,9 @@
                         <span data-ng-bind="textConstants.MEASURABLE"></span>
                         <div class="sub_col">
                             <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_imps',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_measurable_imps';
-                                    sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_measurable_imps';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();"
                                   data-ng-bind="textConstants.IMP_WITH_DOT">
                             </span>
-                            <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_measurable_perc',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="
-                                    sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_measurable_perc';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                            <span class="icon_text_holder">
                                 %
                             </span>
                         </div>
@@ -261,23 +239,9 @@
                         <span data-ng-bind="textConstants.VIEWABLE"></span>
                         <div class="sub_col">
                             <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_viewable_imps',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_viewable_imps';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();"
                                   data-ng-bind="textConstants.IMP_WITH_DOT">
                             </span>
-                            <span class="tooltip_holder icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_viewable_perc',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_viewable_perc';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                            <span class="tooltip_holder icon_text_holder">
                                    %<sup>*</sup>
                                 <div class="common_tooltip"
                                      data-ng-bind="textConstants.BASED_ONLY_ON_VIEWABLE_IMPS">
@@ -296,56 +260,22 @@
                             </span>
                         </div>
                         <div class="sub_col">
-                            <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_1q_view_perc',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_1q_view_perc';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                            <span class="icon_text_holder">
                                 25%
                             </span>
-                            <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_2q_view_perc',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_2q_view_perc';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                            <span class="icon_text_holder">
                                 50%
                             </span>
-                            <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_3q_view_perc',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_3q_view_perc';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                            <span class="icon_text_holder">
                                 75%
                             </span>
-                            <span class="icon_text_holder"
-                                  data-ng-class="
-                                    sortClassFunction('view_metrics.video_viewability_metrics.video_4q_view_perc',
-                                    sortTypeForVideos, sortReverse)"
-                                  data-ng-click="sortTypeForVideos =
-                                    'view_metrics.video_viewability_metrics.video_4q_view_perc';
-                                    sortReverse = !sortReverse;
-                                    removeKpiActive();">
+                            <span class="icon_text_holder">
                                 100%
                             </span>
                         </div>
                     </div>
                     <div class="each_col suspicious_act_col">
                         <span class="icon_text_holder"
-                              data-ng-class="
-                                sortClassFunction('view_metrics.video_viewability_metrics.video_susp_activity_perc',
-                                sortTypeForVideos, sortReverse)"
-                              data-ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.video_susp_activity_perc';
-                                sortReverse = !sortReverse;
-                                removeKpiActive();"
                               data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
                         </span>
                     </div>
