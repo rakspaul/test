@@ -369,7 +369,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-
             setPermissions =  function (permissionObj) {
                 permission = permissionObj;
             },
@@ -430,7 +429,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             };
 
         return {
-
             getAllCurrency : getAllCurrency,
             createBillableAccount : createBillableAccount,
             createAgencies : createAgencies,
@@ -441,7 +439,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getClients : getClients,
             getSubClients :  getSubClients,
             getClientsAdvertisers :  getClientsAdvertisers,
-
             getAdvertisersBrand : getAdvertisersBrand,
             getAdvertiserBrandDetials : getAdvertiserBrandDetials,
             updateAdvertiser : updateAdvertiser,
@@ -491,8 +488,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getIABCategoryList : getIABCategoryList,
             getIABSubCategoryList : getIABSubCategoryList,
             downloadAdminAdvPixel : downloadAdminAdvPixel,
-            invoiceSaveNote : invoiceSaveNote,
-
+            invoiceSaveNote : invoiceSaveNote
         };
     }]);
 });
