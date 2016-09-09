@@ -529,7 +529,12 @@ define(['angularAMD'],
                     if (y <= 0) {
                         returnValue = y;
                     } else {
-                        key = key || 2;
+
+                        if(key === 0) {
+                            key = 0 ;
+                        } else {
+                            key = key || 2;
+                        }
 
                         if (y < 9999) {
                             returnValue = value.toFixed(key);

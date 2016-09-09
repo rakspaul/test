@@ -17,8 +17,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GANTT_CHART_BRAND_CANCELLER = 7;
         this.NEW_REPORT_RESULT_CANCELLER = 3;
         this.PERIOD_LIFE_TIME = 'life_time';
-        this.PERIOD_LAST_7_DAYS = 'last_7_days';
-        this.PERIOD_LAST_30_DAYS = 'last_30_days';
         this.SORT_DESC = 'desc';
         this.ACTIVE_UNDERPERFORMING = 'underperforming';//has to be this way as per database
         this.ACTIVE_ONTRACK = 'ontrack';
@@ -421,7 +419,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.SUSPICIOUS = 'Suspicious';
         this.TOTAL = 'Total';
-        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals *';
         this.VIEWLABLETXT_COST = '* Totals includes Fixed Costs';
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
@@ -1183,6 +1180,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AD_GROUP_TOTAL = 'Ad Group Total:';
         this.CAMPAIGN_TOTAL = 'Campaign Total:';
         this.LINE_ITME_TOTAL = 'Line Item Total:';
+        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals';
+        this.LINE_ITEM_TOTALS = 'Line Item Totals';
+
         this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
@@ -1263,5 +1263,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.LINEITEM_EDIT = 'Line Item Edit' ;
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER = 'There are no Media Plans for the selected Advertiser';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND = 'There are no Media Plans for the selected Brand';
+        this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT = 'There are no Media Plans for the selected account';
     }]);
 });

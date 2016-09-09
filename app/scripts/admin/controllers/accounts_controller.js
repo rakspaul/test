@@ -166,13 +166,13 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
 
                 // Brands & Advertisers data init here
                 $scope.brandsData = [];
-                $scope.brandsPageSize = 20;
+                $scope.brandsPageSize = 3000;
                 $scope.brandsPageNo = 0;
                 $scope.brandsQuery = '';
                 $scope.noMoreBrandsToLoad = false;
                 $scope.brandsLoading = false;
                 $scope.advertisersData = [];
-                $scope.advertisersPageSize = 30;
+                $scope.advertisersPageSize = 3000;
                 $scope.advertisersPageNo = 0;
                 $scope.advertisersQuery = '';
                 $scope.noMoreAdvertisersToLoad = false;

@@ -12,7 +12,6 @@ define(['angularAMD', 'common-utils', 'advertiser-directive'], function (angular
                 var accountId = $routeParams.subAccountId || $routeParams.accountId;
                 advertiserModel.fetchAdvertiserList(accountId).then(function() {
                     $scope.advertisers = advertiserModel.getAdvertiserList();
-                    console.log('$scope.advertisers', $scope.advertisers.length);
                     if (advertiserModel.allowedAdvertiser($routeParams.advertiser_id)) {
                         $scope.selectedAdvertiser = vistoconfig.getSelectAdvertiserId();
                     } else {

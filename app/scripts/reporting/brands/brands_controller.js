@@ -15,7 +15,6 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
                     .fetchBrandList(accountId, advertiserId)
                     .then(function() {
                         $scope.brands = brandsModel.getBrandList();
-                        console.log('$scope.brands', $scope.brands.length);
 
                         if (brandsModel.allowedBrand($routeParams.brand_id)) {
                             $scope.selectedBrand = vistoconfig.getSelectedBrandId();
@@ -26,9 +25,12 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
                     });
             };
 
-        if(localStorage.getItem('topAlertMessage')) {
-            $rootScope.setErrAlertMessage(constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
+
+        if(vistoconfig.getNoMediaPlanFoundMsg()) {
+            $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
+            vistoconfig.setNoMediaPlanFoundMsg(null);
         }
+
         $scope.textConstants = constants;
 
         // used to enable the brands drop-down

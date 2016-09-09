@@ -1,62 +1,53 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('dimension',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'dimension'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.CREATIVE}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.CREATIVE}}</span>
 </div>
 <div class="each_col third_col imps-col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-impressions',sortTypeByCreatives,!sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = '-impressions'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-clicks',sortTypeByCreatives,!sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = '-clicks'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
 </div>
 <span  data-ng-show="adFormats.videoAds  == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" data-ng-class="sortClassFunction('video_played',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'video_played'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
+        <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
     </div>
 <div class="vid_data_hdr">
 <span>{{textConstants.QUARTILE_DATA}}</span> <br>
 <div class="vid_sub_col">
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_25',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'vtc_25'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >25%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_50',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'vtc_50'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >50%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_75',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'vtc_75'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >75%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_100',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'vtc_100'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >100%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder">25%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder">50%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder">75%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder">100%</span></div>
 </div>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('vtc_100',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'vtc_100'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
 </div>
 </span>
 <div class="each_col forth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('ctr',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'ctr'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
 </div>
 
 <div class="each_col forth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('action_rate',sortTypeByCreatives,sortReverseCreativesTab)" data-ng-click="sortTypeByCreatives = 'action_rate'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action rate'"></span>{{textConstants.ACTION_RATE}}</span>
 </div>
 
 <span  data-ng-show="adFormats.videoAds   == false">
 <div class="each_col seventh_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpa',sortTypeByCreatives,sortReverseForCostscpaCreatives)" data-ng-click="sortTypeByCreatives = '-cpa'; sortReverseCreativesTab = sortReverseForCostscpaCreatives; sortReverseForCostscpaCreatives = !sortReverseForCostscpaCreatives;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
 </div>
 <div class="each_col sixth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpc',sortTypeByCreatives,sortReverseForCostscpcCreatives)" data-ng-click="sortTypeByCreatives = '-cpc'; sortReverseCreativesTab = sortReverseForCostscpcCreatives; sortReverseForCostscpcCreatives = !sortReverseForCostscpcCreatives;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-cpm',sortTypeByCreatives,sortReverseForCostscpmCreatives)" data-ng-click="sortTypeByCreatives = '-cpm'; sortReverseCreativesTab = sortReverseForCostscpmCreatives; sortReverseForCostscpmCreatives = !sortReverseForCostscpmCreatives; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-pc_cpa',sortTypeByCreatives,sortReverseForCostscpmCreatives)" data-ng-click="sortTypeByCreatives = '-pc_cpa'; sortReverseCreativesTab = sortReverseForCostscpmCreatives; sortReverseForCostscpmCreatives = !sortReverseForCostscpmCreatives; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-spend',sortTypeByCreatives,sortReverseForCostscpmCreatives)" data-ng-click="sortTypeByCreatives = '-spend'; sortReverseCreativesTab = sortReverseForCostscpmCreatives; sortReverseForCostscpmCreatives = !sortReverseForCostscpmCreatives; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
+    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
 </div>
-<!-- <div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-suspicious_impressions_perc',sortTypeByCreatives,sortReverseForCostscpmCreatives)" data-ng-click="sortTypeByCreatives = '-suspicious_impressions_perc'; sortReverseCreativesTab = sortReverseForCostscpmCreatives; sortReverseForCostscpmCreatives = !sortReverseForCostscpmCreatives; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'"></span>{{textConstants.SUSPICIOUS_ACTIVITY}}</span>
-</div>
-<div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions',sortTypeByCreatives,sortReverseForCostscpmCreatives)" data-ng-click="sortTypeByCreatives = '-viewable_impressions'; sortReverseCreativesTab = sortReverseForCostscpmCreatives; sortReverseForCostscpmCreatives = !sortReverseForCostscpmCreatives; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'"></span>{{textConstants.VIEWABLE_IMPRESSION}}</span>
-</div>
-<div class="each_col fifth_col">
-    <span class="icon_text_holder" data-ng-class="sortClassFunction('-viewable_impressions_perc',sortTypeByCreatives,sortReverseForCostscpmCreatives)" data-ng-click="sortTypeByCreatives = '-viewable_impressions_perc'; sortReverseCreativesTab = sortReverseForCostscpmCreatives; sortReverseForCostscpmCreatives = !sortReverseForCostscpmCreatives; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'"></span>{{textConstants.VIEWABLE_RATE}}</span>
-</div> -->
 </span>
 
 

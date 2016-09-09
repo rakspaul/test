@@ -1,7 +1,7 @@
 define(['angularAMD'],
     function (angularAMD) {
-        angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService',
-            function ($location, $routeParams, accountService, subAccountService) {
+        angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService','campaignSelectModel',
+            function ($location, $routeParams, accountService, subAccountService,campaignSelectModel) {
 
             var buildBaseUrl = function () {
                     // this method can be used for building base url which can be used everywhere
@@ -25,8 +25,10 @@ define(['angularAMD'],
                 },
 
 
-                dashboardUrl = function () {
-                    var url = '/a/' + $routeParams.accountId,
+                dashboardUrl = function (accountId) {
+                    accountId =  $routeParams.accountId || accountId;
+
+                    var url = '/a/' + accountId,
                         selectedAccount;
 
                     if ($routeParams.subAccountId) {
@@ -34,11 +36,11 @@ define(['angularAMD'],
                     } else {
                         // user navigating from custom reports to media plans
                         selectedAccount = _.find(accountService.getAccounts(), function (a) {
-                            return Number(a.id) === Number($routeParams.accountId);
+                            return Number(a.id) === Number(accountId);
                         });
 
                         if (!selectedAccount.isLeafNode) {
-                            url += '/sa/' + $routeParams.accountId;
+                            url += '/sa/' + accountId;
                         }
                     }
 
@@ -48,8 +50,10 @@ define(['angularAMD'],
                 },
 
                 // this method returns the url if fromView is true, and changes the current location if fromView is false
-                mediaPlansListUrl  = function (fromView) {
-                    var url = '/a/' + $routeParams.accountId,
+                mediaPlansListUrl  = function (accountId) {
+                    accountId =  $routeParams.accountId || accountId;
+
+                    var url = '/a/' + accountId,
                         leafSubAccount,
                         selectedAccount,
                         subAccounts;
@@ -70,38 +74,32 @@ define(['angularAMD'],
                                 }
                             }
                         } else {
-                            console.log('ELSE: $routeParams.accountId = ', $routeParams.accountId);
                             subAccounts = subAccountService.getSubAccounts();
-                            console.log('ELSE (PRE-call): url = ', url, 'subaccounts = ', subAccounts);
-                            url += '/sa/' + (subAccounts.length ? subAccounts[0].id : $routeParams.accountId);
-                            console.log('ELSE: url = ', url);
+                            url += '/sa/' + (subAccounts.length ? subAccounts[0].id : accountId);
                         }
 
                         url += '/mediaplans';
-                        console.log('AFTER ELSE: url = ', url);
+                        $location.url(url);
                     } else {
                         // user navigating from custom reports to media plans
                         selectedAccount = _.find(accountService.getAccounts(), function (a) {
-                            return Number(a.id) === Number($routeParams.accountId);
+                            return Number(a.id) === Number(accountId);
                         });
 
                         if (selectedAccount && selectedAccount.isLeafNode) {
                             url += '/mediaplans';
+                            $location.url(url);
                         } else {
                             subAccountService
-                                .fetchSubAccountList($routeParams.accountId)
+                                .fetchSubAccountList(accountId)
                                 .then(function () {
-                                    console.log('$routeParams.accountId = ', $routeParams.accountId);
+                                    console.log('$routeParams.accountId = ', accountId);
                                     url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                                     url += '/mediaplans';
+                                    $location.url(url);
                                 });
-                        }
-                    }
 
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
+                        }
                     }
                 },
 
@@ -152,7 +150,65 @@ define(['angularAMD'],
                     $location.url(url);
                 },
 
-                cannedReportsUrl =  function (reportName, fromView) {
+                reportOverCampaignUrl = function(url, subAccountId){
+                    var selectedCampaign = campaignSelectModel.getSelectedCampaign();
+
+                    //Attach campaign
+                    if($routeParams.campaignId) {
+                        url += '/mediaplans/' + $routeParams.campaignId+'/overview';
+                        $location.url(url);
+                    } else if(selectedCampaign.length){
+                        url += '/mediaplans/' + selectedCampaign.id+'/overview';
+                        $location.url(url);
+                    } else {
+                        //you should redirect to mediaplan list
+                        campaignSelectModel.fetchCampaigns(subAccountId || $routeParams.accountId, -1, -1).then(function(response) {
+                            var campaignArr = response.data.data,
+                                campaignId;
+                            if (campaignArr && campaignArr.length > 0 && campaignArr[0].campaign_id) {
+                                campaignId = campaignArr[0].campaign_id;
+
+                                //set first campaign as selected campaign
+                                campaignSelectModel.setSelectedCampaign(campaignArr[0]);
+                                url += '/mediaplans/' + campaignId+'/overview';
+                                $location.url(url);
+                            } else {
+                                console.log('No campaings for the account');
+                            }
+                        });
+                    }
+                },
+
+                reportsOverviewUrl =  function () {
+                    //Attach account
+                    var url = '/a/' + $routeParams.accountId,
+                        acccountData =  accountService.getSelectedAccount();
+
+                    //Attach subaccount if not a leaf node
+                    if (!acccountData.isLeafNode) {
+                        if($routeParams.subAccountId  && ($routeParams.subAccountId !== $routeParams.accountId)){
+                            url += '/sa/' + $routeParams.subAccountId;
+                            reportOverCampaignUrl(url,$routeParams.subAccountId);
+                        } else {
+                            if(subAccountService.getSubAccounts().length && (subAccountService.getSubAccounts()[0].id !== $routeParams.accountId)) {
+                                url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                                reportOverCampaignUrl(url,subAccountService.getSubAccounts()[0].id);
+                            } else {
+                                subAccountService
+                                    .fetchSubAccountList($routeParams.accountId)
+                                    .then(function () {
+                                        url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                                        url = reportOverCampaignUrl(url,subAccountService.getSubAccounts()[0].id);
+                                    });
+                            }
+                        }
+                    } else {
+                        reportOverCampaignUrl(url);
+                    }
+
+                },
+
+                cannedReportsUrl =  function (reportName) {
                     console.log('cannedReportsUrl(), $routeParams.accountId = ', $routeParams);
                     var url = '/a/' + $routeParams.accountId,
                         leafSubAccount,
@@ -167,13 +223,12 @@ define(['angularAMD'],
                         if (leafSubAccount) {
                             url += '/sa/' + $routeParams.subAccountId;
                         } else {
-                            console.log('ELSE: $routeParams.accountId = ', $routeParams.accountId);
                             subAccounts = subAccountService.getSubAccounts();
                             url += '/sa/' + (subAccounts.length ? subAccounts[0].id : $routeParams.accountId);
-                            console.log('ELSE: url = ', url);
                         }
 
                         url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
+                        $location.url(url);
                     } else {
                         // user navigating from custom reports to canned reports
                         selectedAccount = _.find(accountService.getAccounts(), function (a) {
@@ -182,46 +237,56 @@ define(['angularAMD'],
 
                         if (selectedAccount && selectedAccount.isLeafNode) {
                             url += '/mediaplans/reports' + reportName;
+                            $location.url(url);
                         } else {
                             subAccountService
                                 .fetchSubAccountList($routeParams.accountId)
                                 .then(function () {
-                                    console.log('$routeParams.accountId = ', $routeParams.accountId);
                                     url += '/sa/' + subAccountService.getSubAccounts()[0].id;
-                                    console.log('url = ', url);
                                     url += '/mediaplans/reports' + reportName;
+                                    $location.url(url);
                                 });
                         }
                     }
-
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
-                    }
                 },
 
-                customReportsUrl = function (fromView) {
+                customReportsUrl = function () {
                     var url = '/a/' + $routeParams.accountId + '/customreport';
-
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
-                    }
+                    return url;
                 },
 
-                customReportsListUrl = function (inputUrl, fromView) {
+                customReportsListUrl = function (inputUrl) {
                     var url = '/a/' + $routeParams.accountId + '/' + inputUrl;
-
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
-                    }
+                    $location.url(url);
                 },
 
-                creativeListUrl =  function (fromView) {
+
+                collectiveInsightsUrl = function(inputUrl) {
+                    var url = '/a/' + $routeParams.accountId,
+                        leafSubAccount;
+
+                    if ($routeParams.subAccountId) {
+                        leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
+                            return Number(a.id) === Number($routeParams.subAccountId);
+                        });
+
+                        if (leafSubAccount) {
+                            url += '/sa/' + $routeParams.subAccountId;
+                        }
+                    }
+
+                    if (!$routeParams.subAccountId || !leafSubAccount) {
+                        if (subAccountService.getSubAccounts().length) {
+                            console.log('$routeParams.accountId = ', $routeParams.accountId);
+                            url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                        }
+                    }
+
+                    url += '/' + inputUrl;
+                    $location.url(url);
+                },
+
+                creativeListUrl =  function () {
                     var url = '/a/' + $routeParams.accountId,
                         leafSubAccount;
 
@@ -243,26 +308,19 @@ define(['angularAMD'],
                     }
 
                     url += '/creative/list';
-                    console.log('creativeListUrl!!! url = ', url);
-
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
-                    }
+                    $location.url(url);
                 },
 
-                adminUrl = function (fromView) {
-                    var url = '/a/' + $routeParams.accountId + '/admin/accounts';
-
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
+                adminUrl = function () {
+                    var url = '/a/' + $routeParams.accountId;
+                    if($routeParams.subAccountId) {
+                        url += '/sa/' + $routeParams.subAccountId;
                     }
+                    url += '/admin/accounts';
+                    $location.url(url);
                 },
 
-                invoiceTool = function (fromView) {
+                invoiceTool = function () {
                     var url = '/a/' + $routeParams.accountId,
                         acccountData =  accountService.getSelectedAccount();
 
@@ -272,11 +330,7 @@ define(['angularAMD'],
                     }
 
                     url += '/v1sto/invoices';
-                    if (fromView) {
-                        return url;
-                    } else {
-                        $location.url(url);
-                    }
+                    $location.url(url);
                 },
 
                 gotoInvoiceReport = function (invoiceId) {
@@ -332,7 +386,6 @@ define(['angularAMD'],
                             // All Advertisers id is -1 and don't show it in the URL
                             ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
                         } else {
-                            console.log('$routeParams.accountId = ', $routeParams.accountId);
                             url += '/sa/' + subAccountService.getSubAccounts()[0].id;
                         }
                     }
@@ -454,7 +507,9 @@ define(['angularAMD'],
                 invoiceTool: invoiceTool,
                 goToPreviewUrl: goToPreviewUrl,
                 gotoInvoiceReport: gotoInvoiceReport,
-                goToCreativeList : goToCreativeList
+                goToCreativeList : goToCreativeList,
+                reportsOverviewUrl: reportsOverviewUrl,
+                collectiveInsightsUrl : collectiveInsightsUrl
             };
         }]);
     });

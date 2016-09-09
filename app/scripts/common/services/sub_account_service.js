@@ -1,6 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('subAccountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'workflowService', 'campaignSelectModel', 'advertiserModel',
-        'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, workflowService, campaignSelectModel, advertiserModel, brandsModel, pageFinder) {
+    angularAMD.service('subAccountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'vistoconfig', 'workflowService', 'campaignSelectModel', 'advertiserModel',
+        'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, vistoconfig, workflowService, campaignSelectModel,
+                                               advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
             dashboardSubAccountList = [],
             selectedSubAccount,
@@ -16,6 +17,7 @@ define(['angularAMD'], function (angularAMD) {
                 campaignSelectModel.reset();
                 advertiserModel.reset();
                 brandsModel.reset();
+
             },
 
             fetchSubAccountList = function (accountId) {
@@ -26,8 +28,6 @@ define(['angularAMD'], function (angularAMD) {
 
                 deferred = $q.defer();
 
-                console.log('fetchSubAccountList(): accountId = ', accountId, ', typeof accountId = ', typeof accountId, ', previousAccountId = ',
-                    previousAccountId, 'typeof previousAccountId = ', typeof previousAccountId);
 
                 if (previousAccountId !== accountId) {
                     this.reset();
@@ -66,12 +66,14 @@ define(['angularAMD'], function (angularAMD) {
 
             allowedSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
-
                 if (subAccountId) {
                     selectedSubAccount = _.find(subAccountList, function (client) {
                         return subAccountId === client.id;
                     });
                     if (selectedSubAccount) {
+                        if(selectedSubAccount.timezone) {
+                            vistoconfig.setClientTimeZone(selectedSubAccount.timezone);
+                        }
                         return true;
                     }
                 }
@@ -103,7 +105,7 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function (result) {
                         if (result && result.data.data.length > 0) {
                             dashboardSubAccountList = dashboardSubAccountList.concat(_.map(result.data.data, function (a) {
-                                return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode};
+                                return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
                             }));
 
                             subAccountList = _.filter(dashboardSubAccountList, function (a) {

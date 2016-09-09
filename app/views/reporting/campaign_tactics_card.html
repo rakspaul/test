@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <div class="clearfix metric_graph_details">
-                        <div class="each_metric_graph_details" data-ng-if="tactic.chart !== false">
+                        <div class="each_metric_graph_details" data-ng-if="tactic.totalImpressions >0">
                             <span class="detail_val" data-ng-bind="tactic.totalImpressions | nrFormat : 0"></span>
                             <span data-ng-bind="textConstants.IMP_WITH_DOT"></span>
                         </div>
@@ -136,12 +136,12 @@
                             <span data-ng-bind="textConstants.CTR"></span>
                         </div>
                         <div class="each_metric_graph_details metric_graph_details_action"
-                             data-ng-if="tactic.vtc_rate < 0">
+                             data-ng-if="tactic.vtc_rate <= 0">
                             <span class="detail_val" data-ng-bind="(tactic.actionRate | number : 3) + '%'"></span>
                             <span data-ng-bind="textConstants.ACTION_RATE"></span>
                         </div>
                         <div class="each_metric_graph_details metric_graph_details_vtc"
-                             data-ng-if="tactic.vtc_rate >= 0">
+                             data-ng-if="tactic.vtc_rate > 0">
                             <div class="quartile_details_VTC_btn"
                                  data-ng-mouseover="VTCpopup($event, 1)"
                                  data-ng-mouseout="VTCpopup($event, 0)">

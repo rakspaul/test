@@ -17,7 +17,7 @@
                         <button class="btn btn-default toggleDropdown" type="button"  aria-haspopup="true" aria-expanded="true">
                             <div class="clearfix toggleDropdownDiv" ng-click="defaultDropdownToggle($event)" >
                                 <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                                <span class="text" ng-bind-html="mediaPlanName"></span>
+                                <span class="text" ng-bind-html="mediaPlanName" title="{{mediaPlanNameTooltip}}"></span>
                                 <span class="icon-arrow-solid-down"></span>
                             </div>
                         </button>
@@ -30,8 +30,8 @@
                             </li>
                             <li ng-repeat="mediaplan in mediaPlanList | filter: media" ng-click="defaultDropdownToggle($event)">
                                 <a ng-click="selectMediaPlan(mediaplan)">
-                                    <span ng-if="mediaplan.id == campaignId" tooltip="{{mediaplan.name}}"><b>{{mediaplan.name}} (Current)</b></span>
-                                    <span ng-if="mediaplan.id != campaignId" tooltip="{{mediaplan.name}}">{{mediaplan.name}}</span>
+                                    <span ng-if="mediaplan.id == campaignId" title="{{mediaplan.name}}"><b>{{mediaplan.name}} (Current)</b></span>
+                                    <span ng-if="mediaplan.id != campaignId" title="{{mediaplan.name}}">{{mediaplan.name}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -44,7 +44,7 @@
                     <div class="dropdown">
                         <button class="btn btn-default toggleDropdown" type="button" aria-haspopup="true" aria-expanded="true" >
                             <div class="clearfix toggleDropdownDiv"  ng-click="defaultDropdownToggle($event)" >
-                                <span class="text" ng-bind-html="adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP"></span>
+                                <span class="text" ng-bind-html="adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP" title="{{adGroupNameTooltip ? adGroupNameTooltip :textConstants.WF_NO_AD_GROUP}}"></span>
                                 <span class="icon-arrow-solid-down"></span>
                             </div>
                         </button>
@@ -57,8 +57,8 @@
                             </li>
                             <li ng-repeat="groups in adGroupList | filter: adGroup" ng-click="defaultDropdownToggle($event)" >
                                 <a ng-click="selectAdGroup(groups.adGroup)">
-                                    <span ng-if="groups.adGroup.id == adGroupId" tooltip="{{groups.adGroup.name}}"><b>{{groups.adGroup.name}} (Current)</b></span>
-                                    <span ng-if="groups.adGroup.id != adGroupId" tooltip="{{groups.adGroup.name}}">{{groups.adGroup.name}}</span>
+                                    <span ng-if="groups.adGroup.id == adGroupId" title="{{groups.adGroup.name}} (Current)"><b>{{groups.adGroup.name}} (Current)</b></span>
+                                    <span ng-if="groups.adGroup.id != adGroupId" title="{{groups.adGroup.name}}">{{groups.adGroup.name}}</span>
                                 </a>
                             </li>
                         </ul>

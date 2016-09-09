@@ -23,7 +23,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             lineitemDetailsBulk = null,
             advertiserBillingVal,
             executionType,
-            accountTimezone,
 
             createObj = function (platform) {
                 var integrationObj = {};
@@ -653,7 +652,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + params.clientId + advertiserString +
                     '/creatives?' + creativeFormats + queryStr + pageSize + pageNo;
-
+                
                 return dataService.fetch(url);
             },
 
@@ -923,7 +922,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                             config.vendorName = data[j].vendorName;
                             config.configName = data[j].name;
                             config.adFormat = data[j].clientVendorOfferings[i].name;
-                            config.rate = data[j].currency.currencySymbol + ' ' + 
+                            config.rate = data[j].currency.currencySymbol + ' ' +
                                           data[j].clientVendorOfferings[i].rateValue.toFixed(2) + ' ' + data[j].clientVendorOfferings[i].rateType.name;
                             config.category = data[j].clientVendorOfferings[i].costCategory.name;
                             processedData.configs.push(config);
@@ -974,17 +973,15 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             },
 
             processLineItemsObj = function (lineItemList) {
-                var newItemList = [],
-                    dateTimeZone;
+                var newItemList = [];
 
-                dateTimeZone = this.getAccountTimeZone();
 
                 _.each(lineItemList, function (item) {
                     var newItemObj = {};
 
                     newItemObj.adGroupName = item.adGroupName;
-                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime', dateTimeZone);
-                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime', dateTimeZone);
+                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
+                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
 
                     if (typeof item.pricingRate === 'string') {
                         item.pricingRate = Number(item.pricingRate.split('%')[0]);
@@ -1268,14 +1265,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 });
 
                 return obj;
-            },
-
-            setAccountTimeZone = function(timezone) {
-                accountTimezone = timezone;
-            },
-
-            getAccountTimeZone = function() {
-                return accountTimezone;
             };
 
         return {
@@ -1402,9 +1391,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getLineItemDataEdit: getLineItemDataEdit,
             setLineItemBulkData: setLineItemBulkData,
             getLineItemBulkData: getLineItemBulkData,
-            wrapperForActiveAdGroups: wrapperForActiveAdGroups,
-            setAccountTimeZone : setAccountTimeZone,
-            getAccountTimeZone : getAccountTimeZone
+            wrapperForActiveAdGroups: wrapperForActiveAdGroups
         };
     }]);
 });

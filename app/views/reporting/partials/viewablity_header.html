@@ -1,36 +1,16 @@
 <div class="viewability_header clearfix">
-    <div class="each_col platform_name_col icon_text_holder"
-         data-ng-class="sortClassFunction('platform_name',sortTypeByViewability,sortReverse)"
-         data-ng-click="sortTypeByViewability = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();"
-         data-ng-bind="textConstants.PLATFORM_NAME">
+    <div class="each_col platform_name_col icon_text_holder" data-ng-bind="textConstants.PLATFORM_NAME">
     </div>
     <div class="each_col third_col delivered_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-other_view_impressions', sortTypeByViewability,
-                    sortReverseForQualImps)"
-              data-ng-click="sortTypeByViewability = '-other_view_impressions';
-                    sortTypeByViewabilitySubSort = '-other_view_impressions';
-                    sortReverse = sortReverseForQualImps;
-                    sortReverseForQualImps = !sortReverseForQualImps;
-                    removeKpiActive();"
-              data-ng-bind="textConstants.DELIVERED_IMPS">
+        <span class="icon_text_holder" data-ng-bind="textConstants.DELIVERED_IMPS">
         </span>
     </div>
     <div class="each_col third_col measurable_col">
         <span data-ng-bind="textConstants.MEASURABLE"></span>
         <div class="sub_col">
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('other_view_measurable', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'other_view_measurable';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();"
-                  data-ng-bind="textConstants.IMP_WITH_DOT">
+            <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
             </span>
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('other_view_measurable_perc', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'other_view_measurable_perc';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();">
+            <span class="icon_text_holder">
                 %
             </span>
         </div>
@@ -38,19 +18,9 @@
     <div class="each_col forth_col">
         <span data-ng-bind="textConstants.VIEWABLE"></span>
         <div class="sub_col">
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('other_viewable_impressions', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'other_viewable_impressions';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();"
-                  data-ng-bind="textConstants.IMP_WITH_DOT">
+            <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
             </span>
-            <span class="tooltip_holder icon_text_holder"
-                  data-ng-class="sortClassFunction('other_viewable_impressions_perc',
-                        sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'other_viewable_impressions_perc';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();">
+            <span class="tooltip_holder icon_text_holder">
                 %
                 <sup>*</sup>
                 <div class="common_tooltip" data-ng-bind="textConstants.BASED_ONLY_ON_VIEWABLE_IMPS"></div>
@@ -70,35 +40,22 @@
         </div>
 
         <div class="sub_col">
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('videos_1q_completed', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'videos_1q_completed'; sortReverse = !sortReverse;">
+            <span class="icon_text_holder">
                 25%
             </span>
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('videos_2q_completed', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'videos_2q_completed'; sortReverse = !sortReverse;">
+            <span class="icon_text_holder">
                 50%
             </span>
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('videos_3q_completed', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'videos_3q_completed'; sortReverse = !sortReverse;">
+            <span class="icon_text_holder">
                 75%
             </span>
-            <span class="icon_text_holder"
-                  data-ng-class="sortClassFunction('videos_4q_completed', sortTypeByViewability, sortReverse)"
-                  data-ng-click="sortTypeByViewability = 'videos_4q_completed'; sortReverse = !sortReverse;">
+            <span class="icon_text_holder">
                 100%
             </span>
         </div>
     </div>
     <div class="each_col suspicious_col">
-        <span class="tooltip_holder icon_text_holder"
-              data-ng-class="sortClassFunction('other_view_imps_suspicious_perc', sortTypeByViewability, sortReverse)"
-              data-ng-click="sortTypeByViewability = 'other_view_imps_suspicious_perc';
-                    sortReverse = !sortReverse;
-                    removeKpiActive();"
-              ng-bind-html="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
+        <span class="tooltip_holder icon_text_holder" ng-bind-html="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
         </span>
     </div>
 </div>

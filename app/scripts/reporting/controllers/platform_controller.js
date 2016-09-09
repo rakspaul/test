@@ -204,9 +204,10 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     if(isExist.indexOf(item.ad_id) === -1) {
                                         isExist.push(item.ad_id);
                                         tempArr = _.filter($scope.tacticPlatformData, function (v) {
-                                            return v.ad_id == item.ad_id;
+                                            return v.ad_id === item.ad_id;
                                         });
-                                        if(!tempArr[0].platform_name || tempArr[0].platform_name !== 'Ad Item Totals'){
+                                        if(!tempArr[0].platform_name || (tempArr[0].platform_name !== 'Ad Item' +
+                                            ' Totals' && tempArr[0].platform_name !== 'Ad Totals')){
                                             tempVal = tempArr[1];
                                             tempArr[1] = tempArr[0];
                                             tempArr[0] = tempVal;
@@ -343,8 +344,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
             // Initializing the variable.
             $scope.init = function () {
-                var fromLocStore = localStorage.getItem('timeSetLocStore');
-
                 $scope.strategyFound = false;
                 $scope.strategyLoading = true;
                 $scope.apiReturnCode = 200;
@@ -353,14 +352,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $scope.resetVariables();
                 $scope.selectedFilters = {};
 
-                if (fromLocStore) {
-                    fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                    $scope.selectedFilters.time_filter = fromLocStore;
-                } else {
-                    $scope.selectedFilters.time_filter = 'life_time';
-                }
-
-                $scope.selectedFilters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+                $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
                 $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 

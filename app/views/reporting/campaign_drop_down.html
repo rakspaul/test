@@ -14,7 +14,7 @@
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
             <ul class="nav navbar-nav">
-                <li class="dropdown" data-ng-class="campaignData.campaigns.length > 0 ? '' : 'loadedDropdownData' ">
+                <li class="dropdown {{loading_icon_mediaplan}}" >
                     <ul class="dropdown-menu campaigns_list" role="menu" id="campaigns_list">
                         <div id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"

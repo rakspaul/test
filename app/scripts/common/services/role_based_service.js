@@ -31,9 +31,6 @@ define(['angularAMD'],
                                 }
                             };
 
-                        // Set timezone name based on timezone abbr for the given account
-                        momentService.setTimezoneName(response.data.data.timezone || 'EST', clientRoleObj);
-
                         if (response.data.data.i18n) {
                             clientRoleObj.locale = response.data.data.i18n.locale;
                             clientRoleObj.uiExclusions = uiExclusion(response.data.data.i18n.uiExclusions);
@@ -45,7 +42,6 @@ define(['angularAMD'],
 
                     setUserData = function (response) {
                         var userObj = {
-                            authorizationKey: response.data.data.auth_token,
                             preferred_client: response.data.data.preferred_client
                         };
 

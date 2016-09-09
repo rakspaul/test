@@ -208,7 +208,7 @@ div.reports_tabs_content_container {
 }
 
 .ReportDataFontColor() {
-    color: @lead-gray;
+    color: @raven;
     font-size: 14px;
 }
 
@@ -1067,7 +1067,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
             .inventory_chart_details_list {
                 width : 530px ;
                 > .cpa_col {
-                    width: 122px ;
+                    width: 88px ;
+                    margin-left: 20px ;
                     .dropdown_ul_text {
                         padding-right: 0 ;
                         padding-left: 0 ;
@@ -1462,6 +1463,7 @@ div.strategy_total_container {
         .each_quality.media_plan_totals {
             font-family: "Avenir-bold" ;
             margin-left: 40px ;
+            color: @raven;
         }
 
         .each_col.first_col {
@@ -1735,6 +1737,7 @@ div.strategy_total_container {
     .media_plan_totals {
         font-family: "Avenir-bold" ;
         margin-left: 50px ;
+        color: @raven;
     }
     .sort_order_down.active {
         &:hover{
@@ -1793,7 +1796,16 @@ div.strategy_total_container {
         .first_col {
             padding-left: 10px ;
         }
-    } 
+    }
+}
+#reports_bydiscrepancy_block {
+    .all_strategies_holder {
+        .each_strategy {
+            .first_col {
+                width: 100% ;
+            }
+        }
+    }
 }
 #reports_platform_viewability_block{
     .strategy_total_container_header {
@@ -2262,7 +2274,7 @@ div.strategy_total_container {
     }
     .impressions_col {
         text-align: right ;
-        padding-right: 45px ;
+        padding-right: 36px ;
     }
     .ad_col {
         .common_tooltip {
@@ -2573,8 +2585,6 @@ div.strategy_total_container {
 
     .icon_text_holder{
         padding-right: 17px;
-        cursor: pointer;
-
     }
 
     .sort_order_up {
@@ -2604,12 +2614,6 @@ div.strategy_total_container {
             color: @visto-blue;
         }
     }
-
-    .reports_platform_cost_block.reports_platform_header{
-
-    }
-
-
     .viewability_header{
         .platform_name_col.sort_order_up {
             cursor: pointer;
@@ -2736,7 +2740,7 @@ div.strategy_total_container {
             }
             &.quartile_data_platform {
                 .each_strategy_holder {
-                    div.sec_col { 
+                    div.sec_col {
                         width: 265px;
                     }
                 }
@@ -2809,7 +2813,7 @@ div.strategy_total_container {
                  /* padding:6px 20px 0px 20px;*/
             }
             .sepratorCls {
-                border-bottom: 2px solid #ccd9e3;
+                border-bottom: 1px solid #ccd9e3;
                 position:absolute;
                 top:0px;
                 left:0px;
@@ -2831,7 +2835,7 @@ div.strategy_total_container {
                 }
             }
             .sepratorCls_platform {
-                border-bottom: 2px solid #ccd9e3;
+                border-bottom: 1px solid #ccd9e3;
                 /*position: absolute;
                 top: 0px;
                 left: -15px;
@@ -3039,7 +3043,7 @@ div.strategy_total_container {
         }
     }
     #reports_byadsizes_block{
-        
+
         .vid_data_hdr {
             margin-left:1px
             width: 297px;
@@ -3242,7 +3246,7 @@ div.strategy_total_container {
         }
     }
     #reports_byscreens_block , #reports_byformats_block , #reports_byadsizes_block , #reports_bydaysofweek_block , #reports_bydiscrepancy_block , #reports_bycreatives_block  {
-        .first_col { 
+        .first_col {
             padding-left: 6px !important ;
         }
     }
@@ -3313,9 +3317,9 @@ div.strategy_total_container {
                     }
                  }
             }
-            
+
             div.each_col {
-                width : 115px ;
+                width : 97px ;
             }
             div.sec_col {
                 min-width: 70px ;
@@ -3326,11 +3330,11 @@ div.strategy_total_container {
                 }
             }
             .each_strategy_holder {
-                div.sec_col { 
+                div.sec_col {
                     width: 186px;
                 }
             }
-            
+
             div.sec_col.row_open {
                 width: 195px ;
                 &.vid_show{
@@ -3563,6 +3567,7 @@ div.strategy_total_container {
 
     .media_plan_totals {
         font-family: "Avenir-bold" ;
+        color: @raven;
     }
     .more_options .dd_txt , .dropdown-menu  {
         background: #fff ;
@@ -3830,7 +3835,10 @@ div.strategy_total_container {
         padding: 10px 15px;
     }
     .strategy_total_container_header {
-        padding: 15px 15px 5px;
+        padding: 0px !important ;
+        .each_row_list {
+            padding-left: 15px ;
+        }
     }
 
     .each_cost_col{
