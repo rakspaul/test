@@ -1,3 +1,4 @@
+whichCaller.changedrpval --> {{whichCaller.changedrpval}}
 <span class="dropdown_ul_text col-md-12 zeroPadding common_kpi_dropdown" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'"  style="margin-top: 3px;">
     <span class="icon-arrow-solid-down pull-right marginLeftFive"></span>
     <span data-ng-if="whichCaller.changedrpval === 'yes'" class="pull-right dd_txt">
@@ -27,7 +28,7 @@
               data-ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()">
         </span>
     </span>
-    <span data-ng-if="(whichCaller.changedrpval && whichCaller.changedrpval !== 'yes')" class="pull-right dd_txt" data-ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
+    <span data-ng-if="(whichCaller.changedrpval === '' || whichCaller.changedrpval !== 'yes')" class="pull-right dd_txt" data-ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
         <span data-ng-if="kpiData.selectedKpi !== 'impressions'"
               class="pull-right dd_txt_span"
               style="line-height: 100%;"
