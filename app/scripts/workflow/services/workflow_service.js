@@ -1404,8 +1404,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             setLineItemBulkData: setLineItemBulkData,
             getLineItemBulkData: getLineItemBulkData,
             wrapperForActiveAdGroups: wrapperForActiveAdGroups,
-            // setAccountTimeZone : setAccountTimeZone,
-            // getAccountTimeZone : getAccountTimeZone,
             getVerificationSettings: getVerificationSettings
         };
     }]);

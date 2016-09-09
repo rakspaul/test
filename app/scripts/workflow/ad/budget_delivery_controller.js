@@ -411,9 +411,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         $scope.selectVerificationSetting = function(setting) {
             $scope.adData.selectedSetting.name = setting.name;
             $scope.adData.selectedSetting.id = setting.id;
-
-            console.log('$scope.adData.selectedSetting',$scope.adData.selectedSetting);
-
         }
     }]);
 });
