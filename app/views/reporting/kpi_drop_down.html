@@ -27,7 +27,7 @@
               data-ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()">
         </span>
     </span>
-    <span data-ng-if="(whichCaller.changedrpval && whichCaller.changedrpval !== 'yes')" class="pull-right dd_txt" data-ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
+    <span data-ng-if="(whichCaller.changedrpval === '' || whichCaller.changedrpval !== 'yes')" class="pull-right dd_txt" data-ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
         <span data-ng-if="kpiData.selectedKpi !== 'impressions'"
               class="pull-right dd_txt_span"
               style="line-height: 100%;"
