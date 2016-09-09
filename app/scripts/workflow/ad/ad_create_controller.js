@@ -468,6 +468,26 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.adData.budgetAmount = Number(responseData.budgetValue);
             }
 
+            if (responseData.targetImpressions && responseData.targetImpressions >0) {
+                $scope.adData.targetImpressions = Number(responseData.targetImpressions)
+            }
+
+            if (responseData.targetClicks && responseData.targetClicks >0) {
+                $scope.adData.targetClicks = Number(responseData.targetClicks)
+            }
+
+            if (responseData.targetActions && responseData.targetActions >0) {
+                $scope.adData.targetActions = Number(responseData.targetActions)
+            }
+
+            if (responseData.autoCompute) {
+                $scope.adData.autoCompute = Number(responseData.autoCompute)
+            }
+
+            if (responseData.fetchValue) {
+                $scope.adData.fetchValue = Number(responseData.fetchValue)
+            }
+
             if (responseData.rateType) {
                 idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
                     return item.name === responseData.rateType;
@@ -500,8 +520,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     var freqType;
 
                     $scope.adData.setCap = true;
-                    $('.cap_yes').addClass('active');
-                    $('.cap_no').removeClass('active');
+                    $scope.enableFreqCap = true;
+                    $('.dynamicChkBox').addClass('after');
                     $('.cap_yes input').attr('checked', 'checked');
                     $scope.adData.quantity = frequencyCap.quantity;
                     $scope.capsPeriod = frequencyCap.frequencyType;
@@ -1443,27 +1463,22 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     }
 
                     if (formData.targetImpressions){
-                        console.log("setting imps");
                         postAdDataObj.targetImpressions = formData.targetImpressions;
                     }
 
                     if (formData.targetClicks){
-                        console.log("setting clicks");
                         postAdDataObj.targetClicks = formData.targetClicks;
                     }
 
                     if (formData.targetActions){
-                        console.log("setting actions");
                         postAdDataObj.targetActions = formData.targetActions;
                     }
 
                     if (formData.autoCompute) {
-                        console.log("setting autoCompute");
                         postAdDataObj.autoCompute = formData.autoCompute;
                     }
 
                     if (formData.fetchValue){
-                        console.log("setting fetchValue");
                         postAdDataObj.fetchValue = formData.fetchValue;
                     }
 
