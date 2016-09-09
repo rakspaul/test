@@ -379,8 +379,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 var index = _.findIndex($scope.adData.verificationSettings ,function(setting) {
                     return setting.id === responseData.verificationVendorConfigId;
                 });
-                $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[index].name;
-                $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[index].id;
+
+                if(index != -1) {
+                    $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[index].name;
+                    $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[index].id;
+                }
+
             }
 
             if (responseData.screens) {
