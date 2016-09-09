@@ -19,44 +19,61 @@
     <div class="modal-body">
         <!--Basic Form-->
         <div class="col-md-12 zeroPadding basicForm">
-            <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                <label class="col-sm-12 greyTxt">Advertiser:</label>
-                <div class="col-md-12 zeroPadding dropdown-workflow">
-                    <div class="dropdown">
-                        <button id="advertiser"
-                                class="btn btn-default dropdown-toggle"
-                                type="button"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="true">
-                            <span class="text"
-                                  data-ng-bind="selectedAdvertiser ? selectedAdvertiser : 'Select Advertiser'">
-                            </span>
-                            <span class="icon-arrow-solid-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available"
-                                value="{{advertiser.id}}"
-                                data-ng-repeat="advertiser in advertisersData"
-                                data-ng-click="selectAdvertiser(advertiser)">
-                                <a data-ng-bind="advertiser.name"></a>
-                            </li>
-                        </ul>
+            <div id="advertisersWrapper" class="clearfix">
+                <div class="form-group col-md-4 zeroPadding">
+                    <label class="col-sm-12 greyTxt">Advertiser:</label>
+                    <div class="advertiser-selected"
+                         id="advertiserSelected"
+                         data-ng-click="showAdvertisersDropDown($event)"
+                         title="{{selectedAdvertiser ? 'Click to select another Advertiser' : 'Click to select Advertiser'}}"
+                         data-ng-bind="(selectedAdvertiser && selectedAdvertiserId ? selectedAdvertiser : 'Select Advertiser')">
+                    </div>
+                    <span class="icon-arrow-solid-down" data-ng-click="showAdvertisersDropDown($event)"></span>
+                </div>
+                <div class="clearfix col-md-12" style="padding: 0;">
+                    <div class="advertisersDropdownSearch dropdown-workflow clearfix"
+                         id="advertisersDropdownListWrapper"
+                         data-ng-class="advertisersData.length > 0 ? '' : 'loadedDropdownData'">
+                        <div class="admin-advertisers-dropdown-menu col-md-4"
+                             role="menu"
+                             id="adminAdvertisersDropDownList">
+                            <div id="advertisersDropdownDiv">
+                                <input class="dropdown-toggle1"
+                                       id="advertisersSearchBox"
+                                       data-ng-keyup="searchAdvertisers($event);"
+                                       data-ng-model="advertisersQuery"
+                                       placeHolder="{{(advertisersQuery ? advertisersQuery : 'Search Advertiser')}}">
+                            </div>
+                            <div id="dropdown">
+                                <ul class="advertisers-list" lr-infinite-scroll="loadMoreAdvertisers">
+                                    <li class="common-loading-area" data-ng-show="advertisersLoading"></li>
+                                    <li data-ng-repeat="advertiser in advertisersData"
+                                        class="menuItemText {{advertiser.id === selectedAdvertiserId ? ' active' : ''}}"
+                                        data-ng-bind="advertiser.name"
+                                        data-ng-selected="{{advertiser.id === selectedAdvertiserId}}"
+                                        data-ng-click="selectAdvertiserAndClose(advertiser)"
+                                        title="{{advertiser.name}}">
+                                    </li>
+                                    <li class="common-loading-area" data-ng-show="advertisersData.length > 0 && !noMoreAdvertisersToLoad"></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 zeroPadding campaignUrl">
-                <label class="col-sm-12 greyTxt" data-ng-bind="'Advertiser Url'"></label>
-                <div class="form-group col-md-12 zeroPadding">
-                    <input type="text"
-                           style="width: 100%;"
-                           data-ng-change="urlValidation=''"
-                           data-ng-blur="validateURL(advertiserData.companyUrl)"
-                           data-ng-model="advertiserData.companyUrl">
+                <!-- -->
+                <div class="col-md-12 zeroPadding campaignUrl">
+                    <label class="col-sm-12 greyTxt" data-ng-bind="'Advertiser Url'"></label>
+                    <div class="form-group col-md-12 zeroPadding">
+                        <input type="text"
+                               style="width: 100%;"
+                               data-ng-change="urlValidation=''"
+                               data-ng-blur="validateURL(advertiserData.companyUrl)"
+                               data-ng-model="advertiserData.companyUrl">
+                    </div>
                 </div>
+                <div class="col-md-12 zeroPadding errorText" data-ng-show="urlValidation" data-ng-bind="urlValidation"></div>
             </div>
-            <div class="col-md-12 zeroPadding errorText" data-ng-show="urlValidation" data-ng-bind="urlValidation">
-            </div>
+            <!-- -->
             <div class="adChoices">
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Ad Choices</h1>
