@@ -27,24 +27,26 @@
               data-ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()">
         </span>
     </span>
-    <span data-ng-if="(whichCaller.changedrpval === '' || whichCaller.changedrpval !== 'yes')" class="pull-right dd_txt" data-ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
-        <span data-ng-if="kpiData.selectedKpi !== 'impressions'"
-              class="pull-right dd_txt_span"
-              style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName"
-              title="{{kpiData.selectedKpiDisplayName}}">
-        </span>
-        <span data-ng-if="kpiData.selectedKpi === 'impressions'"
-              data-ng-init="changeClickedSelectedKpiAlt('ctr')"
-              class="pull-right dd_txt_span"
-              style="line-height: 100%;"
-              data-ng-bind="kpiData.selectedKpiDisplayName"
-              title="{{kpiData.selectedKpiDisplayName}}">
-        </span>
-        <span data-ng-class="{vid_none_hdr_hide:whichCaller.changedrpval === 'yes'}"
-              class="default-kpi-header-icon pull-right"
-              tooltip="Primary KPI"
-              data-ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()">
+    <span data-ng-if="(whichCaller.changedrpval !== 'yes')" class="pull-right dd_txt" >
+        <span data-ng-init="changeClickedSelectedKpiAlt(campaign_default_kpi_type)">
+            <span data-ng-if="kpiData.selectedKpi !== 'impressions'"
+                  class="pull-right dd_txt_span"
+                  style="line-height: 100%;"
+                  data-ng-bind="kpiData.selectedKpiDisplayName"
+                  title="{{kpiData.selectedKpiDisplayName}}">
+            </span>
+            <span data-ng-if="kpiData.selectedKpi === 'impressions'"
+                  data-ng-init="changeClickedSelectedKpiAlt('ctr')"
+                  class="pull-right dd_txt_span"
+                  style="line-height: 100%;"
+                  data-ng-bind="kpiData.selectedKpiDisplayName"
+                  title="{{kpiData.selectedKpiDisplayName}}">
+            </span>
+            <span data-ng-class="{vid_none_hdr_hide:whichCaller.changedrpval === 'yes'}"
+                  class="default-kpi-header-icon pull-right"
+                  tooltip="Primary KPI"
+                  data-ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()">
+            </span>
         </span>
     </span>
 </span>
