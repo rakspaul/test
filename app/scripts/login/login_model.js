@@ -14,9 +14,7 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             updateRedirectUrl = function (redirectPath) {
-                console.log('redirectPath = ', redirectPath, ', constants.COOKIE_REDIRECT = ', constants.COOKIE_REDIRECT);
                 if (['/', '/login'].indexOf(redirectPath) === -1) {
-                    console.log('login YES')
                     $cookieStore.put(constants.COOKIE_REDIRECT, redirectPath);
                 }
             };
@@ -55,12 +53,6 @@ define(['angularAMD'], function (angularAMD) {
 
         // This is to ensure the cookie's path is set to the domain root path
         setCookie('cdesk_session', readCookie('cdesk_session'));
-        
-        // TODO: Temp console.log
-        console.log('login(): readCookie = ', readCookie('cdesk_session'));
-        console.log('Login(), cookies = ', $cookies,
-            ', cdesk_session = ', $cookieStore.get('cdesk_session'),
-            ', document.cookie = ', document.cookie);
 
         return {
             deleteData: function () {
@@ -237,10 +229,6 @@ define(['angularAMD'], function (angularAMD) {
 
                 // 'Manually' delete cookie using pure JS if AngularJS failed to delete it
                 deleteCookie('cdesk_session');
-                // TODO: Temp console.log. Remove after testing is done.
-                console.log('Logout(), cookies = ', $cookies,
-                    ', cdesk_session = ', $cookieStore.get('cdesk_session'),
-                    ', document.cookie = ', document.cookie);
 
                 // remove header bar on login page
                 $('.main_navigation_holder').hide();

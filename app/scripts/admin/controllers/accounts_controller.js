@@ -164,7 +164,7 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                         });
                 }
 
-                // TODO: Brands & Advertisers data init here
+                // Brands & Advertisers data init here
                 $scope.brandsData = [];
                 $scope.brandsPageSize = 20;
                 $scope.brandsPageNo = 0;
@@ -172,12 +172,12 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 $scope.noMoreBrandsToLoad = false;
                 $scope.brandsLoading = false;
                 $scope.advertisersData = [];
-                $scope.advertisersPageSize = 20;
+                $scope.advertisersPageSize = 30;
                 $scope.advertisersPageNo = 0;
                 $scope.advertisersQuery = '';
                 $scope.noMoreAdvertisersToLoad = false;
                 $scope.advertisersLoading = false;
-                // TODO: End of Brands & Advertisers data init here
+                // End of Brands & Advertisers data init here
 
                 $scope.pixelIndex = null;
                 $scope.pixelFormData = {
