@@ -102,6 +102,60 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
+             getClientBillingTypes =  function () {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/client_billing_types',
+                    {cache: false}
+                );
+            },
+
+            getAdvertiserBillingTypes =  function () {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertiser_billing_types',
+                    {cache: false}
+                );
+            },
+
+
+            getClientBillingSettings =  function (clientId) {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/billing_settings',
+                    {cache: false}
+                );
+            },
+
+            getAdvertiserBillingSettings =  function (clientId) {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertiser_billing_settings',
+                    {cache: false}
+                );
+            },
+
+             getClientBillingData = function(clientid){
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing';
+
+                    return dataService.fetch(url);
+            },
+
+            updateClientBillingData = function(data){
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing';
+
+                    return dataService.post(url, data);
+            },
+
+            insertClientBillingData = function(data){
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing';
+
+                    return dataService.put(url, data);
+            },
+
+
             updateAdvertiser =  function (data) {
                 return dataService.put(
                         vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/' + data.id,
@@ -473,6 +527,11 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getUserAdvertiser : getUserAdvertiser,
             getUserBrands : getUserBrands,
             getUserPages : getUserPages,
+            getClientBillingTypes : getClientBillingTypes,
+            getAdvertiserBillingTypes : getAdvertiserBillingTypes,
+            getClientBillingSettings : getClientBillingSettings,
+            getAdvertiserBillingSettings : getAdvertiserBillingSettings,
+            getBillingTypes : getBillingTypes,
             initCounter : initCounter,
             setCounter : setCounter,
             getCounter : getCounter,

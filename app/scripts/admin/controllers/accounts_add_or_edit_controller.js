@@ -1,18 +1,97 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../../workflow/services/account_service', 'common/services/constants_service'],
+define(['angularAMD', 'admin-account-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService,
-                                                             constants) {
+        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants',
+            function ($scope, $rootScope, $modalInstance, adminAccountsService, constants) {
             var _currCtrl = this,
                 selectedBillingTypeName;
+
+               //temp list for dev until list in DB is populated    
+            var billingTypesList = [
+                            {
+                              "id": 18,
+                              "name": "COGS+ %",
+                              "abbreviatedName": "COGS+%",
+                              "description": "COGS plus Percentage Markup",
+                              "billing": false
+                            },
+                            {
+                              "id": 19,
+                              "name": "COGS+ CPM",
+                              "abbreviatedName": "COGS+CPM",
+                              "description": "COGS plus CPM Markup",
+                              "billing": false
+                            },
+                            {
+                              "id": 17,
+                              "name": "CPM",
+                              "abbreviatedName": "CPM",
+                              "description": "Cost Per Mille",
+                              "billing": false
+                            },
+                            {
+                              "id": 16,
+                              "name": "Monthly Flat Fees",
+                              "abbreviatedName": "Flat Fees",
+                              "description": "Flat Fees charged every Month",
+                              "billing": false
+                            },
+                            {
+                              "id": 20,
+                              "name": "% of Gross Revenue",
+                              "abbreviatedName": "%GR",
+                              "description": "Gross Revenue percentage",
+                              "billing": false
+                            },
+                            {
+                              "id": 21,
+                              "name": "% of Net Revenue",
+                              "abbreviatedName": "%NR",
+                              "description": "Net Revenue percentage",
+                              "billing": false
+                            },
+                            {
+                              "id": 22,
+                              "name": "CPC",
+                              "abbreviatedName": "CPC",
+                              "description": "Cost Per Click",
+                              "billing": false
+                            },
+                            {
+                              "id": 23,
+                              "name": "CPA",
+                              "abbreviatedName": "CPA",
+                              "description": "Cost Per Action",
+                              "billing": false
+                            },
+                            {
+                              "id": 24,
+                              "name": "CPCV",
+                              "abbreviatedName": "CPCV",
+                              "description": "Cost Per CV",
+                              "billing": false
+                            },
+                            {
+                              "id": 25,
+                              "name": "Monthly Flat Fees and Percentage",
+                              "abbreviatedName": "Flat Fees+%",
+                              "description": "Flat Fees charged every Month",
+                              "billing": false
+                            }
+
+                          ];
+            var rateTypeIds = [constants.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID,
+                                         constants.BILLING_TYPE_COGS_PLUS_CPM_ID,
+                                         constants.BILLING_TYPE_CPM_ID,
+                                         constants.BILLING_TYPE_MONTHLY_FLAT_FEES_ID,
+                                         constants.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID,
+                                         constants.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID];
 
             _currCtrl.isAdChoiceInClient = false;
 
             _currCtrl.getAdChoiceData = function () {
-                accountsService
+                adminAccountsService
                     .getAdChoiceDataFromClient($scope.clientObj.id)
                     .then(function (res) {
                         _currCtrl.isAdChoiceInClient = false;
@@ -39,7 +118,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     code: $scope.adChoiceCode
                 };
 
-                accountsService
+                adminAccountsService
                     .saveAdChoiceDataForClient($scope.clientObj.id, reqBody)
                     .then(null, function (err) {
                         console.log('ERROR = ', err);
@@ -147,7 +226,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             }
 
             function getCountries() {
-                accountsService
+                adminAccountsService
                     .getCountries()
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
@@ -158,18 +237,20 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
             function getTimezones() {
                 $scope.timezones = {
-                    EST          : 'Eastern Standard Time (GMT-05:00)',
+                     EST          : 'Eastern Standard Time (GMT-05:00)',
                     'US/Eastern' : 'Eastern Time',
+                    'US/Alaska'  : 'Alaska Time',
+                    'US/Hawaii'  : 'Hawaii Time',
                     'US/Central' : 'Central Time',
                     'US/Mountain': 'Mountain Time',
                     'US/Pacific' : 'Pacific Time',
-                     UTC          : 'GMT',
-                     GB           : 'British Summer Time'
+                     UTC         : 'GMT',
+                     GB          : 'British Summer Time'
                 };
             }
 
             function createClient(body) {
-                accountsService
+                adminAccountsService
                     .createClient(body)
                     .then(function (adv) {
                         if (adv.status === 'OK' || adv.status === 'success') {
@@ -182,7 +263,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             }
 
             function getBillingTypes() {
-                accountsService
+                adminAccountsService
                     .getBillingTypes()
                     .then(function (res) {
                         var billingTypes;
@@ -245,6 +326,405 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             getCountries();
             getTimezones();
 
+
+
+            function mapBillingSettingTypes(settings){
+                var settingsMap = {};
+
+                _.each(settings, function(item,index){
+                    switch(item.abbreviatedName){
+                        case 'COGS+%':
+                            settingsMap.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID = item.id;
+                            break;
+
+                        case 'COGS+CPM':
+                            settingsMap.BILLING_TYPE_COGS_PLUS_CPM_ID = item.id;
+                            break;
+
+                        case 'CPM':
+                            settingsMap.BILLING_TYPE_CPM_ID = item.id;
+                            break;
+
+                        case 'CPC':
+                            settingsMap.BILLING_TYPE_CPC_ID = item.id;
+                            break;
+
+                        case 'CPCV':
+                            settingsMap.BILLING_TYPE_CPCV_ID = item.id;
+                            break;
+
+                        case 'CPA':
+                            settingsMap.BILLING_TYPE_CPA_ID = item.id;
+                            break;
+
+                        case 'Flat Fees':
+                            settingsMap.BILLING_TYPE_MONTHLY_FLAT_FEES_ID = item.id;
+                            break;
+
+                        case '%GR':
+                            settingsMap.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID = item.id;
+                            break;
+
+                        case '%NR':
+                            settingsMap.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID = item.id;
+                            break;
+
+                         case 'Flat Fees+%':
+                            settingsMap.BILLING_TYPE_FLATFEE_PERCENTAGE_ID = item.id;
+                            break;
+                    }
+                 });
+
+                return settingsMap;
+            }
+
+            function getClientBillingTypes() {
+                adminAccountsService
+                    .getClientBillingTypes()
+                    .then(function (res) {
+                        var clientBillingTypesData;
+
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                            clientBillingTypesData = res.data.data;
+                            if(clientBillingTypesData.length < 1) clientBillingTypesData = billingTypesList;
+
+                            $scope.clientBillingTypes = mapBillingSettingTypes(clientBillingTypesData);   
+                            $scope.clientBillingTypesData = clientBillingTypesData;    
+                           } 
+                        }
+
+                    , function (err) {
+                        console.log('Error = ', err);
+                    });
+             }
+
+                 function getAdvertiserBillingTypes() {
+                adminAccountsService
+                    .getAdvertiserBillingTypes()
+                    .then(function (res) {
+                        var advertiserBillingTypesData;
+
+                        advertiserBillingTypesData = [
+                            {
+                              "id": 18,
+                              "name": "COGS+ %",
+                              "abbreviatedName": "COGS+%",
+                              "description": "COGS plus Percentage Markup",
+                              "billing": false
+                            },
+                            {
+                              "id": 19,
+                              "name": "COGS+ CPM",
+                              "abbreviatedName": "COGS+CPM",
+                              "description": "COGS plus CPM Markup",
+                              "billing": false
+                            },
+                            {
+                              "id": 17,
+                              "name": "CPM",
+                              "abbreviatedName": "CPM",
+                              "description": "Cost Per Mille",
+                              "billing": false
+                            },
+                            {
+                              "id": 16,
+                              "name": "Monthly Flat Fees",
+                              "abbreviatedName": "Flat Fees",
+                              "description": "Flat Fees charged every Month",
+                              "billing": false
+                            },
+                            {
+                              "id": 20,
+                              "name": "% of Gross Revenue",
+                              "abbreviatedName": "%GR",
+                              "description": "Gross Revenue percentage",
+                              "billing": false
+                            },
+                            {
+                              "id": 21,
+                              "name": "% of Net Revenue",
+                              "abbreviatedName": "%NR",
+                              "description": "Net Revenue percentage",
+                              "billing": false
+                            },
+                            {
+                              "id": 22,
+                              "name": "CPC",
+                              "abbreviatedName": "CPC",
+                              "description": "Cost Per Click",
+                              "billing": false
+                            },
+                            {
+                              "id": 23,
+                              "name": "CPA",
+                              "abbreviatedName": "CPA",
+                              "description": "Cost Per Action",
+                              "billing": false
+                            },
+                            {
+                              "id": 24,
+                              "name": "CPCV",
+                              "abbreviatedName": "CPCV",
+                              "description": "Cost Per CV",
+                              "billing": false
+                            },
+                            {
+                              "id": 25,
+                              "name": "Monthly Flat Fees and Percentage",
+                              "abbreviatedName": "Flat Fees+%",
+                              "description": "Flat Fees charged every Month",
+                              "billing": false
+                            }
+
+                          ];
+
+                        $scope.advertiserBillingTypes =  mapBillingSettingTypes(advertiserBillingTypesData);
+                        $scope.advertiserBillingTypesData = advertiserBillingTypesData;
+
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                            advertiserBillingTypesData = res.data.data;
+
+                             $scope.advertiserBillingTypes =  mapBillingSettingTypes(advertiserBillingTypesData);
+                          
+                           }
+                        }
+                    , function (err) {
+                        console.log('Error = ', err);
+                    });
+             }
+
+               function getClientBillingSettings(clientId){
+                          adminAccountsService
+                    .getClientBillingSettings(clientId)
+                    .then(function (res) {
+                        var clientBillingSettings;
+
+                        clientBillingSettings =  [
+                        {
+                          "id": 1,
+                          "clientId": clientId,
+                          "rateTypeId": 20,
+                          "rate": 11.2345,
+                          "startTime": "2016-08-28 16:47:42.773",
+                          "endTime": "2018-08-30 16:47:42.774",
+                          "slice1Label": "Label 1",
+                          "slice1Value": 1.2,
+                          "slice2Label": "Label 2",
+                          "slice2Value": 8.03,
+                          "slice3Label": "Label 3",
+                          "slice3Value": 2.004,                         
+                          "createdAt": "2016-08-30 16:43:34.648",
+                          "updatedAt": "2016-09-01 06:35:20.037"
+                        },                      
+                        {
+                          "id": 9,
+                          "clientId": clientId,
+                          "rateTypeId": 16,
+                          "rate": 40000,
+                          "slice1Label": "Flat Fees",
+                          "slice1Value": 40000
+                        }
+                      ];
+                      
+                     $scope.clientBillingSettings = {};
+                      _.each(clientBillingSettings, function(item,index){
+
+                             item.slices = [];
+                             
+                             for(var i = 1; i < constants.CLIENT_BILLING_SLICE_LIMIT + 1; i++){
+                                var sliceLabel = item['slice' + i + 'Label'];
+                                var sliceValue = item['slice' + i + 'Value'];
+
+                                if(typeof sliceLabel !== 'undefined' && sliceLabel != ''){
+                                    item.slices.push({'label' : sliceLabel, 'value' : sliceValue})
+                                }                                
+                             }
+
+                             if(item.slices.length > 0)
+                                item.itemize = true;
+                             else{
+                                    item.slices.push({'label':'', 'value':''});
+                                    item.itemize = false;
+                                 }
+
+                             $scope.clientBillingSettings[item.rateTypeId]=item;
+                      }); 
+
+                      _.each($scope.clientBillingTypes, function(item,index){
+                        var rateTypeId = item;
+                        
+                        if(!$scope.clientBillingSettings[rateTypeId]){
+                            $scope.clientBillingSettings[rateTypeId] = {};
+                            $scope.clientBillingSettings[rateTypeId].slices = [{'label':'', 'value':''}];
+                        }
+                      });
+
+                        //$scope.clientBillingSettings = clientBillingSettings;
+
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                            //clientBillingSettings = res.data.data;
+
+                           // $scope.clientBillingData =  clientBillingData;
+                          
+                           }
+                        }
+                    , function (err) {
+                        console.log('Error = ', err);
+                    });
+
+            }
+
+
+            function getAdvertiserBillingSettings(clientId){  
+                     adminAccountsService
+                    .getAdvertiserBillingSettings(clientId)
+                    .then(function (res) {
+                        var advertiserBillingSettings;
+
+                        advertiserBillingSettings =  [
+                        {
+                          "id": 1,
+                          "clientId": clientId,
+                          "rateTypeId": 20,
+                          "rate": 11.2345,
+                          "startTime": "2016-08-28 16:47:42.773",
+                          "endTime": "2018-08-30 16:47:42.774",
+                          "slice1Label": "Label 1",
+                          "slice1Value": 1.2,
+                          "slice2Label": "Label 2",
+                          "slice2Value": 8.03,
+                          "slice3Label": "Label 3",
+                          "slice3Value": 2.004,                         
+                          "createdAt": "2016-08-30 16:43:34.648",
+                          "updatedAt": "2016-09-01 06:35:20.037"
+                        },
+                        {
+                          "id": 9,
+                          "clientId": clientId,
+                          "rateTypeId": 17,
+                          "rate": 40000,
+                          "slice1Label": "Flat Fees",
+                          "slice1Value": 40000
+                        },
+                           {
+                          "id": 4,
+                          "clientId": clientId,
+                          "rateTypeId": 22,
+                          "rate": .02,
+                          "startTime": "2016-08-28 16:47:42.773",
+                          "endTime": "2018-08-30 16:47:42.774",
+                          "slice1Label": "Label 1",
+                          "slice1Value": 0.1,
+                          "slice2Label": "Label 2",
+                          "slice2Value": 0.05,
+                          "slice3Label": "Label 3",
+                          "slice3Value": 0.05,                         
+                          "createdAt": "2016-08-30 16:43:34.648",
+                          "updatedAt": "2016-09-01 06:35:20.037"
+                        },
+                         {
+                          "id": 14,
+                          "clientId": clientId,
+                          "rateTypeId": 23,
+                          "rate": .04,
+                          "startTime": "2016-08-28 16:47:42.773",
+                          "endTime": "2018-08-30 16:47:42.774",
+                          "slice1Label": "Label 1",
+                          "slice1Value": 0.2,
+                          "slice2Label": "Label 2",
+                          "slice2Value": 0.1,
+                          "slice3Label": "Label 3",
+                          "slice3Value": 0.1,                         
+                          "createdAt": "2016-08-30 16:43:34.648",
+                          "updatedAt": "2016-09-01 06:35:20.037"
+                        }
+                      ];
+                                           
+
+                      $scope.advertiserBillingSettings = {};
+                      _.each(advertiserBillingSettings, function(item,index){
+
+                             item.slices = [];
+                             
+                             for(var i = 1; i < constants.CLIENT_BILLING_SLICE_LIMIT + 1; i++){
+                                var sliceLabel = item['slice' + i + 'Label'];
+                                var sliceValue = item['slice' + i + 'Value'];
+
+                                if(typeof sliceLabel !== 'undefined' && sliceLabel != ''){
+                                    item.slices.push({'label' : sliceLabel, 'value' : sliceValue})
+                                }                                
+                             }
+
+                             if(item.slices.length > 0)
+                                item.itemize = true;
+                             else{
+                                    item.slices.push({'label':'', 'value':''});
+                                    item.itemize = false;
+                                 }
+
+                             $scope.advertiserBillingSettings[item.rateTypeId]=item;
+                      }); 
+
+                      _.each($scope.advertiserBillingTypes, function(item,index){
+                        var rateTypeId = item;
+                        
+                        if(!$scope.advertiserBillingSettings[rateTypeId]){
+                            $scope.advertiserBillingSettings[rateTypeId] = {};
+                            $scope.advertiserBillingSettings[rateTypeId].slices = [{'label':'', 'value':''}];
+                          }
+                       });
+                       $scope.advertiserBillingSettings =  advertiserBillingSettings;
+                        //$scope.clientBillingSettings = clientBillingSettings;
+
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                            //advertiserBillingSettings = res.data.data;
+
+                            //$scope.advertiserBillingSettings =  advertiserBillingSettings;
+                          
+                           }
+
+               
+                        }
+                    , function (err) {
+                        console.log('Error = ', err);
+                    });
+
+            }
+
+            $scope.addItemizationItem = function(itemizationArray){
+                itemizationArray.push({'label' : '', 'value' : ''});
+            }
+
+
+            $scope.deleteItemizationItem = function(itemizationArray,index){
+               itemizationArray = itemizationArray.splice(index,1);
+            }
+
+             $scope.getClientBillingData = function(clientId){
+                   adminAccountsService
+                    .getClientBillingData(clientId)
+                    .then(function (res) {
+                        
+                        if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                            rateTypes = res.data.data;
+
+                            $scope.rateTypes =  rateTypes;
+                          
+                           }
+                        }
+                    , function (err) {
+                        console.log('Error = ', err);
+                    });
+            };
+
+            getBillingTypes();
+            getClientBillingTypes();   
+            getAdvertiserBillingTypes();           
+            getClientBillingSettings($scope.clientObj.id);
+            getAdvertiserBillingSettings($scope.clientObj.id);
+
+
+
             $scope.selectedBillingTypeChanged = function (billingType) {
                 $scope.billingData.serviceFees.billingTypeId = billingType.id;
                 $scope.billingData.serviceFees.billingTypeName = billingType.name;
@@ -283,7 +763,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     return;
                 }
 
-                accountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
+                adminAccountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.clientCodeExist = result.data.data.isExists;
                     }
@@ -294,7 +774,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
             $scope.getClientCode = function() {
                 if ($scope.clientName) {
-                    accountsService
+                    adminAccountsService
                         .getUserClientCode($scope.clientName)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
@@ -329,10 +809,10 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 }
 
                 if ($scope.mode === 'edit') {
-                    clientObj =  accountsService.getToBeEditedClient();
+                    clientObj =  adminAccountsService.getToBeEditedClient();
                     body = constructRequestBody(clientObj);
 
-                    accountsService
+                    adminAccountsService
                         .updateClient(body, body.id)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
@@ -355,7 +835,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                         });
                 } else {
                     if ($scope.isCreateTopClient) {
-                        accountsService
+                        adminAccountsService
                             .createBillableAccount(createBillableBody())
                             .then(function (result) {
                                 if (result.status === 'OK' || result.status === 'success') {
@@ -369,7 +849,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                                 console.log('Error = ', err);
                             });
                     } else {
-                        accountsService
+                        adminAccountsService
                             .getClient($scope.clientObj)
                             .then(function (res) {
                                 if (res.status === 'OK' || res.status === 'success') {
@@ -449,8 +929,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 .then(function () {
                     $('popup-msg').appendTo(document.body);
                 });
-                
-            //Add and Edit Show-Hide
+
+                  //Add and Edit Show-Hide
             $scope.noFeeBill = function() {
                 $(".licenseFee").hide();
                 $(".noFeeBill").addClass("active");
@@ -463,9 +943,10 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $(".noFeeBill").removeClass("active");
             }
             
-            $scope.feeSlotToggle = function (slot) {
+            $scope.feeSlotToggle = function (billingType) {
                 $(".billingMethodSlot").hide();
-                $("." + slot).show();
+                $(".feeSlot" + billingType.id).show();
+                $scope.billingTypeName = billingType.name;
             }
             
             $scope.arbitrageBill = function() {
@@ -481,6 +962,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 $(".cogsBill").addClass("active");
                 $(".arbitrageBill").removeClass("active");
             }
-        });
+
+        }]);
     }
 );
