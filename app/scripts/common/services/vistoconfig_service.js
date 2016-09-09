@@ -76,7 +76,7 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.kpiList = [
-            //{kpiType: 'ACTION RATE',                displayName: 'Action Rate'},
+            {kpiType: 'ACTION RATE',                displayName: 'Action Rate'},
             {kpiType: 'CPA',                        displayName: 'CPA'},
             {kpiType: 'CPC',                        displayName: 'CPC'},
             {kpiType: 'CPM',                        displayName: 'CPM'},
