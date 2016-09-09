@@ -1,0 +1,224 @@
+<!--Pixel View-->
+<div class="col-md-12 zeroPadding" style="margin-bottom: 30px;">
+    <div id="pixelsCnt">
+        <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
+            <h2 class="pull-left" style="width: 50%;">Pixels</h2>
+            
+            <div class="btn-group create pull-right" role="group" aria-label="...">
+                <!--Search Input-->
+                <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
+                   style="border-left: 0px;">
+                    <span class="icon-download"></span>
+                    <span>Download Selected Pixels</span>
+                </a>
+                <a role="button" class="btn btn-default pull-right" data-ng-click="addPixel();">
+                    <span class="icon-plus"></span><span>Add Pixels</span>
+                </a>
+                <span class="pull-right"
+                      data-ng-bind="advertiserData.pixels.length + ' Pixels'"
+                      style="font-size: 12px; margin: 9px 10px 0 0;">
+                </span>
+            </div>
+        </div>
+
+        <!--Create Pixel Form-->
+        <div class="pixelCreate" style="display: none">
+            <!--Why do we have this clear pixel here? We have a remove pixel below if thats whats missing-->
+            <!--<div class="delete_row delete_row_pixel" data-ng-click="clearPixel()"></div>-->
+            <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt" for="pixelName">Pixel Name:</label>
+                <input type="text"
+                       id="pixelName"
+                       class="form-control"
+                       maxlength="128"
+                       data-ng-model="pixelFormData.name"
+                       special-character="special-character"
+                       data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
+                <label class="errorText"
+                       style="margin-top: 6px"
+                       data-ng-bind="'Duplicate Entry'"
+                       data-ng-if="advertiserAddOrEditData.duplicatePixelName">
+                </label>
+            </div>
+            <div class="form-group col-md-4" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Pixel Type:</label>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown" style="margin: 0;">
+                        <button class="btn btn-default dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                data-ng-disabled="isEditMode && pixelFormData.id"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            <span class="text" data-ng-bind="pixelFormData.pixelTypeName"></span>
+                            <span class="icon-arrow-solid-down"></span>
+                        </button>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="unitcostType"
+                            data-ng-model="adData.unitType"
+                            id="unitcostType"
+                            data-toggle="dropdown">
+                            <li>
+                                <a data-ng-click="pixelFormData.pixelType = 'PAGE_VIEW';
+                                                  pixelFormData.pixelTypeName = 'Action - Page View'"
+                                   data-ng-bind="'Action - Page View'">
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ng-click="pixelFormData.pixelTypeName = 'Audience Creation Pixel';
+                                                  pixelFormData.pixelType='AUDIENCE_CREATION'"
+                                   data-ng-bind="'Audience Creation Pixel'">
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ng-click="pixelFormData.pixelTypeName = 'Retargeting Pixel';
+                                                  pixelFormData.pixelType='RETARGETING'"
+                                   data-ng-bind="'Retargeting Pixel'">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                <label class="col-sm-12 greyTxt" for="pixelExpDate" style="display: block;">
+                    Pixel Expiration Date:
+                </label>
+                <div class="col-md-12 input-daterange input-group date pull-left">
+                    <div class="col-md-12 dateWrapper">
+                        <input type="text"
+                               id="pixelExpDate"
+                               class="input-sm form-control timeframe"
+                               custom-date-picker="{
+                                   format: 'yyyy/mm/dd',
+                                   orientation: 'auto',
+                                   autoclose: true,
+                                   todayHighlight: true,
+                                   forceParse: false
+
+                               }"
+                               style="position: absolute; z-index: 10; top: 0; right: 0; background: transparent;"
+                               data-ng-model="pixelFormData.expiryDate"
+                               required>
+                        <div class="col-md-12 zeroPadding"
+                             style="background: #fff; height: 36px; border-radius: 2px;">
+                            <i class="icon-calendar pull-right" style="margin: 9px 11px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt">Impression Look Back:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Add value"
+                       value="14"
+                       data-ng-model="pixelFormData.impLookbackWindow"
+                       data-ng-keyup="pixelFormData.impLookbackWindow > 30 ?
+                                      pixelFormData.impLookbackWindow = 30 :
+                                      (pixelFormData.impLookbackWindow < 0) ?
+                                      pixelFormData.impLookbackWindow = 14 : ''">
+            </div>
+            <div class="form-group col-md-2" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Click Look Back:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Add value"
+                       value="14"
+                       data-ng-model="pixelFormData.clickLookbackWindow"
+                       data-ng-keyup="pixelFormData.clickLookbackWindow > 30 ?
+                                      pixelFormData.clickLookbackWindow = 30 :
+                                      (pixelFormData.clickLookbackWindow < 0) ?
+                                      pixelFormData.clickLookbackWindow = 14 : ''">
+            </div>
+            <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
+                <label class="col-sm-12 greyTxt" for="pixeldesc">Description</label>
+                <textarea id="pixelDesc"
+                          class="form-control"
+                          data-ng-model="pixelFormData.description">
+                </textarea>
+            </div>
+
+            <div class="form-group col-md-6 zeroPadding">
+                <!--Segment Name-->
+                <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
+                    <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
+                    <input class="col-md-12 zeroPadding" style="border-width: 0; background: transparent;"
+                          value="{{pixelFormData.segmentName}}" />
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 zeroPadding" style="margin: 15px 0;">
+                <a class="pull-right btn btn-default"
+                    data-ng-click="savePixel()"
+                    data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
+                    Save Pixel
+                </a>
+                <a class="pull-right btn btn-link" data-ng-click="cancelPixel();" aria-label="Close">Cancel</a>
+                <a class="pull-right btn btn-default"
+                    data-dismiss="modal"
+                    data-ng-if="pixelIndex !== null && advertiserData.pixels[pixelIndex].isFeedData !== true"
+                    data-ng-click="removePixel();"
+                    aria-label="Close">
+                    Remove Pixel
+                </a>
+            </div>
+        </div>
+
+        <div class="pixelTable">
+            <div class="table-responsive user-list animated" id="table_responsive">
+                <div class="vistoTable" id="visto_table">
+                    <div class="thead thin">
+                        <div class="tr">
+                            <div class="col-md-3 th">Pixel Name</div>
+                            <div class="col-md-3 th">Pixel Type</div>
+                            <div class="col-md-2 th">Impression Look</div>
+                            <div class="col-md-1 th">Click Look</div>
+                            <div class="col-md-2 th">Pixel Expiration Date</div>
+                            <div class="col-md-1 th text-center">
+                                <span class="col-md-12 zeroPadding text-center"
+                                      style="cursor: pointer;"
+                                      data-ng-click="selectAllPixels();"
+                                      tooltip="Select to Download">
+                                    Select All
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tbody thin">
+                        <!--Table Sample-->
+                        <!--This NG-REPEAT needs to come from accountData.pixels must be updated-->
+                        <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
+                            <div class="td col-md-3">
+                                <a data-ng-bind="pixel.name | textEllipsis: 40"
+                                   data-ng-click="editPixel($index, pixel);">
+                                </a>
+                            </div>
+                            <div class="td col-md-3">
+                                <span data-ng-bind="pixel.pixelType"></span>
+                            </div>
+                            <div class="td col-md-2">
+                                <span data-ng-bind="pixel.impLookbackWindow">14</span>
+                            </div>
+                            <div class="td col-md-1">
+                                <span data-ng-bind="pixel.clickLookbackWindow">14</span>
+                            </div>
+                            <div class="td col-md-2">
+                                <span data-ng-bind="pixel.expiryDate"></span>
+                            </div>
+                            <div class="td col-md-1 text-center" style="padding-left: 0;">
+                                <input type="checkbox" class="pixelSelect"
+                                       data-ng-model="isSelected" ng-disabled="!pixel.id"
+                                       data-ng-click="selectPixel(pixel.id, isSelected)"
+                                       style="float: none;">
+                            </div>
+                        </div>
+                        <div class="common-load-more" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
