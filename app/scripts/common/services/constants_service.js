@@ -288,7 +288,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BUDGET_WITH_COLON = 'Budget:';
         this.CUMULATIVE_VALUE = 'Cumulative Value';
         this.ACTION_RATE_R_CAPS = 'Action Rate';
-        this.TOTAL_AD_BUDGET = 'Total Ad Budget';
+        this.TOTAL_AD_BUDGET = 'Ad Budget';
         this.ESTIMATED_IMPRESSIONS = 'Estimated Impressions';
         this.KPI_NOTSATISFIED_ERROR = 'Values provided for Budget and Unit Cost<br>may not meet the KPI Target.';
 
@@ -685,7 +685,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADTYPESIDE = '1. About this Ad';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
+        this.ADBUDGET = '(Ad Budget)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
+        this.BOOKEDIMPS = '(Booked)';
+        this.FREQCAPSIDEBAR = 'Imps. Per User'
         this.SCREENPAR = '(Screen)';
         this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';

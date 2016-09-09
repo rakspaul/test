@@ -6,22 +6,24 @@
 </div>
 <div class="row zeroPadding budgetWrap radioBtnToggle">
     <h2 class="col-md-12 zeroPadding adHeader" data-ng-bind="textConstants.HOWMUCHSPEND"></h2>
-    
+
     <div class="col-md-12" style="padding: 10px; background: #EDF2F8; margin: 10px 0;">
         <div class="col-md-2">
             <span class="pull-right clearBoth" style="color: #939EAE;">Ad Group</span>
             <span class="pull-right clearBoth" style="color: #939EAE;">Ad Group Budget</span>
             <span class="pull-right clearBoth" style="color: #939EAE;">Allocated</span>
-            <span class="pull-right clearBoth" style="color: #939EAE;">Spent</span>
+            <!-- UNCOMMENT THIS LINE WHEN WE GET SPENT FROM REPORTING
+            <span class="pull-right clearBoth" style="color: #939EAE;">Spent</span>-->
             <span class="pull-right clearBoth" style="color: #939EAE;">Available</span>
         </div>
-        
+
         <div class="col-md-10 zeroPadding">
-            <span class="pull-left clearLeft">SR546786 - Wendigo Big Spender Ad Group for July Chimera Sales</span>
-            <span class="pull-left clearLeft">$10,500.00</span>
-            <span class="pull-left clearLeft">$10,150.00</span>
-            <span class="pull-left clearLeft">$0</span>
-            <span class="pull-left clearLeft">$350.00</span>
+            <span class="pull-left clearLeft">{{workflowData.adGroupData.name}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.deliveryBudget}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend}}</span>
+            <!-- UNCOMMENT THIS LINE AND SET CORRECT VALUE WHEN WE GET SPENT FROM REPORTING
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{workflowData.adGroupData.bookedSpend}}</span>-->
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend)}}</span>
         </div>
     </div>
 
@@ -30,10 +32,9 @@
         <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
         <div class="budget_holder_input">
             <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
-            <input style="text-indent: 8px;" type="text" autocomplete="off" ng-value="adData.totalAdBudget" fcsa-number="{ }" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();" autocomplete="off"><!-- add "errorBorder" when error -->
+            <input style="text-indent: 8px;" type="text" autocomplete="off" ng-value="adData.totalAdBudget" fcsa-number="{ }" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off"><!-- add "errorBorder" when error -->
             <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
             <span class="disabled_value"></span>
-            <div class="errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
             <div class="errorText" ng-show="adData.adBudgetExceedUnallocated">Exceeds available Ad Group Delivery Budget</div>
         </div>
     </div>
@@ -41,15 +42,15 @@
     <!--How would you like to measure this Ad?-->
     <h2 class="col-md-12 zeroPadding adHeader" data-ng-bind="textConstants.MEASUREBUDGET"></h2>
 
-    <div class="col-md-12 zeroPadding symbolAbs measureBudget">
+    <div class="col-md-12 zeroPadding symbolAbs measureBudget" id="kpiFieldsDiv">
         <!--Row 1-->
-        <div class="col-md-12 zeroPadding">
+        <div class="col-md-12 zeroPadding" id="primaryKpiDiv">
             <div class="pull-left" style="width: 25%; padding-left: 0;">
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.SELECTPRIMARYKPI"></label>
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text">{{((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'}}</span>
+                            <span class="text">{{((adData.primaryKpi).toUpperCase()!='CPM')?(adData.primaryKpi):'CPM'}}</span>
                             <span class="icon-arrow-solid-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
@@ -61,62 +62,64 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="col-md-2">
                 <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
-                <span class="KPI_symbol currencySymWLabel" style="left: 25px;">#</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();checkBudgetExceed();" autocomplete="off">
+                <span class="KPI_symbol currencySymWLabel" style="left: 25px;">{{textConstants.currencySymbol}}</span>
+                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off">
             </div>
         </div>
-        
+
         <!--Row 2-->
-        <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
+        <div class="col-md-12 zeroPadding targetInputHolder" style="margin-top: 10px;">
             <div class="pull-left" style="width: 25%; padding-left: 0;">
                 <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Impressions</span>
             </div>
-            
-            <div class="col-md-2">
+
+            <div class="col-md-2 targetInputs targetImpressions">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" autocomplete="off">
+                <input class="target_val_input disabled-field" disabled style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetImpressions" autocomplete="off">
+                <input type="hidden" name="targetImpressions" ng-model="adData.targetImpressions" ng-value="adData.targetImpressions">
             </div>
-        </div>
-        
-        <!--Row 3-->
-        <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
-            <div class="pull-left" style="width: 25%; padding-left: 0;">
-                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Actions</span>
-            </div>
-            
-            <div class="col-md-2">
-                <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" autocomplete="off">
-            </div>
-            
+
             <!--Checkbox Target& Unit Cost-->
-            <div class="col-md-5 zeroPadding">
+            <div class="col-md-6 zeroPadding" id='autoComputeDiv'>
                 <div class="col-md-12 zeroPadding checkbox_holder">
                     <div class="external_chkbox zeroPadding" style="width: 100%; margin: 0;">
                         <div class="pull-left squaredFour" style="margin-top: 8px;">
                             <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
-                            <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" checked ng-click="enable_budget_input($event);">
+                            <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-click="enable_budget_input($event);" name="autoCompute" ng-value="adData.autoCompute" ng-checked="adData.autoCompute">
                             <label for="targetUnitCost_squaredFour"></label>
                         </div>
-    
-                        <span class="pull-left greyTxt">Calculate automatically using Ad Budget and CPA Rate</span>
+
+                        <span class="pull-left greyTxt">Calculate automatically using Ad Budget and {{adData.primaryKpi}} Rate</span>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!--Row 4-->
-        <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
+
+        <!--Row 3-->
+        <div class="col-md-12 zeroPadding targetInputHolder" style="margin-top: 10px;">
             <div class="pull-left" style="width: 25%; padding-left: 0;">
-                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Clicks</span>
+                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Actions<span class="text" ng-if="isKpiFieldOptional('actions')"> (Optional)</span></span>
             </div>
-            
-            <div class="col-md-2">
+
+            <div class="col-md-2 targetInputs targetActions">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" autocomplete="off">
+                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" name="targetActions" ng-model="adData.targetActions" autocomplete="off">
+            </div>
+
+        </div>
+
+        <!--Row 4-->
+        <div class="col-md-12 zeroPadding targetInputHolder" style="margin-top: 10px;">
+            <div class="pull-left" style="width: 25%; padding-left: 0;">
+                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Clicks<span class="text" ng-if="isKpiFieldOptional('clicks')"> (Optional)</span></span>
+            </div>
+
+            <div class="col-md-2 targetInputs targetClicks">
+                <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
+                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" name="targetClicks" ng-model="adData.targetClicks" autocomplete="off">
             </div>
         </div>
     </div>
@@ -152,7 +155,7 @@
 
     <!--Row 3-->
     <div class="col-md-12 zeroPadding symbolAbs impressions_holder">
-        
+
 
         <div class="pull-left estimated_impressions" >
             <div class="form-group zeroPadding" >
@@ -170,22 +173,23 @@
     <div class="clearfix col-md-12 zeroPadding">
         <div class="pull-left">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
-            
+
             <div class="form-group col-md-12 zeroPadding">
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text">{{adData.budgetType ? adData.budgetType :'Media Cost'}}</span>
+                            <span class="text">{{(adData.budgetType && adData.budgetType.toLowerCase() == impressions) ? adData.budgetType :'Media Cost'}}</span>
                             <span class="icon-arrow-solid-down"></span>
                         </button>
+                        <input type="hidden" name="budgetType" ng-model="adData.budgetType" ng-value="adData.budgetType">
                         <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available"><a ng-click="resetBudgetField('mediaCost');">Media Cost</a></li>
+                            <li class="available"><a ng-click="resetBudgetField('cost');">Media Cost</a></li>
                             <li class="available"><a ng-click="resetBudgetField('impressions');">Impressions</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
+
             <!--<div class="btn-group miniToggle" style="display:block;">-->
             <!--    <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>-->
             <!--        <input type="radio" name="budgetType" value="Cost" checked hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField('mediaCost'); toggleBtn($event);">-->
@@ -195,17 +199,35 @@
             <!--    </label>-->
             <!--</div>-->
         </div>
-        <div class="col-md-2 zeroPadding" style="margin-left: 10px;">
+        <div class="col-md-6 zeroPadding" style="margin-left: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
-            <span class="currencySymWLabel">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-            <input ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" fraction-numbers="fraction-numbers" class="form-control" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
-            <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" round-converter autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
-        </div>
+            <div class="clearfix budgetFields">
+                <span class="currencySymWLabel">{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
+                <input id="adBudgetInput" ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
+                <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" round-converter autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text"  whole-number-only="whole-number-only" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
+                <input type="hidden" name="budgetAmount" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount">
+                <div class="col-md-5 control-label marginLeft zeroPadding">
+                    <div class="col-md-12 zeroPadding checkbox_holder">
+                        <div class="external_chkbox zeroPadding" style="width: 100%;margin-top:0px;">
+                            <div class="pull-left squaredFour" style="margin-top: 8px;">
+                                <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
+                                <input type="checkbox" id="fetchTarget_squaredFour" class="squaredFourChkbox" ng-click="fetch_existing_target_value($event)" name="fetchValue" ng-value="adData.fetchValue" ng-checked="adData.fetchValue">
+                                <label for="fetchTarget_squaredFour"></label>
+                            </div>
 
+                            <span class="pull-left greyTxt">{{adData.budgetType.toLowerCase() === 'cost' ? 'Use Ad Budget' : 'Use Target Impressions'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 zeroPadding errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
+
+        </div>
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
         <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD"></label>
         <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label customErrorLabel">{{textConstants.BUDGET_LESS_THAN_AVAILABLE_BUDGET}} {{adMaximumRevenue}} .</label>
     </div>
+
 </div>
 
 
@@ -226,15 +248,15 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="col-md-3 zeroPadding" style="margin-top:10px;" >
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FREQCAP"></label>
                 <div class="form-group col-md-4 pull-left zeroPadding dynamicChkBox"
-                     ng-click="enableChkBox()">
-                    <input id="setCap" class="cmn-toggle cmn-toggle-round pull-left" type="checkbox">
+                     ng-click="enableChkBox($event)">
+                    <input id="setCap" name="setCap" ng-value="enableFreqCap" class="cmn-toggle cmn-toggle-round pull-left" type="checkbox">
                     <label for="setCap" class="pull-left"></label>
                 </div>
-                
+
                 <!--<div class="btn-group miniToggle" ng-init="adData.setCap=false">-->
                 <!--    <label class="btn btn-default cap_yes" style="width: auto;"><span data-ng-bind="textConstants.YES"></span>-->
                 <!--        <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">-->
@@ -244,7 +266,7 @@
                 <!--    </label>-->
                 <!--</div>-->
             </div>
-            
+
             <div class="row col-md-9 zeroPadding" ng-show="enableFreqCap">
                 <div class="col-md-12 zeroPadding symbolAbs" style="margin-top:10px;">
                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
@@ -253,7 +275,7 @@
                         <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" fcsa-number="{  }" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
                         <label ng-if="budgetErrorObj.impressionPerUserValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.IMPRESSION_PER_USER_MESSAGE"></label>
                     </div>
-        
+
                     <div class="form-group col-md-5 dropup" style="margin-left: -5px;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
@@ -265,7 +287,7 @@
                                     <li><a data-value="Daily" ng-click="frequencySelected('Daily')" data-ng-bind="textConstants.DAILY"></a></li>
                                     <li><a data-value="Lifetime" ng-click="frequencySelected('Lifetime')" data-ng-bind="textConstants.LIFETIME"></a></li>
                                 </ul>
-                                <input type="hidden" name="frequencyType" value="{{selectedFreq}}" ng-model="capsPeriod" ng-update-hidden/>
+                                <input type="hidden" name="frequencyType" ng-value="selectedFreq" ng-model="capsPeriod" ng-update-hidden/>
                             </div>
                         </div>
                     </div>
@@ -278,10 +300,10 @@
 <!--Which system will validate delivery and measure viewability for this Ad?-->
 <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
     <h2 class="col-md-12 zeroPadding adHeader" data-ng-bind="textConstants.SETUPBUDGET"></h2>
-    
+
     <div class="col-md-12 zeroPadding">
         <span class="pull-left greyTxt">Verification Vendor</span>
-        
+
         <div class="form-group col-md-4 zeroPadding clearLeft">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">

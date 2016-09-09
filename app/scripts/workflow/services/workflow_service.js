@@ -261,6 +261,15 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.fetch(url, { cache: false });
             },
 
+            getAdGroup = function (clientId, campaignId, adGroupId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/campaigns/' + campaignId +
+                        '/ad_groups/'+ adGroupId
+
+                return dataService.fetch(url)
+            },
+
             createAdGroups = function (clientId, campaignId, data) {
 
                 return dataService.post(
@@ -1295,6 +1304,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getPlatforms: getPlatforms,
             getAdsForCampaign: getAdsForCampaign,
             getAdgroups: getAdgroups,
+            getAdGroup: getAdGroup,
             createAdGroups: createAdGroups,
             editAdGroups: editAdGroups,
             getAdsInAdGroup: getAdsInAdGroup,

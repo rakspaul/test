@@ -57,80 +57,60 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
+                                accountData =  accountService.getSelectedAccount();
+                                if(!accountData.isLeafNode) {
+                                    accountData = _.find(subAccountService.getSubAccounts(), function(data) {
+                                        return data.id === responseData.clientId;
+                                    });
+                                }
+
+                                workflowService.setAccountTimeZone(accountData.timezone);
+
+                                workflowService
+                                    .getAdGroup(clientId, $scope.campaignId, $scope.adGroupId)
+                                    .then(function (result) {
+                                        var responseData,
+                                            adGroupData = {};
+
+                                        if (result.status === 'OK' || result.status === 'success') {
+                                            responseData = result.data.data;
+                                            adGroupData = responseData;
+                                            adGroupData.startDate =
+                                                momentService
+                                                    .utcToLocalTime(
+                                                    responseData.startTime
+                                                );
+                                            adGroupData.endDate =
+                                                momentService
+                                                    .utcToLocalTime(
+                                                    responseData.endTime
+                                                );
+
+                                            adGroupData.clientCurrency = subAccountService.currencySymbol;
+                                            $scope.workflowData.adGroupData = adGroupData;
+                                        } else {
+                                            campaignOverView.errorHandler(result);
+                                        }
+                                    }, campaignOverView.errorHandler);
+
                                 if ($scope.mode === 'edit') {
-                                    if (!$scope.adGroupId) {
-                                        workflowService
-                                            .getAd({
-                                                clientId : clientId,
-                                                campaignId: $scope.campaignId,
-                                                adId: $scope.adId
-                                            })
-                                            .then(function (result) {
-                                                $scope.getAd_result = result.data.data;
+                                    // to get all ads with in ad group
+                                    workflowService
+                                        .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
+                                        $scope.adGroupId, $scope.adId)
+                                        .then(function (result) {
+                                            $scope.getAd_result = result.data.data;
 
-                                                // redirect user to campaingn overview screen if ad is archived
-                                                if ($scope.getAd_result.isArchived){
-                                                    $scope.isMediaPlanArchive = true;
-                                                    $scope.archivedAdFlag = true;
-                                                }
+                                            // redirect user to campaingn overview screen
+                                            // if ad is archived
+                                            if ($scope.getAd_result.isArchived) {
+                                                $scope.isMediaPlanArchive = true;
+                                                $scope.archivedAdFlag = true;
+                                            }
 
-                                                disablePauseEnableResume($scope.getAd_result);
-                                                processEditMode(result, clientId, advertiserId);
-                                            });
-                                    } else {
-                                        workflowService
-                                            .getAdgroups(clientId, $scope.campaignId)
-                                            .then(function (result) {
-                                                var responseData,
-                                                    adGroupData = {},
-                                                    n,
-                                                    i;
-
-                                                if (result.status === 'OK' || result.status === 'success') {
-                                                    responseData = result.data.data.ad_groups;
-                                                    $scope.workflowData.campaignGetAdGroupsData = responseData;
-                                                    n = responseData.length;
-
-                                                    for (i = 0; i < n; i++) {
-                                                        if (responseData[i].adGroup.id ===
-                                                            parseInt($scope.adGroupId)) {
-                                                            adGroupData.startDate =
-                                                                momentService
-                                                                    .utcToLocalTime(
-                                                                        responseData[i].adGroup.startTime
-                                                                    );
-                                                            adGroupData.endDate =
-                                                                momentService
-                                                                    .utcToLocalTime(
-                                                                        responseData[i].adGroup.endTime
-                                                                    );
-                                                        }
-                                                    }
-
-                                                    $scope.workflowData.adGroupData = adGroupData;
-
-                                                    // to get all ads with in ad group
-                                                    workflowService
-                                                        .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
-                                                            $scope.adGroupId, $scope.adId)
-                                                        .then(function (result) {
-                                                            $scope.getAd_result = result.data.data;
-
-                                                            // redirect user to campaingn overview screen
-                                                            // if ad is archived
-                                                            if ($scope.getAd_result.isArchived) {
-                                                                $scope.isMediaPlanArchive = true;
-                                                                $scope.archivedAdFlag = true;
-                                                            }
-
-                                                            disablePauseEnableResume($scope.getAd_result);
-                                                            processEditMode(result, clientId, advertiserId);
-                                                        });
-                                                } else {
-                                                    campaignOverView.errorHandler(result);
-                                                }
-                                            }, campaignOverView.errorHandler);
-                                    }
+                                            disablePauseEnableResume($scope.getAd_result);
+                                            processEditMode(result, clientId, advertiserId);
+                                        });
                                 } else {
                                     $scope.$broadcast('getDominList', [{
                                         clientId: clientId,
@@ -957,7 +937,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.utc = function (date) {
             return moment(date).utc().valueOf();
         };
-        
+
         //Date Conf Start
         $scope.checkForPastDate = function (startDate, endDate) {
             endDate = moment(endDate).format(constants.DATE_US_FORMAT);
@@ -1088,7 +1068,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 endDateElem.datepicker('setStartDate', currentDate);
             }
         };
-        
+
         $scope.$parent.initiateDatePicker = function () {
             var endDateElem = $('#endDateInput'),
                 startDateElem = $('#startDateInput'),
@@ -1458,8 +1438,33 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                     if (formData.totalAdBudget){
                         postAdDataObj.totalBudget = utils.stripCommaFromNumber(formData.totalAdBudget);
-                        postAdDataObj.enabledBudgetCalculation =
-                            ($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true;
+                        postAdDataObj.enabledBudgetCalculation = false;
+                            //($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true; this wouldn't be required anymore as total budget is a normal value now
+                    }
+
+                    if (formData.targetImpressions){
+                        console.log("setting imps");
+                        postAdDataObj.targetImpressions = formData.targetImpressions;
+                    }
+
+                    if (formData.targetClicks){
+                        console.log("setting clicks");
+                        postAdDataObj.targetClicks = formData.targetClicks;
+                    }
+
+                    if (formData.targetActions){
+                        console.log("setting actions");
+                        postAdDataObj.targetActions = formData.targetActions;
+                    }
+
+                    if (formData.autoCompute) {
+                        console.log("setting autoCompute");
+                        postAdDataObj.autoCompute = formData.autoCompute;
+                    }
+
+                    if (formData.fetchValue){
+                        console.log("setting fetchValue");
+                        postAdDataObj.fetchValue = formData.fetchValue;
                     }
 
                     if (getfreqCapParams(formData).length > 0) {
@@ -1852,6 +1857,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.enableSaveBtn = true;
         $scope.isAddCreativePopup = false;
         $scope.enableOnlyCreativeTab=false;
+        $scope.selectedFreq = 'Daily';
 
         // To show hide view tag in creatives listing
         $scope.IsVisible = false;

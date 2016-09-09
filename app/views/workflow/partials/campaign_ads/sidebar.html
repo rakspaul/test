@@ -59,10 +59,26 @@
                data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
             </a>
             <div>
+                <div class="statusLabel" data-ng-if="adData.totalAdBudget">
+                    <div class="col-md-12">
+                        <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span data-ng-bind="adData.totalAdBudget"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.ADBUDGET"></span>
+                    </div>
+                </div>
                 <div class="statusLabel" data-ng-if="adData.primaryKpi">
                     <div class="col-md-12">
+                        <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span style="margin-right: 3px;" data-ng-bind="adData.targetValue"></span>
                         <span data-ng-bind="displayKpiInSideBar(adData.primaryKpi)"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" data-ng-if="adData.targetImpressions">
+                    <div class="col-md-12">
+                        <span style="margin-right: 1px;">#</span>
+                        <span style="margin-right: 3px;" data-ng-bind="adData.targetImpressions"> Impressions</span>
+                        <span class="greyTxt" data-ng-bind="textConstants.BOOKEDIMPS"></span>
                     </div>
                 </div>
                 <div class="statusLabel disabled"
@@ -89,10 +105,17 @@
                 </div>
                 <div class="statusLabel" data-ng-if="(adData.budgetType && adData.budgetAmount)">
                     <div class="col-md-12">
-                        <span style="margin-right: 1px;" data-ng-bind="adData.budgetType === 'Cost' ? '$' : '#'"></span>
+                        <span style="margin-right: 1px;" data-ng-bind="adData.budgetType.toLowerCase() === 'cost' ? '$' : '#'"></span>
                         <span data-ng-bind="adData.budgetAmount | number"></span>
                         <span>&nbsp;</span>
                         <span class="greyTxt" data-ng-bind="(adData.budgetType)"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" data-ng-if="adData.quantity">
+                    <div class="col-md-12">
+                        <span style="margin-right: 3px;" data-ng-bind="adData.quantity"></span>
+                        <span style="margin-right: 3px;" data-ng-bind="textConstants.FREQCAPSIDEBAR"></span>
+                        <span data-ng-bind="selectedFreq"></span>
                     </div>
                 </div>
             </div>
