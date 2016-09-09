@@ -237,9 +237,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adData.verificationSettings = result.data.data;
-                            var defaultObj = {};
-                            defaultObj.name = constants.VERIFICATION_DEFAULT;
-                            defaultObj.id  = -1;
+                            var defaultObj = {name: constants.VERIFICATION_DEFAULT, id: -1};
                             $scope.adData.verificationSettings.unshift(defaultObj);
                         }
 
@@ -275,7 +273,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     }
 
                     if($scope.adData.selectedSetting.id != -1){
-                        postDataObj.vendorConfigId = $scope.adData.selectedSetting.id;
+                        postDataObj.verificationVendorConfigId = $scope.adData.selectedSetting.id;
                     }
 
                     promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
@@ -377,9 +375,9 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.adData.primaryKpi = responseData.goal;
             }
 
-            if (responseData.vendorConfigId) {
+            if (responseData.verificationVendorConfigId) {
                 var index = _.findIndex($scope.adData.verificationSettings ,function(setting) {
-                    return setting.id === responseData.vendorConfigId;
+                    return setting.id === responseData.verificationVendorConfigId;
                 });
                 $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[index].name;
                 $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[index].id;

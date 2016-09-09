@@ -7,9 +7,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             adMaximumRevenue = 0;
 
         $scope.adData.primaryKpi = 'Impressions';
-        $scope.adData.selectedSetting = {}; // vendor config setting
-        $scope.adData.selectedSetting.name = constants.VERIFICATION_DEFAULT;
-        $scope.adData.selectedSetting.id = -1;
+        $scope.adData.selectedSetting = {name: constants.VERIFICATION_DEFAULT, id: -1}; // vendor config setting
         $scope.adData.budgetExceeded = false;
         $scope.adData.adBudgetExceedUnallocated = false;
         $scope.isChecked = true;
