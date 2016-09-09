@@ -85,7 +85,11 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model'], function (an
         });
 
         $rootScope.$on(constants.TAB_CHANGED,function () {
-            $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi();
+          /*
+          it's been hard coded in performance controller on tab change we are doing the same may be we can come out with better solution, this is to match the headers and value
+          - for hot fix sapna
+            */
+           $scope.kpiData.selectedKpi = 'cpm';//campaignSelectModel.getSelectedCampaign().kpi;//kpiSelectModel.getSelectedKpi();
         });
 
         $scope.myData = {};

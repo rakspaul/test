@@ -38,7 +38,7 @@ define(['angularAMD', 'campaign-list-service', 'tactic-card', 'campaign-chart'],
 
                     expectedSpend = strategy.expectedMediaCost;
 
-                    return $scope.getPercentDiff(expectedSpend, strategy.grossRev);
+                    return $scope.getPercentDiff(expectedSpend, strategy.spend);
                 };
 
                 $scope.getSpendTotalDiffForStrategy = function (strategy) {
@@ -50,7 +50,7 @@ define(['angularAMD', 'campaign-list-service', 'tactic-card', 'campaign-chart'],
 
                     totalSpend = strategy.totalMediaCost;
 
-                    return $scope.getPercentDiff(totalSpend, strategy.grossRev);
+                    return $scope.getPercentDiff(totalSpend, strategy.spend);
                 };
 
                 $scope.getSpendClassForStrategy = function (strategy) {

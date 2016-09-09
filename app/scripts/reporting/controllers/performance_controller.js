@@ -531,7 +531,11 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         // Initializing the variable.
         $scope.init = function () {
-            $scope.strategyFound = false;
+
+            /* Strategy found is true initially, as from the API we shall not get to know for all tabs whether data is there or not, so we should show data found or not, tab wise
+            $scope.strategyFound is a variable which decides whether all the tab should be hidden and show Data not available when ther is no data for a tab */
+            $scope.strategyFound = true;
+
             $scope.apiReturnCode = 200;
             $scope.isStrategyDataEmpty = false;
             $scope.hidePerformanceReportTab = false;
@@ -540,7 +544,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             $scope.resetVariables();
             $scope.selectedFilters = {};
             $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
-            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
+           // $scope.selectedFilters.kpi_type = $scope.selectedCampaign.kpi.toLowerCase();//kpiSelectModel.getSelectedKpi();
             $scope.selectedFilters.kpi_type = 'cpm';
             $scope.selectedFilters2 = {};
             $scope.selectedFilters2.kpi_type = 'cpm';
