@@ -134,6 +134,7 @@
 </div>
 
 
+
 <div class="flightWrap">
     <div class="col-md-12 zeroPadding">
         <div class="col-md-12 adHeader" data-ng-bind="textConstants.WHENADRUN"></div>
@@ -159,6 +160,9 @@
              </div>
          </span>
         </div>
+
+
+
         <div class="row zeroPadding unitCostTwo radioBtnToggle" >
             <div class="col-md-12 zeroPadding" style="margin-top:10px;">
                 <!-- <div class="col-md-12 adHeader" data-ng-bind="textConstants.HOWADDEL"></div> -->
@@ -213,6 +217,28 @@
             </div>
         </div>
     </div>
+
+    <!--vendor config-->
+    <div class="row col-md-12 zeroPadding marginTop">
+        <div class="col-md-12 adHeader" data-ng-bind="textConstants.VERIFICATION_TITLE"></div>
+        <div class="col-md-5 zeroPadding" style="margin-bottom: 100px;">
+            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VERIFICATION_VENDOR"></label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text">{{((adData.selectedSetting.name).toLowerCase()!= textConstants.VERIFICATION_DEFAULT_SMALL)?(adData.selectedSetting.name):textConstants.VERIFICATION_DEFAULT}}</span>
+                        <span class="icon-arrow-solid-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li ng-repeat="setting in adData.verificationSettings" class="available" data-ng-click="selectVerificationSetting(setting)">
+                            <a  data-ng-bind="setting.name"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!--=== Next Step Panel ===-->

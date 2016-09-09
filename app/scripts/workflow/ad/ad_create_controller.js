@@ -231,6 +231,19 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.unitType = $scope.workflowData.unitTypes[0];
                 },
 
+                fetchVerificationSettings: function () {
+                    //fetch verification settings
+                    workflowService.getVerificationSettings().then(function(result){
+
+                        if (result.status === 'OK' || result.status === 'success') {
+                            $scope.adData.verificationSettings = result.data.data;
+                            var defaultObj = {name: constants.VERIFICATION_DEFAULT, id: -1};
+                            $scope.adData.verificationSettings.unshift(defaultObj);
+                        }
+
+                    })
+                },
+
                 saveAds: function (postDataObj) {
                     var promiseObj,
                         clientId = vistoconfig.getSelectedAccountId();
@@ -257,6 +270,10 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         postDataObj.adId = $scope.adId;
                         postDataObj.updatedAt = $scope.updatedAt;
                         postDataObj.state = $scope.state;
+                    }
+
+                    if($scope.adData.selectedSetting.id != -1){
+                        postDataObj.verificationVendorConfigId = $scope.adData.selectedSetting.id;
                     }
 
                     promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
@@ -356,6 +373,18 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
             if (responseData.goal) {
                 $scope.adData.primaryKpi = responseData.goal;
+            }
+
+            if (responseData.verificationVendorConfigId) {
+                var index = _.findIndex($scope.adData.verificationSettings ,function(setting) {
+                    return setting.id === responseData.verificationVendorConfigId;
+                });
+
+                if(index != -1) {
+                    $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[index].name;
+                    $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[index].id;
+                }
+
             }
 
             if (responseData.screens) {
@@ -1666,6 +1695,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.mediaPlanName = null;
         $scope.adGroupName = null;
         $scope.adData.platformSeatId = null;
+        campaignOverView.fetchVerificationSettings();
 
         $scope.adData.domainEnable = false;
         $scope.adData.appEnable = false;
