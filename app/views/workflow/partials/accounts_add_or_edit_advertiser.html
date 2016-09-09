@@ -277,9 +277,10 @@
                            class="form-control"
                            maxlength="128"
                            data-ng-model="pixelFormData.name"
-                           data-ng-disabled="isEditMode && pixelFormData.id"
-                           remove-special-character="remove-special-character"
+                           special-character="special-character"
                            data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
+                    <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
                     <label class="errorText"
                            style="margin-top: 6px"
                            data-ng-bind="'Duplicate Entry'"
@@ -390,13 +391,12 @@
                     <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
                         <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
                         <input class="col-md-12 zeroPadding" style="border-width: 0; background: transparent;"
-                        value="{{pixelFormData.segmentName}}"></input>
+                              value="{{pixelFormData.segmentName}}" />
                     </div>
                 </div>
 
-                <div class="form-group col-md-6 zeroPaddding" style="margin: 15px 0;">
+                <div class="form-group col-md-6 zeroPadding" style="margin: 15px 0;">
                     <a class="pull-right btn btn-default"
-                        style="margin-bottom: 15px;"
                         data-ng-click="savePixel()"
                         data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
                         Save Pixel

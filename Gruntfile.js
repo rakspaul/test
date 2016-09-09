@@ -54,11 +54,12 @@ module.exports = function (grunt) {
         'requirejs',
         'preprocess:' + env,
         'htmlmin',
+        'replace',
         'compress'
     ]);
 
     grunt.registerTask('start', [
-       'connect:server'
+        'connect:server'
     ]);
 
     grunt.registerTask('compressFile', [

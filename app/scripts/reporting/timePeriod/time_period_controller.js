@@ -1,16 +1,20 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'],
+define(['angularAMD', 'time-period-model'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('TimePeriodController', function ($scope, $rootScope, timePeriodModel, constants) {
+    angularAMD.controller('TimePeriodController', ['$scope', '$rootScope', 'timePeriodModel', 'constants',
+        function ($scope, $rootScope, timePeriodModel, constants) {
+
         $scope.timeData = timePeriodModel.timeData;
 
         $scope.filterByTimePeriod = function (timePeriod) {
             timePeriodModel.selectTimePeriod(timePeriod);
-
             if (!timePeriod.key.startsWith('custom')) {
+                $('#newDatePickerBox').hide();
                 $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
-            }
+            } else {
+                $('#newDatePickerBox').show();
+            }   
         };
 
         $scope.timePeriodClicked = function () {
@@ -32,16 +36,13 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             brandsList.hide();
             $('#profileDropdown').hide();
 
-            cdbDropdown.click(
+            cdbDropdown.find('li').click(
                 function (e) {
                     var clickedDateRange = e.target.id,
                         clickedDateText = $(e.target).text();
 
                     if (clickedDateRange.startsWith('custom')) {
-                        $('#newDatePickerBox').show();
-                        $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, clickedDateRange);
-                    } else {
-                        $('#newDatePickerBox').hide();
+                        $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
                     }
 
                     localStorage.setItem('timeSetLocStore', JSON.stringify(clickedDateRange));
@@ -51,5 +52,5 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 }
             );
         };
-    });
+    }]);
 });

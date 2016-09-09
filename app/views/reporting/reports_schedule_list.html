@@ -1,7 +1,7 @@
 <!-- Message on top, if that is an error message add "red_msg" class to "top_message_box" container -->
 <popup-msg data-ng-show="flashMessage"
            data-ng-controller="popUpMsgCtr"
-           data-ng-init="init('flashMessage','reportEditFailed')">
+           data-ng-init="init('flashMessage')">
 </popup-msg>
 <!-- End of Message on top, if that is an error message add "red_msg" class to "top_message_box" container -->
 
@@ -10,7 +10,7 @@
     <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
         <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" data-ng-click="reset_custom_report()" href="/customreport">
+            <a role="button" class="btn btn-default" data-ng-click="reset_custom_report()" href="{{createCustomReportUrl}}">
                 <span class="icon-plus pull-left"></span><span data-ng-bind="textConstants.CREATE"></span>
             </a>
         </div>

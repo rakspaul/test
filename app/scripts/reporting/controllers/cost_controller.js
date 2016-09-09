@@ -1,21 +1,20 @@
-define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/kpiSelect/kpi_select_model', 'reporting/advertiser/advertiser_model',
-    'reporting/strategySelect/strategy_select_service', 'reporting/brands/brands_model', 'common/services/data_service',
-    'common/utils', 'login/login_model', 'common/services/url_service', 'common/services/constants_service',
-    'reporting/timePeriod/time_period_model', 'reporting/models/domain_reports',
-    'common/services/vistoconfig_service','reporting/strategySelect/strategy_select_directive',
-    'reporting/strategySelect/strategy_select_controller', 'reporting/timePeriod/time_period_pick_directive',
-    'reporting/kpiSelect/kpi_select_directive'],function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-select-service',
+    'common-utils', 'url-service', 'time-period-model', 'strategy-select-directive',
+    'strategy-select-controller', 'time-period-pick-directive',
+    'kpi-select-directive'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
+    angularAMD.controller('CostController', ['$scope', '$window', 'campaignSelectModel', 'kpiSelectModel',
+        'advertiserModel', 'strategySelectModel', 'brandsModel', 'dataService',
+        'utils', 'loginModel', 'urlService', 'constants', 'timePeriodModel',
+        'domainReports', 'vistoconfig', function ($scope, $window, campaignSelectModel, kpiSelectModel,
                                                        advertiserModel, strategySelectModel, brandsModel, dataService,
                                                        utils, loginModel, urlService, constants, timePeriodModel,
                                                        domainReports, vistoconfig) {
         var dataHeader = function () {
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
-                constants.MEDIA_PLAN_TOTAL :
-                constants.LINE_ITME_TOTAL;
+                constants.MEDIA_PLAN_TOTALS:
+                constants.LINE_ITME_TOTALS;
 
             $scope.viewLabelTxt = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
                 constants.INCLUDES_FIXED_COSTS :
@@ -26,9 +25,8 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
 
         // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
-        domainReports.highlightSubHeaderMenu();
+        //domainReports.highlightSubHeaderMenu();
 
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.selectedStrategy = strategySelectModel.getSelectedStrategy();
         $scope.apiReturnCode = 200;
         $scope.strategyMarginValue = -1;
@@ -69,8 +67,6 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
         };
 
         $scope.init = function () {
-            var fromLocStore;
-
             $scope.strategyCostData = [];
             $scope.tacticsCostData = [];
             $scope.tacticList = {};
@@ -89,18 +85,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             $scope.selectedFilters = {};
             $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-
-            fromLocStore = localStorage.getItem('timeSetLocStore');
-
-            if (fromLocStore) {
-                fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                $scope.selectedFilters.time_filter = fromLocStore;
-            } else {
-                $scope.selectedFilters.time_filter = 'life_time';
-            }
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
+
 
         $scope.strategiesCostData = function (param) {
             var errorHandler =  function () {
@@ -110,11 +99,14 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 },
 
                 dateFilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
+                clientId = vistoconfig.getSelectedAccountId(),
+                advertiserId = vistoconfig.getSelectAdvertiserId(),
+                brandId = vistoconfig.getSelectedBrandId(),
 
                 queryObj = {
-                    clientId: loginModel.getSelectedClient().id,
-                    advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                    brandId: brandsModel.getSelectedBrand().id,
+                    clientId: clientId,
+                    advertiserId: advertiserId,
+                    brandId: brandId,
                     dateFilter: dateFilter
                 },
 
@@ -166,6 +158,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                         if (typeof data !== 'undefined' && data !== null && data.length > 0) {
                             $scope.dataNotFound = false;
 
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
+                                constants.MEDIA_PLAN_TOTALS:
+                                constants.LINE_ITEM_TOTALS;
+
                             _.each(data,function (item) {
                                 if (item.ad_id === undefined || item.ad_id === -1) {
                                     $scope.strategyCostBusy = false;
@@ -199,19 +195,13 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                 }, errorHandler);
         };
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-            $scope.init();
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-        });
-
         $scope.$watch('selectedCampaign', function () {
             $scope.createDownloadReportUrl();
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-            $scope.selectedFilters.time_filter = strategy;
             $scope.createDownloadReportUrl();
             $scope.callBackStrategyChange();
             dataHeader();
@@ -260,15 +250,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
                     campaignId: $scope.selectedCampaign.id,
                     strategyId: Number($scope.selectedStrategy.id),
                     startDate: $scope.selectedCampaign.startDate,
-                    endDate: $scope.selectedCampaign.endDate,
-                    timeFilter: $scope.selectedFilters.time_filter
+                    endDate: $scope.selectedCampaign.endDate
                 });
             }
         };
-
-        $scope.$on(constants.EVENT_KPI_CHANGED, function () {
-            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-        });
+        $scope.callBackStrategyChange();
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             $scope.sortType = 'kpi_metrics.' + args;
@@ -293,6 +279,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             return isActive + ' ' + sortDirection;
         };
 
+        $scope.$on(constants.EVENT_KPI_CHANGED, function() {
+            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
+        });
+
         // hot fix for the enabling the active link in the reports dropdown
         setTimeout(function () {
             var mainNavigation = $('.main_navigation');
@@ -301,5 +291,5 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model',
             mainNavigation.find('.reports_sub_menu_dd_holder').find('#cost').addClass('active_tab');
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
-    });
+    }]);
 });

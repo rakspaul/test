@@ -2163,7 +2163,7 @@ input[type="submit"] {
   position: absolute;
 }
 .main_navigation_holder #help-menu {
-  top: 37px;
+  top: 50px;
 }
 .main_navigation_holder #help-menu .nav-menu:before {
   top: -5px;
@@ -2171,7 +2171,7 @@ input[type="submit"] {
   border-left: solid 8px transparent;
   border-top: 0;
   border-right: solid 8px transparent;
-  left: 100px;
+  left: 119px;
   position: absolute;
 }
 .main_navigation_holder .main_nav_dropdown {
@@ -2378,9 +2378,9 @@ input[type="submit"] {
 }
 .main_navigation_holder #help-menu {
   min-height: 80px;
-  width: 200px;
+  width: 250px;
   left: initial;
-  right: -80px;
+  right: -111px;
 }
 .main_navigation_holder #help-menu .nav-menu {
   background: transparent;
@@ -2403,6 +2403,12 @@ input[type="submit"] {
 }
 .main_navigation_holder #help-menu .nav-menu .profile-data .clearLeft:hover {
   opacity: 1;
+}
+.main_navigation_holder #help-menu .nav-menu .profile-data .icon-download {
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu {
   padding: 10px 0px ;
@@ -2833,6 +2839,10 @@ input[type="submit"] {
   display: inline-block;
   height: 18px;
 }
+.nav_filters .each_filter .advertisersDropDownCreative {
+  left: -1px;
+  top: -20px;
+}
 .nav_filters .each_filter #advertisersDropDownList,
 .nav_filters .each_filter #subAccountDropDownList {
   width: auto;
@@ -3124,7 +3134,7 @@ input[type="submit"] {
   font-family: Avenir;
   font-size: 14px;
   line-height: 100%;
-  padding: 9px 15px !important;
+  padding: 7px 15px !important;
   overflow: hidden;
 }
 .nav_filters .brandsDropdownSearch .subAccountList_ul li a:hover,
@@ -3134,7 +3144,10 @@ input[type="submit"] {
   background-color: #E1EDF9;
 }
 .nav_filters .brandsDropdownSearch .subAccountList_ul li a span {
-  padding: 0;
+  padding: 0px ;
+}
+.nav_filters .brandsDropdownSearch .subAccountList_ul li a span.menuItemText {
+  padding: 2px 0 ;
 }
 .nav_filters .brandsDropdownSearch .subAccountList_ul li.active a {
   background: transparent;
@@ -3177,6 +3190,9 @@ input[type="submit"] {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.nav_filters .dropdown-menu li a {
+  color: #21252b;
 }
 .nav_filters .dropdown-menu li span.menuItemText {
   display: block;

@@ -1,7 +1,7 @@
-define(['angularAMD', '../../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('screenChart', function (constants) {
+    angularAMD.directive('screenChart', ['constants', function (constants) {
         return {
             restrict: 'EAC',
             templateUrl: assets.html_screen_chart,
@@ -10,5 +10,5 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                 scope.textConstants = constants;
             }
         };
-    });
+    }]);
 });

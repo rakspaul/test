@@ -1,9 +1,9 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    '../../common/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BulkCreativeController', function ($scope, $rootScope, $routeParams, $location,
-                                                             constants, workflowService, Upload) {
+    angularAMD.controller('BulkCreativeController', ['$scope', '$rootScope', '$routeParams', '$location',
+        'constants', 'workflowService', 'Upload', 'vistoconfig', function ($scope, $rootScope, $routeParams, $location,
+                                                             constants, workflowService, Upload, vistoconfig) {
         var creatives = {
                 errorHandler: function (errData) {
                     console.log(errData);
@@ -31,9 +31,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             },
 
             // Get all adserver in Creative Library Page
-            getAdServers = function () {
+            getAdServers = function (clientId) {
                 workflowService
-                    .getVendorsAdServer()
+                    .getVendorsAdServer(clientId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.creativeAdServers = result.data.data;
@@ -42,7 +42,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                                 {id: 1, name: 'Display',    active: false ,disabled:false},
                                 {id: 2, name: 'Video',      active: false, disabled:false},
                                 {id: 3, name: 'Rich Media', active: false, disabled:false},
-                                {id: 4, name: 'Social',     active: false, disabled:false}
+                                {id: 4, name: 'Social',     active: false, disabled:false},
+                                {id: 5, name: 'Native',     active: false, disabled:false}
                             ];
                         } else {
                             creatives.errorHandler(result);
@@ -78,7 +79,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 display: 'image',
                 video: 'video',
                 'rich media': 'rich-media',
-                social: 'social'
+                social: 'social',
+                native : 'native'
             };
 
             return adFormatMapper[adFormat.toLowerCase()];
@@ -141,11 +143,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.downloadCreativeTemplate = function () {
+            var clientId = vistoconfig.getSelectedAccountId();
             if ($scope.selectedAdServer.id && $scope.creativeFormat && $scope.adData.creativeTemplate) {
                 $scope.downloadBusy = true;
 
                 workflowService
-                    .downloadCreativeTemplate($scope.selectedAdServer.id, $scope.adData.creativeTemplate)
+                    .downloadCreativeTemplate(clientId, $scope.selectedAdServer.id, $scope.adData.creativeTemplate)
                     .then(function (response) {
                         if (response.status === 'success') {
                             $scope.downloadBusy = false;
@@ -178,7 +181,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.uploadFileChosen = function () {
-            var url = workflowService.uploadBulkCreativeUrl($scope.selectedAdServer.id, $scope.creativeFormat,
+
+            var clientId = vistoconfig.getSelectedAccountId(),
+                url;
+
+            url = workflowService.uploadBulkCreativeUrl(clientId, $scope.selectedAdServer.id, $scope.creativeFormat,
                 $scope.adData.creativeTemplate);
 
             (function (file) {
@@ -272,8 +279,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         };
 
-        $scope.$on('bulkUploadSelected' , function () {
-            getAdServers();
+        $scope.$on('bulkUploadSelected' , function (event, args) {
+            getAdServers(args.clientId);
         });
 
         $('.dropdown-menu li a').click(function () {
@@ -301,5 +308,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 .find('.dropdown-toggle-search')
                 .attr('value=' + selText);
         });
-    });
+    }]);
 });

@@ -75,19 +75,26 @@
                              class="pull-right inventory_chart_details_list_holder">
                             <div class="inventory_chart_details_list"
                                  data-ng-repeat="stable in strategyTableData | orderBy:'-impressions' track by $index">
-                                <div class="chart_details_cols_row inventory_each_chart_details clearfix">
-                                    <span class="row_index" data-ng-bind="$index + 1"></span>
+                                <div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-class="(stable.dimension == 'Line Item Totals' || stable.dimension == 'Media Plan Totals' )?'sepratorCls_inventory paddingBottom':''">
+                                    <span ng-switch="stable.dimension">
+                                        <span class="row_index" ng-switch-when = "Line Item Totals"></span>
+                                        <span class="row_index" ng-switch-when = "Media Plan Totals"></span>
+                                        <span class="row_index" ng-switch-default data-ng-bind="$index"></span>
+                                    </span>
                                     <span class="url_val" title="{{stable.dimension}}"
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="stable.dimension | formatUrl : 20">
                                     </span>
                                     <span class="url_val" title="{{stable.dimension}}"
                                           data-ng-if="(selectedFilters_tab === 'domains')">
-                                        <a href="http://{{ stable.dimension}}"
-                                           target="_blank"
-                                           id="inventory_url_val"
-                                           data-ng-bind="stable.dimension | formatUrl : 15">
-                                        </a>
+                                          <a href="http://{{ stable.dimension}}"
+                                             target="_blank"
+                                             id="inventory_url_val" ng-if="stable.dimension !== 'Media Plan Totals'"
+                                             data-ng-bind="stable.dimension | formatUrl : 15">
+                                          </a>
+                                        <span data-ng-bind="stable.dimension"
+                                             ng-if="stable.dimension == 'Media Plan Totals'">
+                                        </span>
                                      </span>
                                     <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                           data-ng-bind="(stable[(selectedFilters.kpi_type.toLowerCase() === 'vtc') ?
@@ -105,10 +112,11 @@
                          data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                     </div>
                 </div>
+
                 <div data-ng-if="strategyFound"
-                     class="each_chart_accordion_holder"
+                     class="each_chart_accordion_holder {{tactic.sepratorCls_inventory}}"
                      data-ng-repeat="tactic in tacticList[tacticList.show] track by $index"
-                     data-ng-if="tactic.data">
+                     data-ng-if="tactic.data" >
                     <div id="tactic_{{$index}}"
                          class="chart_accordion_heading"
                          data-ng-click="clickTactic($index)"
@@ -146,12 +154,13 @@
                         <div class="pull-right inventory_chart_details_list_holder">
                             <div class="inventory_chart_details_list">
                                 <div class="chart_details_cols_row inventory_each_chart_details clearfix"
-                                     data-ng-repeat="tableData in tactic.data | orderBy : '-impressions' track by $index">
-                                    <span class="row_index" data-ng-bind="$index + 1"></span>
+                                     data-ng-repeat="tableData in tactic.data | orderBy : '-impressions' track by $index" ng-class="(tableData.dimension == 'Ad Totals' )?'sepratorCls_inventory paddingBottom':''">
+                                    <span class="row_index" ng-if="tableData.dimension !== 'Ad Totals'" data-ng-bind="$index"></span>
                                     <span class="url_val" title="{{tableData.dimension}}"
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="tableData.dimension | formatUrl : 20">
                                     </span>
+
                                     <span class="url_val" title="{{tableData.dimension}}" data-ng-if="(selectedFilters_tab === 'domains')">
                                         <a href="http://{{ tableData.dimension}}"
                                            target='_blank' id="inventory_domain"

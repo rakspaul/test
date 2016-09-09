@@ -1,18 +1,16 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../../workflow/services/account_service', 'common/services/constants_service'],
+define(['angularAMD', 'admin-account-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService,
-                                                             constants) {
+        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants',
+            function ($scope, $rootScope, $modalInstance, adminAccountsService, constants) {
             var _currCtrl = this,
                 selectedBillingTypeName;
 
             _currCtrl.isAdChoiceInClient = false;
 
             _currCtrl.getAdChoiceData = function () {
-                accountsService
+                adminAccountsService
                     .getAdChoiceDataFromClient($scope.clientObj.id)
                     .then(function (res) {
                         _currCtrl.isAdChoiceInClient = false;
@@ -39,7 +37,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     code: $scope.adChoiceCode
                 };
 
-                accountsService
+                adminAccountsService
                     .saveAdChoiceDataForClient($scope.clientObj.id, reqBody)
                     .then(null, function (err) {
                         console.log('ERROR = ', err);
@@ -147,7 +145,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             }
 
             function getCountries() {
-                accountsService
+                adminAccountsService
                     .getCountries()
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
@@ -158,18 +156,20 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
             function getTimezones() {
                 $scope.timezones = {
-                    EST          : 'Eastern Standard Time (GMT-05:00)',
+                     EST          : 'Eastern Standard Time (GMT-05:00)',
                     'US/Eastern' : 'Eastern Time',
+                    'US/Alaska'  : 'Alaska Time',
+                    'US/Hawaii'  : 'Hawaii Time',
                     'US/Central' : 'Central Time',
                     'US/Mountain': 'Mountain Time',
                     'US/Pacific' : 'Pacific Time',
-                     UTC          : 'GMT',
-                     GB           : 'British Summer Time'
+                     UTC         : 'GMT',
+                     GB          : 'British Summer Time'
                 };
             }
 
             function createClient(body) {
-                accountsService
+                adminAccountsService
                     .createClient(body)
                     .then(function (adv) {
                         if (adv.status === 'OK' || adv.status === 'success') {
@@ -182,7 +182,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             }
 
             function getBillingTypes() {
-                accountsService
+                adminAccountsService
                     .getBillingTypes()
                     .then(function (res) {
                         var billingTypes;
@@ -283,7 +283,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     return;
                 }
 
-                accountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
+                adminAccountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.clientCodeExist = result.data.data.isExists;
                     }
@@ -294,7 +294,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
             $scope.getClientCode = function() {
                 if ($scope.clientName) {
-                    accountsService
+                    adminAccountsService
                         .getUserClientCode($scope.clientName)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
@@ -329,10 +329,10 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 }
 
                 if ($scope.mode === 'edit') {
-                    clientObj =  accountsService.getToBeEditedClient();
+                    clientObj =  adminAccountsService.getToBeEditedClient();
                     body = constructRequestBody(clientObj);
 
-                    accountsService
+                    adminAccountsService
                         .updateClient(body, body.id)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
@@ -355,7 +355,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                         });
                 } else {
                     if ($scope.isCreateTopClient) {
-                        accountsService
+                        adminAccountsService
                             .createBillableAccount(createBillableBody())
                             .then(function (result) {
                                 if (result.status === 'OK' || result.status === 'success') {
@@ -369,7 +369,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                                 console.log('Error = ', err);
                             });
                     } else {
-                        accountsService
+                        adminAccountsService
                             .getClient($scope.clientObj)
                             .then(function (res) {
                                 if (res.status === 'OK' || res.status === 'success') {
@@ -449,6 +449,6 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 .then(function () {
                     $('popup-msg').appendTo(document.body);
                 });
-        });
+        }]);
     }
 );

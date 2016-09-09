@@ -1,8 +1,7 @@
-// global angObj, angular
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('line', function ($timeout) {
+    angularAMD.factory('line', ['$timeout', function ($timeout) {
         var findKey = function (obj, value) {
            var key;
 
@@ -13,7 +12,7 @@ define(['angularAMD'], function (angularAMD) {
            });
 
            // if value exists return the corresponding Key else return value
-           return (key !== undefined ? key.toUpperCase() : value.toUpperCase());
+           return (key !== undefined ? key.toUpperCase() : (value ? value.toUpperCase() : ''));
         };
 
         var lineChart = function (lineDate, threshold, kpiType,chartFrom) {
@@ -294,5 +293,5 @@ define(['angularAMD'], function (angularAMD) {
         return {
             highChart: lineChart
         };
-    });
+    }]);
 });

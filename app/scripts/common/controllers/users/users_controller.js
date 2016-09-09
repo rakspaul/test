@@ -1,17 +1,16 @@
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service',
-    'common/controllers/users/users_add_or_edit_controller', 'libs/modernizr-custom', 'libs/dlmenu'],
+define(['angularAMD', 'users-add-or-edit-controller', 'admin-account-service', 'modernizr-custom', 'dlmenu'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,$filter,
-                                                       constants,accountsService) {
+    angularAMD.controller('UsersController', ['$scope', '$rootScope', '$timeout', '$filter', '$modal', 'constants', 'adminAccountsService',
+        function ($scope,$rootScope, $timeout, $filter, $modal, constants, adminAccountsService) {
         var _curCtrl = this,
             winHeight = $(window).height(),
 
             usersList = {
                 getUsers:function () {
                     $scope.loadUserList = true;
-                    accountsService.getUsers().then(function (res) {
+                    adminAccountsService.getUsers().then(function (res) {
                         $scope.loadUserList = false;
                         $scope.UsersData.users= res.data.data;
                         _curCtrl.UsersData = $scope.UsersData.users;
@@ -48,6 +47,24 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, 2000);
             }
         };
+
+        // Change Password for User
+        $scope.changePassword = function (user) {
+
+
+            $modal.open({
+                templateUrl: assets.html_change_password,
+                controller: 'changePasswordController',
+                scope: $scope,
+                windowClass: 'delete-dialog',
+                resolve: {
+                  userObj: function () {
+                    return user;
+                  }
+                }
+            });
+        };
+
 
         usersList.getUsers();
 
@@ -93,5 +110,5 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.searchHideInput();
             }
         });
-    });
+    }]);
 });

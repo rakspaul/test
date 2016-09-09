@@ -1,5 +1,5 @@
 <popup-msg data-ng-show="alertMessage" data-ng-controller="popUpMsgCtr"
-           data-ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')">
+           data-ng-init="init('alertMessage')">
 </popup-msg>
 
 <div id="creativeList">
@@ -16,7 +16,7 @@
             </h1>
         </div>
         <div class="col-md-12 zeroPadding clearfix nav_filters">
-            <filter-directive data-ng-if="!isLeafNode" from="creativeList"></filter-directive>
+            <filter-directive from="creativeList"></filter-directive>
         </div>
         <div class="col-md-12 file_upload_container"
              id="file_upload_container_a"
@@ -33,7 +33,7 @@
                     <span class="icon-inline-edit"></span>
                     <span data-ng-bind="textConstants.EDIT"></span>
                 </button>
-                <button type="button" class="btn btn-default" data-ng-click="cancelDelete();">
+                <button type="button" class="btn btn-default" ng-disabled='(!checkedCreativeArr || checkedCreativeArr.length === 0)' data-ng-click="cancelDelete();">
                     <span class="icon-archive"></span>
                     <span data-ng-bind="textConstants.ARCHIVE"></span>
                 </button>
@@ -290,9 +290,9 @@
                    data-ng-checked="creativeData.active"
                    data-ng-click="selectedCreativeCheckbox(creativeData)">
             <a href="javascript:void(0);"
-               data-ng-click="ShowHideTag(creativeData, $index)"
+               data-ng-click="ShowHideCreativeWin(creativeData, $index)"
                tooltip="{{creativeData.name}}"
-               data-ng-bind="creativeData.name.length > 0 ? (creativeData.name | textEllipsis: 40 ) : ''">
+               data-ng-bind="creativeData.name.length > 0 ? (creativeData.name | textEllipsis: 32 ) : ''">
             </a>
             <div class="pull-right">
                 <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
@@ -307,7 +307,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a target="_blank"
-                                   data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/creative/{{creativeData.id}}/preview">
+                                   data-ng-click = "getPreviewUrl(creativeData, campaignId)">
                                     <span class="icon-preview withIcons">{{textConstants.PREVIEW}}</span>
                                 </a>
                             </li>
@@ -383,9 +383,9 @@
                       class="icon-warning"
                       title="{{adData.message}}">
                 </span>
-                <a data-ng-click="redirectAdEditPage(adData)"
+                <a class="marginTopFive" data-ng-click="redirectAdEditPage(adData, creativeData)"
                    tooltip="{{adData.campaignName}}/{{adData.adName}}"
-                   data-ng-bind="(adData.campaignName | textEllipsis: 42) + ' / ' +  (adData.adName | textEllipsis: 42)">
+                   data-ng-bind="(adData.campaignName | textEllipsis: 32) + ' / ' +  (adData.adName | textEllipsis: 32)">
                 </a>
                 <div class="pull-right">
                     <div class="dropdown-workflow" data-ng-if="creativeData.creativeTemplate.templateType === 'NORMAL'">
@@ -400,8 +400,8 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a target="_blank"
-                                       data-ng-href="/clientId/{{creativeData.clientId}}/adv/{{creativeData.advertiserId}}/campaignId/{{adData.campaignId}}/adId/{{adData.adId}}/creative/{{creativeData.id}}/preview"
-                                       data-ng-bind-html="textConstants.PREVIEW">
+                                       data-ng-click = "getPreviewUrl(creativeData, adData.campaignId, adData.adId)">
+                                        <span class="icon-preview withIcons">{{textConstants.PREVIEW}}</span>
                                     </a>
                                 </li>
                             </ul>

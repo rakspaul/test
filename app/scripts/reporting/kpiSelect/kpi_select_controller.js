@@ -1,8 +1,8 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'kpi-select-model', 'campaign-select-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('KpiSelectController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
+    angularAMD.controller('KpiSelectController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
+        'constants', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
                                                            constants) {
         function setArrowSelector() {
             $('.kpi_indicator_ul li,.direction_arrows div.kpi_arrow_sort').hover(function (e) {
@@ -204,5 +204,5 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 return 'point_up';
             }
         };
-    });
+    }]);
 });

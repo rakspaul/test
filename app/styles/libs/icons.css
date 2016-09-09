@@ -75,9 +75,6 @@
 .icon-brand:before {
   content: "\65";
 }
-.icon-image:before {
-  content: "\71";
-}
 .icon-message:before {
   content: "\76";
 }
@@ -113,9 +110,6 @@
 }
 .icon-attach:before {
   content: "\63";
-}
-.icon-card-view:before {
-  content: "\59";
 }
 .icon-calendar:before {
   content: "\66";
@@ -246,9 +240,6 @@
 .icon-help:before {
   content: "\53";
 }
-.icon-list:before {
-  content: "\21";
-}
 .icon-statusdraft:before {
   content: "\25";
 }
@@ -296,4 +287,16 @@
 }
 .icon-audience:before {
   content: "\64";
+}
+.icon-card-view:before {
+  content: "\59";
+}
+.icon-list:before {
+  content: "\21";
+}
+.icon-image:before {
+  content: "\71";
+}
+.icon-native:before {
+  content: "\7b";
 }

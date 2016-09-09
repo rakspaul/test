@@ -1,9 +1,9 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/url_service',
-    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model'],
+define(['angularAMD', 'url-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('invoiceUploadSOR', function ($scope, $rootScope, $modalInstance, dataService, urlService,
+        angularAMD.controller('invoiceUploadSOR', ['$scope', '$rootScope', '$modalInstance', 'dataService', 'urlService',
+            'constants', 'loginModel', 'advertiserModel', 'Upload', function ($scope, $rootScope, $modalInstance, dataService, urlService,
                                                             constants, loginModel, advertiserModel, Upload) {
             $scope.textConstants = constants;
             $scope.clientName = loginModel.getSelectedClient().name;
@@ -67,6 +67,6 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                 .then(function () {
                     $('popup-msg').appendTo(document.body);
                 });
-        });
+        }]);
     }
 );

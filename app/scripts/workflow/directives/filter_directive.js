@@ -1,73 +1,10 @@
-define(['angularAMD', 'workflow/services/filter_service', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'filter-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('filterDirective', function (filterService) {
+    angularAMD.directive('filterDirective', function () {
         return {
-            controller: function ($scope,$rootScope, workflowService, loginModel, constants) {
-                var setAdvertiserOnLSAndShow = function () {
-                        //set to localstorage
-                        var advertiserObj = {
-                            id: $scope.filterData.advertiserList[0].id,
-                            name: $scope.filterData.advertiserList[0].name,
-                            referedFrom: 'filterDirective'
-                        };
-
-                        localStorage.setItem('setAdvertiser', JSON.stringify(advertiserObj));
-
-                        $scope.filterData.advertiserSelectedId  = $scope.filterData.advertiserList[0].id;
-                        $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
-                    },
-
-                    fetchAdvertiserAndBroadCast = function (onClientSelect) {
-                        onClientSelect = onClientSelect || false;
-
-                        filterService.fetchAdvertisers($scope.filterData.subAccSelectedId, function (advertiserData) {
-                            var args = {
-                                from: $scope.from,
-                                clientId: $scope.filterData.subAccSelectedId,
-                                advertiserId: -1
-                            };
-
-                            $scope
-                                .filterData.advertiserList= [{
-                                    id: '-1',
-                                    name: constants.ALL_ADVERTISERS
-                                }]
-                                .concat(advertiserData);
-
-                            if (onClientSelect) {
-                                setAdvertiserOnLSAndShow();
-                            }
-
-                            $rootScope.$broadcast('filterChanged', args);
-                        });
-                    },
-
-                    fetchSubAccounts = function () {
-                        filterService.getSubAccount(function (accountData) {
-                            var selectedAdvertiser = JSON.parse(localStorage.getItem('setAdvertiser'));
-
-                            $scope.filterData.subAccountList = accountData;
-
-                            if (loginModel.getSelectedClient().id) {
-                                $scope.filterData.subAccSelectedId = loginModel.getSelectedClient().id;
-                                $scope.filterData.subAccSelectedName = loginModel.getSelectedClient().name;
-                            } else {
-                                $scope.filterData.subAccSelectedName = accountData[0].displayName;
-                                $scope.filterData.subAccSelectedId = accountData[0].id;
-                            }
-
-                            if (selectedAdvertiser) {
-                                $scope.filterData.advertiserSelectedId = selectedAdvertiser.id;
-                                $scope.filterData.advertiserSelectedName = selectedAdvertiser.name;
-                            } else {
-                                $scope.filterData.advertiserSelectedId  = $scope.filterData.advertiserList[0].id;
-                                $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
-                            }
-
-                            fetchAdvertiserAndBroadCast();
-                        });
-                    };
+            controller: function ($scope, $rootScope, $location, $routeParams, workflowService, loginModel, constants, vistoconfig,
+                                  accountService, subAccountService, filterService) {
 
                 $scope.filterData = {};
                 $scope.filterData.subAccountList = [];
@@ -75,51 +12,40 @@ define(['angularAMD', 'workflow/services/filter_service', 'common/services/const
                 $scope.filterData.subAccSelectedId = '';
                 $scope.constants = constants;
 
-                $scope.filterData.advertiserList = [{
-                    id: '-1',
-                    name: constants.ALL_ADVERTISERS
-                }];
 
-                $scope.filterData.advertiserSelectedName = '';
-                $scope.filterData.advertiserSelectedId ='';
+                var fetchAdvertiserAndBroadCast = function (clientId, onClientSelect) {
 
-                fetchSubAccounts();
+                    onClientSelect = onClientSelect || false;
 
-                $scope.selectClient = function (subAccount) {
-                    $('#subAcc_name_selected').text(subAccount.displayName);
-                    $scope.filterData.subAccSelectedName = subAccount.displayName;
-                    $scope.filterData.subAccSelectedId = subAccount.id;
+                    filterService
+                        .fetchAdvertisers(clientId, function (advertiserData) {
 
-                    loginModel.setSelectedClient({
-                        id: subAccount.id,
-                        name: subAccount.displayName
-                    });
+                            $scope.filterData.advertiserList= [{
+                                id: '-1',
+                                name: constants.ALL_ADVERTISERS
+                            }].concat(advertiserData);
 
-                    fetchAdvertiserAndBroadCast(true);
+                            if($scope.filterData.advertiserList) {
+                                $scope.filterData.advertiserSelectedId = Number($scope.filterData.advertiserList[0].id);
+                                $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+                            }
+
+                            $rootScope.$broadcast('filterChanged', {
+                                clientId: clientId,
+                                advertiserId: $scope.filterData.advertiserSelectedId
+                            });
+                        });
                 };
 
-                $scope.selectAdvertisers = function (advertiser) {
-                    var advertiserObj = {
-                            id: advertiser.id,
-                            name: advertiser.name,
-                            referedFrom: 'filterDirective'
-                        },
+                $scope.showSubAccountDropDown = function () {
+                    var subAccountDropdownList = $('#subAccountDropDownList');
 
-                        args;
-
-                    $scope.filterData.advertiserSelectedName = advertiser.name;
-                    $scope.filterData.advertiserSelectedId = advertiser.id;
-
-                    //set to localstorage
-                    localStorage.setItem('setAdvertiser', JSON.stringify(advertiserObj));
-
-                    args = {
-                        from: $scope.from,
-                        clientId: $scope.filterData.subAccSelectedId,
-                        advertiserId: advertiser.id
-                    };
-
-                    $rootScope.$broadcast('filterChanged',args);
+                    subAccountDropdownList.toggle();
+                    $('#cdbMenu').closest('.each_filter').removeClass('filter_dropdown_open');
+                    subAccountDropdownList.closest('.each_filter').toggleClass('filter_dropdown_open');
+                    $('#cdbDropdown').hide();
+                    $('#profileDropdown').hide();
+                    $('#advertisersDropDownList').hide();
                 };
 
                 $scope.showAdvertisersDropDown = function () {
@@ -127,11 +53,53 @@ define(['angularAMD', 'workflow/services/filter_service', 'common/services/const
                         .toggle()
                         .closest('.each_filter')
                         .toggleClass('filter_dropdown_open');
+                    $('#subAccountDropDownList').hide();
                 };
 
-               $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function () {
-                   setAdvertiserOnLSAndShow();
+                $scope.selectAdvertisers = function (advertiser) {
+                     var args;
+
+                     if(advertiser) {
+                         $scope.filterData.advertiserSelectedName = advertiser.name;
+                         $scope.filterData.advertiserSelectedId = advertiser.id;
+                         //set to localstorage
+
+                         args = {
+                             from: $scope.from,
+                             clientId: advertiser.clientId,
+                             advertiserId: advertiser.id
+                         };
+                         $rootScope.$broadcast('filterChanged', args);
+                         $scope.selectedAdvertiser = '';
+                     }
+
+                };
+
+                $scope.changeSubAccount =  function(account) {
+                    $scope.filterData.subAccSelectedName = account.displayName ;
+                    var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/creative/list';
+                    $location.url(url);
+                };
+
+                $(function() {
+                    var accountData =  accountService.getSelectedAccount(),
+                        selectedSubAccount,
+                        clientId;
+
+                    if(!accountData.isLeafNode) {
+                        accountData = subAccountService.getSubAccounts();
+                        selectedSubAccount = subAccountService.getSelectedSubAccount();
+                        clientId = selectedSubAccount.id;
+                        $scope.filterData.subAccountList = _.sortBy(accountData, 'displayName');
+                        $scope.filterData.subAccSelectedName = selectedSubAccount.displayName;
+                        $scope.filterData.subAccSelectedId = selectedSubAccount.id;
+                    } else {
+                        clientId = accountData.id;
+                    }
+                    fetchAdvertiserAndBroadCast(clientId);
                 });
+
+
             },
 
             restrict: 'EAC',

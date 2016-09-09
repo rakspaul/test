@@ -1,9 +1,8 @@
-define(['angularAMD', 'workflow/services/workflow_service',
-    'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
 
     'use strict';
 
-    angularAMD.service('featuresService', function ($rootScope, $location, workflowService, vistoconfig) {
+    angularAMD.service('featuresService', ['$rootScope', '$location', 'workflowService', 'vistoconfig', function ($rootScope, $location, workflowService, vistoconfig) {
         var params = [
                 'dashboard',
                 'report_overview',
@@ -29,14 +28,27 @@ define(['angularAMD', 'workflow/services/workflow_service',
                 'reports_invoice'
             ],
 
-            dbFeatureToUIFeatureMap = {REP_OVERVIEW: 'report_overview', REP_INV: 'inventory', 
-                    REP_PERF: 'performance', REP_QUALITY: 'quality', COST: 'cost',
-                    REP_OPT_WRITE: ['optimization_create', 'optimization_transparency'], 
-                    REP_OPT_TRANSPARENCY: 'optimization_transparency', 
-                    REP_PLATFORM: 'platform', REP_SCH: 'scheduled_reports', REP_INSIGHTS: 'collective_insights',
-                    MEDIAPLAN_SETUP: 'create_mediaplan', MEDIAPLAN_HUB: 'mediaplan_hub', AD_SETUP: 'ad_setup', 
-                    MEDIAPLAN_LIST: 'mediaplan_list', CREATIVE_LIST: 'creative_list', DASHBOARD: 'dashboard',
-                    REPORTS_TAB: 'reports_tab', REP_INVOICE: 'reports_invoice', REP_DISCREPANCY: 'discrepancy'},
+            dbFeatureToUIFeatureMap = {
+                REP_OVERVIEW: 'report_overview',
+                REP_INV: 'inventory',
+                REP_PERF: 'performance',
+                REP_QUALITY: 'quality',
+                COST: 'cost',
+                REP_OPT_WRITE: ['optimization_create', 'optimization_transparency'],
+                REP_OPT_TRANSPARENCY: 'optimization_transparency',
+                REP_PLATFORM: 'platform',
+                REP_SCH: 'scheduled_reports',
+                REP_INSIGHTS: 'collective_insights',
+                MEDIAPLAN_SETUP: 'create_mediaplan',
+                MEDIAPLAN_HUB: 'mediaplan_hub',
+                AD_SETUP: 'ad_setup',
+                MEDIAPLAN_LIST: 'mediaplan_list',
+                CREATIVE_LIST: 'creative_list',
+                DASHBOARD: 'dashboard',
+                REPORTS_TAB: 'reports_tab',
+                REP_INVOICE: 'reports_invoice',
+                REP_DISCREPANCY: 'discrepancy'
+            },
 
             featureParams = [],
 
@@ -54,6 +66,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
 
             setSingleFeatureParam = function (featureName, boolStatus) {
                 var uiFeatureName = dbFeatureToUIFeatureMap[featureName];
+
                 if (uiFeatureName) {
                     if (_.isArray(uiFeatureName)) {
                         _.each(uiFeatureName, function(feature) {
@@ -117,7 +130,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
             setGetFeatureParams = function (feature_param) {
                 var masterClientId,
 
-                    setFparams = function () {
+                    _setFeatureParams = function () {
                         var featureParams = getFeatureParams();
 
                         if ((feature_param === 'dashboard') && (featureParams[0][feature_param] === false)) {
@@ -129,7 +142,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
                     };
 
                 if (serverResponseReceived) {
-                    setFparams();
+                    _setFeatureParams();
                 } else {
                     masterClientId = JSON.parse(localStorage.getItem('masterClient')).id;
 
@@ -143,7 +156,7 @@ define(['angularAMD', 'workflow/services/workflow_service',
                                     setFeatureParams(response.data.data.features, 'headercontroller');
                                 }
 
-                                setFparams();
+                                _setFeatureParams();
                             });
                     }
                 }
@@ -157,5 +170,5 @@ define(['angularAMD', 'workflow/services/workflow_service',
             setFeatureParams: setFeatureParams,
             getFeatureParams: getFeatureParams
         };
-    });
+    }]);
 });

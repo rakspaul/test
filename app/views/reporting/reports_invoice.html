@@ -1,5 +1,5 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
+           ng-init="init('flashMessage')"></popup-msg>
 <div class="report-invoice">
 <div class="reports-invoice-list">
 <div class=" clearfix popup-holder">
@@ -13,18 +13,22 @@
     <div class="col-md-12 zeroPadding">
         <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
             <span class="tagTitle" data-ng-bind="'Account:'"></span>
-            <span>Visto QA</span>
+            <span data-ng-bind="breadcrumbsDisplay.clientName"></span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
         </div>
         <div class="pull-left" style="padding-left:5px;">
             <span class="tagTitle" data-ng-bind="'Advertiser:'"></span>
-            <span>Lickety Splitz</span>
+            <span data-ng-bind="breadcrumbsDisplay.advertiserName"></span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
         </div>
-
+        <div class="pull-left" style="padding-left:5px;">
+            <span class="tagTitle" data-ng-bind="'Media Plan:'"></span>
+            <span data-ng-bind="breadcrumbsDisplay.mediaPlanName"></span>
+            <span class="slash-divider" style="padding-left:5px;">/</span>
+        </div>
         <div class="pull-left" style="padding-left:5px;">
             <span class="tagTitle" data-ng-bind="'Invoice ID:'"></span>
-            <span class="ng-binding">7</span>
+            <span class="ng-binding" data-ng-bind="breadcrumbsDisplay.invoiceId"></span>
         </div>
     </div>
   </div>
@@ -183,7 +187,7 @@
         <div class="col-md-1">
             <div class="pull-left">
                 <span class="greyTxt" data-ng-bind="'Spend'"></span> <br>
-                <span data-ng-bind="invoiceDetails.spendTotal"></span>
+                <span data-ng-bind="invoiceDetails.spendTotal | number:2"></span>
             </div>
         </div>
 
@@ -197,7 +201,7 @@
         <div class="col-md-1">
             <div class="pull-left">
                 <span class="greyTxt" data-ng-bind="'Billable'"></span> <br>
-                <span data-ng-bind="invoiceDetails.billable"></span>
+                <span data-ng-bind="invoiceDetails.billable | number:2"></span>
             </div>
         </div>
 

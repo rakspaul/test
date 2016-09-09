@@ -1,7 +1,7 @@
-define(['angularAMD', 'common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('kpiSelectModel', function (vistoconfig) {
+    angularAMD.factory('kpiSelectModel', ['vistoconfig', function (vistoconfig) {
         var kpiData = {};
 
         kpiData.selectedKpi = (localStorage.getItem('selectedKpi') === undefined) ?
@@ -55,5 +55,5 @@ define(['angularAMD', 'common/services/vistoconfig_service'], function (angularA
         };
 
         return kpiData;
-    });
+    }]);
 });

@@ -1,20 +1,15 @@
-/**
- * Created by Sapna kotresh on 06/08/15.
- */
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
-    'reporting/brands/brands_model', 'common/services/data_service', 'common/services/url_service',
-    'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
-    'common/services/data_store_model', 'common/utils', 'reporting/advertiser/advertiser_model',
-    'reporting/models/domain_reports', 'reporting/campaignSelect/campaign_select_directive',
-    'reporting/collectiveReport/collective_delete_report_controller',
-    'reporting/collectiveReport/collective_edit_report_controller'], function (angularAMD) {
+define(['angularAMD', 'collective-report-model', 'url-service', 'campaign-select-model', 'data-store-model',
+    'common-utils', 'collective-delete-report-controller', 'collective-edit-report-controller'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CollectiveReportListingController', function ($filter, $scope, $rootScope, $modal,
-                                                                        collectiveReportModel, brandsModel, dataService,
-                                                                        urlService, campaignSelectModel, constants,
-                                                                        dataStore, utils, advertiserModel,
-                                                                        domainReports) {
+    angularAMD.controller('CollectiveReportListingController', ['$filter', '$scope', '$rootScope', '$modal', '$location',
+        'collectiveReportModel', 'brandsModel', 'dataService', 'urlService', 'campaignSelectModel', 'constants',
+        'dataStore', 'utils', 'advertiserModel', 'domainReports', 'vistoconfig', 'reportsList', 'urlBuilder',
+
+        function ($filter, $scope, $rootScope, $modal, $location, collectiveReportModel, brandsModel, dataService,
+                  urlService, campaignSelectModel, constants, dataStore, utils, advertiserModel, domainReports,
+                  vistoconfig, reportsList, urlBuilder) {
+
         var browserInfo = utils.detectBrowserInfo();
 
         $scope.reportToEdit = {};
@@ -22,9 +17,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
         $scope.campaign = 'Media Plan Name';
         domainReports.highlightHeaderMenu();
         $scope.customFilters = domainReports.getCustomReportsTabs();
-        $scope.reportList = [];
+        $scope.reportList = collectiveReportModel.getReportListData();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-        $scope.nodata = '';
+        $scope.nodata = $scope.reportList.length ? '' : 'No Data Available';
 
         $scope.sort = {
             column: 'updatedAt',
@@ -33,32 +28,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
 
         $scope.screenBusy = false;
 
-        $scope.getReports = function () {
-            $scope.screenBusy = true;
-
-            collectiveReportModel.reportList(function (response) {
-                if (response.data !== undefined && response.data.length > 0) {
-                    $scope.reportList = response.data;
-                    $scope.sortReport($scope.sort.column);
-                    $scope.screenBusy = false;
-                } else {
-                    $scope.reportList = [];
-                    $scope.nodata = 'Data not found';
-                    $scope.screenBusy = false;
-                }
-            }, function () {
-                $scope.screenBusy = false;
-            });
-        };
-
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function () {
-            // update the selected Campaign
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-
-            $scope.nodata = '';
-            $scope.reportList = [];
-            $scope.getReports();
-        });
 
         // Edit report Pop up
         $scope.editReportModal = function (index) {
@@ -115,25 +84,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
                     deleteAction: function () {
                         return function () {
                             collectiveReportModel.deleteReport(reportId, function (response) {
-                                var selectedCampaign,
-                                    advertiserId,
-                                    brandId,
-                                    url;
 
                                 if (response.status_code === 200) {
                                     $scope.reportList.splice(index, 1);
                                     $rootScope.setErrAlertMessage(constants.reportDeleteSuccess, 0);
-
-                                    selectedCampaign = JSON.parse(localStorage.getItem('selectedCampaign'));
-                                    advertiserId = advertiserModel.getSelectedAdvertiser().id;
-                                    brandId = brandsModel.getSelectedBrand().id;
-
-                                    url = urlService.APIReportList(advertiserId, brandId, selectedCampaign ?
-                                        selectedCampaign.id : -1);
-
-                                    if (url) {
-                                        dataStore.deleteFromCache(url);
-                                    }
                                 } else {
                                     $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
                                 }
@@ -147,9 +101,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
         $scope.downloadCollectiveReport = function (reportId) {
             if (reportId) {
                 $scope.screenBusy = true;
+                var clientId = vistoconfig.getSelectedAccountId();
 
                 dataService
-                    .downloadFile(urlService.APIDownloadReport(reportId))
+                    .downloadFile(urlService.APIDownloadReport(clientId, reportId))
                     .then(function (response) {
                         if (response.status === 'success') {
                             $scope.screenBusy = false;
@@ -175,23 +130,17 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model',
             }
         };
 
-        $scope.deleteReport = function ($index, reportId) {
-            if (confirm('Are you sure you want to delete this?')) {
-                collectiveReportModel.deleteReport(reportId, function (response) {
-                    if (response.status_code === 200) {
-                        $scope.reportList.splice($index, 1);
-                        $rootScope.setErrAlertMessage(constants.reportDeleteSuccess, 0);
-                    } else {
-                        $rootScope.setErrAlertMessage(constants.reportDeleteFailed);
-                    }
-                });
-            }
-        };
-
         $scope.sortReport = function (column) {
             $scope.sort.column = column;
             $scope.reportList = $filter('orderBy')($scope.reportList, column, $scope.sort.descending);
             $scope.sort.descending = !$scope.sort.descending;
         };
-    });
+
+        $scope.sortReport($scope.sort.column);
+
+        $scope.goToUploadReports = function() {
+            $location.url(urlBuilder.uploadReportsUrl());
+        };
+
+    }]);
 });

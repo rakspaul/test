@@ -1,6 +1,6 @@
 <popup-msg data-ng-show="alertMessage"
            data-ng-controller="popUpMsgCtr"
-           data-ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')">
+           data-ng-init="init('alertMessage')">
 </popup-msg>
 
 <div id="detailedPage" class="dashboard_outer_container yo" data-ng-controller="CampaignListController">
@@ -19,7 +19,7 @@
     <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
         <!--Create Media Plan Btn-->
         <div class="pull-left btn-group create" role="group" aria-label="...">
-            <a class="btn btn-default" href="/mediaplan/create"  data-ng-if="showCreateMediaPlan">
+            <a class="btn btn-default" ng-click="navigateToMediaPlanCreatePage()"  ng-if="showCreateMediaPlan">
                 <span class="icon-plus"></span>
                 <span data-ng-bind="textConstants.CREATE"></span>
             </a>
@@ -51,7 +51,6 @@
             </div>
         </div>
 
-        <!--  campaigns.appliedQuickFilterText -->
         <span class="pull-right"
               data-ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' +
                 campaigns.dashboard.filterTotal + ' Media Plans' :

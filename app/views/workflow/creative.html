@@ -1,12 +1,9 @@
 
 <popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+           ng-init="init('partialSaveAlertMessage')"></popup-msg>
 
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="CreativeController">
-<!--<div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">-->
 <div id="creative">
-    <!--<popup-msg ng-show="createAlertMessage" ng-controller="popUpMsgCtr"-->
-               <!--ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>-->
     <!-- Header Starts -->
     <div class="page_header_container">
         <div class="col-md-10 containerWrap">
@@ -15,8 +12,6 @@
             <p class="">Back</p>
             </div>
             <div class="col-md-12 zeroPadding">
-            <!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
-            <!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
             <h2 class="pull-left" style="margin: 0;" data-ng-bind="textConstants.CREATIVE_SETUP"></h2>
             </div>
         </div>
@@ -25,29 +20,19 @@
     <!--=== List Starts ===-->
     <div class="creativeList">
         <div class="col-md-12 containerWrap">
-            <!--<div class="col-md-6 zeroPadding clearfix nav_filters" >-->
-            <!--    <creative-drop-down></creative-drop-down>-->
-            <!--</div>-->
-
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
-                    <!--<div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative = true">-->
                         <span class="common-loading-btn pull-right" ng-show="savingCreative" style="width:118px"></span>
-                    <!--</div>-->
 					<button type="submit" class="btn btn-primary pull-right" ng-disabled="savingCreative" id="saveCreative" ng-hide="savingCreative" data-ng-bind="textConstants.SAVE_CREATIVE"></button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()" data-ng-bind="textConstants.CANCEL"></a>
                 </div>
-                <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
-                <!--<creative-drop-down></creative-drop-down>-->
-                <!--</div>-->
 
                     <div class="form-group col-md-8" show-errors>
                         <label for="name" class="greyTxt" style="margin-top: 0;">Creative Name</label>
-                        <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." remove-special-character="remove-special-character" required>
+                        <input type="text" class="form-control ng-pristine ng-valid"  id="name" name="name" ng-model="name" placeholder="Enter up to 250 characters, no punctuation or special characters." special-character="special-character" required>
+                        <span class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></span>
+
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.WF_MANDATORY_CREATIVE_NAME"></label>
-                    </div>
-                    <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
-                        <!--<creative-drop-down></creative-drop-down>-->
                     </div>
                     <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;" data-ng-bind="textConstants.CREATIVE_FOR"></span>
                     <div class="col-sm-8 zeroPadding">
@@ -62,7 +47,7 @@
                                             <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
-                                            <li ng-repeat="subaccount in subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.displayName}}</a></li>
+                                            <li ng-repeat="subaccount in subAccounts track by subaccount.id" class="available"><a ng-click="changeSubAccount(subaccount)">{{subaccount.displayName}}</a></li>
                                         </ul>
                                         <input class="form-control" type="hidden" name="subAccountId" ng-model="creative.clientId" ng-update-hidden required/>
                                     </div>
@@ -76,7 +61,7 @@
                                 <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;" data-ng-bind="textConstants.ADVERTISERS"></label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0) || (associatedAdCount>0)">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="(!advertisers || advertisers.length === 0) || adPage || (pushedCount>0) || (associatedAdCount>0)">
                                             <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
                                             <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
                                             <span class="icon-arrow-solid-down"></span>
@@ -93,7 +78,7 @@
                                 <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;" data-ng-bind="textConstants.BRAND"></label>
                                 <div class="col-md-12 zeroPadding dropdown-workflow">
                                     <div class="dropdown">
-                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-ng-disabled="(!brands || brands.length === 0)">
                                             <span class="text">{{brandName ? brandName : 'Select Brand' }}</span>
                                             <span class="icon-arrow-solid-down"></span>
                                         </button>
@@ -155,7 +140,6 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'" ng-disabled="pushedCount>0" aria-expanded="true" title={{CreativeTemplate.name}}>
-                                    <!--<span class="text">{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>-->
                                     <span class="icon-arrow-solid-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
@@ -166,18 +150,7 @@
                                 <input name="creativeTemplate" ng-model="adData.creativeTemplate" type="hidden"  ng-update-hidden/>
                             </div>
                         </div>
-                        <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
                     </div>
-                    <!--Static template Ui Elements-->
-                    <!--<div class="form-group col-md-8" style="clear: left;" show-errors>-->
-                        <!--<label for="tag" class="col-md-12 zeroPadding greyTxt" data-ng-bind="textConstants.CREATIVE_SECURE_TAG"></label>-->
-                        <!--<textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>-->
-                        <!--<label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SSL_ERROR_MESSAGE"></label>-->
-                        <!--<label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{IncorrectTagMessage}}</label>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;<div ng-if="TrackingIntegrationsSelected" ng-hide="TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" ng-value="'%%TRACKER%%'"></textarea>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
                     <div class="form-group col-md-4 radioBtnToggle" style="padding-top: 20px; clear: left;">
                         <div class="schedule-on-off-btn pull-left">
@@ -242,7 +215,24 @@
 
                 <!--Template from Json to be appended on this DIV-->
 
-                    <div class="creativeTemplate"></div>
+                    <div>
+                        <div class="creativeTemplate">
+
+                        </div>
+                        <div class="col-md-12 zeroPadding marginTop form-group">
+                            <label class="col-md-12 zeroPadding">
+                                <input  type="checkbox" data-ng-checked="toggleCodeField" data-ng-click="clickTrackingBox()">
+                                <span class="label-txt" style="font-weight: normal">{{textConstants.TRACKING_MESSAGE}}</span>
+                            </label>
+                            <div class="col-md-4 zeroPadding" ng-show="toggleCodeField" >
+                                <span class="greyTxt col-md-12 zeroPadding" for="name">Tracking Code</span>
+                                <input type="text" class="form-control" name = "thirdPartyTracker" ng-model="adData.thirdPartyTracker" >
+                            </div>
+
+
+                        </div>
+                    </div>
+
 
                 </form>
             </div>

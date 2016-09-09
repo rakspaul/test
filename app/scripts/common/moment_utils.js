@@ -1,176 +1,232 @@
-define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_service',
-    'common/services/vistoconfig_service', 'common/services/vistoconfig_service'], function(angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     angularAMD.service('momentService', ['loginModel', 'constants', 'vistoconfig',
-        function(loginModel, constants, vistoconfig) {
-        this.today = function() {
+        function (loginModel, constants, vistoconfig) {
 
-            var tz  = this.getTimezoneName();
-            var m = moment.tz(tz);
-            return m.startOf('day');
-        };
+            var mappedDateParse = function(dateString) {
+                var timeZoneDesignatorMap = {
+                    akdt : '-0800',
+                    akst : '-0900',
+                    art : '-0300',
+                    hadt : '-0900',
+                    hst : '-1000'
+                };
 
-        this.getCurrentYear = function() {
-            return this.today().year();
-        };
+                var name, newDateString, regex;
 
-        // eg: moment('2010-10-20').isBefore('2010-10-21');
-        this.isDateBefore = function(date1, date2) {
-            return moment(date1).isBefore(date2);
-        };
+                for (name in timeZoneDesignatorMap) {
+                    regex = new RegExp(name, 'i');
+                    if (dateString.search(regex) !== -1) {
+                        newDateString = dateString.replace(regex, timeZoneDesignatorMap[name]);
+                        return Date.parse(newDateString);
+                    }
+                }
 
-        this.isSameOrAfter = function(date1, date2) {
-            if (moment(date1).isSame(date2)) {
-                return true;
-            }
+                return Date.parse(dateString);
+            };
 
-            return moment(date1).isAfter(date2);
-        };
 
-        this.newMoment = function(date) {
-            var tz  = this.getTimezoneName();
 
-            if (_.isDate(date)) {
-                return this.newMoment(moment(date).format('YYYY-MM-DD'));
-            }
+            this.today = function () {
 
-            if (_.isString(date) || _.isNumber(date)) {
-                return moment(date).tz(tz);
-            }
-        };
+                var tz = vistoconfig.getClientTimeZone();
+                var m = moment.tz(tz);
+                return m.startOf('day');
+            };
 
-        this.addDays = function(dateFormat, noOfDays) {
-            return moment().add('days', noOfDays).format(dateFormat);
-        };
+            this.getCurrentYear = function () {
 
-        this.addDaysCustom = function(date, dateFormat, noOfDays) {
-            return moment(date).add('days', noOfDays).format(dateFormat);
-        };
+                return this.today().year();
 
-        this.substractDaysCustom = function(date, dateFormat, noOfDays) {
-            return moment(date).subtract(noOfDays , 'days').format(dateFormat);
-        };
+            };
 
-        this.reportDateFormat = function(reportDateTime) {
-            var yesterday = moment().subtract(1, 'day');
+            this.isDateBefore = function (date1, date2) {
 
-            if (moment(reportDateTime).startOf('day').isSame(moment().startOf('day'))) {
-                return moment(reportDateTime).format('HH:mm A');
-            } else if (moment(reportDateTime).isSame(yesterday, 'day')) {
-                return constants.YESTERDAY;
-            } else {
-                return moment(reportDateTime).format('D MMM YYYY HH:mm A');
-            }
-        };
+                return moment(date1).isBefore(date2);
 
-        // function can be called as momentService.todayDate('YYYY-MM-DD')
-        this.todayDate = function(dateFormat) {
-            return moment().format(dateFormat);
-        };
+            };
 
-        this.dateDiffInDays = function(date1, date2) {
-            var d1 = moment(date1),
-                d2 = moment(date2);
+            this.isSameOrAfter = function (date1, date2) {
 
-            return moment.duration(d2.diff(d1)).asDays();
-        };
+                if (moment(date1).isSame(date2)) {
+                    return true;
+                }
 
-        this.isGreater = function(date1, date2) {
-            var d1 = moment(date1),
-                d2 = moment(date2);
+                return moment(date1).isAfter(date2);
 
-            if (d2.diff(d1) < 0) {
-                return true;
-            }
-            return false;
-        };
+            };
 
-        // NEW METHODS START HERE -- Lalding (5th Jan 2016)
-        // Get timezone name stored in localStorage ('clientRoleObj').
-        this.getTimezoneName = function() {
-            var clientRoleObj = JSON.parse(localStorage.getItem('clientRoleObj'));
+            this.newMoment = function (date) {
 
-            if (clientRoleObj && clientRoleObj.timezoneName) {
-                return clientRoleObj.timezoneName;
-            }
-        };
+                var tz = vistoconfig.getClientTimeZone();
 
-        // Set the timezone name based on the timezone abbreviation, and store in localStorage ('clientRoleObj').
-        this.setTimezoneName = function(timezone, clientRoleObj) {
-            clientRoleObj.timezoneName = vistoconfig.timeZoneNameMapper[timezone];
-        };
+                if (_.isDate(date)) {
+                    return this.newMoment(moment(date).format('YYYY-MM-DD'));
+                }
 
-        // Create a new moment object based on the timezoneName stored in LocalStorage ('clientRoleObj').
-        // and retrieved using getTimezoneName().
-        this.getTimezoneMoment = function(dateTime) {
-            if (typeof dateTime === 'undefined') {
-                // If time is not given, use system date.
-                return moment.tz(this.getTimezoneName());
-            } else {
-                // If time is given, use it.
-                return moment.tz(dateTime, this.getTimezoneName());
-            }
-        };
+                if (_.isString(date) || _.isNumber(date)) {
+                    return moment(date).tz(tz);
+                }
 
-        // Create a new moment object and store it in LocalStorage ('clientRoleObj').
-        // NOTE: The moment object gets serialised when it's stored in LocalStorage.
-        this.setTimezoneMoment = function(clientRoleObj) {
-            clientRoleObj.timezoneMoment = moment.tz(this.getTimezoneName());
-        };
+            };
 
-        // Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
-        // Also, startTime is forced to beginning of day & endTime to end of day.
-        this.localTimeToUTC = function(dateTime, type, timezone, isDateChanged) {
-            var clientUTCTime,
-                parseDateTime,
-                currentUTCTime,
-                tz,
-                timeZoneCode,
-                timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
+            this.addDays = function (dateFormat, noOfDays) {
 
-            if(typeof isDateChanged === 'undefined') {
-                isDateChanged = true;
-            }
+                return moment().add('days', noOfDays).format(dateFormat);
 
-            if(timezone) {
-                timeZoneCode = vistoconfig.timeZoneNameMapper[timezone];
-                tz = moment(dateTime).tz(timeZoneCode).format('z');
-            } else {
-                tz = moment(dateTime).tz(this.getTimezoneName()).format('z');
-            }
+            };
 
-            parseDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
-            clientUTCTime = moment(parseDateTime).tz('UTC');
-            currentUTCTime  = moment.utc();
+            this.addDaysCustom = function (date, dateFormat, noOfDays) {
 
-            if(isDateChanged && moment(clientUTCTime).isBefore(currentUTCTime)) {
-                clientUTCTime = moment(currentUTCTime).add(10, 'seconds');
-            }
+                return moment(date).add('days', noOfDays).format(dateFormat);
 
-            return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT);
-        };
+            };
 
-        // Convert UTC to local time (EST, GMT, etc. when loading data for edit.
-        this.utcToLocalTime = function(dateTime, dtFormat) {
-            var d,
-                parsedDate,
-                tz,
-                format;
+            this.substractDaysCustom = function (date, dateFormat, noOfDays) {
 
-            format = dtFormat || constants.DATE_US_FORMAT;
+                return moment(date).subtract(noOfDays, 'days').format(dateFormat);
 
-            if (!dateTime) {
-                return moment().format(format);
-            } else {
-                d = dateTime.slice(0, 10).split('-');
-                parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
-                tz = this.getTimezoneName();
+            };
 
-                return moment(parsedDate).tz(tz) && moment(parsedDate).tz(tz).format(format) ;
-            }
-        };
+            this.reportDateFormat = function (reportDateTime) {
 
-        this.formatDate = function(dateTime,format) {
-            return moment(dateTime).format(format);
-        };
-    }]);
+                var yesterday = moment().subtract(1, 'day');
+
+                if (moment(reportDateTime).startOf('day').isSame(moment().startOf('day'))) {
+                    return moment(reportDateTime).format('HH:mm A');
+                } else if (moment(reportDateTime).isSame(yesterday, 'day')) {
+                    return constants.YESTERDAY;
+                } else {
+                    return moment(reportDateTime).format('D MMM YYYY HH:mm A');
+                }
+
+            };
+
+            // function can be called as momentService.todayDate('YYYY-MM-DD')
+            this.todayDate = function (dateFormat) {
+
+                return moment().format(dateFormat);
+
+            };
+
+            this.dateDiffInDays = function (date1, date2) {
+
+                var d1 = moment(date1),
+                    d2 = moment(date2);
+
+                return moment.duration(d2.diff(d1)).asDays();
+
+            };
+
+            this.isGreater = function (date1, date2) {
+
+                var d1 = moment(date1),
+                    d2 = moment(date2);
+
+                if (d2.diff(d1) < 0) {
+                    return true;
+                }
+                return false;
+
+            };
+
+
+            /*
+             Create a new moment object based on the timezoneName stored in LocalStorage ('clientRoleObj').
+             and retrieved using getTimezoneName().
+             */
+
+            this.getTimezoneMoment = function (dateTime) {
+
+                if (typeof dateTime === 'undefined') {
+                    // If time is not given, use system date.
+                    return moment.tz(vistoconfig.getClientTimeZone());
+                } else {
+                    // If time is given, use it.
+                    return moment.tz(dateTime, vistoconfig.getClientTimeZone());
+                }
+
+            };
+
+
+            /*
+             Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
+             Also, startTime is forced to beginning of day & endTime to end of day.
+             */
+
+            this.localTimeToUTC = function (dateTime, type, isDateChanged) {
+
+                var clientUTCTime,
+                    parseDateTime,
+                    currentUTCTime,
+                    tz,
+                    timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59');
+
+                if (typeof isDateChanged === 'undefined') {
+                    isDateChanged = true;
+                }
+
+                tz = moment(dateTime).tz(vistoconfig.getClientTimeZone()).format('z');
+                parseDateTime = mappedDateParse(dateTime + ' ' + timeSuffix + ' ' + tz);
+                clientUTCTime = moment(parseDateTime).tz('UTC');
+                currentUTCTime = moment.utc();
+
+                if (isDateChanged && moment(clientUTCTime).isBefore(currentUTCTime)) {
+                    clientUTCTime = moment(currentUTCTime).add(10, 'seconds');
+                }
+
+                return moment(clientUTCTime).format(constants.DATE_UTC_FORMAT);
+
+            };
+
+            /*
+             Convert UTC to local time (EST, GMT, etc. when loading data for edit.
+             */
+
+            this.utcToLocalTime = function (dateTime, dtFormat) {
+
+                var d,
+                    parsedDate,
+                    tz,
+                    format;
+
+                format = dtFormat || constants.DATE_US_FORMAT;
+
+                if (!dateTime) {
+
+                    return moment().format(format);
+
+                } else {
+
+                    d = dateTime.slice(0, 10).split('-');
+                    parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
+                    tz = vistoconfig.getClientTimeZone();
+                    return moment(parsedDate).tz(tz) && moment(parsedDate).tz(tz).format(format);
+                }
+
+            };
+
+            this.formatDate = function (dateTime, format) {
+
+                return moment(dateTime).format(format);
+
+            };
+
+            this.postDateModifier = function(UiDate, apiDate, type) {
+                var isDateChanged = true,
+                    utcDateTime;
+
+                if(apiDate && moment(UiDate).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day'))) {
+                    isDateChanged = false;
+                }
+
+                utcDateTime = this.localTimeToUTC(UiDate, type, isDateChanged);
+
+                if(apiDate && moment(utcDateTime).startOf('day').isSame(moment(this.utcToLocalTime(apiDate)).startOf('day')))  {
+                    utcDateTime = apiDate;
+                }
+
+                return utcDateTime;
+            };
+
+        }]);
 });

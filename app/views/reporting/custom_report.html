@@ -1,6 +1,6 @@
 <popup-msg data-ng-show="flashMessage"
            data-ng-controller="popUpMsgCtr"
-           data-ng-init="init('flashMessage', 'reportEditFailed')">
+           data-ng-init="init('flashMessage')">
 </popup-msg>
 
 <div class="report_generator_and_response">
@@ -9,7 +9,7 @@
             <!-- this will be hidden until fold happens -->
             <a class="collapseIcon iconPlusMinus"
                role="button"
-               id="{{$index+1}}"
+               id="{{$index+ 1}}"
                href=""
                style="margin: 0 10px 30px 0;">
                 <span class="icon-plus" data-ng-click="ToggleAdGroups(this)"></span>
@@ -46,9 +46,10 @@
                     <span class="col-md-6 greyTxt"
                           data-ng-show="showPrimaryTxtBox"
                           style="margin-left: -27px;"
-                          data-ng-bind-html="textConstants.ADD_KEYWORDS"></span>
+                          data-ng-bind-html="textConstants.ADD_KEYWORDS">
+                    </span>
                     <div class="col-md-12 zeroPadding dimensionKeywordSection">
-                        <div class="clearfix title_row_separator breakdown_div dimension_block">
+                        <div class="clearfix breakdown_div dimension_block">
                             <div class="pull-left custom_report_filter custom_report_breakdown">
                                 <div class="common_dropdown">
                                     <div class="dropdown">
@@ -69,7 +70,7 @@
                                         <ul class="dropdown-menu"
                                             data-ng-click="enable_generate_btn();"
                                             style="min-width: 200px;">
-                                            <li data-ng-click="select_dropdown_option($event);showPrimaryTxtBox=false"
+                                            <li data-ng-click="select_dropdown_option($event,'primary');showPrimaryTxtBox=false"
                                                 data-ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN"
                                                 data-toggle="dropdown">
                                             </li>
@@ -118,7 +119,7 @@
                                                 <span class="icon-arrow-solid-down"></span>
                                             </div>
                                             <ul class="dropdown-menu">
-                                                <li data-ng-click="select_dropdown_option($event)"
+                                                <li data-ng-click="select_dropdown_option($event,'secondary')"
                                                     data-ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN"
                                                     data-toggle="dropdown">
                                                 </li>
@@ -301,6 +302,34 @@
                             </span>
                         </div>
                     </div>
+
+                    <!-- Data Source start -->
+
+                    <div class="col-md-12 zeroPadding title_row_separator" ng-show="dataSource.showDataSource">
+                        <span class="greyTxt">Primary Data Source</span>
+                        <div class="" >
+                            <div class="common_dropdown">
+                                <div class="dropdown">
+                                    <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
+                                        <span class="dd_txt" data-ng-bind-html="displayName[reports.reportDefinition.dataSource]">
+                                        </span>
+                                        <span class="icon-arrow-solid-down"></span>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <li data-ng-model="reports.reportDefinition.dataSource"
+                                            data-ng-repeat="data_source in dataSource.dataSourceArr"
+                                            data-ng-click="reports.reportDefinition.dataSource = data_source"
+                                            data-ng-bind-html="displayName[data_source]"
+                                            data-toggle="dropdown">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data Source end -->
+
+
                 </div>
                 <!-- End Timeframe -->
             </div>
@@ -356,16 +385,16 @@
                                         Delivery
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="delivery_metric in deliveryMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds="Delivery"
-                                              data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
                                               id="{{delivery_metric.key}}"
                                               data-ng-class="{active: delivery_metric.selected}"
                                               data-ng-click="onMetricClick('deliveryMetrics', $index)"
                                               data-ng-bind-html="delivery_metric.value"
                                               ng-disabled="delivery_metric.isDisabled">
                                     </fieldset>
-
+                                    </div>
                                 </div>
                             </div>
 
@@ -381,15 +410,16 @@
                                     Pacing
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="pacing_metric in pacingMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds='Pacing'
-                                              data-ng-repeat="pacing_metric in pacingMetrics track by $index"
                                               id="{{pacing_metric.key}}"
                                               data-ng-class="{active: pacing_metric.selected}"
                                               data-ng-click="onMetricClick('pacingMetrics', $index)"
                                               data-ng-bind-html="pacing_metric.value"
                                               ng-disabled="pacing_metric.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
 
@@ -405,15 +435,16 @@
                                         Cost
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="cost_metric in costMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds='Cost'
-                                              data-ng-repeat="cost_metric in costMetrics track by $index"
                                               id="{{cost_metric.key}}"
                                               data-ng-class="{active:cost_metric.selected}"
                                               data-ng-click="onMetricClick('costMetrics', $index)"
                                               data-ng-bind-html="cost_metric.value"
                                               ng-disabled="cost_metric.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
 
@@ -429,15 +460,16 @@
                                         Video
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="video_metric in videoMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds="Video"
-                                              data-ng-repeat="video_metric in videoMetrics track by $index"
                                               id="{{video_metric.key}}"
                                               data-ng-class="{active:video_metric.selected}"
                                               data-ng-click="onMetricClick('videoMetrics', $index)"
                                               data-ng-bind-html="video_metric.value"
                                               ng-disabled="video_metric.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
 
@@ -453,15 +485,16 @@
                                         Quality
                                 </span>
                                 <div>
-                                    <fieldset class="col-md-12 metricData"
+                                  <div data-ng-repeat="quality_metrics in qualityMetrics track by $index">
+                                    <fieldset class="metricData"
                                               relationIds="Quality"
-                                              data-ng-repeat="quality_metrics in qualityMetrics track by $index"
                                               id="{{quality_metrics.key}}"
                                               data-ng-class="{active:quality_metrics.selected}"
                                               data-ng-click="onMetricClick('qualityMetrics', $index)"
                                               data-ng-bind-html="quality_metrics.value"
                                               ng-disabled="quality_metrics.isDisabled">
                                     </fieldset>
+                                  </div>
                                 </div>
                             </div>
                             <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
@@ -760,7 +793,7 @@
                         <div class="each_tab"
                              data-ng-click="show_respective_table('quality')"
                              id="quality_tab"
-                             data-ng-show="metricKeyArr.quality_metrics.length">
+                             data-ng-show="showQuality && metricKeyArr.quality_metrics.length">
                             <span>Quality</span>
                         </div>
                         <div class="each_tab"

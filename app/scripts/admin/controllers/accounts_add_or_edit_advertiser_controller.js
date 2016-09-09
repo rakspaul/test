@@ -1,20 +1,16 @@
-var angObj = angObj || {};
-
-define(['angularAMD', '../../../workflow/services/account_service',
-    '../../services/constants_service', 'common/moment_utils', 'workflow/directives/custom_date_picker',
-    'common/services/data_service', 'common/services/url_service', 'common/utils'], function (angularAMD) {
+define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admin-account-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $timeout, $rootScope, $modalInstance,
-                                                                   accountsService, constants, momentService,
-                                                                   dataService, urlService, utils) {
+    angularAMD.controller('AccountsAddOrEditAdvertiser', ['$scope', '$timeout', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants', 'momentService',
+        'dataService', 'urlService', 'utils', function ($scope, $timeout, $rootScope, $modalInstance, adminAccountsService, constants,
+                                                        momentService, dataService, urlService, utils) {
         var _currCtrl = this,
             selectedBillingTypeName;
 
         _currCtrl.downloadPixelIds = [];
 
         _currCtrl.getIABCategoryList = function () {
-            accountsService
+            adminAccountsService
                 .getIABCategoryList()
                 .then(function (res) {
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -26,7 +22,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
         };
 
         _currCtrl.getIABSubCategoryList = function (groupId) {
-            accountsService
+            adminAccountsService
                 .getIABSubCategoryList(groupId)
                 .then(function (res) {
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -65,11 +61,12 @@ define(['angularAMD', '../../../workflow/services/account_service',
             return ret;
         };
 
-
         // Validate the Advertiser URL entered
         $scope.validateURL = function(url){
             var re = utils.regExp().validateUrl;
+
             $scope.urlValidation = '';
+
             if (!re.test(url)) {
                 $scope.urlValidation = 'Incorrect URL: Please add valid url in the field';
             }
@@ -124,7 +121,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
                 requestData.costBillingValue = Number($scope.billingData.cost.billingValue);
             }
 
-            accountsService
+            adminAccountsService
                 .createAdvertiserUnderClient($scope.client.id, advId, requestData)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
@@ -184,7 +181,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
         }
 
         function createPixelsforAdvertiser(clientId, advId) {
-            accountsService
+            adminAccountsService
                 .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
@@ -201,7 +198,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
         }
 
         function getBillingTypes() {
-            accountsService
+            adminAccountsService
                 .getBillingTypes()
                 .then(function (res) {
                     var billingTypes;
@@ -414,7 +411,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
         };
 
         $scope.leaveFocusCustomAdvertiserCode = function(){
-            accountsService
+            adminAccountsService
                 .checkAdvertiserCodeExist($scope.customAdvertiserCode)
                 .then(function(result){
                     if (result.status === 'OK' || result.status === 'success') {
@@ -442,6 +439,7 @@ define(['angularAMD', '../../../workflow/services/account_service',
             .opened
             .then(function () {
                 $('popup-msg').appendTo(document.body);
+
                 $timeout(function() {
                     $('#pixelExpDate').datepicker('setEndDate', momentService.addDays('YYYY-MM-DD', 364));
                 }, 5000);
@@ -522,5 +520,5 @@ define(['angularAMD', '../../../workflow/services/account_service',
             $scope.close();
         });
 
-    });
+    }]);
 });

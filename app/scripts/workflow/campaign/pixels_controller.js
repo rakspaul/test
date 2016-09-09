@@ -1,7 +1,7 @@
-define(['angularAMD', '../services/workflow_service', 'common/moment_utils'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('PixelsController', function ($scope , workflowService , momentService) {
+    angularAMD.controller('PixelsController', ['$scope' , 'workflowService' , 'momentService', function ($scope , workflowService , momentService) {
         var pixels = {
             fetchPixels: function (pixels) {
                 workflowService
@@ -104,5 +104,5 @@ define(['angularAMD', '../services/workflow_service', 'common/moment_utils'], fu
         $scope.$on('fetch_pixels' , function (event, args) {
             pixels.fetchPixels(args);
         }) ;
-    });
+    }]);
 });

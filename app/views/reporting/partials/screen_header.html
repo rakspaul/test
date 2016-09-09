@@ -1,20 +1,9 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder"
-          data-ng-class="sortClassFunction('dimension', sortTypeScreens, sortReverse)"
-          data-ng-click="sortTypeScreens = 'dimension';
-            sortReverse = !sortReverse;
-            removeKpiActive();
-            specialSort('dimension');"
-          data-ng-bind="textConstants.SCREEN">
+    <span class="icon_text_holder" data-ng-bind="textConstants.SCREEN">
     </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder"
-          data-ng-class="sortClassFunction('-impressions', sortTypeScreens, !sortReverse)"
-          data-ng-click="sortTypeScreens = '-impressions';
-            sortReverse = !sortReverse;
-            removeKpiActive();
-            specialSort('-impressions');">
+    <span class="icon_text_holder">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
               data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'">
@@ -23,12 +12,7 @@
     </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder"
-          data-ng-class="sortClassFunction('-clicks', sortTypeScreens, !sortReverse)"
-          data-ng-click="sortTypeScreens = '-clicks';
-            sortReverse = !sortReverse;
-            removeKpiActive();
-            specialSort('-clicks');">
+    <span class="icon_text_holder">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
               data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'">
@@ -38,13 +22,7 @@
 </div>
 <div class="vid_col" data-ng-show="adFormats.videoAds === true">
     <div class="each_col third_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('video_played', sortTypeScreens, sortReverse)"
-              data-ng-click="sortTypeScreens = 'video_played';
-                sortReverse = !sortReverse;
-                removeKpiActive();
-                specialSort('video_played');"
-              ng-bind-html="textConstants.VIDEO + ' <br> ' + textConstants.PLAYS">
+        <span class="icon_text_holder" ng-bind-html="textConstants.VIDEO + ' <br> ' + textConstants.PLAYS">
         </span>
     </div>
     <div class="vid_data_hdr">
@@ -52,54 +30,29 @@
         <br>
         <div class="vid_sub_col">
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder"
-                      data-ng-class="sortClassFunction('vtc_25', sortTypeScreens, sortReverse)"
-                      data-ng-click="sortTypeScreens = 'vtc_25';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();
-                        specialSort('vtc_25');">
+                <span class="icon_text_holder">
                     25%
                 </span>
             </div>
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder"
-                      data-ng-class="sortClassFunction('vtc_50', sortTypeScreens, sortReverse)"
-                      data-ng-click="sortTypeScreens = 'vtc_50';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();
-                        specialSort('vtc_50');">
+                <span class="icon_text_holder">
                     50%
                 </span>
             </div>
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder"
-                      data-ng-class="sortClassFunction('vtc_75', sortTypeScreens, sortReverse)"
-                      data-ng-click="sortTypeScreens = 'vtc_75';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();
-                        specialSort('vtc_75');">
+                <span class="icon_text_holder">
                     75%
                 </span>
             </div>
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder"
-                      data-ng-class="sortClassFunction('vtc_100', sortTypeScreens, sortReverse)"
-                      data-ng-click="sortTypeScreens = 'vtc_100';
-                        sortReverse = !sortReverse;
-                        removeKpiActive();
-                        specialSort('vtc_100');">
+                <span class="icon_text_holder">
                     100%
                 </span>
             </div>
         </div>
     </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('vtc_100', sortTypeScreens, sortReverse)"
-              data-ng-click="sortTypeScreens = 'vtc_100';
-                sortReverse = !sortReverse;
-                removeKpiActive();
-                specialSort('vtc_100');">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'">
@@ -109,11 +62,7 @@
     </div>
 </div>
 <div class="each_col forth_col">
-    <span class="icon_text_holder"
-          data-ng-class="sortClassFunction('ctr', sortTypeScreens, sortReverse)"
-          data-ng-click="sortTypeScreens = 'ctr';
-            sortReverse = !sortReverse;removeKpiActive();
-            specialSort('ctr');">
+    <span class="icon_text_holder">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
               data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'">
@@ -122,27 +71,17 @@
     </span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder"
-          data-ng-class="sortClassFunction('action_rate', sortTypeScreens, sortReverse)"
-          data-ng-click="sortTypeScreens = 'action_rate';
-            sortReverse = !sortReverse;
-            removeKpiActive();
-            specialSort('action_rate');">
+    <span class="icon_text_holder">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
-              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action_rate'">
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action rate'">
         </span>
         {{textConstants.ACTION_RATE}}
     </span>
 </div>
 <div data-ng-show="adFormats.videoAds === false">
     <div class="each_col sixth_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-cpa', sortTypeScreens, sortReverseForCostscpa)"
-              data-ng-click="sortTypeScreens = '-cpa';
-                sortReverse = sortReverseForCostscpa;
-                sortReverseForCostscpa = !sortReverseForCostscpa;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'">
@@ -151,12 +90,7 @@
         </span>
     </div>
     <div class="each_col seventh_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-cpc', sortTypeScreens, sortReverseForCostscpc)"
-              data-ng-click="sortTypeScreens = '-cpc';
-                sortReverse = sortReverseForCostscpc;
-                sortReverseForCostscpc = !sortReverseForCostscpc;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'">
@@ -165,12 +99,7 @@
         </span>
     </div>
     <div class="each_col eight_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-cpm', sortTypeScreens, sortReverseForCostscpm)"
-              data-ng-click="sortTypeScreens = '-cpm';
-                sortReverse = sortReverseForCostscpm;
-                sortReverseForCostscpm = !sortReverseForCostscpm;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'">
@@ -179,12 +108,7 @@
         </span>
     </div>
     <div class="each_col ninth_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-pc_cpa', sortTypeScreens, sortReverseForCostscpm)"
-              data-ng-click="sortTypeScreens = '-pc_cpa';
-                sortReverse = sortReverseForCostscpm;
-                sortReverseForCostscpm = !sortReverseForCostscpm;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'">
@@ -193,12 +117,7 @@
         </span>
     </div>
     <div class="each_col tenth_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-spend', sortTypeScreens, sortReverseForCostscpm)"
-              data-ng-click="sortTypeScreens = '-spend';
-                sortReverse = sortReverseForCostscpm;
-                sortReverseForCostscpm = !sortReverseForCostscpm;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'">
@@ -207,16 +126,9 @@
         </span>
     </div>
 
-
-   <!-- Pls don't remove it. Will add it later --- Jayesh
-
-   <div class="each_col eleventh_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-suspicious_impressions_perc', sortTypeScreens, sortReverseForCostscpm)"
-              data-ng-click="sortTypeScreens = '-suspicious_impressions_perc';
-                sortReverse = sortReverseForCostscpm;
-                sortReverseForCostscpm = !sortReverseForCostscpm;
-                removeKpiActive();">
+    <!-- Pls don't remove it. Will add it later..Jayesh
+    <div class="each_col eleventh_col">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'suspicious_impressions_perc'">
@@ -225,12 +137,7 @@
         </span>
     </div>
     <div class="each_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-viewable_impressions', sortTypeScreens, sortReverseForCostscpm)"
-              data-ng-click="sortTypeScreens = '-viewable_impressions';
-                sortReverse = sortReverseForCostscpm;
-                sortReverseForCostscpm = !sortReverseForCostscpm;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions'">
@@ -239,12 +146,7 @@
         </span>
     </div>
     <div class="each_col">
-        <span class="icon_text_holder"
-              data-ng-class="sortClassFunction('-viewable_impressions_perc', sortTypeScreens, sortReverseForCostscpm)"
-              data-ng-click="sortTypeScreens = '-viewable_impressions_perc';
-                sortReverse = sortReverseForCostscpm;
-                sortReverseForCostscpm = !sortReverseForCostscpm;
-                removeKpiActive();">
+        <span class="icon_text_holder">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'viewable_impressions_perc'">
@@ -254,8 +156,6 @@
     </div>
 
     -->
-
-
 </div>
 <div class="each_col seventh_col">
     <div data-ng-if="adFormats.videoAds" class="dropdown kpi-dd-holder">

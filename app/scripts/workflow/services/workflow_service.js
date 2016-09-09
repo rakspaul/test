@@ -1,11 +1,8 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
-    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service',
-    'common/moment_utils'], function (angularAMD) {
+define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
-                                                        requestCanceller, momentService, $location,
-                                                        localStorageService) {
+    angularAMD.factory('workflowService', ['$rootScope', 'vistoconfig', 'constants', 'dataService', 'loginModel', 'requestCanceller', 'momentService', '$location',
+        function ($rootScope, vistoconfig, constants, dataService, loginModel, requestCanceller, momentService, $location) {
         var mode,
             adDetails,
             newCreative,
@@ -26,7 +23,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             lineitemDetailsBulk = null,
             advertiserBillingVal,
             executionType,
-            subAccountTimezone,
 
             createObj = function (platform) {
                 var integrationObj = {};
@@ -37,7 +33,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.iconUrl = platform.iconURL;
                 integrationObj.customInputJson = platform.vendorExecutionPlatform.customInputJson;
                 integrationObj.executionVendorType = platform.vendorExecutionPlatform.executionVendorType;
-                integrationObj.active = true; // TODO hardcoded true for now...
+
+                // TODO hardcoded true for now...
+                integrationObj.active = true;
+
                 integrationObj.summary = platform.description;
                 integrationObj.vendorCapabilities = platform.vendorCapabilities;
                 integrationObj.seats = platform.seats;
@@ -51,7 +50,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             fetchCampaigns = function () {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getSelectedAccountId(),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns';
 
                 return dataService.fetch(url);
@@ -63,16 +62,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, {cache: false});
             },
 
-            getSubAccounts = function (access_level) {
+            getSubAccounts = function (clientId, access_level) {
                 var accessLevel = '',
-                    clientId,
                     url;
 
                 if (access_level !== undefined) {
                     accessLevel = '&access_level=' + access_level;
                 }
-
-                clientId = loginModel.getMasterClient().id;
 
                 if (clientId !== undefined) {
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -83,9 +79,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            getDashboardSubAccount = function () {
-                var clientId = loginModel.getMasterClient().id,
-                    url;
+
+            getDashboardSubAccount = function (clientId) {
+                var url;
 
                 if (clientId) {
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -104,71 +100,35 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 });
             },
 
-            getAdvertisers = function (accessLevel, client_id) {
-                var isLeafNode = localStorageService.masterClient.get().isLeafNode,
-                    clientId = loginModel.getSelectedClient().id,
-                    isDashboardSubAccount = false,
-                    locationPath = $location.url(),
-                    url;
+            getAdvertisers = function (clientId, accessLevel) {
+                var isDashboardSubAccount = $location.path().endsWith('/dashboard'),
+                    isBillingInvoice = $location.path().endsWith('/invoices'),
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
 
-                if ((locationPath === '/dashboard') || (locationPath === '/')) {
-                    isDashboardSubAccount = true;
-                }
-
-                if (client_id) {
-                    clientId = client_id;
-                } else if (isDashboardSubAccount && !isLeafNode) {
-                    clientId = loginModel.getDashboardClient().id;
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-
-                if (accessLevel && !isDashboardSubAccount) {
+                if (accessLevel && !isDashboardSubAccount && !isBillingInvoice) {
                     url = url + '?access_level=' + accessLevel;
-                } else if (isDashboardSubAccount) {
+                } else if (isDashboardSubAccount || isBillingInvoice) {
                     url = url + '?level=all';
                 }
 
                 return dataService.fetch(url);
             },
 
-            getBrands = function (client_id, advertiserId, accessLevel) {
-                var clientId = loginModel.getSelectedClient().id,
-                    isDashboardSubAccount = false,
-                    locationPath = $location.url(),
-                    isLeafNode = localStorageService.masterClient.get().isLeafNode,
-                    url;
-
-                if ((locationPath === '/dashboard') || (locationPath === '/')) {
-                    isDashboardSubAccount = true;
-                }
-
-                if (client_id) {
-                    clientId = client_id;
-                }
-
-                if (isDashboardSubAccount && !isLeafNode) {
-                    clientId = localStorageService.advertiser.getDashboard().clientId;
-
-                    if (!clientId) {
-                        console.log('Error: Its dashboard but client id is undefined, check dashboardAdvertiser');
-                    }
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getBrands =  function (clientId, advertiserId, accessLevel) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
                     '/brands';
 
                 if (accessLevel) {
-                    url = url + '?access_level=' + accessLevel;
+                    url += '?access_level=' + accessLevel;
                 }
 
                 return dataService.fetch(url);
             },
 
             getPixels = function (advertiserId, client_Id, endDate, pixels, mode) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getMasterClientId(),
                     url;
 
                 if (endDate) {
@@ -194,7 +154,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getRatesTypes = function (clientId,advertiserId) {
-                var client_id = loginModel.getSelectedClient().id,
+                var client_id = vistoconfig.getMasterClientId(),
                     url;
 
                 if (clientId) {
@@ -212,7 +172,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getBillingTypeValue = function (clientId, advertiserId) {
-                var client_id = loginModel.getSelectedClient().id,
+                var client_id = vistoconfig.getMasterClientId(),
                     url;
 
                 if (clientId) {
@@ -229,16 +189,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            saveCampaign = function (data) {
-                var isLeafNode = loginModel.getMasterClient().isLeafNode,
-                    clientId;
-
-                if (isLeafNode) {
-                    clientId = loginModel.getSelectedClient().id;
-                } else {
-                    clientId = data.clientId;
-                }
-
+            saveCampaign = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
                     data,
@@ -246,18 +197,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            updateCampaign = function (data) {
-                var isLeafNode = loginModel.getMasterClient().isLeafNode,
-                    clientId,
-                    campaignId;
-
-                if (isLeafNode) {
-                    clientId = loginModel.getSelectedClient().id;
-                } else {
-                    clientId = data.clientId;
-                }
-
-                campaignId = data.campaignId;
+            updateCampaign = function (clientId, data) {
+                var campaignId = data.campaignId;
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId,
@@ -266,35 +207,30 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            getCampaignData = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getCampaignData = function (clientId, campaignId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId;
 
                 return dataService.fetch(url, { cache: false });
             },
 
-            getPlatforms = function (cacheObj, advertiserId) {
-                var clientId = loginModel.getSelectedClient().id,
-                    campaignData = JSON.parse(localStorage.getItem('campaignData')),
-                    url;
-
-                if (!advertiserId && campaignData) {
-                    advertiserId = campaignData.advertiserId;
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getPlatforms = function (clientId, advertiserId, brandId, cacheObj) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
                     '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+
+                if(brandId) {
+                    url += '&brandId=' + brandId;
+                }
+
 
                 return dataService.fetch(url, cacheObj);
             },
 
             getAdsForCampaign = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getSelectedAccountId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -304,20 +240,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getPixelDataFile = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/pixels/download';
-
-                return dataService.fetch(url, { cache: false });
-            },
-
-            getAdgroups = function (campaignId, searchTerm, isForClone) {
-                var clientId = loginModel.getSelectedClient().id,
-                    url;
+            getAdgroups = function (clientId, campaignId, searchTerm, isForClone) {
+                var url;
 
                 if (searchTerm) {
                     url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
@@ -338,8 +262,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            createAdGroups = function (campaignId, data) {
-                var clientId = loginModel.getSelectedClient().id;
+            createAdGroups = function (clientId, campaignId, data) {
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -351,8 +274,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            editAdGroups = function (campaignId, data) {
-                var clientId = loginModel.getSelectedClient().id;
+            editAdGroups = function (clientId, campaignId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -364,7 +286,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAdsInAdGroup = function (campaignId, adGroupID) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getSelectedAccountId(),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
@@ -374,8 +296,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            createAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+            createAd = function (clientId, data) {
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -386,8 +307,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            updateAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+            updateAd = function (clientId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -398,8 +318,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            deleteAd = function (campaignId, adId) {
-                var clientId = loginModel.getSelectedClient().id;
+            deleteAd = function (clientId, campaignId, adId) {
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -410,8 +329,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            pauseAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+            pauseAd = function (clientId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -424,8 +342,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            resumeAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
+            resumeAd = function (clientId, data) {
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -437,8 +354,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            deleteCampaign = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id;
+            deleteCampaign = function (clientId, campaignId) {
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -448,9 +364,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            cloneCampaign  = function (data) {
-                var clientId = loginModel.getSelectedClient().id;
-
+            cloneCampaign  = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId + '/campaigns/' + data.id + '/clone',
@@ -459,17 +373,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            checkforUniqueMediaPlan = function (cloneObj) {
-                var clientId,
-                    url;
-
-                if (cloneObj.subAccountId) {
-                    clientId = cloneObj.subAccountId;
-                } else {
-                    clientId = loginModel.getSelectedClient().id;
-                }
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            checkforUniqueMediaPlan = function (clientId, cloneObj) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + cloneObj.advertiserId +
                     '/campaigns/unique_name?name='+cloneObj.cloneMediaPlanName;
@@ -477,10 +382,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            getAd = function (data) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getAd = function (clientId, data) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + data.campaignId +
                         '/ads/' + data.adId;
@@ -488,10 +391,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url, { cache: false });
             },
 
-            getDetailedAdsInAdGroup = function (campaignId, adGroupID, adId) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getDetailedAdsInAdGroup = function (clientId, campaignId, adGroupID, adId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
                         '/ad_groups/' + adGroupID +
@@ -501,7 +402,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             pushCampaign = function (campaignId) {
-                var clientId = loginModel.getSelectedClient().id,
+                var clientId = vistoconfig.getSelectedAccountId(),
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -511,35 +412,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            getTaggedCreatives = function (campaignId, adId) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/ads/' + adId;
-
-                return dataService.fetch(url);
-            },
-
             // creative Library Flow
-            getVendorsAdServer = function (subAccountId) {
-                var clientId;
+            getVendorsAdServer = function (clientId, advertiserId, brandId) {
 
-                if (subAccountId) {
-                    clientId = subAccountId;
-                } else {
-                    clientId = loginModel.getSelectedClient().id;
+                advertiserId = advertiserId || -1;
+                var url = '/clients/' + clientId +
+                        '/advertisers/' + advertiserId +
+                        '/vendors?vendorType=ADSERVING';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
                 }
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/vendors?vendorType=ADSERVING');
+                    url);
             },
 
             // Ad Create Flow
             getAdServers = function (adFormat) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = vistoconfig.getSelectedAccountId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -564,25 +455,26 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (client_id) {
                     clientId = client_id;
                 } else {
-                    clientId = loginModel.getSelectedClient().id;
+                    clientId = vistoconfig.getSelectedAccountId();
                 }
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/advertisers/' + data.advertiserId + '/creatives',
+                        '/advertisers/' + data.advertiserId +
+                        '/creatives',
                     data, {
                         'Content-Type': 'application/json'
                     }
                 );
             },
 
-            getCreativeData = function (id, client_id) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+            getCreativeData = function (client_id, creativeId) {
+                var clientId = client_id || vistoconfig.getSelectedAccountId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
-                    '/creatives/' + id);
+                    '/creatives/' + creativeId);
             },
 
             getCreativePreViewData  = function(params) {
@@ -601,7 +493,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             forceSaveCreatives = function (clientId, advertiserId, data) {
-                clientId = loginModel.getSelectedClient().id;
+                clientId = vistoconfig.getSelectedAccountId();
 
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -637,7 +529,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             validateCreative = function(o){
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + o.clientId +
-                        '/advertisers/' + o.advertiserId + '/creatives/validate',
+                        '/advertisers/' + o.advertiserId +
+                        '/creatives/validate',
                     o.data,
                     {'Content-Type': 'application/json'}
                 );
@@ -659,7 +552,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateCreative = function (client_id, adId, id, data) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -672,10 +565,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            downloadCreativeTemplate = function (adServerId, templateId) {
-                var clientId = loginModel.getSelectedClient().id,
+            downloadCreativeTemplate = function (clientId, adServerId, templateId) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/adserver/' + adServerId +
                         '/template/' + templateId +
@@ -693,8 +585,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.downloadFile(url);
             },
 
-            uploadBulkCreativeUrl = function (adServerId, creativeFormat, templateId) {
-                var clientId = loginModel.getSelectedClient().id;
+            uploadBulkCreativeUrl = function (clientId, adServerId, creativeFormat, templateId) {
 
                 return vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                     '/adserver/' + adServerId +
@@ -744,28 +635,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
-            getCreativesforCreativeList = function (clientId, formats, query, pageSize, pageNo, advertiserId,
-                                                   success, failure) {
-                var queryStr = query ? query : '',
-                    creativeFormats = formats ? 'creativeFormat=' + formats : '',
+            getCreativesforCreativeList = function (params) {
+                var queryStr,
+                    creativeFormats,
                     url,
-                    canceller,
-                    advertiserString = '';
+                    advertiserString,
+                    pageSize,
+                    pageNo;
 
-                pageSize = pageSize ? '&pageSize=' + pageSize : '';
-                pageNo = pageNo ? '&pageNo=' + pageNo : '';
-
-                if (advertiserId > 0) {
-                    advertiserString = '/advertisers/' + advertiserId;
-                }
+                queryStr = params.query ? ('query=' + params.query) : '';
+                creativeFormats = params.formats ? ('creativeFormat=' + params.formats) : '';
+                pageSize = params.pageSize ? ('&pageSize=' + params.pageSize ) : '';
+                pageNo = params.pageNo ? ( '&pageNo=' + params.pageNo ) : '';
+                advertiserString = params.advertiserId > 0 ? ('/advertisers/' + params.advertiserId) : '';
 
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId + advertiserString +
+                    '/clients/' + params.clientId + advertiserString +
                     '/creatives?' + creativeFormats + queryStr + pageSize + pageNo;
-
-                canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);
-
-                return dataService.fetchCancelable(url, canceller, success, failure);
+                
+                return dataService.fetch(url);
             },
 
             getDMAs = function (platformId, data, requestType, success, failure) {
@@ -784,8 +672,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             getAdvertisersDomainList = function (clientId, advertiserId) {
                 var url;
 
-                clientId = loginModel.getSelectedClient().id;
-
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
@@ -797,25 +683,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             createAdvertisersDomainList = function (clientId, advertiserId, domainId) {
                 var domainIdstr = domainId ? '/' + domainId : '';
 
-                clientId = loginModel.getSelectedClient().id;
-
                 return vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
                     '/inventory_lists/upload' + domainIdstr;
             },
 
-            getPlatformCustomInputs = function (platformId) {
-                var clientId = loginModel.getSelectedClient().id,
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
-
+            getPlatformCustomInputs = function (clientId, platformId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + platformId;
                 return dataService.fetch(url);
             },
 
-            getLineItem = function (campaignId,isFromMediaPlan) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+            getLineItem = function (clientId, campaignId, isFromMediaPlan) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
                         '/lineitems';
@@ -828,13 +708,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
 
-            createLineItems = function (campaignId,client_id,data) {
-                var clientId = client_id || loginModel.getSelectedClient().id,
+            createLineItems = function (clientId, campaignId, data) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/lineitems';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/lineitems';
 
                 return dataService.post(
                     url,
@@ -843,13 +722,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            updateLineItems = function (campaignId, client_id, data) {
-                var clientId = client_id || loginModel.getSelectedClient().id,
+            updateLineItems = function (clientId, campaignId, data) {
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/lineitems/' + data.id;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/lineitems/' + data.id;
 
                 return dataService.put(
                     url,
@@ -872,47 +750,68 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
             },
 
-            getVendorConfigs = function (advertiserId, client_id) {
-                var clientId = loginModel.getSelectedClient().id;
+            getVendorConfigs = function (advertiserId, client_id,brandId) {
+                var clientId = vistoconfig.getMasterClientId(),
+                    url;
 
                 if (client_id) {
                     clientId = client_id;
                 }
 
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
+                url = '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
+                    '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    url);
             },
 
-            getCostAttr = function (advertiserId, client_id) {
-                var clientId = loginModel.getSelectedClient().id;
+            getCostAttr = function (advertiserId, client_id, brandId) {
+                var clientId = vistoconfig.getMasterClientId(),
+                    url;
 
                 if (client_id) {
                     clientId = client_id;
                 }
 
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
+                url = '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/clientVendorConfigs?rateType=FIXED');
+                    '/clientVendorConfigs?rateType=FIXED';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    url);
             },
 
-            getSystemOfRecord = function (advertiserId, client_id) {
-                var clientId = loginModel.getSelectedClient().id;
+            getSystemOfRecord = function (advertiserId, client_id, brandId) {
+                var clientId = vistoconfig.getMasterClientId(),
+                    url = '';
 
                 if (client_id) {
                     clientId = client_id;
                 }
 
+                url = '/clients/' + clientId +
+                '/advertisers/' + advertiserId +
+                '/clientVendorConfigs?sor=true';
+
+                if(brandId){
+                    url += '&brandId=' + brandId;
+                }
+
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/advertisers/' + advertiserId +
-                    '/clientVendorConfigs?sor=true');
+                    url);
             },
 
             getBillingTypeAndValue = function (advertiserId, client_id) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -928,11 +827,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
-            getAllCampaignsForAdClone = function () {
-                var clientId = loginModel.getSelectedClient().id,
-                    advertiserId = window.JSON.parse(localStorage.campaignData).advertiserId,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+            getAllCampaignsForAdClone = function (clientId, advertiserId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                         '/advertisers/' + advertiserId + '/campaigns?status=ACTIVE';
 
                 return dataService.fetch(url, {
@@ -940,10 +836,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 });
             },
 
-            cloneAd = function (data, selectedMediaPlanId) {
-                var clientId = loginModel.getSelectedClient().id,
-
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+            cloneAd = function (clientId, data, selectedMediaPlanId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                         '/campaigns/' + selectedMediaPlanId + '/ads/clone';
 
                 if (data.source_ad_id) {
@@ -954,13 +848,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     url += '&ad_group=' + data.ad_group;
                 }
 
-                return dataService.post(
-                    url,
-
-                    data, {
-                        'Content-Type': 'application/json'
-                    }
-                );
+                return dataService.post(url, data, {'Content-Type': 'application/json'});
             },
 
             platformResponseModifier = function (resp) {
@@ -980,11 +868,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
                 }
 
-                platforms.fullIntegrationsPlatforms =
-                    _.sortBy(platforms.fullIntegrationsPlatforms, 'displayName');
-
-                platforms.trackingPlatforms =
-                    _.sortBy(platforms.trackingPlatforms, 'displayName');
+                platforms.fullIntegrationsPlatforms = _.sortBy(platforms.fullIntegrationsPlatforms, 'displayName');
+                platforms.trackingPlatforms = _.sortBy(platforms.trackingPlatforms, 'displayName');
 
                 return platforms;
             },
@@ -1037,10 +922,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             config.vendorName = data[j].vendorName;
                             config.configName = data[j].name;
                             config.adFormat = data[j].clientVendorOfferings[i].name;
-
-                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' +
-                                data[j].clientVendorOfferings[i].rateType.name;
-
+                            config.rate = data[j].currency.currencySymbol + ' ' +
+                                          data[j].clientVendorOfferings[i].rateValue.toFixed(2) + ' ' + data[j].clientVendorOfferings[i].rateType.name;
                             config.category = data[j].clientVendorOfferings[i].costCategory.name;
                             processedData.configs.push(config);
                         }
@@ -1063,9 +946,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         rateTypeObj = _.pluck(obj.clientVendorOfferings, 'rateType');
                         costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
 
-                        costAttrbs.clientVendorConfigurationId =
-                            _.pluck(obj.clientVendorOfferings,
-                                'clientVendorConfigurationId')[0];
+                        costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
 
                         costAttrbs.vendor.push({
                             id: obj.vendorId,
@@ -1092,17 +973,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             processLineItemsObj = function (lineItemList) {
-                var newItemList = [],
-                    dateTimeZone;
+                var newItemList = [];
 
-                dateTimeZone = this.getSubAccountTimeZone();
 
                 _.each(lineItemList, function (item) {
                     var newItemObj = {};
 
                     newItemObj.adGroupName = item.adGroupName;
-                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime', dateTimeZone);
-                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime', dateTimeZone);
+                    item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
+                    item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
 
                     if (typeof item.pricingRate === 'string') {
                         item.pricingRate = Number(item.pricingRate.split('%')[0]);
@@ -1116,7 +995,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             deleteLineItem = function (lineItem,client_id) {
-                var clientId = client_id || loginModel.getSelectedClient().id;
+                var clientId = client_id || vistoconfig.getMasterClientId();
 
                 return dataService.deleteRequest(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -1376,8 +1255,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             wrapperForActiveAdGroups = function(groupList) {
                 // this wrapper is written because when the ad group api is called with ACTIVE parameter
                 // response structure is different from normal API
-                var obj = {};
-                obj.ad_groups = [];
+                var obj = {
+                    ad_groups: []
+                };
 
                 _.each(groupList,function(group,key) {
                     obj.ad_groups[key] = {};
@@ -1385,146 +1265,133 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 });
 
                 return obj;
-
-            },
-            setSubAccountTimeZone = function(timezone) {
-                console.log('setSubAccountTimeZone', timezone);
-                subAccountTimezone = timezone;
-            },
-
-            getSubAccountTimeZone = function() {
-                return subAccountTimezone;
             };
 
         return {
-                fetchCampaigns: fetchCampaigns,
-                getClientData: getClientData,
-                getSubAccounts: getSubAccounts,
-                getDashboardSubAccount: getDashboardSubAccount,
-                getClients: getClients,
-                getAdvertisers: getAdvertisers,
-                getBrands: getBrands,
-                getPixels: getPixels,
-                getRatesTypes: getRatesTypes,
-                getBillingTypeValue: getBillingTypeValue,
-                saveCampaign: saveCampaign,
-                updateCampaign: updateCampaign,
-                getCampaignData: getCampaignData,
-                getPlatforms: getPlatforms,
-                getAdsForCampaign: getAdsForCampaign,
-                getPixelDataFile: getPixelDataFile,
-                getAdgroups: getAdgroups,
-                createAdGroups: createAdGroups,
-                editAdGroups: editAdGroups,
-                getAdsInAdGroup: getAdsInAdGroup,
-                createAd: createAd,
-                updateAd: updateAd,
-                deleteAd: deleteAd,
-                pauseAd: pauseAd,
-                resumeAd: resumeAd,
-                deleteCampaign: deleteCampaign,
-                cloneCampaign: cloneCampaign,
-                checkforUniqueMediaPlan: checkforUniqueMediaPlan,
-                getAd: getAd,
-                getDetailedAdsInAdGroup: getDetailedAdsInAdGroup,
-                pushCampaign: pushCampaign,
-                getTaggedCreatives: getTaggedCreatives,
-                getVendorsAdServer: getVendorsAdServer,
-                getAdServers: getAdServers,
-                getTemplates: getTemplates,
-                getCreativeSizes: getCreativeSizes,
-                saveCreatives: saveCreatives,
-                getCreativeData: getCreativeData,
-                getCreativePreViewData: getCreativePreViewData,
-                forceSaveCreatives: forceSaveCreatives,
-                getCreatives: getCreatives,
-                validateCreative: validateCreative,
-                deleteCreatives: deleteCreatives,
-                getCreativeAds: getCreativeAds,
-                updateCreative: updateCreative,
-                downloadCreativeTemplate: downloadCreativeTemplate,
-                downloadCreativeErrors: downloadCreativeErrors,
-                uploadBulkCreativeUrl: uploadBulkCreativeUrl,
-                getCountries: getCountries,
-                getRegions: getRegions,
-                getCities: getCities,
-                getCreativesforCreativeList: getCreativesforCreativeList,
-                getDMAs: getDMAs,
-                getAdvertisersDomainList: getAdvertisersDomainList,
-                createAdvertisersDomainList: createAdvertisersDomainList,
-                getPlatformCustomInputs: getPlatformCustomInputs,
-                getLineItem: getLineItem,
-                createLineItems: createLineItems,
-                updateLineItems: updateLineItems,
-                getVideoTargetsType: getVideoTargetsType,
-                getObjectives: getObjectives,
-                getVendors: getVendors,
-                getVendorConfigs: getVendorConfigs,
-                getCostAttr: getCostAttr,
-                getSystemOfRecord: getSystemOfRecord,
-                getBillingTypeAndValue: getBillingTypeAndValue,
-                getVendorForSelectedCostCategory: getVendorForSelectedCostCategory,
-                getAllCampaignsForAdClone: getAllCampaignsForAdClone,
-                cloneAd: cloneAd,
-                platformResponseModifier: platformResponseModifier,
-                platformCreateObj: platformCreateObj,
-                recreateLabels: recreateLabels,
-                processVendorConfig: processVendorConfig,
-                processCostAttr: processCostAttr,
-                processLineItemsObj: processLineItemsObj,
-                deleteLineItem: deleteLineItem,
-                addCommaToNumber: addCommaToNumber,
-                getPublisher: getPublisher,
-                getUnitSize: getUnitSize,
-                getPlacement: getPlacement,
-                validateZipCodes: validateZipCodes,
-                segrigateInventory: segrigateInventory,
-                setModuleInfo: setModuleInfo,
-                getModuleInfo: getModuleInfo,
-                clearModuleInfo: clearModuleInfo,
-                setMode: setMode,
-                getMode: getMode,
-                setIsAdGroup: setIsAdGroup,
-                getIsAdGroup: getIsAdGroup,
-                setUnallocatedAmount: setUnallocatedAmount,
-                getUnallocatedAmount: getUnallocatedAmount,
-                setAdsDetails: setAdsDetails,
-                getAdsDetails: getAdsDetails,
-                setNewCreative: setNewCreative,
-                getNewCreative: getNewCreative,
-                setPlatform: setPlatform,
-                setPlatformSeat: setPlatformSeat,
-                setVendorExecutionType: setVendorExecutionType,
-                getVendorExecutionType: getVendorExecutionType,
-                getPlatform: getPlatform,
-                getSeat: getSeat,
-                setSavedGeo: setSavedGeo,
-                resetSavedGeo: resetSavedGeo,
-                getSavedGeo: getSavedGeo,
-                setDeleteModule: setDeleteModule,
-                getDeleteModule: getDeleteModule,
-                resetDeleteModule: resetDeleteModule,
-                setCreativeEditData: setCreativeEditData,
-                getCreativeEditData: getCreativeEditData,
-                setCreativeEditMode: setCreativeEditMode,
-                getCreativeEditMode: getCreativeEditMode,
-                setRateTypes: setRateTypes,
-                getRateTypes: getRateTypes,
-                setAdvertiserTypeValue: setAdvertiserTypeValue,
-                getAdvertiserTypeValue: getAdvertiserTypeValue,
-                setSelectedAdvertiser: setSelectedAdvertiser,
-                getSelectedAdvertiser: getSelectedAdvertiser,
-                setMediaPlanClone: setMediaPlanClone,
-                getMediaPlanClone: getMediaPlanClone,
-                setLineItemData: setLineItemData,
-                getLineItemData: getLineItemData,
-                setLineItemDataEdit: setLineItemDataEdit,
-                getLineItemDataEdit: getLineItemDataEdit,
-                setLineItemBulkData: setLineItemBulkData,
-                getLineItemBulkData: getLineItemBulkData,
-                wrapperForActiveAdGroups: wrapperForActiveAdGroups,
-                setSubAccountTimeZone : setSubAccountTimeZone,
-                getSubAccountTimeZone : getSubAccountTimeZone
-            };
-    });
+            fetchCampaigns: fetchCampaigns,
+            getClientData: getClientData,
+            getSubAccounts: getSubAccounts,
+            getDashboardSubAccount: getDashboardSubAccount,
+            getClients: getClients,
+            getAdvertisers: getAdvertisers,
+            getBrands: getBrands,
+            getPixels: getPixels,
+            getRatesTypes: getRatesTypes,
+            getBillingTypeValue: getBillingTypeValue,
+            saveCampaign: saveCampaign,
+            updateCampaign: updateCampaign,
+            getCampaignData: getCampaignData,
+            getPlatforms: getPlatforms,
+            getAdsForCampaign: getAdsForCampaign,
+            getAdgroups: getAdgroups,
+            createAdGroups: createAdGroups,
+            editAdGroups: editAdGroups,
+            getAdsInAdGroup: getAdsInAdGroup,
+            createAd: createAd,
+            updateAd: updateAd,
+            deleteAd: deleteAd,
+            pauseAd: pauseAd,
+            resumeAd: resumeAd,
+            deleteCampaign: deleteCampaign,
+            cloneCampaign: cloneCampaign,
+            checkforUniqueMediaPlan: checkforUniqueMediaPlan,
+            getAd: getAd,
+            getDetailedAdsInAdGroup: getDetailedAdsInAdGroup,
+            pushCampaign: pushCampaign,
+            getVendorsAdServer: getVendorsAdServer,
+            getAdServers: getAdServers,
+            getTemplates: getTemplates,
+            getCreativeSizes: getCreativeSizes,
+            saveCreatives: saveCreatives,
+            getCreativeData: getCreativeData,
+            getCreativePreViewData: getCreativePreViewData,
+            forceSaveCreatives: forceSaveCreatives,
+            getCreatives: getCreatives,
+            validateCreative: validateCreative,
+            deleteCreatives: deleteCreatives,
+            getCreativeAds: getCreativeAds,
+            updateCreative: updateCreative,
+            downloadCreativeTemplate: downloadCreativeTemplate,
+            downloadCreativeErrors: downloadCreativeErrors,
+            uploadBulkCreativeUrl: uploadBulkCreativeUrl,
+            getCountries: getCountries,
+            getRegions: getRegions,
+            getCities: getCities,
+            getCreativesforCreativeList: getCreativesforCreativeList,
+            getDMAs: getDMAs,
+            getAdvertisersDomainList: getAdvertisersDomainList,
+            createAdvertisersDomainList: createAdvertisersDomainList,
+            getPlatformCustomInputs: getPlatformCustomInputs,
+            getLineItem: getLineItem,
+            createLineItems: createLineItems,
+            updateLineItems: updateLineItems,
+            getVideoTargetsType: getVideoTargetsType,
+            getObjectives: getObjectives,
+            getVendors: getVendors,
+            getVendorConfigs: getVendorConfigs,
+            getCostAttr: getCostAttr,
+            getSystemOfRecord: getSystemOfRecord,
+            getBillingTypeAndValue: getBillingTypeAndValue,
+            getVendorForSelectedCostCategory: getVendorForSelectedCostCategory,
+            getAllCampaignsForAdClone: getAllCampaignsForAdClone,
+            cloneAd: cloneAd,
+            platformResponseModifier: platformResponseModifier,
+            platformCreateObj: platformCreateObj,
+            recreateLabels: recreateLabels,
+            processVendorConfig: processVendorConfig,
+            processCostAttr: processCostAttr,
+            processLineItemsObj: processLineItemsObj,
+            deleteLineItem: deleteLineItem,
+            addCommaToNumber: addCommaToNumber,
+            getPublisher: getPublisher,
+            getUnitSize: getUnitSize,
+            getPlacement: getPlacement,
+            validateZipCodes: validateZipCodes,
+            segrigateInventory: segrigateInventory,
+            setModuleInfo: setModuleInfo,
+            getModuleInfo: getModuleInfo,
+            clearModuleInfo: clearModuleInfo,
+            setMode: setMode,
+            getMode: getMode,
+            setIsAdGroup: setIsAdGroup,
+            getIsAdGroup: getIsAdGroup,
+            setUnallocatedAmount: setUnallocatedAmount,
+            getUnallocatedAmount: getUnallocatedAmount,
+            setAdsDetails: setAdsDetails,
+            getAdsDetails: getAdsDetails,
+            setNewCreative: setNewCreative,
+            getNewCreative: getNewCreative,
+            setPlatform: setPlatform,
+            setPlatformSeat: setPlatformSeat,
+            setVendorExecutionType: setVendorExecutionType,
+            getVendorExecutionType: getVendorExecutionType,
+            getPlatform: getPlatform,
+            getSeat: getSeat,
+            setSavedGeo: setSavedGeo,
+            resetSavedGeo: resetSavedGeo,
+            getSavedGeo: getSavedGeo,
+            setDeleteModule: setDeleteModule,
+            getDeleteModule: getDeleteModule,
+            resetDeleteModule: resetDeleteModule,
+            setCreativeEditData: setCreativeEditData,
+            getCreativeEditData: getCreativeEditData,
+            setCreativeEditMode: setCreativeEditMode,
+            getCreativeEditMode: getCreativeEditMode,
+            setRateTypes: setRateTypes,
+            getRateTypes: getRateTypes,
+            setAdvertiserTypeValue: setAdvertiserTypeValue,
+            getAdvertiserTypeValue: getAdvertiserTypeValue,
+            setSelectedAdvertiser: setSelectedAdvertiser,
+            getSelectedAdvertiser: getSelectedAdvertiser,
+            setMediaPlanClone: setMediaPlanClone,
+            getMediaPlanClone: getMediaPlanClone,
+            setLineItemData: setLineItemData,
+            getLineItemData: getLineItemData,
+            setLineItemDataEdit: setLineItemDataEdit,
+            getLineItemDataEdit: getLineItemDataEdit,
+            setLineItemBulkData: setLineItemBulkData,
+            getLineItemBulkData: getLineItemBulkData,
+            wrapperForActiveAdGroups: wrapperForActiveAdGroups
+        };
+    }]);
 });

@@ -1,58 +1,15 @@
-define(['angularAMD', 'reporting/subAccount/sub_account_service', 'common/services/constants_service',
-    'login/login_model'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('subAccountController', function ($scope, $rootScope, $location, subAccountModel,
-                                                            constants, loginModel) {
-        var initializeDataObj = function() {
-            var locationPath = $location.url();
-
-            if ((locationPath === '/dashboard') || (locationPath === '/')) {
-                $scope.isDashboardFilter = true;
-            }
-
-            $scope.subAccountData = {
-                subAccounts: {},
-
-                selectedsubAccount:  {
-                    id: -1,
-                    name: 'Loading...'
-                }
-            };
-        };
-
-        function fetchSubAccounts(from) {
-            subAccountModel.fetchSubAccounts(from, function () {
-                if ($scope.isDashboardFilter) {
-                    $scope.subAccountData.subAccounts = subAccountModel.getDashboardSubAccounts();
-                    $scope.subAccountData.selectedsubAccount.id = loginModel.getDashboardClient().id;
-                    $scope.subAccountData.selectedsubAccount.name = loginModel.getDashboardClient().name;
-                } else {
-                    $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
-                    $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;
-                    $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;
-                }
-            });
-        }
-
-        function getSubAccounts() {
-            $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
-            $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;
-            $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;
-        }
-
+    angularAMD.controller('subAccountController', ['$scope', '$rootScope', '$route', '$routeParams', '$location', 'subAccountService', 'constants', 'loginModel',
+        'vistoconfig', 'utils', 'accountService', function ($scope, $rootScope, $route, $routeParams, $location, subAccountService, constants, loginModel, vistoconfig,
+                                                            utils, accountService) {
         $scope.constants = constants;
-        $scope.isDashboardFilter = false;
 
-        initializeDataObj();
-
-        (function getOrFetchSubAccounts() {
-            if (subAccountModel.getSubAccounts().length > 0 && !$scope.isDashboardFilter) {
-                getSubAccounts();
-            } else {
-                fetchSubAccounts('subAccountCtrl');
-            }
-        })();
+        $scope.subAccountData = {
+            subAccounts : {},
+            selectedSubAccount : {}
+        };
 
         $scope.showSubAccountDropDown = function () {
             var subAccountDropdownList = $('#subAccountDropDownList');
@@ -65,69 +22,61 @@ define(['angularAMD', 'reporting/subAccount/sub_account_service', 'common/servic
         };
 
         $scope.selectSubAccount = function (subAccount) {
-            var subAccountNameSelected = $('#sub_account_name_selected'),
+            var subAccountNameSelected = $('#sub_account_name_selected');
 
-                subAccountIdName = {
-                    id: subAccount.id,
-                    name: subAccount.displayName
-                };
+            /* When a subaccount is selected the campaign search parameter should be cleared else on selecting a subaccount in reports overview it will redirect to mediaplan list
+            since search key will not be available in new subaccount selected.
+            */
+            utils.cleanSearchParameter();
 
-            $scope.subAccountData.selectedsubAccount.id = subAccount.id;
-
+            $scope.subAccountData.selectedSubAccount.id = subAccount.id;
             subAccountNameSelected.text(subAccount.displayName);
             subAccountNameSelected.attr('title' , subAccount.displayName);
             $('#subAccountDropdown').attr('placeholder', subAccount.displayName).val('');
             $('#subAccountDropDownList').hide() ;
 
             $scope.subAccountData.showAll = true;
-
-            if ($scope.isDashboardFilter) {
-                subAccountModel.setSelectedDashboardSubAcc(subAccountIdName);
-            } else {
-                subAccountModel.setSelectedSubAccount(subAccountIdName);
-            }
-
-            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                client: subAccount.id,
-                event_type: 'clicked'
-            });
-
-            $scope.selectedSubAccount = null;
+            $routeParams.subAccountId = subAccount.id;
+            subAccountService.changeSubAccount(vistoconfig.getMasterClientId(), subAccount);
         };
 
         $scope.disableShowAll = function () {
             $scope.subAccountData.showAll = false;
         };
 
-        // TODO: should we have this???
-        $rootScope.$on(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, function (event, args) {
-            $scope.selectSubAccount(args.subAccount, args.event_type);
-        });
+        function fetchSubAccounts() {
+            var selectedSubAccount;
 
-        $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function () {
-            var isLeafNode,
-                subAccountId;
+            if ($location.path().endsWith('/dashboard')) {
+                $scope.subAccountData.subAccounts = subAccountService.getDashboardSubAccountList();
+                $scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedDashboardSubAccount().id;
+                $scope.subAccountData.selectedSubAccount.name = subAccountService.getSelectedDashboardSubAccount().displayName;
+            } else {
+                $scope.subAccountData.subAccounts = subAccountService.getSubAccounts();
 
-            initializeDataObj();
-            subAccountModel.resetSubAccount();
+                // TODO: Is this the correct call, or redundant as we have the following code below?
+                $scope.subAccountData.selectedSubAccount.id = vistoconfig.getSelectedAccountId();
 
-            isLeafNode = loginModel.getMasterClient().isLeafNode;
-            subAccountId = loginModel.getSelectedClient().id;
-
-            if (!isLeafNode) {
-                fetchSubAccounts('MasterClientChanged');
+                // TODO: Redundant???
+                //$scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount();
+                selectedSubAccount = subAccountService.getSelectedSubAccount();
+                if (selectedSubAccount) {
+                    $scope.subAccountData.selectedSubAccount.id = selectedSubAccount.id;
+                    $scope.subAccountData.selectedSubAccount.name = selectedSubAccount.displayName;
+                }
             }
+        }
 
-            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {
-                client: subAccountId,
-                event_type: 'clicked'
-            });
-        });
+        (function getOrFetchSubAccounts() {
+            if (!accountService.getSelectedAccount().isLeafNode) {
+                fetchSubAccounts('subAccountCtrl');
+            }
+        })();
 
         $(function () {
             $('header').on('click', '#subAccountDropdownDiv', function () {
                 $('.subAccountList_ul').scrollTop($(this).offset().top - 20 + 'px');
             });
         });
-    });
+    }]);
 });

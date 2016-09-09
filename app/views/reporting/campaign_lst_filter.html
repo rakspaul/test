@@ -60,7 +60,7 @@
                         </div>
                         <div class="clearfix each_filter filterClick {{campaigns.dashboard.status.active.underperforming }}"
                              data-ng-click="campaigns.setQuickFilter(constants.ACTIVE_UNDERPERFORMING)">
-                            <div class="pull-left" data-ng-bind="constants.UNDERPERFORMING"></div>
+                            <div class="pull-left">{{constants.CAMPAIGN_LIST_ITEM_UNDERPERFORMING}}</div>
                             <div class="pull-right">
                                 <div class="number" data-ng-bind="campaigns.dashboard.active.underperforming"></div>
                             </div>
@@ -74,7 +74,7 @@
                              data-ng-click="campaigns.setQuickFilter(constants.ENDING_SOON_CONDITION)">
                             <div class="pull-left" data-ng-bind="constants.ENDING_SOON"></div>
                             <div class="pull-right">
-                                <div class="number" data-ng-bind="campaigns.dashboard.active.total"></div>
+                                <div class="number" data-ng-bind="campaigns.dashboard.endSoon"></div>
                             </div>
                         </div>
 

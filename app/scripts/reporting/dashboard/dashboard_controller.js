@@ -1,56 +1,16 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/dashboard_model',
-    'reporting/brands/brands_model', 'reporting/advertiser/advertiser_model',
-    'reporting/campaignSelect/campaign_select_model','login/login_model',
-    'reporting/common/d3/bubble_chart_directive','reporting/common/d3/gauge_directive',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel,
-                                                           advertiserModel, campaignSelectModel, loginModel,
-                                                           subAccountModel) {
+    angularAMD.controller('DashboardController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants',
+        'dashboardModel', 'brandsModel', 'advertiserModel', 'campaignSelectModel', 'loginModel', 'subAccountService',
+        'vistoconfig', function ($scope, $rootScope, $routeParams, $location, constants,
+                                                           dashboardModel, brandsModel, advertiserModel,
+                                                           campaignSelectModel, loginModel, subAccountService,
+                                                           vistoconfig) {
+
         var updateTitle = function () {
                 dashboardModel.setTitle();
-            },
-
-            selectBrand = function (brand, eventType) {
-                var obj = {
-                    brand: brand,
-                    event_type: eventType
-                };
-
-                $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, obj);
-            },
-
-            selectAdvertiser = function (advertiser, eventType) {
-                var obj = {
-                    advertiser: advertiser,
-                    event_type: eventType
-                };
-
-                $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, obj);
-            },
-
-            bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_ADVERTISER_CLICKED, function (event, args) {
-                var advertiser = {
-                    id: args.advertiserId,
-                    name: args.className,
-                    clientId: args.clientId
-                };
-
-                selectAdvertiser(advertiser, 'clicked');
-            }),
-
-            eventBrandChangedFunc = $rootScope.$on(constants.EVENT_BRAND_CHANGED, function () {
-                dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-                dashboardModel.setSelectedAdvertiser(advertiserModel.getSelectedAdvertiser());
-                updateTitle();
-            }),
-
-            statusChangedFunc = $rootScope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function () {
-                dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-                dashboardModel.setSelectedAdvertiser(advertiserModel.getSelectedAdvertiser());
-                updateTitle();
-            });
+            };
 
         $('.main_navigation_holder').find('.active_tab').removeClass('active_tab');
 
@@ -62,13 +22,8 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
             .addClass('active');
 
         $scope.data = dashboardModel.getData();
-        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
+        $scope.data.advertiserSelected = false;
         $scope.textConstants = constants;
-
-        $scope.clickOnBrandButton = function () {
-            selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject, 'clicked');
-            selectBrand(brandsModel.getAllBrand(), 'clicked');
-        };
 
         $scope.statusDropdown = function (status, eventType) {
             var obj = {
@@ -81,41 +36,29 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/dashboard/
             $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
         };
 
-        // if selected All Brands
-        if (brandsModel.getSelectedBrand().id === -1) {
-            dashboardModel.setSelectedBrand(brandsModel.getAllBrand());
-        } else {
-            dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-        }
-
-        if (advertiserModel.getSelectedAdvertiser().id === -1) {
-            dashboardModel.setSelectedAdvertiser(advertiserModel.getAllAdvertiser());
-        } else {
-            dashboardModel.setSelectedAdvertiser(advertiserModel.getSelectedAdvertiser());
-        }
-
-        $rootScope.$on(constants.CLIENT_LOADED, function () {
-            updateTitle();
-        });
-
-        if (subAccountModel.getDashboardAccountId()) {
-            updateTitle();
-        }
 
         $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
-            dashboardModel.setSelectedBrand(brandsModel.getSelectedBrand());
-            dashboardModel.setSelectedAdvertiser(advertiserModel.getSelectedAdvertiser());
+            dashboardModel.setSelectedBrand(vistoconfig.getSelectedBrandId());
+            dashboardModel.setSelectedAdvertiser(vistoconfig.getSelectAdvertiserId());
             updateTitle();
-        });
-
-        $scope.$on('$destroy', function () {
-            bubbleBrandClickedFunc();
-            eventBrandChangedFunc();
-            statusChangedFunc();
         });
 
         $scope.hide_bubble_tooltip = function() {
             $('.bubble_tooltip').hide();
         };
-    });
+
+        updateTitle();
+
+        $scope.removeAdvertiserButton = function () {
+            var url = '/a/' + $routeParams.accountId;
+
+            if ($routeParams.subAccountId) {
+                url += '/sa/' + $routeParams.subAccountId;
+            }
+            url += '/dashboard';
+            $location.url(url);
+
+        };
+
+    }]);
 });

@@ -1,21 +1,19 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/data_service', 'common/utils',
-    'reporting/common/charts/actions', 'reporting/models/domain_reports', 'common/services/constants_service',
-    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/moment_utils', 'common/services/url_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/vistoconfig_service',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/kpiSelect/kpi_select_directive', 'reporting/kpiSelect/kpi_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model',
+    'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-actions', 'time-period-controller',
+    'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('OptimizationController', function ($timeout, $rootScope, $scope, kpiSelectModel,
+    angularAMD.controller('OptimizationController', ['$timeout', '$rootScope', '$scope', 'kpiSelectModel',
+        'campaignSelectModel', 'strategySelectModel', 'dataService',
+        'utils', 'actionChart', 'domainReports', 'constants',
+        'timePeriodModel', 'loginModel', 'momentService', 'urlService',
+        'advertiserModel', 'brandsModel', 'vistoconfig', function ($timeout, $rootScope, $scope, kpiSelectModel,
                                                               campaignSelectModel, strategySelectModel, dataService,
                                                               utils, actionChart, domainReports, constants,
                                                               timePeriodModel, loginModel, momentService, urlService,
                                                               advertiserModel, brandsModel, vistoconfig) {
 
-        var fromLocStore = localStorage.getItem('timeSetLocStore'),
-            getCustomQueryParams,
+        var getCustomQueryParams,
             actionDataForSelectedCampaign,
             actionDataForSelectedStrategy,
             actionDataForTactic,
@@ -23,11 +21,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             actionDataError,
             createDownloadReportUrl,
             cbCampaignSelected,
-            getCampaignDetails,
             callStrategyChange,
             cbStrategySelected,
-            setStrategyInScope,
-            eventKpiChanged;
+            setStrategyInScope;
 
         $scope.textConstants = constants;
 
@@ -65,16 +61,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.selectedStrategy.action = {};
         $scope.selectedStrategy.action.id = -1;
         $scope.selectedFilters = {};
-
-        if (fromLocStore) {
-            fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-            $scope.selectedFilters.time_filter = fromLocStore;
-        } else {
-            $scope.selectedFilters.time_filter = 'life_time';
-        }
-
-        $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
-        $scope.selectedFilters.kpi_type =  kpiSelectModel.getSelectedKpi();
 
         $scope.download_urls = {optimization: null};
         $scope.seeDate = {value : '', className: ''};
@@ -245,12 +231,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     endDate: moment($scope.selectedCampaign.endDate).format('YYYY-MM-DD')
                 },
 
+                clientId = vistoconfig.getSelectedAccountId(),
+                strategyId = Number($scope.selectedStrategy.id);
+
                 strategyId = Number($scope.selectedStrategy.id);
 
             $scope.apiReturnCode = 200;
 
             dataService
-                .getCdbChartData(param, $scope.selectedFilters.time_filter, strategyId === -1 ?
+                .getCdbChartData(clientId, param, $scope.selectedFilters.time_filter, strategyId === -1 ?
                     'campaigns' : 'lineitems',  strategyId , true)
                 .then(function (result) {
                     var lineData = [],
@@ -365,9 +354,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             return {
                 queryId: queryId,
                 campaignId: $scope.selectedCampaign.id,
-                clientId:  loginModel.getSelectedClient().id,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
+                clientId:  vistoconfig.getSelectedAccountId(),
+                advertiserId: vistoconfig.getSelectAdvertiserId(),
+                brandId: vistoconfig.getSelectedBrandId(),
                 dateFilter: dateFilter,
                 make_external : false
             };
@@ -495,35 +484,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         cbCampaignSelected = function () {
             // As campaign is changed.Populate Campaign details and then get actionData for selected Campaign
-            getCampaignDetails(callStrategyChange);
+            callStrategyChange();
         };
 
-        getCampaignDetails = function (callback) {
-            var clientId,
-                url;
 
-            if ($scope.selectedCampaign && $scope.selectedCampaign.id !== 0 && $scope.selectedCampaign.id !== -1) {
-                // API call for campaign details
-                clientId =  loginModel.getSelectedClient().id;
-                url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                    '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id;
-
-                dataService.getSingleCampaign(url).then(function (result) {
-                    if (result.data.data !== undefined) {
-                        var res = result.data.data;
-
-                        $scope.selectedCampaign.kpiValue = res.kpi_value;
-                        $scope.selectedCampaign.kpi = res.kpi_type;
-
-                        if ($scope.selectedCampaign.kpi === 'null') {
-                            $scope.selectedCampaign.kpi = 'ctr';
-                        }
-                    }
-
-                    callback && callback();
-                }, function () {});
-            }
-        };
 
         callStrategyChange = function () {
             actionDataForSelectedCampaign(cbStrategySelected);
@@ -559,35 +523,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
 
-        $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function () {
-            $scope.dataInit();
-            $scope.paramObj = {isCampaignChanged: true};
-
-            // update the selected Campaign
-            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
-        });
-
         $scope.$watch('selectedCampaign', function () {
             createDownloadReportUrl();
 
             // populate campaign kpi value by calling getCampaignDetails();
             cbCampaignSelected();
-        });
-
-        $scope.$on(constants.EVENT_STRATEGY_CHANGED , function () {
-            $scope.paramObj = $scope.paramObj || {};
-
-            // if action Items is not set
-            if (!$scope.paramObj.isCampaignChanged) {
-                setStrategyInScope();
-                cbStrategySelected();
-            } else {
-                $scope.paramObj.isCampaignChanged = false;
-            }
-        });
-
-        eventKpiChanged = $rootScope.$on(constants.EVENT_KPI_CHANGED, function () {
-            $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
         });
 
         $('#optimization_squaredFour').click(function () {
@@ -606,13 +546,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.$apply();
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
-            $scope.selectedFilters.time_filter = strategy;
-            cbCampaignSelected();
-        });
-
-        $scope.$on('$destroy', function () {
-            eventKpiChanged();
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
+            callStrategyChange();
         });
 
          // hot fix for the enabling the active link in the reports dropdown
@@ -623,5 +558,5 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             mainNavigation.find('.reports_sub_menu_dd_holder').find('#optimization').addClass('active_tab');
         }, 200);
         // end of hot fix for the enabling the active link in the reports dropdown
-    });
+    }]);
 });

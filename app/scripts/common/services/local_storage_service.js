@@ -1,6 +1,4 @@
 define(['angularAMD'], function (angularAMD) {
-    'use strict';
-
     angularAMD.factory('localStorageService', function () {
         return {
             masterClient: {
@@ -101,6 +99,22 @@ define(['angularAMD'], function (angularAMD) {
                 get: function(){
                     return JSON.parse(localStorage.getItem('creativeTag'));
                 }
+            },
+
+            setToLocalStorage: {
+                setAdvertiser: function(data) {
+                    localStorage.setItem('setAdvertiser', JSON.stringify(data));
+                },
+                setBrand: function(data) {
+                    localStorage.setItem('setBrands', JSON.stringify(data));
+                },
+                setMasterClient: function(data) {
+                    localStorage.setItem('masterClient', JSON.stringify(data));
+                },
+                setSubAccount: function(data) {
+                    localStorage.setItem('selectedClient', JSON.stringify(data));
+                }
+
             }
         };
     });

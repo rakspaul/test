@@ -1,27 +1,22 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
-    'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'workflow/services/account_service',
-    'reporting/collectiveReport/report_schedule_delete_controller',
-    'reporting/collectiveReport/reports_invoice_addNote_controller',
-    'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
-    'reporting/collectiveReport/invoice_upload_SOR_controller'], function (angularAMD) {
+define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 'report-schedule-delete-controller',
+    'reports-invoice-addNote-controller', 'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller', 'admin-account-service'], function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('reportsInvoiceController', function ($scope,$filter, $location, $modal, $rootScope,
-                                                                    $routeParams, $q, $timeout, collectiveReportModel,
-                                                                    utils, loginModel, constants, urlService,
-                                                                    dataStore, dataService, momentService,
-                                                                    domainReports, advertiserModel, brandsModel,
-                                                                    accountsService) {
+        angularAMD.controller('reportsInvoiceController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
+            '$routeParams', '$q', '$timeout', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'urlService',
+            'dataStore', 'dataService', 'momentService', 'domainReports', 'advertiserModel', 'brandsModel',
+            'adminAccountsService', 'vistoconfig', 'subAccountService', function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel,
+                                                        utils, loginModel, constants, urlService, dataStore, dataService, momentService,
+                                                        domainReports, advertiserModel, brandsModel, adminAccountsService, vistoconfig, subAccountService) {
             var _curCtrl = this;
 
             _curCtrl.invoiceId = $routeParams.invoiceId;
+            _curCtrl.clientId = vistoconfig.getSelectedAccountId();
 
             // Get the details of the invoice
             _curCtrl.getInvoiceDetials = function () {
                 var res;
-                dataService.fetch(urlService.getInvoiceDetials($routeParams.invoiceId)).then(function (result) {
+                dataService.fetch(urlService.getInvoiceDetials(_curCtrl.clientId, _curCtrl.invoiceId)).then(function (result) {
                     if (result.status === 'success' || result.status === 'OK') {
                         res = result.data.data;
                         $scope.invoiceDetails = res;
@@ -29,6 +24,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         $scope.noteData.status = $scope.invoiceDetails.status;
                         $scope.isDataLoaded = true;
                         $scope.isUploadStatus = (res.status === 'Upload') ? true : false;
+                        $scope.breadcrumbsDisplay.advertiserName = res.advertiserName;
+                        $scope.breadcrumbsDisplay.mediaPlanName = res.mediaPlanName;
                     }
                 }, function () {});
             };
@@ -37,8 +34,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             // Save the note and status information
             _curCtrl.saveNoteAndStatus = function () {
-                accountsService
-                    .invoiceSaveNote(loginModel.getSelectedClient().id, $routeParams.invoiceId, $scope.noteData)
+                adminAccountsService
+                    .invoiceSaveNote(vistoconfig.getMasterClientId(), $routeParams.invoiceId, $scope.noteData)
                     .then(function (result) {
                         if (result.status === 'success' || result.status === 'OK') {
                             _curCtrl.getInvoiceDetials();
@@ -47,10 +44,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     });
             };
 
-            $scope.clientName = loginModel.getSelectedClient() ? loginModel.getSelectedClient().name : '';
-
-            $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
-                advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertisers';
+            $scope.breadcrumbsDisplay = {
+                clientName : subAccountService.getSelectedSubAccount().displayName,
+                invoiceId : $routeParams.invoiceId
+            };
 
             $scope.noteData = {
                 notes: '',
@@ -139,8 +136,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         constants.INVOICE_TEMPLATE_DOWNLOAD_ERR;
 
                 url = isInvoiceReport ?
-                    urlService.downloadInvoiceWithId(_curCtrl.invoiceId) :
-                    urlService.downloadTemplateWithCampaignId($scope.invoiceDetails.campaignId);
+                    urlService.downloadInvoiceWithId(_curCtrl.clientId, _curCtrl.invoiceId) :
+                    urlService.downloadTemplateWithCampaignId(_curCtrl.clientId, $scope.invoiceDetails.campaignId);
 
                 dataService
                     .downloadFile(url)
@@ -170,6 +167,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
                 $scope.invoiceData = angular.copy(invoice);
             };
-        });
+        }]);
     }
 );

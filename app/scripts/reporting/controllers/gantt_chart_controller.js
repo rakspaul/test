@@ -1,12 +1,11 @@
-define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt_chart_model',
-    'common/services/constants_service', 'reporting/brands/brands_model', 'login/login_model', 'common/moment_utils',
-    'reporting/advertiser/advertiser_model'],
+define(['angularAMD', 'gantt-chart', 'gantt-chart-model'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants,
-                                                            brandsModel, loginModel, momentService,
-                                                            advertiserModel) {
+    angularAMD.controller('GanttChartController', ['$scope', 'ganttChart', 'ganttChartModel', 'constants',
+        'brandsModel', 'loginModel', 'momentService', 'advertiserModel', 'vistoconfig',
+
+        function ($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, momentService, advertiserModel, vistoconfig) {
         var _curCtrl = this;
 
         _curCtrl.filter = undefined;
@@ -15,19 +14,13 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
 
         $scope.calendar = function (filter) {
-            if(localStorage.clientRoleObj) {
-                $scope.selected = 'quarter';
+            $scope.selected = 'quarter';
 
-                if (advertiserModel.getSelectedAdvertiser().id === -1) {
-                    _curCtrl.filter = filter;
-                    $scope.init(null, filter);
-                } else {
-                    $scope.init('single_brand', filter);
-                }
-            }else{
-                setTimeout(function(){
-                    $scope.calendar(filter);
-                },100);
+            if (vistoconfig.getSelectAdvertiserId() === -1) {
+                _curCtrl.filter = filter;
+                $scope.init(null, filter);
+            } else {
+                $scope.init('single_brand', filter);
             }
         };
 
@@ -153,13 +146,16 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                                 c.state = tasks.state;
                                 c.kpiStatus = tasks.kpi_status;
                                 c.taskName = count;
+                                c.client_id = tasks.client_id;
+                                c.advertiser_id = tasks.advertiser_id;
+                                c.brand_id = tasks.brand_id;
                                 advertisers.push(count);
                                 campaigns.push(c);
                             });
                         });
-                        if (advertiserModel.getSelectedAdvertiser().id === -1) {
+                        if (vistoconfig.getSelectAdvertiserId() === -1) {
                             ganttChart.newCalendar(campaigns, advertisers);
-                        } else if (update || advertiserModel.getSelectedAdvertiser().id) {
+                        } else if (update || vistoconfig.getSelectAdvertiserId()) {
                             ganttChart.newCalendar(campaigns, advertisers, true);
                             $scope.brandNotSelected = false;
                         }
@@ -310,7 +306,7 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
 
         $scope.calendarWidgetInit = function () {
             $('#calendar_widget').scroll(function () {
-                if (advertiserModel.getSelectedAdvertiser().id !== -1 &&
+                if (vistoconfig.getSelectAdvertiserId() !== -1 &&
                     !$scope.loadingMore && !$scope.calendarBusy &&
                     !_curCtrl.calendarLastPage &&
                     ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
@@ -319,5 +315,5 @@ define(['angularAMD', 'reporting/common/d3/gantt_chart', 'reporting/models/gantt
                 }
             });
         };
-    });
+    }]);
 });

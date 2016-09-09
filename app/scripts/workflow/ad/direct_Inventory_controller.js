@@ -1,7 +1,8 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('directInventoryController', function ($scope, $rootScope, $timeout, $routeParams,
+    angularAMD.controller('directInventoryController', ['$scope', '$rootScope', '$timeout', '$routeParams',
+        '$location', 'vistoconfig', 'workflowService', function ($scope, $rootScope, $timeout, $routeParams,
                                                                  $location, vistoconfig, workflowService) {
         var DATA_MAX_SIZE = 200,
             defaultParams = {
@@ -327,6 +328,15 @@ define(['angularAMD'],function (angularAMD) {
             }
         };
 
+        $scope.resetPlacements = function(event) {
+            var target = $(event.currentTarget),
+                parentElem = target.parents().find('.searchBox');
+
+            parentElem.val('');
+            $scope.searchKeyword = null;
+            directInventory.searchGeo('');
+        } ;
+
         $rootScope.$on('directInvenotry', function (event, args) {
             var placementList,
                 placementsData;
@@ -354,5 +364,5 @@ define(['angularAMD'],function (angularAMD) {
 
             directInventory.placement($scope.urlData, $scope.adData.directInvenotryData.placements.params);
         });
-    });
+    }]);
 });

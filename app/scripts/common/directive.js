@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
     angularAMD
@@ -355,10 +355,12 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                     '<span ng-show="(txt.length > txtLength)" ' +
                         'tooltip-placement="top" ' +
                         'tooltip="{{txt}}" ' +
-                        'ng-bind-html="txtHtml|limitTo:txtLength  + \'...\'">' +
+                        'ng-bind-html="(txtHtml|limitTo:txtLength) + \'...\'">' +
                     '</span>' +
-                    '<span  class="campaign_name_txt" ' +
-                        'ng-show="(txt.length <= txtLength)" ' +
+                    '<span ng-show="(txt.length <= txtLength)" ' + 
+                        'class="campaign_name_txt" ' +
+                        'tooltip-placement="top" ' +
+                        'tooltip="{{txtHtml}}" ' +
                         'ng-bind-html="txtHtml">' +
                     '</span>',
 
@@ -518,9 +520,38 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             modelCtrl.$setViewValue(transformedInput);
                             modelCtrl.$render();
                         }
-
                         return transformedInput;
                     });
+                }
+            };
+        })
+
+        .directive('specialCharacter', function () {
+            return {
+                require: 'ngModel',
+
+                link: function (scope, element, attrs, modelCtrl) {
+                    modelCtrl.$parsers.push(function (inputValue) {
+                        var transformedInput;
+
+                        if (!inputValue) {
+                            return '';
+                        }
+                        transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '');
+                        if (transformedInput !== inputValue) {
+                            modelCtrl.$setViewValue(transformedInput);
+                            modelCtrl.$render();
+                            element.siblings('.special-character-error').show();
+                            setTimeout(function(){
+                               element.siblings('.special-character-error').fadeOut();
+                            }, 6000);
+                        }
+                        element.bind('blur', function() {
+                            element.siblings('.special-character-error').fadeOut();
+                        });
+                        return transformedInput;
+                    });
+
                 }
             };
         })
@@ -537,6 +568,22 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             };
         })
 
+       .directive('roundConverter', function() {
+          return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, elem, attrs, ngModelCtrl) {
+              function roundNumber(val) {
+                var parsed = parseFloat(val, 10);
+                if(parsed !== parsed) { return null; } // check for NaN
+                var rounded = Math.round(parsed);
+                return rounded;
+              }
+              // Parsers take the view value and convert it to a model value.
+              ngModelCtrl.$parsers.push(roundNumber);
+           }
+         };
+        })
         .directive('searchBox', function() {
             return {
                 restrict: 'A',

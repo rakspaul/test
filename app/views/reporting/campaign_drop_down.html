@@ -1,11 +1,12 @@
-<div class="clearfix dropdown_type1_holder pull-left active " >
+<div class="clearfix dropdown_type1_holder pull-left active ">
     <div class="report_heading_dropdown_txt nav_filters_heading" data-ng-bind="headerText"></div>
-    <div class="posRelative" >
+    <div class="posRelative">
         <div class="campaign_name_selected"
              title="{{selectedObj.name}}"
-             campaignid="{{selectedObj.id}}"
+             campaignid="{{selectedObj.id || selectedObj.campaign_id}}"
              id="campaign_name_selected"
-             data-ng-model="selectedObj.name" data-ng-bind="selectedObj.name">
+             data-ng-model="selectedObj.name"
+             data-ng-bind="selectedObj.name">
         </div>
         <span class="icon-arrow-solid-down"></span>
     </div>
@@ -13,8 +14,8 @@
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
             <ul class="nav navbar-nav">
-                <li class="dropdown" data-ng-class="campaignData.campaigns.length > 0 ? '' : 'loadedDropdownData'">
-                    <ul class="dropdown-menu campaigns_list" role="menu"  id="campaigns_list" >
+                <li class="dropdown {{loading_icon_mediaplan}}" >
+                    <ul class="dropdown-menu campaigns_list" role="menu" id="campaigns_list">
                         <div id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"
                                    id="campaignDropdown"
@@ -26,12 +27,15 @@
                         <div class="dropdown_list_scroll">
                             <li data-ng-repeat="campaign in campaignData.campaigns track by $index"
                                 class="campaigns_list_li {{campaign.name === selectedObj.name ? 'active' : ''}}"
-                                value="{{(campaign.campaign_id == undefined) ? campaign.id : campaign.campaign_id}}"
-                                _kpi="{{(campaign.kpi_type == undefined ) ? campaign.kpi : campaign.kpi_type}}"
-                                title="{{campaign.name}}"
-                                _startDate="{{(campaign.start_date == undefined) ? campaign.startDate : campaign.start_date}}"
-                                _endDate="{{(campaign.end_date == undefined) ? campaign.endDate : campaign.end_date}}"
-                                data-ng-click="add_active_selection();" data-ng-bind="campaign.name">
+                                value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}"
+                                title="{{campaign.name}}">
+                                <a data-ng-click="selectCampaign(campaign)">
+                                    <span class="tick"></span>
+                                    <span class="menuItemText"
+                                          data-ng-bind-html="highlightSearch(campaign.name, selectedObj.name)"
+                                          data-ng-bind="campaign.name">
+                                    </span>
+                                </a>
                             </li>
                         </div>
                     </ul>

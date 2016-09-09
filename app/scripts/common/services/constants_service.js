@@ -1,5 +1,5 @@
 define(['angularAMD'], function(angularAMD) { // jshint ignore:line
-    angularAMD.service('constants', function($locale) {
+    angularAMD.service('constants', ['$locale', function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 10;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
@@ -17,8 +17,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GANTT_CHART_BRAND_CANCELLER = 7;
         this.NEW_REPORT_RESULT_CANCELLER = 3;
         this.PERIOD_LIFE_TIME = 'life_time';
-        this.PERIOD_LAST_7_DAYS = 'last_7_days';
-        this.PERIOD_LAST_30_DAYS = 'last_30_days';
         this.SORT_DESC = 'desc';
         this.ACTIVE_UNDERPERFORMING = 'underperforming';//has to be this way as per database
         this.ACTIVE_ONTRACK = 'ontrack';
@@ -88,6 +86,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
         this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
         this.GAUGE_PERFORMANCE = 1;
+        this.GAUGE_UNDERPERFORMING = 'Off Target';
+        this.GAUGE_ONTRACK = 'On Target';
         this.COOKIE_REDIRECT = 'cdesk_redirect';
         this.COOKIE_SESSION = 'cdesk_session';
         this.SPEND = 'Spend';
@@ -267,8 +267,10 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PERFORMANCE = 'Performance';
         this.MARGIN = 'Margin';
         this.BUDGET = 'Budget';
-        this.CAMPAIGN_ON_TRACK = 'Media Plan is On Track';
-        this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Track';
+        this.CAMPAIGN_ON_TRACK = 'Media Plan is On Target';
+        this.CAMPAIGN_LIST_ITEM_UNDERPERFORMING = 'Off Target';
+
+        this.UNDERPERFORMING_CAMPAIGN = 'Media Plan is Off Target';
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
         this.CLICKS = 'Clicks';
@@ -297,7 +299,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INFLIGHT_LABEL = 'In Flight';
         this.ACTIVE_LABEL = 'Active';
         this.KPI_ON_TRACK = 'KPI is On Target';
-        this.UNDERPERFORMING = 'Underperforming';
+        this.UNDERPERFORMING = 'Off Target';
         this.PAUSED = 'Paused';
         this.COMPLETED = 'Completed';
 
@@ -417,12 +419,15 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.SUSPICIOUS = 'Suspicious';
         this.TOTAL = 'Total';
-
+        this.VIEWLABLETXT_COST = '* Totals includes Fixed Costs';
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
         this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
+        this.UPGRADE_BROWSER_MESSAGE1 =  'Unfortunately, we do not support your browser. Please upgrade to IE {findVersion}.';
+        this.UPGRADE_BROWSER_MESSAGE2 =  'Best viewed in {browserName} version {findVersion} and above. Please upgrade your browser.';
+        this.UPGRADE_BROWSER_MESSAGE3 = 'Unfortunately, we don\'t yet support your browser. Please use {browserList}.';
 
         this.STRATEGY = 'Ad Group';
 
@@ -440,7 +445,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
             'Top 3 per Category shown. Percent (%) value is only available for categorized data. Data captured prior to March 2014 is uncategorized.';
 
         this.TARGET_ZONE = 'Target Zone';
-        this.KPI_ON_TARGET = 'KPI on target';
+        this.KPI_ON_TARGET = 'KPI on Target';
+        this.KPI_OFF_TARGET = 'KPI off Target';
         this.KPI_UNDERPERFORMANCE = 'KPI Underperformance';
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';
@@ -901,6 +907,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
+
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
@@ -1029,6 +1036,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Archive Creatives';
+        this.TRACKING_MESSAGE = 'Use 3rd party tracking code';
+        this.CAUTION_MSG = '<b>Caution</b>: 3rd party tracking code may not be compatible with this ad server configuration or your selected buying/execution platform. ' +
+            'Be sure to consult with Visto support or your Collective Visto account manager before using this code in a live ad.';
         this.TAB_CHANGED = 'tab_changed';
 
        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
@@ -1154,11 +1164,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIAPLAN_CREDIT_NAME = 'Credit Name / Notes';
         this.MEDIAPLAN_AMOUNT = 'Amount';
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = 'Add Another Credit';
-        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Date Start';
-        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight Date End';
+        this.MEDIAPLAN_FLIGHT_DATE_START = 'Flight Start Date';
+        this.MEDIAPLAN_FLIGHT_DATE_END = 'Flight End Date';
         this.SAVE_CHANGES = 'Save Changes';
         this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
         this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
+        this.SELECT_VOLUME_TYPE = 'Volume Type';
         this.AD_GRP_NAME='Ad Group Name';
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
@@ -1169,6 +1180,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AD_GROUP_TOTAL = 'Ad Group Total:';
         this.CAMPAIGN_TOTAL = 'Campaign Total:';
         this.LINE_ITME_TOTAL = 'Line Item Total:';
+        this.MEDIA_PLAN_TOTALS = 'Media Plan Totals';
+        this.LINE_ITEM_TOTALS = 'Line Item Totals';
+
         this.INCLUDES_FIXED_COSTS = '*Includes Fixed Costs';
         this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = '*Excludes Media Plan fixed costs';
 
@@ -1231,12 +1245,24 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.NOTHINGSELECTED = 'Nothing is Selected' ;
         this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
-        this.ERROR = 'Error:';
+        this.ERROR = 'Unkown Error:';
         this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
         this.SELECTCOUNTRY = 'Select Country';
-
+        this.PASSWORD_LENGTH_ERROR = 'Password should have more than 6 characters' ;
+        this.PASSWORD_MATCH_ERROR = 'Passwords are not matching' ;
+        this.PASSWORD = 'Password' ;
+        this.UPDATE_PASSWORD = 'Update Password' ;
+        this.CONFIRM_PASSWORD = 'Confirm Password' ;
+        this.CHANGE_PASSWORD = 'Change Password' ;
+        this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
         this.TECH_FEES = 'Tech';
-    });
+        this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
+        this.LINEITEM_SETUP = 'Line Item Setup' ;
+        this.LINEITEM_EDIT = 'Line Item Edit' ;
+        this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER = 'There are no Media Plans for the selected Advertiser';
+        this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND = 'There are no Media Plans for the selected Brand';
+        this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT = 'There are no Media Plans for the selected account';
+    }]);
 });

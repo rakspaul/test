@@ -1,7 +1,7 @@
-define(['angularAMD', '../../../common/services/constants_service'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignChart', function ($window, $filter, constants) {
+    angularAMD.directive('campaignChart', ['$window', '$filter', 'constants', function ($window, $filter, constants) {
         return {
             restrict: 'EA',
             template: '<svg></svg>',
@@ -404,12 +404,10 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                             svg.append('text')
                                 .attr('id', 'kpi_type_text')
                                 .attr('x', -15)
-                                .attr('y', adjustY - 10)
+                                .attr('y', adjustY - 5)
                                 .style('font-size', '12px')
                                 .style('fill', '#57595b')
-                                .text(_config.kpiType.toLowerCase() !== 'impressions' ?
-                                    _config.kpiType :
-                                    'Impressions');
+                                .text(_config.kpiType);
                         }
 
                         if (threshold !== 0 && kpiType.toLowerCase() !== 'impressions') {
@@ -1182,7 +1180,7 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                         });
 
                         // if value exists return the corresponding Key else return value
-                        return (key !== undefined ? key.toUpperCase() : value.toUpperCase());
+                        return (key !== undefined ? key.toUpperCase() : (value ? value.toUpperCase() : ''));
                     },
 
                     chartDataFun: function (lineData, threshold, kpiType, chartFrom, deliveryData) {
@@ -1637,7 +1635,7 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                 reverseUpperPacing = [];
                 pacing = [];
 
-                if ((dataObj.kpiType).toLowerCase() === 'impressions') {
+                if (dataObj.kpiType && dataObj.kpiType.toLowerCase() === 'impressions') {
                     // create reverse line for delivery polygon
                     _.each(chartDataset, function (d) {
                         pacing.push(
@@ -1715,7 +1713,7 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                     lineData.defaultGrey = dataObj.defaultGrey || undefined;
                 }
 
-                if ((dataObj.kpiType).toLowerCase() === 'impressions') {
+                if (dataObj.kpiType && dataObj.kpiType.toLowerCase() === 'impressions') {
                     // disabling ticks for y axis when kpi is delivery
                     lineData.keys.yAxis.ticks = 0;
                 }
@@ -1746,5 +1744,5 @@ define(['angularAMD', '../../../common/services/constants_service'], function (a
                 lineChartService.drawAxis();
             }
         };
-    });
+    }]);
 });

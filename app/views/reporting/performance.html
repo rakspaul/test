@@ -56,14 +56,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="screenBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="screenBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="screenBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{screenData.sepratorCls}}"
                                              data-ng-show="!screenBusy"
                                              data-ng-repeat="screenData in strategyPerfDataByScreen |
                                                 orderBy : sortTypeScreens : sortReverse track by $index"
@@ -71,18 +71,18 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!screenBusy">
-                                    <div class="each_strategy_holder clearfix"
+                                    <div class="each_strategy_holder clearfix "
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeScreens : sortReverse track by $index"
-                                         data-ng-if="showPerfMetrix === true">
+                                         data-ng-if="showPerfMetrix === true" >
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div class="clearfix each_row_list {{screenData.sepratorCls}}"
                                                      data-ng-repeat="screenData in tactic.perf_metrics |
                                                         orderBy : sortTypeScreens : sortReverse track by $index"
-                                                     data-ng-include="'screenTpl'">
+                                                     data-ng-include="'screenTpl'" >
                                                 </div>
                                             </div>
                                         </div>
@@ -107,14 +107,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="dowBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="dowBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="dowBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
                                              data-ng-show="!dowBusy"
                                              data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW |
                                                 orderBy : sortTypebydaysofweek : sortReverse track by $index"
@@ -129,9 +129,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="col-md-12 zeroPadding  each_col first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding  row_list_holder">
+                                                <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
                                                      data-ng-repeat="daysOfWeekData in tactic.perf_metrics |
                                                         orderBy : sortTypebydaysofweek : sortReverse
                                                         track by $index"
@@ -167,8 +167,8 @@
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" data-ng-hide="discrepancyBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
-                                        <span class="viewLabelTxt" style="margin: 4px 0 0 15px;">
-                                            *Imps. data delayed by 24 hours
+                                        <span class="viewLabelTxt" style="margin: 4px 0 0 15px;" ng-if="lastSyncedOn">
+                                            *Data last available for all vendors at {{lastSyncedOn}}
                                         </span>
                                     </div>
                                     <div class="row_list_holder clearfix">
@@ -188,9 +188,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{vendor.sepratorCls}}"
                                                      data-ng-repeat="vendor in tactic.perf_metrics |
                                                         orderBy : sortTypediscrepancy : sortReverse track by $index"
                                                      data-ng-include="'discrepancyTpl'">
@@ -218,14 +218,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="formatBusy">
+                                   <!-- <div class="each_col first_col" data-ng-hide="formatBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="formatBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{formatData.sepratorCls}}"
                                              data-ng-show="!formatBusy"
                                              data-ng-repeat="formatData in strategyPerfDataByFormat |
                                                 orderBy : sortTypebyformats : sortReverse track by $index"
@@ -240,9 +240,9 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="each_col zeroPadding col-md-12 first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div class="clearfix each_row_list {{formatData.sepratorCls}}"
                                                      data-ng-repeat="formatData in tactic.perf_metrics |
                                                         orderBy : sortTypebyformats : sortReverseFormatTab
                                                         track by $index"
@@ -273,14 +273,14 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="creativeBusy">
+                                    <!--<div class="each_col first_col" data-ng-hide="creativeBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="creativeBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
                                              data-ng-show="!creativeBusy"
                                              data-ng-repeat="creativesData in strategyPerfDataByCreatives |
                                                 orderBy : sortTypeByCreatives : sortReverse
@@ -290,18 +290,19 @@
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!creativeBusy">
+
                                     <div class="each_strategy_holder clearfix"
                                          data-ng-repeat="tactic in groupThem |
                                             orderBy : sortTypeByCreatives : sortReverse track by $index"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col"
+                                            <div class="each_col first_col col-md-12 zeroPadding"
                                                  style="width: 100%"
                                                  data-ng-bind="tactic.name">
                                             </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
                                                      data-ng-repeat="creativesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByCreatives : sortReverseCreativesTab
                                                         track by $index"
@@ -328,14 +329,15 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" data-ng-hide="adSizeBusy">
+                                    <!-- <div class="each_col first_col" data-ng-hide="adSizeBusy">
                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
                                         <span class="pull-left icon-target viewLabelTxt"></span>
                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div>
-                                    <div class="row_list_holder clearfix">
+                                    </div> -->
+
+                                    <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
-                                        <div class="clearfix each_row_list"
+                                        <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
                                              data-ng-show="!adSizesBusy"
                                              data-ng-repeat="adSizesData in strategyPerfDataByAdsizes |
                                                 orderBy : sortTypeByAdSizes : sortReverse track by $index"
@@ -350,18 +352,25 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="each_col first_col"
+                                            <div class="each_col first_col col-md-12 zeroPadding"
                                                  style="width: 100%"
                                                  data-ng-bind="tactic.name">
                                             </div>
-                                            <div class="row_list_holder">
-                                                <div class="clearfix each_row_list"
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div ng-if="adSizesData.sepratorCls == 'sepratorLineCls'" class="clearfix each_row_list {{adSizesData.sepratorCls}}"
+                                                     data-ng-repeat="adSizesData in tactic.perf_metrics |
+                                                        orderBy : sortTypeByAdSizes : sortReverseAdSizes
+                                                        track by $index"
+                                                     data-ng-include="'AdSizesTpl'">
+                                                </div>
+                                                <div ng-if="adSizesData.sepratorCls!='sepratorLineCls'" class="clearfix each_row_list"
                                                      data-ng-repeat="adSizesData in tactic.perf_metrics |
                                                         orderBy : sortTypeByAdSizes : sortReverseAdSizes
                                                         track by $index"
                                                      data-ng-include="'AdSizesTpl'">
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -413,27 +422,27 @@
         </div>
         <div class="each_col third_col {{screenData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span data-ng-bind="((screenData.vtc_100 > 0) || (screenData.vtc_100 === 0)) ?
-                ((screenData.vtc_100 | number : 3) + '%') : '-'">
+                ((screenData.vtc_100 | number : 2) + '%') : '-'">
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{screenData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{screenData.kpi_type === 'str' ? 'bold' : ''}}"
          data-ng-bind="((screenData.ctr > 0) || (screenData.ctr === 0)) ? ((screenData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{screenData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
-         data-ng-bind="((screenData.action_rate > 0) || (screenData.action_rate === 0)) ?
-            ((screenData.action_rate | number : 3) + '%') : '-'">
+    <!-- For screen widget we should show action rate as NA  -->
+    <div class="each_col fifth_col {{screenData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
+         data-ng-bind="'NA'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{screenData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{screenData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((screenData.cpa > 0) || (screenData.cpa === 0)) ?
                 (screenData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{screenData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{screenData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((screenData.cpc > 0) || (screenData.cpc === 0)) ?
                 (screenData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{screenData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{screenData.kpi_type === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((screenData.cpm > 0) || (screenData.cpm === 0)) ?
                 (screenData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -445,10 +454,9 @@
              data-ng-bind="((screenData.spend > 0) || (screenData.spend === 0)) ?
                 (screenData.spend | currency : undefined : 2) : '-'">
         </div>
-        <!--
-        <div class="each_col eight_col {{screenData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+       <!-- <div class="each_col eight_col {{screenData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((screenData.suspicious_impressions_perc > 0) || (screenData.suspicious_impressions_perc === 0)) ?
-                ((screenData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+                ((screenData.suspicious_impressions_perc | number : 2) + '%') : '-'">
         </div>
         <div class="each_col eight_col {{screenData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
              data-ng-bind="((screenData.viewable_impressions > 0) || (screenData.viewable_impressions === 0)) ?
@@ -456,11 +464,8 @@
         </div>
         <div class="each_col eight_col {{screenData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((screenData.viewable_impressions_perc > 0) || (screenData.viewable_impressions_perc === 0)) ?
-                ((screenData.viewable_impressions_perc | number : 3) + '%') : '-'">
+                ((screenData.viewable_impressions_perc | number : 2) + '%') : '-'">
         </div> -->
-
-
-
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col"
@@ -508,28 +513,28 @@
         </div>
         <div class="each_col third_col {{daysOfWeekData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span data-ng-bind="((daysOfWeekData.vtc_100 > 0) || (daysOfWeekData.vtc_100 === 0)) ?
-                ((daysOfWeekData.vtc_100 | number : 3) + '%') : '-'">
+                ((daysOfWeekData.vtc_100 | number : 2) + '%') : '-'">
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{daysOfWeekData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{daysOfWeekData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((daysOfWeekData.ctr > 0) || (daysOfWeekData.ctr === 0)) ?
             ((daysOfWeekData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{daysOfWeekData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{daysOfWeekData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="((daysOfWeekData.action_rate > 0) || (daysOfWeekData.action_rate === 0)) ?
             ((daysOfWeekData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{daysOfWeekData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{daysOfWeekData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpa > 0) || (daysOfWeekData.cpa === 0)) ?
                 (daysOfWeekData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{daysOfWeekData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{daysOfWeekData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpc > 0) || (daysOfWeekData.cpc === 0)) ?
                 (daysOfWeekData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.cpm > 0) || (daysOfWeekData.cpm === 0)) ?
                 (daysOfWeekData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -541,10 +546,9 @@
              data-ng-bind="((daysOfWeekData.spend > 0) || (daysOfWeekData.spend === 0)) ?
                 (daysOfWeekData.spend | currency : undefined : 2) : '-'">
         </div>
-        <!--
-        <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+       <!-- <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.suspicious_impressions_perc > 0) || (daysOfWeekData.suspicious_impressions_perc === 0)) ?
-                ((daysOfWeekData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+                ((daysOfWeekData.suspicious_impressions_perc | number : 2) + '%') : '-'">
         </div>
         <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.viewable_impressions > 0) || (daysOfWeekData.viewable_impressions === 0)) ?
@@ -552,9 +556,8 @@
         </div>
         <div class="each_col eight_col {{daysOfWeekData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((daysOfWeekData.viewable_impressions_perc > 0) || (daysOfWeekData.viewable_impressions_perc === 0)) ?
-                ((daysOfWeekData.viewable_impressions_perc | number : 3) + '%') : '-'">
-        </div>
-        -->
+                ((daysOfWeekData.viewable_impressions_perc | number : 2) + '%') : '-'">
+        </div> -->
     </span>
     <div data-ng-if="adFormats.videoAds"
          class="each_col eight_col"
@@ -600,27 +603,27 @@
         </div>
         <div class="each_col third_col {{formatData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span data-ng-bind="((formatData.vtc_100 > 0) || (formatData.vtc_100 === 0)) ?
-                ((formatData.vtc_100 | number : 3) + '%') : '-'">
+                ((formatData.vtc_100 | number : 2) + '%') : '-'">
             </span>
         </div>
     </div>
-    <div class="each_col forth_col {{formatData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{formatData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((formatData.ctr > 0) || (formatData.ctr === 0)) ? ((formatData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{formatData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{formatData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="((formatData.action_rate > 0) || (formatData.action_rate === 0)) ?
             ((formatData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{formatData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{formatData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((formatData.cpa > 0) || (formatData.cpa === 0)) ?
-                (formatData.cpa | currency : undefined : 3) : '-'">
+                (formatData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{formatData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{formatData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((formatData.cpc > 0) || (formatData.cpc === 0)) ?
                 (formatData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{formatData.kpi_type === 'CPM' ? 'bold' : ''}}">
+        <div class="each_col eight_col {{formatData.kpi_type === 'cpm' ? 'bold' : ''}}">
             {{((formatData.cpm > 0) || (formatData.cpm === 0)) ? (formatData.cpm | currency : undefined : 2) : '-'}}
         </div>
         <div class="each_col eight_col {{formatData.kpi_type === 'pc_cpa' ? 'bold' : ''}}">
@@ -630,13 +633,13 @@
             {{((formatData.spend > 0) || (formatData.spend === 0)) ? (formatData.spend | currency : undefined : 2) : '-'}}
         </div>
         <!-- <div class="each_col eight_col {{formatData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}">
-            {{((formatData.suspicious_impressions_perc > 0) || (formatData.suspicious_impressions_perc === 0)) ? ((formatData.suspicious_impressions_perc | number : 3) + '%') : '-'}}
+            {{((formatData.suspicious_impressions_perc > 0) || (formatData.suspicious_impressions_perc === 0)) ? ((formatData.suspicious_impressions_perc | number : 2) + '%') : '-'}}
         </div>
         <div class="each_col eight_col {{formatData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}">
             {{((formatData.viewable_impressions > 0) || (formatData.viewable_impressions === 0)) ? (formatData.viewable_impressions | number : 0) : '-'}}
         </div>
         <div class="each_col eight_col {{formatData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}">
-            {{((formatData.viewable_impressions_perc > 0) || (formatData.viewable_impressions_perc === 0)) ? ((formatData.viewable_impressions_perc | number : 3) + '%') : '-'}}
+            {{((formatData.viewable_impressions_perc > 0) || (formatData.viewable_impressions_perc === 0)) ? ((formatData.viewable_impressions_perc | number : 2) + '%') : '-'}}
         </div> -->
     </span>
     <div data-ng-if="adFormats.videoAds"
@@ -659,7 +662,7 @@
          data-ng-bind="((creativesData.clicks > 0) || (creativesData.clicks === 0)) ?
         (creativesData.clicks | number : 0) : '-'">
     </div>
-    <span  data-ng-if="adFormats.videoAds">
+    <span class="vid_col creativesTpl_vid_col"  data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
              data-ng-bind="((creativesData.video_played > 0) || (creativesData.video_played === 0)) ?
                 (creativesData.video_played | number : 0) : '-'">
@@ -684,29 +687,29 @@
                 </div>
             </div>
         </div>
-        <div class="each_col third_col {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}"
+        <div class="each_col third_col {{creativesData.kpi_type === 'vtc_rate' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.vtc_100 > 0) || (creativesData.vtc_100 === 0)) ?
-                ((creativesData.vtc_100 | number : 3) + '%') : '-'">
+                ((creativesData.vtc_100 | number : 2) + '%') : '-'">
         </div>
     </span>
-    <div class="each_col forth_col {{creativesData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{creativesData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((creativesData.ctr > 0) || (creativesData.ctr === 0)) ?
             ((creativesData.ctr | number : 3) + '%')  :  '-'">
     </div>
-    <div class="each_col fifth_col {{creativesData.kpi_type === 'ACTION_RATE' ? 'bold'  :  ''}}"
+    <div class="each_col fifth_col {{creativesData.kpi_type.toLowerCase() === 'action rate' ? 'bold'  :  ''}}"
          data-ng-bind="((creativesData.action_rate > 0) || (creativesData.action_rate === 0)) ?
             ((creativesData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{creativesData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{creativesData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.cpa > 0) || (creativesData.cpa === 0)) ?
                 (creativesData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{creativesData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{creativesData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.cpc > 0) || (creativesData.cpc === 0)) ?
                 (creativesData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{creativesData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{creativesData.kpi_type === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.cpm > 0) || (creativesData.cpm === 0)) ?
                 (creativesData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -718,9 +721,9 @@
              data-ng-bind="((creativesData.spend > 0) || (creativesData.spend === 0)) ?
                 (creativesData.spend | currency : undefined : 2) : '-'">
         </div>
-       <!-- <div class="each_col eight_col {{creativesData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
+        <!-- <div class="each_col eight_col {{creativesData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.suspicious_impressions_perc > 0) || (creativesData.suspicious_impressions_perc === 0)) ?
-                ((creativesData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+                ((creativesData.suspicious_impressions_perc | number : 2) + '%') : '-'">
         </div>
         <div class="each_col eight_col {{creativesData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.viewable_impressions > 0) || (creativesData.viewable_impressions === 0)) ?
@@ -728,7 +731,7 @@
         </div>
         <div class="each_col eight_col {{creativesData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((creativesData.viewable_impressions_perc > 0) || (creativesData.viewable_impressions_perc === 0)) ?
-                ((creativesData.viewable_impressions_perc | number : 3) + '%') : '-'">
+                ((creativesData.viewable_impressions_perc | number : 2) + '%') : '-'">
         </div> -->
     </span>
     <div data-ng-if="adFormats.videoAds"
@@ -748,7 +751,7 @@
          data-ng-bind="((adSizesData.clicks > 0) || (adSizesData.clicks === 0)) ?
         (adSizesData.clicks | number : 0) : '-'">
     </div>
-    <span  data-ng-if="adFormats.videoAds">
+    <span class="vid_col" data-ng-if="adFormats.videoAds">
         <div class="each_col third_col"
              data-ng-bind="((adSizesData.video_played > 0) || (adSizesData.video_played === 0)) ?
                 (adSizesData.video_played | number : 0) : '-'">
@@ -778,24 +781,24 @@
                 ((adSizesData.vtc_100 | number : 2) + '%') : '-'">
         </div>
     </span>
-    <div class="each_col forth_col {{adSizesData.kpi_type === 'CTR' ? 'bold' : ''}}"
+    <div class="each_col forth_col {{adSizesData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((adSizesData.ctr > 0) || (adSizesData.ctr === 0)) ?
             ((adSizesData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{adSizesData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{adSizesData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
          data-ng-bind="((adSizesData.action_rate > 0) || (adSizesData.action_rate === 0)) ?
             ((adSizesData.action_rate | number : 3) + '%') : '-'">
     </div>
     <span  data-ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col {{adSizesData.kpi_type === 'CPA' ? 'bold' : ''}}"
+        <div class="each_col sixth_col {{adSizesData.kpi_type === 'cpa' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpa > 0) || (adSizesData.cpa === 0)) ?
                 (adSizesData.cpa | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col seventh_col {{adSizesData.kpi_type === 'CPC' ? 'bold' : ''}}"
+        <div class="each_col seventh_col {{adSizesData.kpi_type === 'cpc' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpc > 0) || (adSizesData.cpc === 0)) ?
                 (adSizesData.cpc | currency : undefined : 2) : '-'">
         </div>
-        <div class="each_col eight_col {{adSizesData.kpi_type === 'CPM' ? 'bold' : ''}}"
+        <div class="each_col eight_col {{adSizesData.kpi_type.toLowerCase() === 'cpm' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.cpm > 0) || (adSizesData.cpm === 0)) ?
                 (adSizesData.cpm | currency : undefined : 2) : '-'">
         </div>
@@ -809,7 +812,7 @@
         </div>
        <!-- <div class="each_col eight_col {{adSizesData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.suspicious_impressions_perc > 0) || (adSizesData.suspicious_impressions_perc === 0)) ?
-                ((adSizesData.suspicious_impressions_perc | number : 3) + '%') : '-'">
+                ((adSizesData.suspicious_impressions_perc | number : 2) + '%') : '-'">
         </div>
         <div class="each_col eight_col {{adSizesData.kpi_type === 'viewable_impressions' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.viewable_impressions > 0) || (adSizesData.viewable_impressions === 0)) ?
@@ -817,7 +820,7 @@
         </div>
         <div class="each_col eight_col {{adSizesData.kpi_type === 'viewable_impressions_perc' ? 'bold' : ''}}"
              data-ng-bind="((adSizesData.viewable_impressions_perc > 0) || (adSizesData.viewable_impressions_perc === 0)) ?
-                ((adSizesData.viewable_impressions_perc | number : 3) + '%') : '-'">
+                ((adSizesData.viewable_impressions_perc | number : 2) + '%') : '-'">
         </div> -->
     </span>
     <div data-ng-if="adFormats.videoAds"

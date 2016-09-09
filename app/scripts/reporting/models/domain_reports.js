@@ -1,119 +1,112 @@
-define(['angularAMD', '../../login/login_model', 'common/services/role_based_service',
-    'common/services/constants_service', 'reporting/timePeriod/time_period_directive',
-    'reporting/subAccount/sub_account_directive'], function (angularAMD) {
+define(['angularAMD', 'time-period-directive', 'sub-account-directive',
+    ], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('domainReports', ['loginModel', 'RoleBasedService', 'featuresService',
-        function (loginModel, RoleBasedService, featuresService) {
-            return {
-                getReportsTabs: function () {
-                    var tabs = [],
-                        fParams = featuresService.getFeatureParams(),
-                        isAgencyCostModelTransparent,
-                        userRole;
+    angularAMD.factory('domainReports', ['$location', 'loginModel', 'RoleBasedService', 'featuresService',
+        function ($location, loginModel, RoleBasedService, featuresService) {
+        return {
+            getReportsTabs: function (params) {
+                var tabs = [],
+                    fParams = params || featuresService.getFeatureParams(),
+                    isAgencyCostModelTransparent,
+                    userRole;
 
-                    if (fParams[0].performance === true) {
-                        tabs.push({href: 'performance', title: 'Performance'});
-                    }
-
-                    if (fParams[0].cost === true) {
-                        tabs.push({href: 'cost', title: 'Cost'});
-                    }
-
-                    if (fParams[0].platform === true) {
-                        tabs.push({href: 'platform', title: 'Platform'});
-                    }
-
-                    if (fParams[0].inventory === true) {
-                        tabs.push({href: 'inventory', title: 'inventory'});
-                    }
-
-                    if (fParams[0].quality === true) {
-                        tabs.push({href: 'quality', title: 'Quality'});
-                    }
-
-                    if (fParams[0].optimization_create === true || fParams[0].optimization_transparency === true) {
-                        tabs.push({href: 'optimization', title: 'Optimization Impact'});
-                    }
-
-                    isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                    // if agency level cost model is opaque
-                    if (!isAgencyCostModelTransparent) {
-                        tabs = _.filter(tabs, function (obj) {
-                            return obj.href !== 'cost';
-                        });
-                    }
-
-                    userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
-
-                    if (userRole && userRole.ui_modules) {
-                        tabs = _.filter(tabs, function (obj) {
-                            return _.indexOf(userRole.ui_modules, obj.href) === -1;
-                        });
-                    }
-
-                    return {
-                        tabs: tabs,
-                        activeTab: document.location.pathname.substring(1)
-                    };
-                },
-
-                getCustomReportsTabs: function () {
-                    var tabs = [],
-                        fParams = featuresService.getFeatureParams();
-
-                    if (fParams[0].scheduled_reports === true) {
-                        tabs.push({ href:'reports/schedules', title: 'My Reports'});
-                    }
-
-                    if (fParams[0].collective_insights === true) {
-                        tabs.push({href: 'reports/list', title: 'Collective Insights'});
-                    }
-
-                    return {
-                        tabs: tabs,
-                        activeTab: document.location.pathname.substring(1)
-                    };
-                },
-
-                highlightHeaderMenu: function () {
-                    // Hot fix to show the campaign tab selected
-                    $('.main_navigation')
-                        .find('.active')
-                        .removeClass('active')
-                        .end()
-                        .find('#reports_nav_link')
-                        .addClass('active');
-                },
-
-                highlightSubHeaderMenu: function () {
-                    $('.reports_sub_menu_dd')
-                        .find('.active_tab')
-                        .removeClass('active_tab')
-                        .end()
-                        .find('#' + document.location.pathname.substring(1))
-                        .addClass('active_tab');
-                },
-
-                checkForCampaignFormat: function (adFormats) {
-                    var videoAdsExists,
-                        displayAdsExists;
-
-                    adFormats = _.flatten(adFormats);
-                    videoAdsExists = _.contains(adFormats, 'VIDEO');
-
-                    // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
-                    displayAdsExists = !(videoAdsExists && adFormats.length === 1);
-
-                    return {
-                        videoAds: videoAdsExists,
-                        displayAds: displayAdsExists
-                    };
+                if (fParams[0].report_overview === true) {
+                    tabs.push({href: 'overview', title: 'Reports Overview'});
                 }
-            };
-        }
-    ]);
+
+                if (fParams[0].performance === true) {
+                    tabs.push({href: 'performance', title: 'Performance'});
+                }
+
+                if (fParams[0].cost === true) {
+                    tabs.push({href: 'cost', title: 'Cost'});
+                }
+
+                if (fParams[0].platform === true) {
+                    tabs.push({href: 'platform', title: 'Platform'});
+                }
+
+                if (fParams[0].inventory === true) {
+                    tabs.push({href: 'inventory', title: 'inventory'});
+                }
+
+                if (fParams[0].quality === true) {
+                    tabs.push({href: 'quality', title: 'Quality'});
+                }
+
+                if (fParams[0].optimization_create === true || fParams[0].optimization_transparency === true) {
+                    tabs.push({href: 'optimization', title: 'Optimization Impact'});
+                }
+
+                isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+
+                // if agency level cost model is opaque
+                if (!isAgencyCostModelTransparent) {
+                    tabs = _.filter(tabs, function (obj) {
+                        return obj.href !== 'cost';
+                    });
+                }
+
+                userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
+
+                if (userRole && userRole.ui_modules) {
+                    tabs = _.filter(tabs, function (obj) {
+                        return _.indexOf(userRole.ui_modules, obj.href) === -1;
+                    });
+                }
+
+                return {
+                    tabs: tabs,
+                    activeTab: $location.path()
+                };
+            },
+
+            getCustomReportsTabs: function () {
+                var tabs = [],
+                    fParams = featuresService.getFeatureParams();
+
+                if (fParams[0].scheduled_reports === true) {
+                    tabs.push({ href:'reports/schedules', title: 'My Reports', moduleName : 'scheduleReports'});
+                }
+
+                if (fParams[0].collective_insights === true) {
+                    tabs.push({href: 'reports/list', title: 'Collective Insights', moduleName : 'collectiveInsights'});
+                }
+
+                return {
+                    tabs: tabs,
+                    activeTab: $location.path()
+                };
+            },
+
+            highlightHeaderMenu: function () {
+                // Hot fix to show the campaign tab selected
+                $('.main_navigation')
+                    .find('.active')
+                    .removeClass('active')
+                    .end()
+                    .find('#reports_nav_link')
+                    .addClass('active');
+            },
+
+            checkForCampaignFormat: function (adFormats) {
+                var videoAdsExists,
+                    displayAdsExists;
+
+                adFormats = _.flatten(adFormats);
+                videoAdsExists = _.contains(adFormats, 'VIDEO');
+
+                // Ex: ['VIDEO'], ['VIDEO', 'SOCIAL'], ['VIDEO', 'SOCIAL', 'RICH_MEDIA']
+                displayAdsExists = !(videoAdsExists && adFormats.length === 1);
+
+                return {
+                    videoAds: videoAdsExists,
+                    displayAds: displayAdsExists
+                };
+            }
+        };
+    }]);
 
     angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', 'featuresService', '$rootScope',
         'localStorageService','$timeout', function ($http, $compile, constants, featuresService, $rootScope,
@@ -253,7 +246,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
     });
 
     angularAMD.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel,
-                                                     dataService, urlService, vistoconfig, constants) {
+                                                     dataService, urlService, vistoconfig, constants, timePeriodModel) {
         return {
             controller: function () {},
             restrict: 'EAC',
@@ -267,15 +260,16 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
 
                 $scope.downloadPerformanceReport = function (report) {
                     var reportUrl,
+                        time_filter =  timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
 
                         queryObj = {
                             url: report.url,
                             queryId: report.query_id,
-                            clientId: loginModel.getSelectedClient().id,
+                            clientId: vistoconfig.getSelectedAccountId(),
                             campaignId: $scope.selectedCampaign.id,
-                            advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                            brandId: brandsModel.getSelectedBrand().id,
-                            dateFilter: 'life_time',
+                            advertiserId: vistoconfig.getSelectAdvertiserId(),
+                            brandId: vistoconfig.getSelectedBrandId(),
+                            dateFilter: time_filter,
                             download_config_id: report.download_config_id
                         };
 
@@ -451,8 +445,50 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel',
-        function ($location,$rootScope,$http, $compile,constants,loginModel) {
+    angularAMD.directive('uploadReportsFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
+        'loginModel', 'accountService', 'vistoconfig', function ($location, $rootScope, $http, $compile, constants,
+                                                  loginModel, accountService) {
+            return {
+                controller: function () {
+                },
+                restrict: 'EAC',
+                templateUrl: assets.html_upload_reports_filters_header,
+                link: function (scope) {
+                    var masterClient = accountService.getSelectedAccount();
+
+                    scope.textConstants = constants;
+                    scope.isLeafNode = true;
+
+                    if (masterClient.isLeafNode === false) {
+                        scope.isLeafNode = false;
+                    }
+                }
+            };
+        }]);
+
+    angularAMD.directive('dashboardFiltersHeader', ['$location', '$rootScope', '$http', '$compile', 'constants',
+        'loginModel', 'accountService', 'vistoconfig', function ($location, $rootScope, $http, $compile, constants,
+                                                  loginModel, accountService) {
+            return {
+                controller: function ($scope) {
+                    $scope.textConstants = constants;
+                    var masterClient = accountService.getSelectedAccount();
+                    $scope.isLeafNode = true;
+                    if(masterClient.isLeafNode === false) {
+                        $scope.isLeafNode = false;
+                    }
+                },
+                restrict: 'EAC',
+                templateUrl: assets.html_dashboard_filters_header,
+                link: function () {
+
+                }
+            };
+        }]);
+
+    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile',
+        'constants', 'accountService',
+        function ($location,$rootScope,$http, $compile, constants, accountService) {
             return {
                 controller: function () {},
                 restrict: 'EAC',
@@ -460,8 +496,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 templateUrl: assets.html_filters_header,
 
                 link: function (scope, element, attrs) {
-                    var masterClient = loginModel.getMasterClient(),
-                        masterClientChanged,
+                    var masterClient = accountService.getSelectedAccount(),
                         locationUrl;
 
                     scope.reportFilter = attrs.reports;
@@ -473,30 +508,12 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                         scope.isLeafNode = false;
                     }
 
-                    masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function () {
-                        scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                    });
-
-                    masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function () {
-                        scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
-                    });
-
                     locationUrl = $location.url();
 
                     if (locationUrl === '/reports/list') {
                         scope.allCampaign = true;
                     } else {
                         scope.allCampaign = false;
-                    }
-
-                    if (scope.allCampaign === 'true' || scope.allCampaign === true) {
-                        scope.selectedCampaign = {
-                            id: 0,
-                            name: 'All Media Plans',
-                            kpi: 'ctr',
-                            startDate: '-1',
-                            endDate: '-1'
-                        };
                     }
                 }
             };

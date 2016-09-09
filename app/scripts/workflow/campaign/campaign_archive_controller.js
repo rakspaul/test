@@ -1,6 +1,6 @@
-define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
-    angularAMD.controller('ArchiveController', function($scope , workflowService, $rootScope ,$location,
-                                                        vistoconfig) {
+define(['angularAMD'], function(angularAMD) {
+    angularAMD.controller('ArchiveController', ['$scope' , '$routeParams', '$rootScope', '$location', 'workflowService',
+        'urlBuilder', function($scope , $routeParams, $rootScope ,$location, workflowService, urlBuilder) {
         $scope.campaignArchive = false;
 
         // archive campaign
@@ -9,7 +9,7 @@ define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
         };
 
         // Archive save func more
-        $scope.archiveCampaign = function (event,campaign_id) {
+        $scope.archiveCampaign = function (event, clientId, campaign_id) {
             var campaignId = campaign_id,
                 campaignArchiveErrorHandler = function () {
                     $scope.campaignArchive = false;
@@ -21,17 +21,18 @@ define(['angularAMD' , '../services/workflow_service' ], function(angularAMD) {
             event.preventDefault();
 
             workflowService
-                .deleteCampaign(campaignId)
+                .deleteCampaign(clientId, campaignId)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.campaignArchive = false;
                         $scope.campaignArchiveLoader = false;
                         localStorage.setItem('topAlertMessage','Campaign has been archived');
-                        $location.url(vistoconfig.MEDIA_PLANS_LINK);
+                        $location.url(urlBuilder.mediaPlansListUrl());
+
                     } else {
                         campaignArchiveErrorHandler();
                     }
                 }, campaignArchiveErrorHandler);
         };
-    });
+    }]);
 });

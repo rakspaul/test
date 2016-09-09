@@ -1,32 +1,20 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service',
-    'common/services/vistoconfig_service', 'login/login_model', 'common/moment_utils',
-    'workflow/campaign/campaign_service','common/utils','workflow/directives/clear_row',
-    'common/directives/ng_upload_hidden', 'workflow/campaign/pixels_controller', 'workflow/campaign/budget_controller',
-    'workflow/campaign/line_item_controller', 'common/controllers/confirmation_modal_controller',
-    'workflow/directives/custom_date_picker', 'workflow/campaign/campaign_archive_controller',
-    'common/directives/decorate_numbers'], function (angularAMD) {
+define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload-hidden', 'pixels-controller', 'budget-controller',
+    'line-item-controller', 'confirmation-modal-controller', 'custom-date-picker', 'campaign-archive-controller',
+    'decorate-numbers'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreateCampaignController', function ($scope, $window, $rootScope, $filter, $routeParams,
+    angularAMD.controller('CreateCampaignController', ['$scope', '$window', '$rootScope', '$filter', '$routeParams',
+        '$locale', '$location', '$timeout', '$modal', 'constants', 'workflowService', 'vistoconfig', 'loginModel',
+        'momentService', 'campaignService', 'utils', 'accountService', 'urlBuilder', 'subAccountService',
+        function ($scope, $window, $rootScope, $filter, $routeParams,
                                                                 $locale, $location, $timeout, $modal, constants,
                                                                 workflowService, vistoconfig, loginModel,
-                                                                momentService,campaignService,utils) {
+                                                                momentService, campaignService, utils,
+                                                                accountService, urlBuilder, subAccountService) {
         var selectedAdvertiser,
 
             createCampaign = {
                 campaignData: {},
-
-                clients: function () {
-                    workflowService
-                        .getClients()
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.workflowData.clients = _.sortBy(result.data.data, 'name');
-                            } else {
-                                createCampaign.errorHandler(result);
-                            }
-                        }, createCampaign.errorHandler);
-                },
 
                 vendor: function (costCategoryId) {
                     workflowService
@@ -56,7 +44,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchAdvertisers: function (clientId) {
                     workflowService
-                        .getAdvertisers('write', clientId)
+                        .getAdvertisers(clientId, 'write')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 var responseData = result.data.data;
@@ -80,18 +68,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         }, createCampaign.errorHandler);
                 },
 
-                fetchSubAccounts: function (callback) {
-                    workflowService
-                        .getSubAccounts('write')
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.workflowData.subAccounts = result.data.data;
-                                callback && callback($scope.workflowData.subAccounts);
-                            } else {
-                                createCampaign.errorHandler(result);
-                            }
-                        }, createCampaign.errorHandler);
-                },
 
                 fetchRateTypes: function () {
                     if ($scope.selectedCampaign.advertiserId) {
@@ -108,7 +84,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchVendorConfigs: function () {
                     workflowService
-                        .getVendorConfigs($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
+                        .getVendorConfigs($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId, $scope.selectedCampaign.brandId)
                         .then(function (result) {
                             $scope.selectedCampaign.vendorConfig =
                                 campaignService.processVendorConfig(result.data.data);
@@ -117,7 +93,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchCostAttributes: function () {
                     workflowService
-                        .getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
+                        .getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId, $scope.selectedCampaign.brandId)
                         .then(function (result) {
                             $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
                         });
@@ -125,15 +101,15 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 fetchSystemOfRecord: function () {
                     workflowService
-                        .getSystemOfRecord($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId)
+                        .getSystemOfRecord($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId, $scope.selectedCampaign.brandId)
                         .then(function (result) {
                             $scope.selectedCampaign.systemOfRecord = result.data.data;
                         });
                 },
 
-                fetchLineItemDetails: function (campaignId) {
+                fetchLineItemDetails: function (clientId, campaignId) {
                     workflowService
-                        .getLineItem(campaignId, true)
+                        .getLineItem(clientId, campaignId, true)
                         .then(function (results) {
                             if (results.status === 'success' && results.data.statusCode === 200) {
                                 $scope.lineItems.lineItemList = [];
@@ -147,6 +123,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 },
 
                 prefillMediaPlan: function (campaignData) {
+
                     var advertiserObj,
 
                         flightDateObj = {
@@ -165,15 +142,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     if (campaignData.clientId && campaignData.clientName) {
                         $scope.selectedCampaign.clientName = campaignData.clientName;
                         $scope.selectedCampaign.clientId = campaignData.clientId;
-                        createCampaign.fetchSubAccounts(function(subAccountData) {
-                            subAccountData = _.find(subAccountData, function(data) {
-                                return data.id === campaignData.clientId;
-                            });
-                            workflowService.setSubAccountTimeZone(subAccountData.timezone);
-                        });
 
                     } else {
-                        $scope.selectedCampaign.clientId = loginModel.getSelectedClient().id;
+                        $scope.selectedCampaign.clientId = vistoconfig.getMasterClientId();
                     }
 
                     // set Advertiser
@@ -294,7 +265,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
 
                     // line item edit mode
-                    createCampaign.fetchLineItemDetails(campaignData.id);
+                    createCampaign.fetchLineItemDetails(campaignData.clientId, campaignData.id);
 
                     $scope.editCampaignData = campaignData;
                 }
@@ -433,7 +404,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.Campaign.saveBtnLoader= false;
 
-        if (!loginModel.getMasterClient().isLeafNode) {
+        if (!accountService.getSelectedAccount().isLeafNode) {
             $scope.showSubAccount = true;
         }
 
@@ -507,8 +478,9 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         };
 
         $scope.processEditCampaignData = function () {
+
             workflowService
-                .getCampaignData($scope.campaignId)
+                .getCampaignData(vistoconfig.getSelectedAccountId(), $scope.campaignId)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         if (result.data.data.isArchived) {
@@ -522,24 +494,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.selectHandler = function (type, data) {
             switch (type) {
-                case 'client':
-                    $scope.workflowData.advertisers = [];
-                    $scope.workflowData.brands = [];
-                    $scope.selectedCampaign.advertiser = '';
-                    if ($scope.showSubAccount) {
-                        $scope.workflowData.subAccounts = [];
-                        $scope.selectedCampaign.clientId = '';
-                        createCampaign.fetchSubAccounts();
-                    } else {
-                        $scope.selectedCampaign.clientId = data.id;
-                        createCampaign.fetchAdvertisers(data.id);
-                    }
-
-                    createCampaign.fetchRateTypes();
-
-                    break;
-
-                case 'subAccount':
+                case 'account':
                     $scope.selectedCampaign.advertiser = '';
                     $scope.selectedCampaign.advertiserName = 'Select Advertiser';
                     $scope.selectedCampaign.clientId = data.id;
@@ -547,7 +502,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     createCampaign.fetchAdvertisers(data.id);
                     $scope.mediaPlanOverviewClient = {'id':data.id,'name':data.name};
                     resetPixelMediaPlan();
-                    workflowService.setSubAccountTimeZone(data.timezone);
                     break;
 
                 case 'advertiser':
@@ -592,6 +546,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
                 case 'brand':
                     $scope.selectedCampaign.brandId = data.id;
+
+                    createCampaign.fetchCostAttributes();
+                    createCampaign.fetchVendorConfigs();
+
+                    // for line item system of record
+                    createCampaign.fetchSystemOfRecord();
                     break;
             }
         };
@@ -625,14 +585,21 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
         };
 
+        $scope.changeSubAccount =  function(account) {
+            var url = '/a/' + $routeParams.accountId+'/sa/'+ account.id +'/mediaplan/create';
+            $location.url(url);
+        };
+
         $scope.sucessHandler = function (result) {
-            var url = '/mediaplan/' + result.data.data.id + '/overview';
+
+            var url = '/a/' + $routeParams.accountId+'/sa/'+result.data.data.clientId+'/mediaplan/'+ result.data.data.id+'/overview';
 
             $rootScope.setErrAlertMessage('Media plan successfully' +
                 ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
 
             $timeout(function () {
                 $scope.Campaign.saveBtnLoader= false;
+
                 $location.url(url);
             }, 800);
         };
@@ -649,12 +616,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             var formElem,
                 formData,
                 postDataObj,
-                utcStartTime,
-                utcEndTime,
                 campaignCosts = [],
-                dateTimeZone,
                 i,
-                isDateChanged = true;
+                clientId = vistoconfig.getSelectedAccountId(),
+                campaignId = vistoconfig.getSelectedCampaignId();
 
             saveMediaPlanBeforeLineItem  = saveMediaPlanBeforeLineItem || false;
             $scope.$broadcast('show-errors-check-validity');
@@ -665,7 +630,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
 
             if ($scope.mode === 'edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget) {
-                $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
+                $rootScope.setErrAlertMessage('Delivery Budget should be more than or equal to the Total Billable Amount');
                 return false;
             }
 
@@ -678,15 +643,13 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
 
+                postDataObj.clientId = clientId;
+
                 // create mode
                 postDataObj.name = formData.campaignName;
                 postDataObj.advertiserId = Number(formData.advertiserId);
 
-                if ($scope.showSubAccount) {
-                    postDataObj.clientId = $scope.selectedCampaign.clientId;
-                } else {
-                    postDataObj.clientId = loginModel.getSelectedClient().id;
-                }
+
 
                 postDataObj.labels = _.pluck($scope.tags, 'label');
 
@@ -694,31 +657,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
-                dateTimeZone = workflowService.getSubAccountTimeZone();
-
-                if($scope.mediaPlanAPIStartTime && moment($scope.selectedCampaign.startTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day'))) {
-                    isDateChanged = false;
-                }
-
-                utcStartTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime,
-                    'startTime', dateTimeZone, isDateChanged);
-
-                utcEndTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime,
-                    'endTime', dateTimeZone);
-
-                if ($scope.mode ==='edit') {
-
-                    if(moment(utcStartTime).startOf('day').isSame(moment($scope.mediaPlanAPIStartTime).startOf('day')))  {
-                        utcStartTime = $scope.mediaPlanAPIStartTime;
-                    }
-
-                    if(moment(utcEndTime).unix() === moment($scope.mediaPlanAPIEndTime).unix())  {
-                        utcEndTime = $scope.mediaPlanAPIEndTime;
-                    }
-                }
-
-                postDataObj.startTime = utcStartTime;
-                postDataObj.endTime = utcEndTime;
+                postDataObj.startTime = momentService.postDateModifier($scope.selectedCampaign.startTime, $scope.mediaPlanAPIStartTime, 'startTime');
+                postDataObj.endTime = momentService.postDateModifier($scope.selectedCampaign.endTime, $scope.mediaPlanAPIEndTime, 'endTime');
 
                 postDataObj.kpiType = formData.kpi;
                 postDataObj.kpiValue = formData.kpiValue;
@@ -751,8 +691,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     }
                 }
 
-                if ($routeParams.campaignId) {
-                    postDataObj.campaignId = $routeParams.campaignId;
+                if (campaignId) {
+                    postDataObj.campaignId = campaignId;
                 }
 
                 // display loader
@@ -765,7 +705,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 }
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ?
-                    'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
+                    'updateCampaign' : 'saveCampaign'](postDataObj.clientId , postDataObj).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         workflowService.setMediaPlanClone(null);
                         $scope.cloneMediaPlanName = null;
@@ -915,20 +855,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $scope.workflowData = {};
             $scope.selectedCampaign = {};
             $scope.repushCampaignEdit = false;
-            $scope.campaignId = $routeParams.campaignId;
+            $scope.campaignId = vistoconfig.getSelectedCampaignId();
             $scope.mode = workflowService.getMode();
             $scope.deleteCampaignFailed = false;
             $scope.numberOnlyPattern = /[^0-9]/g;
             $scope.hideKpiValue = false;
-            $scope.client = loginModel.getSelectedClient();
+            $scope.client = vistoconfig.getMasterClientId();
             $scope.isClientDropDownDisable = false;
             $scope.editCampaignData = [];
-
-            if ($scope.client.name) {
-                $scope.isClientDropDownDisable = true;
-                $scope.clientName = $scope.client.name;
-                ($scope.mode === 'create') && $scope.selectHandler('client', $scope.client, null);
-            }
 
             $(document).ready(function () {
                 var cloneMediaPlanObj = workflowService.getMediaPlanClone();
@@ -947,6 +881,19 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.campaignDate = cloneMediaPlanObj.date;
                     $scope.flightDateChosen = cloneMediaPlanObj.originalFlightdates;
                     $scope.mode = 'create';
+                }
+
+                var clientData = accountService.getSelectedAccount();
+                $scope.workflowData.subAccounts = _.sortBy(subAccountService.getSubAccounts(), 'displayName');
+                $scope.isClientDropDownDisable = true;
+
+                if($scope.mode === 'create' && !$scope.cloneMediaPlanName) {
+                    if(!clientData.isLeafNode) {
+                        clientData = subAccountService.getSelectedSubAccount();
+                        $scope.selectedCampaign.clientName = clientData.displayName;
+                    }
+
+                    $scope.selectHandler('account', clientData, null);
                 }
 
                 if ($scope.mode === 'edit' || $scope.cloneMediaPlanName) {
@@ -997,11 +944,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.isMediaPlanNameExist = function () {
             var cloneMediaPlanName = $scope.selectedCampaign.campaignName,
-                subAccountId=$scope.selectedCampaign.clientId,
+                clientId = $scope.selectedCampaign.clientId,
                 advertiserId = $scope.selectedCampaign.advertiserId,
 
                 cloneObjValue = {
-                    subAccountId:subAccountId,
                     advertiserId:advertiserId,
                     cloneMediaPlanName:cloneMediaPlanName
                 };
@@ -1010,7 +956,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             if ($scope.selectedCampaign.oldCampaignName !== cloneMediaPlanName && advertiserId) {
                 workflowService
-                    .checkforUniqueMediaPlan(cloneObjValue)
+                    .checkforUniqueMediaPlan(clientId, cloneObjValue)
                     .then(function (results) {
                         $scope.checkUniqueMediaPlanNameNotFound = false;
 
@@ -1031,12 +977,12 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
         $scope.redirectUserFromArchivedCampaign = function () {
             $scope.isMediaPlanArchive = false;
-            $location.url(vistoconfig.MEDIA_PLANS_LINK);
+            $location.url(urlBuilder.mediaPlansListUrl());
         };
 
         $scope.redirectToOverViewPage = function (campaignId) {
             workflowService.setMediaPlanClone(null);
-            $location.url('/mediaplan/' + campaignId + '/overview');
+            $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
         };
 
         $scope.$on('$locationChangeStart', function () {
@@ -1045,6 +991,10 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 workflowService.setMediaPlanClone(null);
             }
         });
+
+        $scope.redirectToMediaPlanList = function() {
+            $location.url(urlBuilder.mediaPlansListUrl());
+        };
 
         $scope.$watch('selectedCampaign.endTime',function (newVal, oldVal) {
             var selectedPixelData;
@@ -1167,5 +1117,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
         $(window).resize(function () {
             colResize();
         });
-    });
+    }]);
 });

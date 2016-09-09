@@ -1,33 +1,26 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
-    'common/services/constants_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-    'reporting/models/domain_reports','common/services/data_service', 'common/moment_utils',
-    'common/services/role_based_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller',
-    'workflow/ad/ad_clone_controller', 'reporting/collectiveReport/reports_invoice_addAdjustment_controller',
-    'reporting/collectiveReport/invoice_upload_SOR_controller','workflow/directives/custom_date_picker'],
+define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','report-schedule-delete-controller',
+    'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller','custom-date-picker'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('ReportsInvoiceListController', function ($scope, $filter, $location, $modal, $rootScope,
-                                                                        $routeParams, collectiveReportModel, utils,
-                                                                        loginModel, constants, advertiserModel,
-                                                                        brandsModel, domainReports, dataService,
-                                                                        momentService, RoleBasedService, urlService,
-                                                                        dataStore, $sce) {
-
+        angularAMD.controller('ReportsInvoiceListController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
+            '$routeParams', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'advertiserModel', 'brandsModel', 'domainReports',
+            'dataService', 'momentService', 'RoleBasedService', 'urlService', 'dataStore', 'vistoconfig', 'urlBuilder', '$sce',
+            function ($scope, $filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils,
+                      loginModel, constants, advertiserModel, brandsModel, domainReports, dataService, momentService,
+                      RoleBasedService, urlService, dataStore, vistoconfig, urlBuilder, $sce) {
 
             $scope.invoiceReports = {
-                clientId: loginModel.getSelectedClient().id,
+                clientId: vistoconfig.getSelectedAccountId(),
 
-                advertiserId: (advertiserModel.getAdvertiser().selectedAdvertiser ?
-                    advertiserModel.getAdvertiser().selectedAdvertiser.id : -1),
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
 
                 brandId: (brandsModel.getSelectedBrand().id),
                 startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
                 endDate: moment().format(constants.DATE_US_FORMAT),
                 page_num: 1
             };
-            
+
             var _currCtrl = this;
 
             _currCtrl.last_page = false;
@@ -93,8 +86,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 });
             }
 
-
-
             $scope.addAdjustmentData = {};
 
             $scope.loadMoreInvoice = function (mp_i) {
@@ -108,7 +99,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.fetching = true;
                 !isLoadMore && _currCtrl.resetPagination();
                 $scope.noDataFound = false;
-
                 dataService
                     .fetch(urlService.getInvoiceData($scope.invoiceReports, _currCtrl.getQueryStr()))
                     .then(function (result) {
@@ -158,18 +148,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             });
 
             $scope.$on(constants.EVENT_BRAND_CHANGED, function () {
-                $scope.invoiceReports.brandId = brandsModel.getSelectedBrand().id;
+                $scope.invoiceReports.brandId = vistoconfig.getSelectedBrandId();
                 $scope.getInvoiceData(0);
-            });
-
-            $scope.$on(constants.EVENT_CLIENT_CHANGED, function () {
-                $scope.invoiceReports.clientId = loginModel.getSelectedClient().id;
-                $scope.getInvoiceData(0);
-            });
-
-            $scope.$on(constants.CREDIT_SAVED_SUCCESS, function () {
-                $scope.invoiceReports.clientId = loginModel.getSelectedClient().id;
-                    $scope.getInvoiceData(0);
             });
 
             // Event Received from reports_invoice_addAdjustment_controller.js file
@@ -306,13 +286,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             // End Search functionality
 
             // Download section
-            $scope.invoiceReports.download = function (e, data, mediaPlan) {
+            $scope.invoiceReports.download = function (e, data) {
                 var url = '';
 
                 e.preventDefault();
 
                 url = data.downloadLink ? data.downloadLink :
-                    mediaPlan.campaignId ? urlService.downloadInvoiceCampaign(mediaPlan.campaignId) : '';
+                    data.campaignId ? urlService.downloadInvoiceCampaign($scope.invoiceReports.clientId, data.campaignId) : '';
 
                 dataService
                     .downloadFile(url)
@@ -329,7 +309,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.downloadSORReport = function (data) {
-                var url = urlService.downloadTemplateWithCampaignId(data.campaignId);
+                var url = urlService.downloadTemplateWithCampaignId($scope.invoiceReports.clientId, data.campaignId);
 
                 dataService
                     .downloadFile(url)
@@ -392,7 +372,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             });
 
             $scope.showInvoiceReport = function (invoiceId) {
-                $location.url('/v1sto/invoices/' + invoiceId);
+                urlBuilder.gotoInvoiceReport(invoiceId);
             };
 
             $(document).ready(function () {
@@ -408,6 +388,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.$on('$locationChangeSuccess', function () {
                 $(window).unbind('scroll');
             });
-        });
+        }]);
     }
 );

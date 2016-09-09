@@ -1,11 +1,35 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('vistoconfig', function () {
+    angularAMD.service('vistoconfig', ['$routeParams', function ($routeParams) {
         var urlPaths = {
             apiSerivicesUrl: scala_api,
             apiSerivicesUrl_NEW: scala_api_NEW,
             workflow_apiServicesUrl: workflow_api,
             WORKFLOW_API_URL: workflowCreate_api
-        };
+        },
+            clientTimeZone,
+            noMediaPlanFoundMsg;
+
+        this.supportedBrowser = [
+            {
+                name: 'Chrome',
+                version: 36
+            },
+
+            {
+                name: 'Firefox',
+                version: 35
+            },
+
+            {
+                name: 'Internet Explorer',
+                version: 10
+            },
+
+            {
+                name: 'Safari',
+                version: 8
+            }
+        ];
 
         this.actionColors = [
             '#7ED86C',
@@ -59,10 +83,10 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CTR',                        displayName: 'CTR'},
             {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
-            {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
+            //{kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
-            {kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
+            //{kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
+            //{kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
             {kpiType: 'VTC',                        displayName: 'VTC'}
         ];
 
@@ -74,9 +98,9 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'ctr',                           displayName: 'CTR' },
             { kpi: 'pc_cpa',                        displayName: 'Post Click CPA' },
             { kpi: 'spend',                         displayName: 'Spend' },
-            { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
-            { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
-            { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
+            //{ kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
+            //{ kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
+            //{ kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' },
             { kpi: 'vtc',                           displayName: 'VTC' }
         ];
 
@@ -88,7 +112,7 @@ define(['angularAMD'], function (angularAMD) {
             { kpi: 'spend',                         displayName: 'Spend' }
            // { kpi: 'suspicious_impressions_perc',   displayName: 'Suspicious Activity %' },
            // { kpi: 'viewable_impressions',          displayName: 'Viewable Impressions' },
-            //{ kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
+           // { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
         ];
 
         this.PERFORMANCE_LINK = '/performance';
@@ -107,6 +131,30 @@ define(['angularAMD'], function (angularAMD) {
             name: 'All Line Items',
             id: -1,
             type: 'all'
+        };
+
+        this.getMasterClientId = function() {
+            return Number($routeParams.accountId);
+        };
+
+        this.getSelectedAccountId = function() {
+            return $routeParams.subAccountId || $routeParams.accountId;
+        };
+
+        this.getSelectAdvertiserId = function() {
+            return $routeParams.advertiserId || -1;
+        };
+
+        this.getSelectedBrandId = function() {
+            return $routeParams.brandId || -1;
+        };
+
+        this.getSelectedCampaignId = function() {
+            return $routeParams.campaignId;
+        };
+
+        this.getSelectedStrategyId = function() {
+            return $routeParams.li_id;
         };
 
         this.timeZoneNameMapper = {
@@ -134,5 +182,21 @@ define(['angularAMD'], function (angularAMD) {
             'GMT' : 'UTC'
         };
 
-    });
+        this.setClientTimeZone = function(timeZone) {
+            clientTimeZone = timeZone;
+        };
+
+        this.getClientTimeZone = function() {
+            return clientTimeZone;
+        };
+
+        this.setNoMediaPlanFoundMsg = function(msgObj) {
+            noMediaPlanFoundMsg = msgObj;
+        };
+
+        this.getNoMediaPlanFoundMsg = function() {
+           return noMediaPlanFoundMsg;
+        };
+
+    }]);
 });

@@ -1,13 +1,14 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/transformer_service',
-    'reporting/models/tactic', 'common/services/constants_service', 'reporting/models/action_type',
-    'reporting/models/action_sub_type'], function (angularAMD) {
+define(['angularAMD', 'transformer-service', 'tactic', 'action-type', 'action-sub-type'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ActionsController', function ( $timeout, $scope, $rootScope, $filter, $routeParams,
+    angularAMD.controller('ActionsController', ['$timeout', '$scope', '$rootScope', '$filter', '$routeParams',
+        'dataService', 'modelTransformer', 'Tactic', 'constants',
+        'ActionType', 'ActionSubType', function ( $timeout, $scope, $rootScope, $filter, $routeParams,
                                                           dataService, modelTransformer, Tactic, constants,
                                                           ActionType, ActionSubType) {
         var loadActionTypes = true,
             loadAdsMeta = true,
+            clientId = $routeParams.subAccountId || $routeParams.accountId,
 
             metrics = {
                 all : [
@@ -34,7 +35,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             loadActionTypes = false;
 
             dataService
-                .getActions()
+                .getActions(clientId)
                 .then(function (response) {
                     var action,
                         result,
@@ -80,7 +81,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             loadAdsMeta = false;
 
             dataService
-                .getTactics($routeParams.campaignId)
+                .getTactics(clientId, $routeParams.campaignId)
                 .then(function (response) {
                     var tactic,
                         tactics,
@@ -207,7 +208,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
                     data.ad_id = data.action_tactic_ids[i];
 
                     dataService
-                        .createAction(data)
+                        .createAction(clientId, data)
                         .then( function () {
                             var args;
 
@@ -324,5 +325,5 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
             $scope.enableSubTypePopup =
                 ($scope.action.selectedType && $scope.action.selectedType.id > 0) ? false : true;
         };
-    });
+    }]);
 });

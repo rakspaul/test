@@ -121,7 +121,12 @@ select {
 }
 .goalBtnGroup {
   float: left;
+}
+.goalBtnGroup .btn {
   cursor: pointer;
+}
+.goalBtnGroup .btn.disabled {
+  cursor: default ;
 }
 .goalBtnGroup .btn-primary {
   border-radius: 0;

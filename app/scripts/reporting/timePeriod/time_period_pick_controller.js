@@ -1,34 +1,20 @@
-define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'],
-    function (angularAMD) {
+define(['angularAMD', 'time-period-model'], function (angularAMD) {
     'use strict';
+    angularAMD.controller('TimePeriodPickController', ['$scope', '$rootScope', 'timePeriodModel', 'constants',
 
-    angularAMD.controller('TimePeriodPickController', function ($scope, $rootScope, timePeriodModel, constants) {
-        var datesFromLocStore,
-            endDatesFromLocStore;
-
-        $scope.timeData = timePeriodModel.timeData;
-
-        $scope.datePickerfilterByTimePeriod = function (key, timePeriod, timePeriods) {
-            key.key = 'custom&start_date=' + timePeriod + '&end_date=' + timePeriods;
-            timePeriodModel.selectTimePeriod(key);
-            $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, key);
-            localStorage.setItem('customStartDate', JSON.stringify(timePeriod));
-            localStorage.setItem('customEndDate', JSON.stringify(timePeriods));
-        };
+        function ($scope, $rootScope, timePeriodModel, constants) {
 
         $scope.reports = {};
         $scope.reports.reportDefinition = {};
         $scope.reports.schedule = {};
 
-        // first check in local storage here
-        datesFromLocStore = localStorage.getItem('customStartDate');
-        endDatesFromLocStore = localStorage.getItem('customEndDate');
+        $scope.timeData = timePeriodModel.timeData;
 
-        if (datesFromLocStore || endDatesFromLocStore) {
-            datesFromLocStore = JSON.parse(localStorage.getItem('customStartDate'));
-            endDatesFromLocStore = JSON.parse(localStorage.getItem('customEndDate'));
-            $scope.reports.schedule.startDate = datesFromLocStore;
-            $scope.reports.schedule.endDate = endDatesFromLocStore;
+        var selectedTimeFrame = timePeriodModel.getTimeFilterCustomDates();
+        if(selectedTimeFrame) {
+            $scope.reports.schedule.startDate = selectedTimeFrame.startDate;
+            $scope.reports.schedule.endDate = selectedTimeFrame.endDate;
+
         } else {
             $scope.reports.schedule.startDate = moment()
                 .subtract(0, 'days').
@@ -44,6 +30,18 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
         } else {
             $('#newDatePickerBox').hide();
         }
+
+        $scope.datePickerfilterByTimePeriod = function (key, startDate, endDate) {
+            if( startDate && endDate) {
+                key.key = 'custom&start_date=' + startDate + '&end_date=' + endDate;
+                timePeriodModel.selectTimePeriod(key);
+                $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
+                timePeriodModel.setTimeFilterCustomDates({startDate : startDate, endDate : endDate});
+            } else {
+                $rootScope.setErrAlertMessage('Date field cannot be empty' , 1 );
+                return false ;
+            }
+        };
 
         $(document).ready(function () {
             var startDateInput = $('#startDateInput');
@@ -82,5 +80,5 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     .format(constants.DATE_UTC_SHORT_FORMAT)
             );
         });
-    });
+    }]);
 });

@@ -549,7 +549,7 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 999999;
+	z-index: 99999999;
 	-webkit-overflow-scrolling: touch;
 	outline: 0;
 	background: rgba(0, 0, 0, 0.8);
@@ -760,6 +760,25 @@
 			&:after {
 				font-family: @font-family_3 !important;
 				content: "s";
+				font-size: 16px;
+				color: @color_11;
+				transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-webkit-transform: rotate(0deg);
+				border: 0;
+			}
+		}
+	}
+}
+.top_message_box.warning {
+	span.msg_box {
+		border-color: #F5C023;
+		.msg_icon {
+			background: #F5C023;
+			padding-top: 10px;
+			&:after {
+				font-family: @font-family_3 !important;
+				content: "\61";
 				font-size: 16px;
 				color: @color_11;
 				transform: rotate(0deg);
@@ -1018,7 +1037,7 @@
 		}
 		#advertisersDropDownList {
 			width: 280px;
-			left: 0px;
+			left: -1px;
 			padding: 0;
 			.brandsList_ul2 {
 				max-height: 200px;
@@ -1152,6 +1171,10 @@
 		}
 		.cdbMenu_options {
 			li {
+				padding : 0 ;
+				a {
+					padding : 5px 10px;
+				}
 				&:first-child {
 					a {
 						color: @color_16;
@@ -1996,6 +2019,7 @@ multiselect {
 .txtError {
 	color: @color_25 !important;
 	font-size: 12px;
+	font-weight: normal;
 }
 .errorTxtColor {
 	color:@color_25  ;
@@ -2134,8 +2158,14 @@ tags-input .autocomplete {
 .marginRightFive {
 	margin-right: 5px ;
 }
+.marginTopFive {
+	margin-top: 5px ;
+}
 .marginTop {
 	margin-top: 10px ;
+}
+.paddingBottom {
+	padding-bottom: 10px ;
 }
 .marginRightFive {
 	margin-right: 5px ;
@@ -2503,7 +2533,6 @@ tags-input .autocomplete {
     }
 }
 
-
 @keyframes show-notification {
     from {
         opacity: 0;
@@ -2625,16 +2654,97 @@ tags-input .autocomplete {
     }
 }
 
+.linkText {
+	color : #428bca;
+	cursor: pointer;
+	&:hover {
+		color : #2a6496 ;
+	}
+}
 
+.user-list {
+	.changePassword {
+	    border-left: solid 1px rgba(191, 201, 215, 0.5);
+	    padding-left: 15px;
+	    margin-left: 15px;
+	}
+}
 
+// Styles for Admin Brands popup
+#brandsPopup .form-group {
+    height: 70px;
+	margin-bottom: -32px;
+}
 
+#brandsPopup .brand-name-selected {
+	cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    border: 1px solid #bfc9d7;
+    width: 100%;
+    padding: 5px 10px;
+}
 
+#brandsPopup .icon-arrow-solid-down {
+	position: absolute;
+	z-index: 2;
+	bottom: 8px;
+	right: 3px;
+	cursor: pointer;
+	font-size: 10px;
+	color: #939eae; //@label-gray;
+}
 
+#brandsPopup .admin-brand-dropdown-menu {
+	border: 1px solid #bfc9d7;
+	display: none;
+	padding: 0;
+}
 
+#brandsPopup #brandsDropdownDiv {
+	border-bottom: solid 1px #bfc9d7;
+	padding: 0 10px;
+}
 
+#brandsPopup #brandsSearchBox {
+	background: url(/images/cdesk/search_input.png) #fff no-repeat right center !important;
+	border: medium none;
+	cursor: pointer;
+	font-family: Avenir, sans-serif;
+	font-size: 11pt;
+	height: 30px;
+	padding-right: 20px;
+	text-overflow: ellipsis;
+	width: 100%;
+}
 
+#brandsPopup #dropdown {
+	max-height: 200px;
+	overflow-y: auto;
+}
 
+#brandsPopup #dropdown ul {
+	margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+	padding: 0;
+}
 
+#brandsPopup #dropdown li {
+	color: #21252b;
+	cursor: pointer;
+	font-family: Avenir, sans-serif;
+	font-size: 14px;
+	line-height: 100%;
+	list-style: none;
+	padding: 9px 15px;
+}
 
+#brandsPopup #dropdown li:hover {
+	background: #E1EDF9;
+}
 
-
+#brandsPopup #dropdown li.active {
+	font-family: Avenir-bold, sans-serif !important;
+}
+// END Styles for Admin Brands popup

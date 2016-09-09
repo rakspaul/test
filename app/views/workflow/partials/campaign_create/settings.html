@@ -5,12 +5,12 @@
         <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.SUB_ACCOUNT"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" title="{{selectedCampaign.clientName || 'Select SubAccount'}}">
                     <span class="text" data-ng-bind="selectedCampaign.clientName || 'Select SubAccount'"></span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="subaccountDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
-                    <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
+                    <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available" title="{{subaccount.displayName}}"><a ng-click="changeSubAccount(subaccount)">{{subaccount.displayName}}</a></li>
                 </ul>
                 <input type="hidden" name="subAccountId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
             </div>
@@ -25,7 +25,7 @@
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-with-search-btn" type="button"
-                        aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown();showHideDropdownWithSearch($event)" ng-disabled="!selectedCampaign.clientId">
+                        aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown();showHideDropdownWithSearch($event)" ng-disabled="!selectedCampaign.clientId" title="{{selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'}}">
                     <!--<span class="text">{{selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'}}</span>-->
                     <span class="text" data-ng-bind="selectedCampaign.advertiserName ? selectedCampaign.advertiserName : 'Select Advertiser'"></span>
                     <span class="icon-arrow-solid-down"></span>
@@ -35,7 +35,7 @@
                         <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
                         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                     </div>
-                    <li ng-repeat="advertiser in workflowData.advertisers | filter : selectedAdvertiser.name" class="available" ><a ng-click="selectHandler('advertiser', advertiser);showHideDropdownWithSearch($event);">{{advertiser.name}}</a></li>
+                    <li ng-repeat="advertiser in workflowData.advertisers | filter : selectedAdvertiser.name" class="available" title="{{advertiser.name}}"><a ng-click="selectHandler('advertiser', advertiser);showHideDropdownWithSearch($event);">{{advertiser.name}}</a></li>
                 </ul>
                 <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
             </div>
@@ -48,12 +48,12 @@
         <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.BRAND"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled="!workflowData.brands || workflowData.brands.length == 0" >
                     <span class="text" data-ng-bind="selectedCampaign.brandName || 'Select Brand'"></span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
-                    <li ng-repeat="brand in workflowData.brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
+                    <li ng-repeat="brand in workflowData.brands track by brand.id" class="available" title="{{brand.name}}"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
                 </ul>
                 <input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
             </div>
@@ -71,7 +71,9 @@
         <label for="nameTitleCampaign" class="col-sm-12 greyTxt"  data-ng-bind="textConstants.MEDIAPLAN_NAME"></label>
         <div  class="form-group col-sm-12 zeroPadding" show-errors>
             <div class="inputLoader">
-                <input type="text" class="form-control" remove-special-character ='remove-special-character' ng-keyup="isMediaPlanNameExist($event)" name="campaignName" title="{{selectedCampaign.campaignName}}" ng-model="selectedCampaign.campaignName"  autocomplete="off" maxlength="250" ng-maxlength="250" autofocus placeholder="Enter a name up to 250 characters (no punctuation or special characters)" required/>
+                <input type="text" class="form-control" special-character ='special-character' ng-keyup="isMediaPlanNameExist($event)" name="campaignName" title="{{selectedCampaign.campaignName}}" ng-model="selectedCampaign.campaignName"  autocomplete="off" maxlength="250" ng-maxlength="250" autofocus placeholder="Enter a name up to 250 characters (no punctuation or special characters)" required/>
+                <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
+
                 <div class="common-loading-area" ng-show="checkUniqueMediaPlanNameNotFound && selectedCampaign.campaignName"></div>
             </div>
             <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.WF_ENTER_NAME_CAMPAIGN"></label>
@@ -169,7 +171,11 @@
 
 
 <!--=== Next Step Panel ===-->
-<a  data-toggle="tab" data-target="#pixels" role="tab" class="nextWrapper leftNavLink budget">
+<a  data-toggle="tab"  role="tab" class="nextWrapper leftNavLink " ng-if="!selectedCampaign.advertiserId">
+    <span class="btn btn-default disabled-cursor" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
+</a>
+
+<a  data-toggle="tab" data-target="#pixels" role="tab" class="nextWrapper leftNavLink budget " ng-if="selectedCampaign.advertiserId">
     <span class="btn btn-default" ng-click="highlightLeftNav(1)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
 </a>
 

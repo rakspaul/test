@@ -1,5 +1,5 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
+           ng-init="init('flashMessage')"></popup-msg>
 <div class="reports-invoice-list col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding">
         <h1 style="margin: 30px 0 20px;" data-ng-bind="textConstants.INVOICE_REPORT"></h1>
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 10px 0 0;">
             <label class="col-sm-12 greyTxt">Generated On</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -122,10 +122,10 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="pull-left date" style="position: relative; margin: 0 10px 0 0; width: 115px;">
             <label class="col-sm-12 greyTxt">From</label>
-            
+
             <div class="dateWrapper" style="top: 32px;">
                 <div class="pull-left" style="width: 115px;">
                     <input type="text" style="background: transparent;"
@@ -140,18 +140,18 @@
                                             }"
                         ng-model="invoiceReports.startDate"
                         required/>
-                </div>    
+                </div>
             </div>
-            
+
             <div class="col-md-12 zeroPadding">
                 <span class="icon-calendar pull-left"
                 style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px"></span>
             </div>
         </div>
-        
+
         <div class="pull-left date" style="position: relative; margin: 0 10px 0 0; width: 115px;">
             <label class="col-sm-12 greyTxt">To</label>
-            
+
             <div class="dateWrapper" style="top: 32px;">
                 <div class="pull-left" style="width: 115px;">
                     <input type="text" style="background: transparent;"
@@ -166,9 +166,9 @@
                         class="input-sm form-control timeframe"
                         ng-model="invoiceReports.endDate"
                         required/>
-                </div>    
+                </div>
             </div>
-            
+
             <div class="col-md-12 zeroPadding">
                 <span class="icon-calendar pull-left"
                 style="padding: 10px 6px; border-left: 1px solid #BFC9D7; margin: 0 0 0 86px; height: 36px"></span>
@@ -223,13 +223,13 @@
             </div>
         </div>
         <!-- Will add it in future Ends -->
-        
+
         <div class="filterInputCommon filterInputClassBtn pull-right" style="margin-left: 10px !important;">
             <a href="" style="width: 100%;"
                class="btn btn-default ng-binding"
                ng-click="filters.apply()">Apply</a>
         </div>
-        
+
         <div class="filterInputCommon filterInputClassBtn pull-right">
             <a class="btn btn-default pull-right" role="button" ng-click="filters.clear()" style="width: 100%;">
                 <div style="top:0px !important;" class="glyphicon glyphicon-repeat pull-left" aria-hidden="true"></div>
@@ -276,10 +276,10 @@
 <script type="text/ng-template" id="invoiceTpl">
     <div class="rowHover parentWrap">
         <!--Invoice Name-->
-        <div class="col-md-4 td tableTd media-plan-name-wrapper" style="min-height: 80px">
+        <div class="col-md-4 td tableTd media-plan-name-wrapper" style="min-height: 40px">
             <span class="icon-toggleclose pull-left arrowbtn" ng-click="toggleInvoiceLists(mediaPlan, $index, $event)">
             </span>
-            <a class="media-plan-name" data-ng-bind="mediaPlan.campaignName" style="margin: 2px 0 0 10px;"></a>
+            <a class="media-plan-name" data-ng-bind="mediaPlan.campaignName | textEllipsis : 30" style="padding:2px 0px 0px 10px;"></a>
             <div class="pull-right more-options">
                 <div class="dropdown-workflow">
                     <div class="dropdown hideOption">
@@ -292,12 +292,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.invoiceStatus" style="min-height: 80px;"></div>
-        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 80px;"></div>
-        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 80px;"></div>
-        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.adjustmentValue | number:0)" style="min-height: 80px;"></div>
-        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 80px;"></div>
-        <div class="col-md-2 td tableTd" data-ng-bind="mediaPlan.account+'/'+mediaPlan.advertiser" style="min-height: 80px"></div>
+        <div class="col-md-1 td tableTd" data-ng-bind="mediaPlan.invoiceStatus" style="min-height: 55px;"></div>
+        <div class="col-md-2 td tableTd invoice-date" data-ng-bind="mediaPlan.invoiceDate" style="min-height: 55px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 55px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="mediaPlan.adjustmentValue | currency :undefined :0" style="min-height: 55px;"></div>
+        <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 55px;"></div>
+        <div class="col-md-2 td tableTd" data-ng-bind="mediaPlan.account+'/'+mediaPlan.advertiser" style="min-height: 55px"></div>
         <!-- <div class="col-md-2 td" ng-bind="mediaPlan.account +'/'+ mediaPlan.advertiser"></div> -->
     </div>
     <div style="display:none;" class="secondDimensionList">

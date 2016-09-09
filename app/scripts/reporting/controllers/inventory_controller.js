@@ -1,23 +1,20 @@
-define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'reporting/common/charts/column_line',
-    'common/services/data_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
-    'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-    'common/services/url_service', 'reporting/models/domain_reports', 'common/utils',
-    'common/services/vistoconfig_service',
-    'reporting/kpiSelect/kpi_select_directive', 'reporting/kpiSelect/kpi_select_controller',
-    'reporting/strategySelect/strategy_select_directive', 'reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive'], function (angularAMD) {
+define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
+        'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-column-line', 'time-period-controller',
+        'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel,
+    angularAMD.controller('InventoryController', ['$scope', 'kpiSelectModel', 'campaignSelectModel',
+        'strategySelectModel', 'columnline', 'dataService', 'constants',
+        'timePeriodModel', 'loginModel', 'advertiserModel',
+        'brandsModel', 'urlService', 'domainReports', 'vistoconfig', 'utils', function ($scope, kpiSelectModel, campaignSelectModel,
                                                            strategySelectModel, columnline, dataService, constants,
                                                            timePeriodModel, loginModel, advertiserModel,
-                                                           brandsModel, urlService, domainReports, utils,
-                                                           vistoconfig) {
+                                                           brandsModel, urlService, domainReports, vistoconfig, utils) {
         var _curCtrl = this,
             inventoryWrapper =  {
             // Function called to draw the Strategy chart
-            getStrategyChartData: function () {
+            getStrategyChartData: function () { //TODO : we need to refactor the code and divide into small function.
                 var inventoryQueryIdMapperWithAllAdsGroup = {
                         categories: 25,
                         domains: 27
@@ -32,9 +29,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
-                        clientId: loginModel.getSelectedClient().id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: dateFilter,
                         domain: $scope.selectedFilters_tab
                     },
@@ -57,7 +54,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 return dataService
                     .fetch(url)
                     .then(function (result) {
-                        var adsTempData;
+                        var adsTempData,
+                        InventoryData;
 
                         $scope.loadingFlag = false;
                         $scope.strategyLoading = false;
@@ -79,6 +77,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                                             });
 
                                         _.each($scope.strategyTableData, function (item) {
+                                            if(item.dimension === 'Line Item Totals' ) {
+                                                item.sepratorCls_inventory = 'sepratorCls_inventory';
+                                            }
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
 
@@ -105,13 +106,24 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                                         $scope.strategyTableData = result.data.data;
 
                                         _.each($scope.strategyTableData, function (item) {
+
+                                            if(item.dimension === 'Media Plan Totals') {
+                                                item.sepratorCls_inventory = 'sepratorCls_inventory';
+                                            }
+
                                             item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                         });
                                     }
+
                                     if ($scope.strategyTableData.length > 0) {
+                                        InventoryData = _.filter($scope.strategyTableData,
+                                            function (obj) {
+                                                return Number($scope.selectedStrategy.id) >= 0 ?
+                                                    (obj.dimension.toLowerCase() !== 'line item totals') : (obj.dimension.toLowerCase() !== 'media plan totals');
+                                            });
+
                                         $scope.inventoryChart =
-                                            columnline.highChart($scope.strategyTableData,
-                                                _curCtrl.kpi_display);
+                                            columnline.highChart(InventoryData, _curCtrl.kpi_display);
                                     } else {
                                         $scope.inventoryChart = false;
                                     }
@@ -149,6 +161,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             // This function is called for tactics Table data
             getTacticsChartData: function() {
                 var topPerformance,
+                    HighChartTopPerformanceData,
                     resultTableData,
                     topChartObj,
                     isGraphPlot,
@@ -171,7 +184,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                     // For Top Chart
                     if (topPerformance.length > 2) {
-                        topChartObj = columnline.highChart(topPerformance, $scope.selectedFilters.kpi_type);
+                        HighChartTopPerformanceData = _.filter(topPerformance,
+                            function (obj) {
+                                return (obj.dimension.toLowerCase() !== 'ad totals');
+                            });
+
+                        topChartObj = columnline.highChart(HighChartTopPerformanceData, $scope.selectedFilters.kpi_type);
                     }
 
                     if (topChartObj === undefined || topPerformance.length === 0) {
@@ -228,7 +246,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             },
 
             init: function () {
-                var fromLocStore = localStorage.getItem('timeSetLocStore');
 
                 $scope.strategyFound = false;
                 $scope.strategyTableData = [];
@@ -237,13 +254,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.strategyBusy = false;
                 $scope.isStrategyDropDownShow = true;
                 $scope.selectedFilters = {};
-
-                if (fromLocStore) {
-                    fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                    $scope.selectedFilters.time_filter = fromLocStore;
-                } else {
-                    $scope.selectedFilters.time_filter = 'life_time';
-                }
 
                 $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
@@ -289,7 +299,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             } else if ($scope.apiReturnCode === 404 || $scope.apiReturnCode >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
             } else if (campaignSelectModel.durationLeft() === 'Yet to start') {
-                return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START ,campaign.startDate,constants.REPORTS_DATE_FORMAT);
+                return utils.formatStringWithDate(constants.MSG_CAMPAIGN_YET_TO_START , campaign.startDate,constants.REPORTS_DATE_FORMAT);
             } else if (campaignSelectModel.daysSinceEnded() > 1000) {
                 return constants.MSG_CAMPAIGN_VERY_OLD;
             } else if ($scope.selectedCampaign.kpi === 'null') {
@@ -359,7 +369,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             $('#tactic_' + id + '_body').toggle();
         };
 
+        $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         inventoryWrapper.init();
+        inventoryWrapper.callBackStrategyChange();
 
         $(function() {
             // hot fix for the enabling the active link in the reports dropdown
@@ -382,5 +394,5 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 inventoryWrapper.callBackStrategyChange();
             });
         });
-    });
+    }]);
 });

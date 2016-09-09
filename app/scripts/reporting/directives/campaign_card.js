@@ -1,9 +1,10 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils',
-    'reporting/campaignSelect/campaign_select_model'], function (angularAMD) {
+define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCard',
-        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce, campaignSelectModel) {
+    angularAMD.directive('campaignCard', ['$rootScope', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
+        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService', 'subAccountService',
+        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
             return {
                 restrict: 'EAC',
 
@@ -94,6 +95,21 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         return tempText.indexOf(phrase) >= 0;
                     };
 
+                    $scope.redirectToOverViewPage = function(mediaplanId) {
+                        var url = '',
+                            accountData = accountService.getSelectedAccount();
+
+                        url = '/a/'+ accountData.id;
+
+                        if(!accountData.isLeafNode && subAccountService.getSelectedSubAccount()) {
+                            url += '/sa/' + subAccountService.getSelectedSubAccount().id;
+                        }
+
+                        url += '/mediaplan/' + mediaplanId + '/overview';
+
+                        return url;
+                    };
+
                     $scope.showReportsOverview = fParams[0].report_overview;
                     $scope.showManageButton = fParams[0].mediaplan_hub;
 
@@ -114,12 +130,12 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                         if (showManageButton) {
                             if (campaign.is_archived) {
-                                url = '/mediaplans/' + campaign.orderId;
+                                url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id + '/overview';
                             } else {
-                                url = '/mediaplan/' + campaign.orderId + '/overview';
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id);
                             }
                         } else {
-                            url = '/mediaplans/' + campaign.orderId;
+                            url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id +'/overview';
                         }
 
                         if (event && (event.ctrlKey || event.metaKey)) {
@@ -215,39 +231,14 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
                     };
 
-                    $scope.getClassFromDiff = function (spendDifference, campaignEndDate) {
-                        var dateDiffInDays;
-
-                        if (campaignEndDate !== undefined) {
-                            dateDiffInDays =
-                                momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
-                        }
+                    $scope.getClassFromDiff = function (spendDifference) {
 
                         // fix for initial loading
                         if (spendDifference === -999) {
                             return '';
                         }
 
-                        if (campaignEndDate !== undefined) {
-                            if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
-                                    campaignEndDate) === false) {
-                                if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
-                                    return 'red';
-                                } else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
-                                    return 'blue';
-                                }
-                            }
-
-                            // past a campaign end date
-                            if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'),
-                                    campaignEndDate) === true) {
-                                return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
-                            }
-                        }
-
-                        if (spendDifference < -10 || spendDifference > 20) {
-                            return 'red';
-                        } else if (spendDifference >= -10 && spendDifference <= 20) {
+                        if (spendDifference >= -10 && spendDifference <= 20) {
                             return 'blue';
                         }
 
@@ -329,6 +320,5 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     };
                 }
             };
-        }
-    );
+        }]);
 });

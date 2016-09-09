@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service'],
+define(['angularAMD'],
     function(angularAMD) {
     'use strict';
 
-    angularAMD.service('brandsService', function($rootScope, $http, constants, workflowService) {
+    angularAMD.service('brandsService', ['$rootScope', '$http', 'constants', 'workflowService', function($rootScope, $http, constants, workflowService) {
         //default values
         var fetchBrands = function(searchCriteria) {
             var clientId = searchCriteria.clientId,
@@ -25,5 +25,5 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             fetchBrands: fetchBrands,
             preForBrandBroadcast: preForBrandBroadcast
         };
-    });
+    }]);
 });

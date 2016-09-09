@@ -1,12 +1,13 @@
-define(['angularAMD', 'common/services/data_service', 'common/services/url_service',
-    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model'],
+define(['angularAMD', 'url-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('ReportsInvoiceAddAdjustmentController', function ($scope, $rootScope, $modalInstance,
-                                                                                 dataService, urlService, constants,
-                                                                                 loginModel, advertiserModel) {
+        angularAMD.controller('ReportsInvoiceAddAdjustmentController', ['$scope', '$rootScope', '$modalInstance',
+            'dataService', 'urlService', 'constants', 'loginModel', 'advertiserModel', 'vistoconfig',
+            function ($scope, $rootScope, $modalInstance, dataService, urlService, constants, loginModel, advertiserModel, vistoconfig) {
             var _currCtrl = this;
+
+            _currCtrl.clientId = vistoconfig.getSelectedAccountId();
 
             _currCtrl.clear = function () {
                 $scope.addAdjustmentData.adjustments = [];
@@ -32,9 +33,9 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
             // Scope variable initialization
             $scope.textConstant = constants;
             $scope.errSaveAdjustment = false;
-            $scope.clientName = loginModel.getSelectedClient().name;
+            $scope.clientName = vistoconfig.getMasterClientId();
 
-            $scope.advertiserName = advertiserModel.getAdvertiser().selectedAdvertiser ?
+            $scope.advertiserName = advertiserModel.hasOwnProperty(advertiserModel)?
                 advertiserModel.getAdvertiser().selectedAdvertiser.name : 'All Advertiser';
 
             // Enable the credit or debit button base on the API feed
@@ -104,7 +105,7 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
 
                 dataService
                     .post(
-                        urlService.saveInvoiceListCredits($scope.addAdjustmentData.invoiceId),
+                        urlService.saveInvoiceListCredits(_currCtrl.clientId, $scope.addAdjustmentData.invoiceId),
                         data,
                         {'Content-Type': 'application/json'}
                     )
@@ -122,6 +123,6 @@ define(['angularAMD', 'common/services/data_service', 'common/services/url_servi
                         $rootScope.setErrAlertMessage(constants.CREDIT_ADD_ERR);
                     });
             };
-        });
+        }]);
     }
 );

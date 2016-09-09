@@ -1,0 +1,35 @@
+<div class="zeroPadding dropdown-workflow dropdown-multi">
+    <div class="dropdown" ng-init="initddl()" style="z-index: 999999" id = "{{ddlID}}" >
+        <button class="btn btn-default"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="true"
+                data-ng-click="openAccountsDropdown($event);">
+            <span class="text" data-ng-bind="currentClientName"></span>
+            <span class="icon-arrow-solid-down"></span>
+        </button>
+        <ul class="dropdown-menu clientDropdownCnt"
+            id="{{clientddlID + '0'}}"
+            >
+            <li data-ng-repeat="client in userModalData.Clients" style="position: relative">
+                <a data-ng-click="selectClientOption(client.id, client.name, accountIndex)"
+                   data-ng-bind="client.name">
+                </a>
+                <span class="icon-arrow-solid-down icon-arrow-right"
+                      data-ng-click="getSubClientList(client.id, client.name, 0, accountIndex)"
+                      data-ng-if="!client.isLeafNode">
+                                    </span>
+            </li>
+        </ul>
+        <div data-ng-if="loadingClientDropDown"
+             style="position: absolute;
+                                        width: 100%;
+                                        height: 200px;
+                                        background: rgba(255, 255, 255, 0.63);
+                                        z-index: 999999;">
+                                <span class="common-load-more"
+                                      style="position: absolute; top: 40px; left: 134px;">
+                                </span>
+        </div>
+    </div>
+</div>

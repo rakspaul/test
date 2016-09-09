@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils'],
+define(['angularAMD', 'common-utils'],
     function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCostCard', function ($location, utils, constants, momentService) {
+    angularAMD.directive('campaignCostCard', ['$location', 'utils', 'constants', function ($location, utils, constants) {
         return {
             restrict:'EAC',
 
@@ -110,37 +110,14 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                 };
 
-                $scope.getClassFromDiff = function (spendDifference, campaignEndDate) {
-                    var dateDiffInDays;
-
-                    if (campaignEndDate !== undefined) {
-                        dateDiffInDays =
-                            momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
-                    }
+                $scope.getClassFromDiff = function (spendDifference) {
 
                     // fix for initial loading
                     if (spendDifference === -999) {
                         return '';
                     }
 
-                    if (campaignEndDate !== undefined) {
-                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) === false) {
-                            if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
-                                return 'red';
-                            }else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
-                                return 'blue';
-                            }
-                        }
-
-                        // past a campaign end date
-                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) === true) {
-                            return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
-                        }
-                    }
-
-                    if (spendDifference < -10 || spendDifference > 20) {
-                        return 'red';
-                    } else if (spendDifference >= -10 && spendDifference <= 20) {
+                    if (spendDifference >= -10 && spendDifference <= 20) {
                         return 'blue';
                     }
 
@@ -185,5 +162,5 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                 };
             }
         };
-    });
+    }]);
 });

@@ -1,13 +1,11 @@
-define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashboard_model',
-    'common/services/data_service', 'reporting/brands/brands_model', 'common/services/request_cancel_service',
-    'common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'reporting/subAccount/sub_account_service'], function (angularAMD) {
+define(['angularAMD', 'url-service', 'dashboard-model', 'request-cancel-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.service('gaugeModel', ['urlService', 'dashboardModel', 'dataService', 'brandsModel', 'requestCanceller',
-        'constants', 'loginModel', 'advertiserModel', 'subAccountModel',
+        'constants', 'loginModel', 'advertiserModel', 'subAccountService', 'vistoconfig',
         function (urlService, dashboardModel, dataService, brandsModel, requestCanceller, constants, loginModel,
-                  advertiserModel, subAccountModel) {
+                  advertiserModel, subAccountService, vistoconfig) {
+
             this.dashboard = {selectedFilter: ''};
 
             this.resetDashboardFilters = function () {
@@ -15,9 +13,9 @@ define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashbo
             };
 
             this.getGaugeData = function () {
-                var advertiserId = advertiserModel.getSelectedAdvertiser().id,
-                    brandId = brandsModel.getSelectedBrand().id,
-                    clientId = subAccountModel.getDashboardAccountId(),
+                var clientId = vistoconfig.getSelectedAccountId(),
+                    advertiserId = vistoconfig.getSelectAdvertiserId(),
+                    brandId = vistoconfig.getSelectedBrandId(),
 
                     url = urlService.APICampaignCountsSummary(
                         constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId,

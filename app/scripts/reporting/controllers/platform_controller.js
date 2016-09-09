@@ -1,19 +1,21 @@
-define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model',
-    'reporting/strategySelect/strategy_select_service', 'common/services/data_service',
-    'common/services/constants_service', 'reporting/models/domain_reports', 'common/services/vistoconfig_service',
-    'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
-    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/url_service',
-    'common/services/features_service', 'common/services/request_cancel_service', 'common/utils',
-    'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
-    'reporting/timePeriod/time_period_pick_directive', 'reporting/kpiSelect/kpi_select_directive'],
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
+    'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
+    'strategy-select-directive','strategy-select-controller',
+    'time-period-pick-directive', 'kpi-select-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('PlatformController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
+        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
+            'strategySelectModel', 'dataService', 'constants',
+            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel',
+            'RoleBasedService', 'advertiserModel', 'brandsModel',
+            'urlService', 'featuresService', 'requestCanceller',
+            'utils', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
                                                               strategySelectModel, dataService, constants,
                                                               domainReports, vistoconfig, timePeriodModel, loginModel,
                                                               RoleBasedService, advertiserModel, brandsModel,
-                                                              urlService, featuresService, requestCanceller, utils) {
+                                                              urlService, featuresService, requestCanceller,
+                                                              utils) {
             var _currCtrl = this,
                 extractAdFormats;
 
@@ -96,9 +98,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
                     param = {
                         campaignId: $scope.selectedCampaign.id,
-                        clientId: loginModel.getSelectedClient().id,
-                        advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                        brandId: brandsModel.getSelectedBrand().id,
+                        clientId: vistoconfig.getSelectedAccountId(),
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        brandId: vistoconfig.getSelectedBrandId(),
                         dateFilter: datefilter
                     };
 
@@ -172,6 +174,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             if (Number($scope.selectedStrategy.id) >= 0) {
                                 // strategy selected
                                 $scope.platformData = _.filter(result.data.data, function (item) {
+                                    if(item.platform_name === 'Line Item Totals') {
+                                        item.sepratorCls_platform = 'sepratorCls_platform';
+                                    }
                                     return (item.ad_id === -1 && item.ad_group_name === '');
                                 });
 
@@ -189,10 +194,36 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
                                 });
+
+                                var tacticPlatformData = [],
+                                    tempArr = [],
+                                    isExist = [],
+                                    tempVal = null;
+
+                                _.each($scope.tacticPlatformData, function(item){
+                                    if(isExist.indexOf(item.ad_id) === -1) {
+                                        isExist.push(item.ad_id);
+                                        tempArr = _.filter($scope.tacticPlatformData, function (v) {
+                                            return v.ad_id === item.ad_id;
+                                        });
+                                        if(!tempArr[0].platform_name || (tempArr[0].platform_name !== 'Ad Item' +
+                                            ' Totals' && tempArr[0].platform_name !== 'Ad Totals')){
+                                            tempVal = tempArr[1];
+                                            tempArr[1] = tempArr[0];
+                                            tempArr[0] = tempVal;
+                                        }
+                                        tacticPlatformData.push(tempArr);
+                                    }
+                                });
+
+                                $scope.tacticPlatformData = tacticPlatformData;
                             } else {
                                 $scope.platformData = result.data.data;
 
                                 _.each($scope.platformData, function (item) {
+                                    if(item.platform_name === 'Media Plan Totals') {
+                                        item.sepratorCls_platform = 'sepratorCls_platform';
+                                    }
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
@@ -279,22 +310,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
             };
 
-            // whenever strategy change either by broadcast or from dropdown
-            $scope.$on(constants.EVENT_STRATEGY_CHANGED, function () {
-                var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
-
-                extractAdFormats();
-                $scope.selectedStrategy.id = selectedStrategyObj.id;
-                $scope.selectedStrategy.name = selectedStrategyObj.name;
-
-                $scope.strategyHeading = Number($scope.selectedStrategy.id) ===
-                    vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
-
-                $scope.isStrategyDataEmpty = false;
-                $scope.resetVariables();
-                $scope.strategyChangeHandler();
-            });
-
             // resetting the variable
             $scope.resetVariables = function () {
                 $scope.performanceBusy = false;
@@ -329,8 +344,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             // Initializing the variable.
             $scope.init = function () {
-                var fromLocStore = localStorage.getItem('timeSetLocStore');
-
                 $scope.strategyFound = false;
                 $scope.strategyLoading = true;
                 $scope.apiReturnCode = 200;
@@ -339,14 +352,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.resetVariables();
                 $scope.selectedFilters = {};
 
-                if (fromLocStore) {
-                    fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
-                    $scope.selectedFilters.time_filter = fromLocStore;
-                } else {
-                    $scope.selectedFilters.time_filter = 'life_time';
-                }
-
-                $scope.selectedFilters.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
+                $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
                 $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
@@ -356,7 +362,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.someDummyVarDeleteLater = kpiSelectModel.setSelectedKpi('cpm');
             };
 
+            $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
             $scope.init();
+            extractAdFormats();
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
+                constants.MEDIA_PLAN_TOTAL : constants.LINE_ITME_TOTAL;
+            $scope.isStrategyDataEmpty = false;
+            $scope.resetVariables();
+            $scope.strategyChangeHandler();
 
             // Binding click event on tab and fetch strategy method.
             $(function () {
@@ -516,6 +529,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 mainNavigation.find('.reports_sub_menu_dd_holder').find('#platform').addClass('active_tab');
             });
             // end of hot fix for the enabling the active link in the reports dropdown
-        });
+        }]);
     }
 );
