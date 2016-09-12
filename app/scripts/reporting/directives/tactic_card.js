@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignTacticsCard', ['utils', 'constants', function (utils, constants) {
+    angularAMD.directive('campaignTacticsCard', ['utils', 'constants', 'momentService', function (utils, constants, momentService) {
         return {
             restrict:'EAC',
 
@@ -46,9 +46,12 @@ define(['angularAMD'], function (angularAMD) {
                         return 0;
                     }
 
-                    totalSpend = tactic.totalMediaCost;
+                    // if spend is not available don't return any color
+                    if(tactic.spend) {
+                        totalSpend = tactic.totalMediaCost;
 
-                    return $scope.getPercentDiff(totalSpend, tactic.spend);
+                        return $scope.getPercentDiff(totalSpend, tactic.spend);
+                    }
                 };
 
                 $scope.getSpendClass = function (campaign) {
@@ -64,14 +67,23 @@ define(['angularAMD'], function (angularAMD) {
                 $scope.getSpendClassForTactic = function (tactic) {
                     var spendDifference = $scope.getSpendDiffForTactic(tactic);
 
-                    return $scope.getClassFromDiff(spendDifference,tactic.endDate);
+                    return $scope.getClassFromDiff(spendDifference,tactic.startDate);
                 };
 
-                $scope.getClassFromDiff = function (spendDifference) {
+                $scope.getClassFromDiff = function (spendDifference, startDate) {
 
                     // fix for initial loading
                     if (spendDifference === -999) {
                         return '';
+                    }
+
+                    // if startDate is less than the campaign start date , return empty;
+                    if (startDate !== undefined) {
+                        var dateDiffInDays =
+                            momentService.dateDiffInDays(startDate, momentService.todayDate('YYYY-MM-DD'));
+                        if(dateDiffInDays < 0){
+                            return;
+                        }
                     }
 
                     if (spendDifference >= -10 && spendDifference <= 20) {
