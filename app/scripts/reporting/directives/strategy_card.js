@@ -36,9 +36,11 @@ define(['angularAMD', 'campaign-list-service', 'tactic-card', 'campaign-chart'],
                         return 0;
                     }
 
-                    expectedSpend = strategy.expectedMediaCost;
-
-                    return $scope.getPercentDiff(expectedSpend, strategy.spend);
+                    // if spend is not available don't return any color
+                    if(strategy.spend){
+                        expectedSpend = strategy.expectedMediaCost;
+                        return $scope.getPercentDiff(expectedSpend, strategy.spend);
+                    }
                 };
 
                 $scope.getSpendTotalDiffForStrategy = function (strategy) {
@@ -54,18 +56,28 @@ define(['angularAMD', 'campaign-list-service', 'tactic-card', 'campaign-chart'],
                 };
 
                 $scope.getSpendClassForStrategy = function (strategy) {
-                    var spendDifference = $scope.getSpendDiffForStrategy(strategy);
+                    if(strategy.spend) {
+                        var spendDifference = $scope.getSpendDiffForStrategy(strategy);
 
-                    return $scope.getClassFromDiff(spendDifference, strategy.endDate);
+                        return $scope.getClassFromDiff(spendDifference, strategy.startDate);
+                    }
                 };
 
-                $scope.getClassFromDiff = function (spendDifference) {
+                $scope.getClassFromDiff = function (spendDifference, strategyStartDate) {
 
                     // fix for initial loading
                     if (spendDifference === -999) {
                         return '';
                     }
 
+                    // if startDate is less than the campaign start date , return empty;
+                    if (strategyStartDate !== undefined) {
+                        var dateDiffInDays =
+                            momentService.dateDiffInDays(strategyStartDate, momentService.todayDate('YYYY-MM-DD'));
+                        if(dateDiffInDays < 0){
+                            return;
+                        }
+                    }
                     if (spendDifference >= -10 && spendDifference <= 20) {
                         return 'blue';
                     }
