@@ -367,10 +367,9 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
 
             previewUrl = '/a/' + $routeParams.accountId;
-            isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
-            if (!isLeafNode) {
-                previewUrl += '/sa/' + $routeParams.subAccountId;
+            if ($routeParams.subAccountId) {
+                previewUrl += '/sa/' + creativeData.client.id;
             }
 
             previewUrl +=  '/adv/' + creativeData.advertiserId;
