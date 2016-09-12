@@ -19,7 +19,7 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 workflowService.getClients().then(function (result) {
-                    if (result && result.data.data.length > 0) {
+                    if (result && result.data.data && result.data.data.length > 0) {
                         accountList = _.map(result.data.data, function (org) {
                             return {'id': org.id, 'name': org.name, 'isLeafNode': org.isLeafNode, 'timezone' : org.timezone};
                         });
