@@ -27,7 +27,7 @@ define(['angularAMD', 'common-utils', 'advertiser-directive'], function (angular
             $('#advertisersDropDownList').hide() ;
             $('#advertiser_name_selected').text(advertiser.name);
             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
-            advertiserModel.changeAdvertiser($routeParams.accountId, $routeParams.subAccountId, advertiser);
+            advertiserModel.changeAdvertiser(advertiser);
         };
 
         $scope.showAdvertisersDropDown = function () {
