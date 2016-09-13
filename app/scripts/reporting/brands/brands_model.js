@@ -96,7 +96,7 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
 
             reset: function() {
                 brand.brandList = [];
-                brand.selectedBrand = {brandName: -1, brandName: constants.ALL_BRANDS};
+                brand.selectedBrand = {brandId: -1, brandName: constants.ALL_BRANDS};
             },
 
             changeBrand: function(accountId, subAccountId, advertiserId, brand) {

@@ -241,7 +241,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             $scope.adData.verificationSettings.unshift(defaultObj);
                         }
 
-                    })
+                    });
                 },
 
                 saveAds: function (postDataObj) {
@@ -272,7 +272,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         postDataObj.state = $scope.state;
                     }
 
-                    if($scope.adData.selectedSetting.id != -1){
+                    if($scope.adData.selectedSetting.id !== -1){
                         postDataObj.verificationVendorConfigId = $scope.adData.selectedSetting.id;
                     }
 
@@ -376,11 +376,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.verificationVendorConfigId) {
-                var index = _.findIndex($scope.adData.verificationSettings ,function(setting) {
+                index = _.findIndex($scope.adData.verificationSettings ,function(setting) {
                     return setting.id === responseData.verificationVendorConfigId;
                 });
 
-                if(index != -1) {
+                if(index !== -1) {
                     $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[index].name;
                     $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[index].id;
                 }
