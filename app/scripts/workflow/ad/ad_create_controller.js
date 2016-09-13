@@ -57,15 +57,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
-                                accountData =  accountService.getSelectedAccount();
-                                if(!accountData.isLeafNode) {
-                                    accountData = _.find(subAccountService.getSubAccounts(), function(data) {
-                                        return data.id === responseData.clientId;
-                                    });
-                                }
-
-                                workflowService.setAccountTimeZone(accountData.timezone);
-
                                 workflowService
                                     .getAdGroup(clientId, $scope.campaignId, $scope.adGroupId)
                                     .then(function (result) {
