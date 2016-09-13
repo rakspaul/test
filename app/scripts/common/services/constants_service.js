@@ -811,6 +811,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DOWNLOAD = 'Download';
         this.CHOOSE_FILTER = 'Choose filter';
         this.SELECT = 'Select';
+        this.ACCOUNT_UPDATED_SUCCESSFULLY = 'Account updated successfully';
+        this.ACCOUNT_CREATED_SUCCESSFULLY = 'Account created successfully';
 
         //User Creation
         this.super_admin = '1';
@@ -1270,5 +1272,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER = 'There are no Media Plans for the selected Advertiser';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND = 'There are no Media Plans for the selected Brand';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT = 'There are no Media Plans for the selected account';
+        this.LARGE_ZIP_CODE_LENGTH = 'Request zip code length is to large';
     }]);
 });

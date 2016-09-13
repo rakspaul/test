@@ -176,7 +176,7 @@ define(['angularAMD', 'admin-account-service'],
                             $scope.fetchAllClients();
                             $scope.close();
                             _currCtrl.saveAdnlData();
-                            $rootScope.setErrAlertMessage('Account created successfully', 0);
+                            $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
                         }
                     });
             }
@@ -250,54 +250,24 @@ define(['angularAMD', 'admin-account-service'],
             function mapBillingSettingTypes(settings){
                 var settingsMap = {};
 
+                var settingMapIds = {
+                'COGS+%' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
+                'COGS+CPM' : 'BILLING_TYPE_COGS_PLUS_CPM_ID', 
+                'CPM' : 'BILLING_TYPE_CPM_ID', 
+                'CPC' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
+                'CPCV' : 'BILLING_TYPE_CPCV_ID', 
+                'PCCPA' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
+                'TCPA' : 'BIILLING_TYPE_TCPA_ID', 
+                'Flat Fees' : 'BILLING_TYPE_MONTHLY_FLAT_FEES_ID', 
+                '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID', 
+                '%NR' : 'ILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
+                'Flat Fees+%' : 'BILLING_TYPE_FLATFEE_PERCENTAGE_ID'
+                };
+
                 _.each(settings, function(item,index){
+
                     var name = item.abbreviatedName ? item.abbreviatedName : item.name;
-                    
-                    switch(name){
-                        case 'COGS+%':
-                            settingsMap.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID = item.id;
-                            break;
-
-                        case 'COGS+CPM':
-                            settingsMap.BILLING_TYPE_COGS_PLUS_CPM_ID = item.id;
-                            break;
-
-                        case 'CPM':
-                            settingsMap.BILLING_TYPE_CPM_ID = item.id;
-                            break;
-
-                        case 'CPC':
-                            settingsMap.BILLING_TYPE_CPC_ID = item.id;
-                            break;
-
-                        case 'CPCV':
-                            settingsMap.BILLING_TYPE_CPCV_ID = item.id;
-                            break;
-
-                        case 'PCCPA':
-                            settingsMap.BILLING_TYPE_PCCPA_ID = item.id;
-                            break;
-
-                        case 'TCPA':
-                            settingsMap.BILLING_TYPE_TCPA_ID = item.id;
-                            break;
-
-                        case 'Flat Fees':
-                            settingsMap.BILLING_TYPE_MONTHLY_FLAT_FEES_ID = item.id;
-                            break;
-
-                        case '%GR':
-                            settingsMap.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID = item.id;
-                            break;
-
-                        case '%NR':
-                            settingsMap.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID = item.id;
-                            break;
-
-                         case 'Flat Fees+%':
-                            settingsMap.BILLING_TYPE_FLATFEE_PERCENTAGE_ID = item.id;
-                            break;
-                    }
+                    settingsMap[settingMapIds[name]] = item.id;
                  });
 
                 return settingsMap;
@@ -678,7 +648,7 @@ define(['angularAMD', 'admin-account-service'],
 
                                             $scope.close();
                                             $scope.fetchAllClients();
-                                            $rootScope.setErrAlertMessage('Account updated successfully', 0);
+                                            $rootScope.setErrAlertMessage(constants.ACCOUNT_UPDATED_SUCCESSFULLY, 0);
                                             $scope.resetBrandAdvertiserAfterEdit();
                                             delete $scope.clientsDetails[body.parentId];
 
