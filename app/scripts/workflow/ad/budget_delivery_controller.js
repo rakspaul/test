@@ -348,7 +348,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 }
 
                 if(type.toUpperCase() === 'IMPRESSIONS') {
-                    $scope.adData.targetImpressions = $scope.adData.targetValue
+                    $scope.adData.targetImpressions = $scope.adData.targetValue;
                 }
             };
 
