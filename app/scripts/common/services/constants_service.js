@@ -653,7 +653,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MP_PRIGOAL = 'Primary Goal';
         this.MP_SELGOAL = 'Please Select Goal';
         this.MP_PLEASEKPITYPE = 'Please select the KPI type.';
-
+        this.WF_TARGET_IMPRESSIONS_MANDATORY = 'Target Impressions is mandatory';
         this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =
             'You must enter media cost value less than the budget value specified for the media plan.';
         this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD =

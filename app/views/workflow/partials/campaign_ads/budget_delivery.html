@@ -78,8 +78,9 @@
 
             <div class="col-md-2 targetInputs targetImpressions">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input disabled-field" disabled style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetImpressions" autocomplete="off">
+                <input class="target_val_input disabled-field" disabled style="text-indent: 9px; width: 100%;" type="text" ng-blur="checkImpsValue()" ng-keyup="checkBudgetExceed();computeTargetValue();checkImpsValue();" ng-model="adData.targetImpressions" autocomplete="off">
                 <input type="hidden" name="targetImpressions" ng-model="adData.targetImpressions" ng-value="adData.targetImpressions">
+                <label ng-if="budgetErrorObj.targetImpressionValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_TARGET_IMPRESSIONS_MANDATORY"></label>
             </div>
 
             <!--Checkbox Target& Unit Cost-->
@@ -88,11 +89,11 @@
                     <div class="external_chkbox zeroPadding" style="width: 100%; margin: 0;">
                         <div class="pull-left squaredFour" style="margin-top: 8px;">
                             <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
-                            <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-click="enable_budget_input($event);" name="autoCompute" ng-value="adData.autoCompute" ng-checked="adData.autoCompute">
+                            <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-click="enable_budget_input($event);" name="autoCompute" ng-model="adData.autoCompute" ng-value="adData.autoCompute" ng-checked="adData.autoCompute">
                             <label for="targetUnitCost_squaredFour"></label>
                         </div>
 
-                        <span class="pull-left greyTxt">Calculate automatically using Ad Budget and {{adData.primaryKpi}} Rate</span>
+                        <span class="pull-left greyTxt">Calculate automatically using {{(adData.primaryKpi && adData.primaryKpi === 'CTR')?'Impressions':'Ad Budget'}} and {{adData.primaryKpi}} Rate</span>
                     </div>
                 </div>
             </div>

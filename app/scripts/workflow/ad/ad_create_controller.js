@@ -427,6 +427,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
             if (responseData.totalBudget >= 0) {
                 $scope.adData.totalAdBudget=responseData.totalBudget;
+                $scope.adData.existingAdBudget = responseData.totalBudget;
                 $('#targetUnitCost_squaredFour').prop('checked',responseData.enabledBudgetCalculation);
 
                 $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
@@ -439,29 +440,71 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
                 }
 
-                if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
+                /*if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
                     ((responseData.rateType) && (responseData.rateType).toUpperCase() === 'CPM')) {
                     $('.external_chkbox').show();
                 } else {
                     $('.external_chkbox').hide();
-                }
+                }*/
             }
+
+            function selectKpi(type) {
+                var kpiTypeSymbolMap = {
+                        '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
+                        '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
+                    },
+                    autoComputeKpiTypeMap = {
+                        '.targetActions':['CPA', 'POST CLICK CPA'],
+                        '.targetImpressions':['CPM'],
+                        '.targetClicks':['CPC', 'CTR']
+                    };
+
+
+                var symbol = '';
+
+                for (var i in kpiTypeSymbolMap) {
+                    if ($.inArray(type, kpiTypeSymbolMap[i]) !== -1) {
+                        symbol = i;
+                        break;
+                    }
+                }
+
+                if (symbol == '') {
+                    symbol = constants.currencySymbol
+                }
+
+                $('#primaryKpiDiv').find('.KPI_symbol').html(symbol);
+
+                var flag = false;
+
+                for (var i in autoComputeKpiTypeMap) {
+                    if ($.inArray(type, autoComputeKpiTypeMap[i]) !== -1) {
+                        var autoCompute = $('#autoComputeDiv');
+                        autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                        autoCompute.detach();
+                        var kpiFieldsDiv = $('#kpiFieldsDiv').find(i);
+                        if(autoCompute.find('input[type="checkbox"]').is(':checked'))
+                            kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                        kpiFieldsDiv.after(autoCompute);
+                        autoCompute.show();
+                        flag = true
+                        break;
+                    }
+                }
+
+                if(!flag) {
+                    var autoCompute = $('#autoComputeDiv');
+                    autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field')
+                    autoCompute.hide();
+                }
+
+            };
 
             if (responseData.kpiType){
                 $scope.adData.primaryKpi=responseData.kpiType;
                 $scope.adData.targetValue=Number(responseData.kpiValue);
 
-                if (((responseData.kpiType).toUpperCase() === 'CPM') ||
-                    ((responseData.kpiType).toUpperCase() === 'CPA') ||
-                    ((responseData.kpiType).toUpperCase() === 'CPC')) {
-                    $('.KPI_symbol').html('$');
-                } else if (((responseData.kpiType).toUpperCase() === 'VTC') ||
-                    ((responseData.kpiType).toUpperCase() === 'CTR') ||
-                    ((responseData.kpiType).toUpperCase() === 'ACTION RATE')) {
-                    $('.KPI_symbol').html('%');
-                } else {
-                    $('.KPI_symbol').html('#');
-                }
+                selectKpi(responseData.kpiType);
             }
 
             if (responseData.budgetValue >= 0) {
@@ -481,11 +524,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.autoCompute) {
-                $scope.adData.autoCompute = Number(responseData.autoCompute)
+                $scope.adData.autoCompute = responseData.autoCompute;
+            } else {
+                $scope.adData.autoCompute = false;
             }
 
             if (responseData.fetchValue) {
-                $scope.adData.fetchValue = Number(responseData.fetchValue)
+                $scope.adData.fetchValue = responseData.fetchValue;
+            } else {
+                $scope.adData.fetchValue = false;
             }
 
             if (responseData.rateType) {
@@ -1390,8 +1437,10 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 ($scope.budgetErrorObj.mediaCostValidator ||
                 $scope.budgetErrorObj.availableRevenueValidator ||
                 $scope.budgetErrorObj.impressionPerUserValidator ||
-                $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
+                $scope.budgetErrorObj.availableMaximumAdRevenueValidator) ||
+                !formData.targetImpressions) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
+                if(!formData.targetImpressions) $scope.budgetErrorObj.targetImpressionValidator = true;
                 return false;
             }
 
