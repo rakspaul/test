@@ -124,11 +124,27 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
+            updateClientBillingSettings = function(clientId,data){ 
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing_settings';
+
+                    return dataService.post(url, data,  {'Content-Type': 'application/json'});
+            },
+
             getAdvertiserBillingSettings =  function (clientId) {
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertiser_billing_settings',
                     {cache: false}
                 );
+            },
+
+             updateAdvertiserBillingSettings = function(clientId,data){ 
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/advertiser_billing_settings';
+
+                    return dataService.post(url, data,  {'Content-Type': 'application/json'});
             },
 
              getClientBillingData = function(clientid){
@@ -144,7 +160,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/clients/' + clientId +
                         '/billing';
 
-                    return dataService.post(url, data);
+                    return dataService.post(url, data, {'Content-Type': 'application/json'});
             },
 
             insertClientBillingData = function(data){
@@ -531,6 +547,8 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getAdvertiserBillingTypes : getAdvertiserBillingTypes,
             getClientBillingSettings : getClientBillingSettings,
             getAdvertiserBillingSettings : getAdvertiserBillingSettings,
+            updateClientBillingSettings : updateClientBillingSettings,
+            updateAdvertiserBillingSettings : updateAdvertiserBillingSettings,
             getBillingTypes : getBillingTypes,
             initCounter : initCounter,
             setCounter : setCounter,

@@ -67,33 +67,11 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="true">
-                        <span class="text">January</span>
+                        <span class="text" data-ng-bind="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].startMonth">January</span>
                         <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
                     </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available"><a>January</a></li>
-                        
-                        <li class="available"><a>February</a></li>
-                        
-                        <li class="available"><a>March</a></li>
-                        
-                        <li class="available"><a>April</a></li>
-                        
-                        <li class="available"><a>May</a></li>
-                        
-                        <li class="available"><a>June</a></li>
-                        
-                        <li class="available"><a>July</a></li>
-                        
-                        <li class="available"><a>August</a></li>
-                        
-                        <li class="available"><a>September</a></li>
-                        
-                        <li class="available"><a>October</a></li>
-                        
-                        <li class="available"><a>November</a></li>
-                        
-                        <li class="available"><a>December</a></li>
+                    <ul class="dropdown-menu" data-toggle="dropdown" >
+                        <li class="available" data-ng-repeat="month in months" data-ng-click="setStartMonth(month.month,month.index,clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID])" data-ng-bind="month.month"><a></a></li>  
                     </ul>
                 </div>
             </div>
@@ -106,25 +84,11 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="true">
-                        <span class="text">2016</span>
+                        <span class="text" data-ng-bind="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].startYear">2016</span>
                         <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available"><a>2016</a></li>
-                        
-                        <li class="available"><a>2017</a></li>
-                        
-                        <li class="available"><a>2018</a></li>
-                        
-                        <li class="available"><a>2019</a></li>
-                        
-                        <li class="available"><a>2020</a></li>
-                        
-                        <li class="available"><a>2021</a></li>
-                        
-                        <li class="available"><a>2022</a></li>
-                        
-                        <li class="available"><a>2023</a></li>
+                         <li class="available" data-ng-repeat="year in years" data-ng-click="setStartYear(year,clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID])"><a>{{year}}</a></li>  
                     </ul>
                 </div>
             </div>
@@ -192,14 +156,15 @@
                     </div>
                 </div>
             </div>
+             <div class="col-md-12 zeroPadding">
+                <a class="pull-left">
+                    <a class="icon-plus pull-left"></a>
+                    <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices)">Add Item</a>
+                </a>
+            </div>
         </div>        <!--Itemize Chart End-->
         
-        <div class="col-md-12 zeroPadding">
-            <a class="pull-left">
-                <a class="icon-plus pull-left"></a>
-                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices)">Pricing Adjustments</a>
-            </a>
-        </div>
+       
     </div>
     
     <!--Total COGS + %-->
@@ -263,15 +228,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices)">Add Item</a>
+            </a>
+           </div>
         </div>
         <!--Itemize Chart End-->
         
-        <div class="col-md-12 zeroPadding">
-            <a class="pull-left">
-                <a class="icon-plus pull-left"></a>
-                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices)">Pricing Adjustments</a>
-            </a>
-        </div>
+       
     </div>
     
     <!--Total COGS + CPM-->
@@ -332,15 +298,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices)">Add Item</a>
+            </a>
+            </div>
         </div>
         <!--Itemize Chart End-->
         
-        <div class="col-md-12 zeroPadding">
-            <a class="pull-left">
-                <a class="icon-plus pull-left"></a>
-                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices)">Pricing Adjustments</a>
-            </a>
-        </div>
+       
     </div>
     
     <!--% of Gross Revenue-->
@@ -404,15 +371,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].slices)">Add Item</a>
+            </a>
+            </div>
         </div>
         <!--Itemize Chart End-->
         
-        <div class="col-md-12 zeroPadding">
-            <a class="pull-left">
-                <a class="icon-plus pull-left"></a>
-                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].slices)">Pricing Adjustments</a>
-            </a>
-        </div>
+        
     </div>
 
     <!--% of Net Revenue-->
@@ -474,14 +442,15 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices)">Add Item</a>
+            </a>
+            </div>
         </div>
         <!--Itemize Chart End-->
         
-        <div class="col-md-12 zeroPadding">
-            <a class="pull-left">
-                <a class="icon-plus pull-left"></a>
-                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices)">Pricing Adjustments</a>
-            </a>
-        </div>
+        
     </div>
 </div>
