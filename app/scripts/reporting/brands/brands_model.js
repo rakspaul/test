@@ -6,8 +6,8 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                                                 localStorageService, workflowService, pageFinder) {
         var brand = {
                 brandList: [],
-                selectedBrand: {id: -1, name: constants.ALL_BRANDS},
-                allBrandObject: {id: 0, name: constants.ALL_BRANDS},
+                selectedBrand: {brandId: -1, brandName: constants.ALL_BRANDS},
+                allBrandObject: {brandId: 0, brandName: constants.ALL_BRANDS},
             //commented the below line as it shows for brand unknown when canned report page is loaded, need to check with Abhi -  Sapna
                 //unknownBrandObject: {id: 0, name: 'Unknown'}
                 unknownBrandObject: {id: 0, name: constants.ALL_BRANDS}
@@ -40,11 +40,10 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 workflowService.getBrands(accountId, advertiserId, 'read').then(function (result) {
                     if (result && result.data.data.length > 0) {
                         brand.brandList = _.map(result.data.data, function(a) {
-                            return {'id': a.id, 'name': a.name};
+                            return {'brandId': a.brandId, 'brandName': a.brandName};
                         });
-                        brand.brandList = _.sortBy(brand.brandList, 'name');
+                        brand.brandList = _.sortBy(brand.brandList, 'brandName');
                         brand.brandList.unshift(brand.allBrandObject);
-                        console.log('fetchBrandList is fetched');
                     } else {
                         brand.brandList = [brand.allBrandObject];
                     }
@@ -64,7 +63,7 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 // var accountIdParam = subAccountIdParam();
                 if (brandId) {
                     brand.selectedBrand = _.find(brand.brandList, function(b) {
-                        return brandId === b.id;
+                        return brandId === b.brandId;
                     });
                     if (brand.selectedBrand) {
                         return true;
@@ -97,7 +96,7 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
 
             reset: function() {
                 brand.brandList = [];
-                brand.selectedBrand = {id: -1, name: constants.ALL_BRANDS};
+                brand.selectedBrand = {brandName: -1, brandName: constants.ALL_BRANDS};
             },
 
             changeBrand: function(accountId, subAccountId, advertiserId, brand) {
@@ -105,7 +104,7 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 subAccountId && (url += '/sa/' + subAccountId);
                 // All Advertisers id is -1 and don't show it in the URL
                 (advertiserId > 0) && (url += '/adv/' + advertiserId);
-                (brand.id >= 0) && (url += '/b/' + brand.id);
+                (brand.brandId >= 0) && (url += '/b/' + brand.brandId);
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             }
         };
