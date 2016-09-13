@@ -3,16 +3,16 @@ define(['angularAMD'], function (angularAMD) {
         'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, vistoconfig, workflowService, campaignSelectModel,
                                                advertiserModel, brandsModel, pageFinder) {
         var subAccountList = [],
-            mpSubAccountList = [],
+            mediaplanCreateSubAccountList = [],
             selectedSubAccount,
-            selectedMPSubAccount,
+            selectedMediaplanCreateSubAccount,
             previousAccountId,
 
             reset = function () {
                 subAccountList = [];
-                mpSubAccountList = [];
+                mediaplanCreateSubAccountList = [];
                 selectedSubAccount = undefined;
-                selectedMPSubAccount = undefined;
+                selectedMediaplanCreateSubAccount = undefined;
 
                 campaignSelectModel.reset();
                 advertiserModel.reset();
@@ -20,7 +20,11 @@ define(['angularAMD'], function (angularAMD) {
 
             },
 
-            fetchMPSubAccountList = function (accountId) {
+            /*
+             Purpose: Fetch the sub account list (Tier1 list) for the media plan create page.
+             Desc: Fetch the list create the array mediaplanCreateSubAccountList with leafNode: true
+             */
+            fetchMediaplanCreateSubAccountList = function (accountId) {
                 var deferred;
 
                 accountId = accountId || previousAccountId;
@@ -33,7 +37,7 @@ define(['angularAMD'], function (angularAMD) {
                     this.reset();
                 }
 
-                if (mpSubAccountList.length > 0) {
+                if (mediaplanCreateSubAccountList.length > 0) {
                     $timeout(function () {
                         deferred.resolve();
                     }, 10);
@@ -46,11 +50,11 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function (result) {
                             if (result && result.data.data.length > 0) {
 
-                                mpSubAccountList = mpSubAccountList.concat(_.map(result.data.data, function (a) {
+                                mediaplanCreateSubAccountList = mediaplanCreateSubAccountList.concat(_.map(result.data.data, function (a) {
                                     return {'id': a.id, 'displayName': a.displayName, 'isLeafNode': a.isLeafNode, 'timezone' : a.timezone};
                                 }));
 
-                                mpSubAccountList = _.filter(mpSubAccountList, function (a) {
+                                mediaplanCreateSubAccountList = _.filter(mediaplanCreateSubAccountList, function (a) {
                                     return a.isLeafNode === true;
                                 });
 
@@ -68,15 +72,18 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-            allowedMPSubAccount = function (subAccountId) {
+            /*
+            Purpose: If subAccountId exist in the mediaplanCreateSubAccountList then return true;.
+            */
+            allowedMediaplanCreateSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
                 if (subAccountId) {
-                    selectedMPSubAccount = _.find(mpSubAccountList, function (client) {
+                    selectedMediaplanCreateSubAccount = _.find(mediaplanCreateSubAccountList, function (client) {
                         return subAccountId === client.id;
                     });
-                    if (selectedMPSubAccount) {
-                        if(selectedMPSubAccount.timezone) {
-                            vistoconfig.setClientTimeZone(selectedMPSubAccount.timezone);
+                    if (selectedMediaplanCreateSubAccount) {
+                        if(selectedMediaplanCreateSubAccount.timezone) {
+                            vistoconfig.setClientTimeZone(selectedMediaplanCreateSubAccount.timezone);
                         }
                         return true;
                     }
@@ -84,6 +91,10 @@ define(['angularAMD'], function (angularAMD) {
 
                 return false;
             },
+
+            /*
+            Purpose: Fetch subaccounts list for all the pages apart from mediaplan create page
+             */
 
             fetchSubAccountList = function (accountId) {
                 var deferred = $q.defer();
@@ -122,6 +133,11 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
+            /*
+            Purpose: If subAccountId exist in the subAccountList then return true, select the value for
+             selectedSubAccount.
+            */
+
             allowedSubAccount = function (subAccountId) {
                 subAccountId = Number(subAccountId);
 
@@ -137,18 +153,22 @@ define(['angularAMD'], function (angularAMD) {
                 return false;
             },
 
-            getMPSubAccounts = function () {
-                return mpSubAccountList;
+            // Return the subaccount list for the mediaplan create page.
+            getMediaplanCreateSubAccounts = function () {
+                return mediaplanCreateSubAccountList;
             },
 
+            // get subaccount list for all the pages.
             getSubAccounts = function () {
                 return subAccountList;
             },
 
-            getMPSelectedSubAccount = function () {
-                return selectedMPSubAccount;
+            // get the selected sub account for the mediaplan create page.
+            getMediaplanCreateSelectedSubAccount = function () {
+                return selectedMediaplanCreateSubAccount;
             },
 
+            // get the selected sub acccount for the all the pages apart from mediaplan create page.
             getSelectedSubAccount = function () {
                 return selectedSubAccount;
             },
@@ -160,16 +180,16 @@ define(['angularAMD'], function (angularAMD) {
             };
 
         return {
-            reset                          : reset,
-            fetchSubAccountList            : fetchSubAccountList,
-            allowedSubAccount              : allowedSubAccount,
-            fetchMPSubAccountList          : fetchMPSubAccountList,
-            allowedMPSubAccount            : allowedMPSubAccount,
-            getSubAccounts                 : getSubAccounts,
-            getMPSubAccounts               : getMPSubAccounts,
-            getSelectedSubAccount          : getSelectedSubAccount,
-            getMPSelectedSubAccount        : getMPSelectedSubAccount,
-            changeSubAccount               : changeSubAccount
+            reset                                       : reset,
+            fetchSubAccountList                         : fetchSubAccountList,
+            allowedSubAccount                           : allowedSubAccount,
+            fetchMediaplanCreateSubAccountList          : fetchMediaplanCreateSubAccountList,
+            allowedMediaplanCreateSubAccount            : allowedMediaplanCreateSubAccount,
+            getSubAccounts                              : getSubAccounts,
+            getMediaplanCreateSubAccounts               : getMediaplanCreateSubAccounts,
+            getSelectedSubAccount                       : getSelectedSubAccount,
+            getMediaplanCreateSelectedSubAccount        : getMediaplanCreateSelectedSubAccount,
+            changeSubAccount                            : changeSubAccount
         };
     }]);
 });

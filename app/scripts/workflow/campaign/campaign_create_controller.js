@@ -884,12 +884,12 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 }
 
                 var clientData = accountService.getSelectedAccount();
-                $scope.workflowData.subAccounts = _.sortBy(subAccountService.getMPSubAccounts(), 'displayName');
+                $scope.workflowData.subAccounts = _.sortBy(subAccountService.getMediaplanCreateSubAccounts(), 'displayName');
                 $scope.isClientDropDownDisable = true;
 
                 if($scope.mode === 'create' && !$scope.cloneMediaPlanName) {
                     if(!clientData.isLeafNode) {
-                        clientData = subAccountService.getMPSelectedSubAccount();
+                        clientData = subAccountService.getMediaplanCreateSelectedSubAccount();
                         $scope.selectedCampaign.clientName = clientData.displayName;
                     }
 

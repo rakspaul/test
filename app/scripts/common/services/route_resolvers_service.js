@@ -523,10 +523,10 @@ define(['angularAMD'], function (angularAMD) {
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
-                                    .fetchMPSubAccountList(args.$route.current.params.accountId)
+                                    .fetchMediaplanCreateSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if(!args.subAccountService.allowedMPSubAccount(args.$route.current.params.subAccountId)) {
-                                            args.subAccountService.allowedMPSubAccount(args.subAccountService.getMPSubAccounts()[0].id);
+                                        if(!args.subAccountService.allowedMediaplanCreateSubAccount(args.$route.current.params.subAccountId)) {
+                                            args.subAccountService.allowedMediaplanCreateSubAccount(args.subAccountService.getMediaplanCreateSubAccounts()[0].id);
                                         }
                                         fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                     });

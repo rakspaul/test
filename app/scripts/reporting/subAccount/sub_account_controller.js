@@ -48,14 +48,14 @@ define(['angularAMD'], function (angularAMD) {
             var selectedSubAccount;
 
             if($location.path().endsWith('/mediaplan/create')){
-                $scope.subAccountData.subAccounts = subAccountService.fetchMPSubAccountList();
+                $scope.subAccountData.subAccounts = subAccountService.fetchMediaplanCreateSubAccountList();
 
                 // TODO: Is this the correct call, or redundant as we have the following code below?
                 $scope.subAccountData.selectedSubAccount.id = vistoconfig.getSelectedAccountId();
 
                 // TODO: Redundant???
                 //$scope.subAccountData.selectedSubAccount.id = subAccountService.getSelectedSubAccount();
-                selectedSubAccount = subAccountService.getMPSelectedSubAccount();
+                selectedSubAccount = subAccountService.getMediaplanCreateSelectedSubAccount();
                 if (selectedSubAccount) {
                     $scope.subAccountData.selectedSubAccount.id = selectedSubAccount.id;
                     $scope.subAccountData.selectedSubAccount.name = selectedSubAccount.displayName;
