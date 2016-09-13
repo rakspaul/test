@@ -191,7 +191,7 @@ define(['angularAMD'],
                             $location.url(url);
                         } else {
                             //you should redirect to mediaplan list
-                            campaignSelectModel.fetchCampaigns(subAccountId || $routeParams.accountId, -1, -1).then(function(response) {
+                            campaignSelectModel.fetchCampaigns(subAccountId || $routeParams.accountId, $routeParams.advertiserId, $routeParams.brandId).then(function(response) {
                                 var campaignArr = response.data.data,
                                     campaignId;
                                 if (campaignArr && campaignArr.length > 0 && campaignArr[0].campaign_id) {
