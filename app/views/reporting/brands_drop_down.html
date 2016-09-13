@@ -12,10 +12,11 @@
         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
       </div>
       <div class="brandsList_ul" id="brandsList_ul">
-          <li ng-repeat="brand in brands | filter : searchInput track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === selectedBrand.id}">
+          <li ng-repeat="brand in brands | filter : searchInput track by brand.brandId" ng-hide="isExcludedByBrandFilter"
+              ng-class="{'active' : brand.brandId === selectedBrand.brandId}">
           <a data-ng-click="selectBrand(brand, '', 'clicked')">
             <span class="tick"></span>
-            <span class="menuItemText" ng-bind="brand.name"></span>
+            <span class="menuItemText" ng-bind="brand.brandName"></span>
           </a>
         </li>
       </div>

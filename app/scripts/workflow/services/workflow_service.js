@@ -102,12 +102,13 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
 
             getAdvertisers = function (clientId, accessLevel) {
                 var isDashboardSubAccount = $location.path().endsWith('/dashboard'),
+                    isMediaPlanCreatePage = $location.path().endsWith('/mediaplan/create'),
                     isBillingInvoice = $location.path().endsWith('/invoices'),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
 
-                if (accessLevel && !isDashboardSubAccount && !isBillingInvoice) {
+                if (accessLevel && isMediaPlanCreatePage) {
                     url = url + '?access_level=' + accessLevel;
-                } else if (isDashboardSubAccount || isBillingInvoice) {
+                } else {
                     url = url + '?level=all';
                 }
 
@@ -652,7 +653,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + params.clientId + advertiserString +
                     '/creatives?' + creativeFormats + queryStr + pageSize + pageNo;
-                
+
                 return dataService.fetch(url);
             },
 
