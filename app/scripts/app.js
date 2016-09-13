@@ -50,11 +50,11 @@ define(['common'], function (angularAMD) {
                                             .then(function (response) {
                                                 features = response.data.data.features;
                                                 if (features.indexOf('ENABLE_ALL') !== -1) {
-                                                    $location.url(urlBuilder.dashboardUrl(account.id));
+                                                    $location.url(urlBuilder.buildBaseUrl(account.id) + '/dashboard');
                                                 } else {
 
                                                     if (features.indexOf('DASHBOARD') !== -1) {
-                                                        $location.url(urlBuilder.dashboardUrl(account.id));
+                                                        $location.url(urlBuilder.buildBaseUrl(account.id) + '/dashboard');
                                                     } else {
                                                         urlBuilder.mediaPlansListUrl(account.id);
                                                     }
