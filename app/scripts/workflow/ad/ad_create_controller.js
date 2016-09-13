@@ -418,9 +418,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             if (responseData.totalBudget >= 0) {
                 $scope.adData.totalAdBudget=responseData.totalBudget;
                 $scope.adData.existingAdBudget = responseData.totalBudget;
-                $('#targetUnitCost_squaredFour').prop('checked',responseData.enabledBudgetCalculation);
-
-                $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
+                /*$('#targetUnitCost_squaredFour').prop('checked',responseData.enabledBudgetCalculation);
 
                 // disabled checkBox if its primary!=Impression && UnitCost!=CPM
                 if ((responseData.kpiType && responseData.kpiType.toUpperCase() !== 'IMPRESSIONS') ||
@@ -428,7 +426,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                 } else {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
-                }
+                }*/
 
                 /*if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
                     ((responseData.rateType) && (responseData.rateType).toUpperCase() === 'CPM')) {
@@ -485,16 +483,21 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 if(!flag) {
                     var autoComputeOld = $('#autoComputeDiv');
-                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    if(type.toLowerCase() === 'impressions') {
+                        $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    } else{
+                        autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    }
                     autoComputeOld.hide();
                 }
 
             }
 
             if (responseData.kpiType){
-                $scope.adData.primaryKpi=responseData.kpiType;
+                $scope.adData.primaryKpi= vistoconfig.kpiList.find(function(obj) {
+                    return obj.kpiType === responseData.kpiType;
+                }).displayName;
                 $scope.adData.targetValue=Number(responseData.kpiValue);
-
                 selectKpi(responseData.kpiType);
             }
 

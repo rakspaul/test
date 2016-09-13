@@ -81,7 +81,7 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CPC',                        displayName: 'CPC'},
             {kpiType: 'CPM',                        displayName: 'CPM'},
             {kpiType: 'CTR',                        displayName: 'CTR'},
-            //{kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
+            {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
             {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},

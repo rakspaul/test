@@ -334,6 +334,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                                         if($scope.adData.targetImpressions && $scope.adData.targetValue){
                                             $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions / $scope.adData.targetValue));
                                         }
+                                        break;
                         }
                     }
                 }
@@ -344,6 +345,10 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     } else {
                         $scope.adData.budgetAmount =  $scope.adData.totalAdBudget;
                     }
+                }
+
+                if(type.toUpperCase() === 'IMPRESSIONS') {
+                    $scope.adData.targetImpressions = $scope.adData.targetValue
                 }
             };
 
@@ -420,9 +425,13 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
 
-                if(!flag) {
+                if (!flag) {
                     var autoComputeOld = $('#autoComputeDiv');
-                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    if (type.toLowerCase() === 'impressions') {
+                        $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    } else {
+                        autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    }
                     autoComputeOld.hide();
                 }
 
@@ -485,5 +494,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             $scope.adData.selectedSetting.name = setting.name;
             $scope.adData.selectedSetting.id = setting.id;
         };
+
     }]);
 });
