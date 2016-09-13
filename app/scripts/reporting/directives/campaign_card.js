@@ -2,9 +2,9 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
     'use strict';
 
     angularAMD.directive('campaignCard', ['$rootScope', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
-        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService', 'subAccountService',
+        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService',
         function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
-                  campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService) {
             return {
                 restrict: 'EAC',
 

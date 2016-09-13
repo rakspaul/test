@@ -101,9 +101,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             },
 
             getAdvertisers = function (clientId, accessLevel) {
-                var isDashboardSubAccount = $location.path().endsWith('/dashboard'),
-                    isMediaPlanCreatePage = $location.path().endsWith('/mediaplan/create'),
-                    isBillingInvoice = $location.path().endsWith('/invoices'),
+                var isMediaPlanCreatePage = $location.path().endsWith('/mediaplan/create'),
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
 
                 if (accessLevel && isMediaPlanCreatePage) {
