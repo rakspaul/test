@@ -599,7 +599,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_CLONE = 'Clone';
         this.WF_PAUSE = 'Pause';
         this.WF_RESUME = 'Resume';
-        this.WF_MOVE_TO = 'Move to';
+        this.WF_MOVE_TO = 'Move to...';
         this.WF_ARCHIVE = 'Archive';
         this.WF_ARCHIVED = 'Archived';
         this.WF_NOT_SET = 'Not Set';
