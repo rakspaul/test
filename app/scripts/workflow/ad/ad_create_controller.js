@@ -77,7 +77,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                                     responseData.endTime
                                                 );
 
-                                            adGroupData.clientCurrency = subAccountService.currencySymbol;
+                                            adGroupData.clientCurrency = accountService.currencySymbol;
                                             $scope.workflowData.adGroupData = adGroupData;
                                         } else {
                                             campaignOverView.errorHandler(result);
