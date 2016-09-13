@@ -384,7 +384,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
                     $scope.adData.budgetTypeLabel = $scope.adData.budgetType;
                 }
-
                 if ($scope.adData.budgetType) {
                     budgetElem = $('.budget_' + $scope.adData.budgetType.toLowerCase());
                 }
@@ -469,36 +468,37 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     }
                 }
 
-                if (symbol == '') {
-                    symbol = constants.currencySymbol
+                if (symbol === '') {
+                    symbol = constants.currencySymbol;
                 }
 
                 $('#primaryKpiDiv').find('.KPI_symbol').html(symbol);
 
                 var flag = false;
 
-                for (var i in autoComputeKpiTypeMap) {
-                    if ($.inArray(type, autoComputeKpiTypeMap[i]) !== -1) {
+                for (var j in autoComputeKpiTypeMap) {
+                    if ($.inArray(type, autoComputeKpiTypeMap[j]) !== -1) {
                         var autoCompute = $('#autoComputeDiv');
                         autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                         autoCompute.detach();
-                        var kpiFieldsDiv = $('#kpiFieldsDiv').find(i);
-                        if(autoCompute.find('input[type="checkbox"]').is(':checked'))
+                        var kpiFieldsDiv = $('#kpiFieldsDiv').find(j);
+                        if(autoCompute.find('input[type="checkbox"]').is(':checked')){
                             kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                        }
                         kpiFieldsDiv.after(autoCompute);
                         autoCompute.show();
-                        flag = true
+                        flag = true;
                         break;
                     }
                 }
 
                 if(!flag) {
-                    var autoCompute = $('#autoComputeDiv');
-                    autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field')
-                    autoCompute.hide();
+                    var autoComputeOld = $('#autoComputeDiv');
+                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    autoComputeOld.hide();
                 }
 
-            };
+            }
 
             if (responseData.kpiType){
                 $scope.adData.primaryKpi=responseData.kpiType;
@@ -512,15 +512,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.targetImpressions && responseData.targetImpressions >0) {
-                $scope.adData.targetImpressions = Number(responseData.targetImpressions)
+                $scope.adData.targetImpressions = Number(responseData.targetImpressions);
             }
 
             if (responseData.targetClicks && responseData.targetClicks >0) {
-                $scope.adData.targetClicks = Number(responseData.targetClicks)
+                $scope.adData.targetClicks = Number(responseData.targetClicks);
             }
 
             if (responseData.targetActions && responseData.targetActions >0) {
-                $scope.adData.targetActions = Number(responseData.targetActions)
+                $scope.adData.targetActions = Number(responseData.targetActions);
             }
 
             if (responseData.autoCompute) {
@@ -1440,7 +1440,9 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.budgetErrorObj.availableMaximumAdRevenueValidator) ||
                 !formData.targetImpressions) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
-                if(!formData.targetImpressions) $scope.budgetErrorObj.targetImpressionValidator = true;
+                if(!formData.targetImpressions) {
+                    $scope.budgetErrorObj.targetImpressionValidator = true;
+                }
                 return false;
             }
 

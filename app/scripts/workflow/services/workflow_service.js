@@ -265,9 +265,9 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
-                        '/ad_groups/'+ adGroupId
+                        '/ad_groups/'+ adGroupId;
 
-                return dataService.fetch(url)
+                return dataService.fetch(url);
             },
 
             createAdGroups = function (clientId, campaignId, data) {

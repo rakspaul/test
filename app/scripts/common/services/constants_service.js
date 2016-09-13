@@ -673,7 +673,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
 
         this.IMPRESSION_PER_USER_MESSAGE =
-            'you must enter impression per user less than or equal to total ad impression';
+            'You must enter Impression per user less than or equal to Booked Impressions';
 
         //Ad Create: Header
         this.OBJECTIVES = 'Objectives';
@@ -688,7 +688,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADBUDGET = '(Ad Budget)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
         this.BOOKEDIMPS = '(Booked)';
-        this.FREQCAPSIDEBAR = 'Imps. Per User'
+        this.FREQCAPSIDEBAR = 'Imps. Per User';
         this.SCREENPAR = '(Screen)';
         this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';

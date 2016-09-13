@@ -23,6 +23,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         $scope.adData.targetActions = '';
         $scope.adData.autoCompute = true;
         $scope.adData.fetchValue = false;
+        $scope.adData.budgetType = 'Impressions';
         // Kpi Types in an array of objects, sorted alphabetically
         $scope.adData.primaryKpiList = vistoconfig.kpiList;
 
@@ -126,11 +127,13 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         };
 
         $scope.checkImpsValue = function() {
-            if(!$scope.adData.targetImpressions)
+            if(!$scope.adData.targetImpressions) {
                 $scope.budgetErrorObj.targetImpressionValidator = true;
-            else
+            }
+            else {
                 $scope.budgetErrorObj.targetImpressionValidator = false;
-        }
+            }
+        };
 
         $scope.checkForPastDate = function (startDate, endDate) {
             endDate = moment(endDate).format(constants.DATE_US_FORMAT);
@@ -277,7 +280,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             if (elem.is(':checked')) {
                 $scope.adData.fetchValue = true;
                 elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
-                if($scope.adData.budgetType && $scope.adData.budgetType == 'impressions') {
+                if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
                     $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
                 } else {
                     $scope.adData.budgetAmount =  $scope.adData.totalAdBudget;
@@ -301,26 +304,42 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         };
 
             $scope.computeTargetValue = function() {
-                var type = $scope.adData.primaryKpi.toUpperCase()!='CPM'?$scope.adData.primaryKpi:'CPM';
-                console.log($scope.adData.autoCompute,"auto")
+                var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
                 if($scope.adData.autoCompute){
                     switch (type) {
-                        case 'CPM' : if($scope.adData.totalAdBudget && $scope.adData.targetValue) $scope.adData.targetImpressions = Math.round(Number(($scope.adData.totalAdBudget *1000) / $scope.adData.targetValue));
-                                     break;
+                        case 'CPM' : {
+                                        if($scope.adData.totalAdBudget && $scope.adData.targetValue) {
+                                            $scope.adData.targetImpressions = Math.round(Number(($scope.adData.totalAdBudget *1000) / $scope.adData.targetValue));
+                                            $scope.checkImpsValue();
+                                        }
+                                        break;
+                        }
 
-                        case 'CPC' : if($scope.adData.totalAdBudget && $scope.adData.targetValue) $scope.adData.targetClicks = Math.round(Number($scope.adData.totalAdBudget / $scope.adData.targetValue));
-                                     break;
+                        case 'CPC' : {
+                                        if($scope.adData.totalAdBudget && $scope.adData.targetValue) {
+                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.totalAdBudget / $scope.adData.targetValue));
+                                        }
+                                        break;
+                        }
 
                         case 'CPA':
-                        case 'POST CLICK CPA' : if($scope.adData.totalAdBudget && $scope.adData.targetValue) $scope.adData.targetActions = Math.round(Number(($scope.adData.totalAdBudget / $scope.adData.targetValue)));
-                                     break;
+                        case 'POST CLICK CPA' : {
+                                                    if($scope.adData.totalAdBudget && $scope.adData.targetValue) {
+                                                        $scope.adData.targetActions = Math.round(Number(($scope.adData.totalAdBudget / $scope.adData.targetValue)));
+                                                    }
+                                                    break;
+                        }
 
-                        case 'CTR': if($scope.adData.targetImpressions && $scope.adData.targetValue) $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions / $scope.adData.targetValue));
+                        case 'CTR': {
+                                        if($scope.adData.targetImpressions && $scope.adData.targetValue){
+                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions / $scope.adData.targetValue));
+                                        }
+                        }
                     }
                 }
 
                 if($scope.adData.fetchValue){
-                    if($scope.adData.budgetType && $scope.adData.budgetType == 'impressions') {
+                    if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
                         $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
                     } else {
                         $scope.adData.budgetAmount =  $scope.adData.totalAdBudget;
@@ -330,7 +349,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
             $scope.isKpiFieldOptional = function(fieldName) {
                 var res = true;
-                var type = $scope.adData.primaryKpi.toUpperCase()!='CPM'?$scope.adData.primaryKpi:'CPM';
+                var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
                 var kpiOptionalFieldMap = {
                     'actions':['CPA', 'POST CLICK CPA'],
                     'clicks':['CPC', 'CTR']
@@ -349,7 +368,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
             $scope.select_kpi = function (event, type) {
                 var elem = $(event.target),
-                    impressionsHolder = $('.impressions_holder'),
                     kpiTypeSymbolMap = {
                         '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
                         '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
@@ -369,15 +387,15 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
                 var symbol = '';
 
-                for (var i in kpiTypeSymbolMap) {
-                    if ($.inArray(type, kpiTypeSymbolMap[i]) !== -1) {
-                        symbol = i;
+                for (var j in kpiTypeSymbolMap) {
+                    if ($.inArray(type, kpiTypeSymbolMap[j]) !== -1) {
+                        symbol = j;
                         break;
                     }
                 }
 
-                if (symbol == '') {
-                    symbol = constants.currencySymbol
+                if (symbol === '') {
+                    symbol = constants.currencySymbol;
                 }
 
                 elem.closest('.symbolAbs')
@@ -392,19 +410,20 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                         autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                         autoCompute.detach();
                         var kpiFieldsDiv = $('#kpiFieldsDiv').find(i);
-                        if(autoCompute.find('input[type="checkbox"]').is(':checked'))
+                        if(autoCompute.find('input[type="checkbox"]').is(':checked')){
                             kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                        }
                         kpiFieldsDiv.after(autoCompute);
                         autoCompute.show();
-                        flag = true
+                        flag = true;
                         break;
                     }
                 }
 
                 if(!flag) {
-                    var autoCompute = $('#autoComputeDiv');
-                    autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field')
-                    autoCompute.hide();
+                    var autoComputeOld = $('#autoComputeDiv');
+                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    autoComputeOld.hide();
                 }
 
             };

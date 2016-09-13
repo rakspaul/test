@@ -35,7 +35,7 @@
             <input style="text-indent: 8px;" type="text" autocomplete="off" ng-value="adData.totalAdBudget" fcsa-number="{ }" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off"><!-- add "errorBorder" when error -->
             <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
             <span class="disabled_value"></span>
-            <div class="errorText" ng-show="adData.adBudgetExceedUnallocated">Exceeds available Ad Group Delivery Budget</div>
+            <div class="customErrorLabel" ng-show="adData.adBudgetExceedUnallocated">Exceeds available Ad Group Delivery Budget</div>
         </div>
     </div>
 
@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-md-2">
-                <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
+                <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px;">{{textConstants.currencySymbol}}</span>
                 <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off">
             </div>
@@ -179,7 +179,7 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text">{{(adData.budgetType && adData.budgetType.toLowerCase() == impressions) ? adData.budgetType :'Media Cost'}}</span>
+                            <span class="text">{{(adData.budgetType && adData.budgetType.toLowerCase() === 'cost') ?'Media Cost':'Impressions'}}</span>
                             <span class="icon-arrow-solid-down"></span>
                         </button>
                         <input type="hidden" name="budgetType" ng-model="adData.budgetType" ng-value="adData.budgetType">
@@ -212,7 +212,7 @@
                         <div class="external_chkbox zeroPadding" style="width: 100%;margin-top:0px;">
                             <div class="pull-left squaredFour" style="margin-top: 8px;">
                                 <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
-                                <input type="checkbox" id="fetchTarget_squaredFour" class="squaredFourChkbox" ng-click="fetch_existing_target_value($event)" name="fetchValue" ng-value="adData.fetchValue" ng-checked="adData.fetchValue">
+                                <input type="checkbox" id="fetchTarget_squaredFour" class="squaredFourChkbox" ng-click="fetch_existing_target_value($event);checkBudgetExceed() " name="fetchValue" ng-value="adData.fetchValue" ng-checked="adData.fetchValue">
                                 <label for="fetchTarget_squaredFour"></label>
                             </div>
 
@@ -221,7 +221,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 zeroPadding errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
+            <div class="col-md-3 zeroPadding customErrorLabel" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
 
         </div>
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
