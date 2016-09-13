@@ -291,8 +291,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','
 
                 e.preventDefault();
 
-                url = data.downloadLink ? data.downloadLink :
-                    data.campaignId ? urlService.downloadInvoiceCampaign($scope.invoiceReports.clientId, data.campaignId) : '';
+                url = data.campaignId ? urlService.downloadInvoiceCampaign($scope.invoiceReports.clientId, data.campaignId) : '';
 
                 dataService
                     .downloadFile(url)
