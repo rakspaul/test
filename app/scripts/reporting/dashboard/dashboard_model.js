@@ -47,7 +47,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                     dashboardData.brandSelected = vistoconfig.getSelectedBrandId() !== -1;
 
                     // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
-                    dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
+                    dashboardData.selectedBrand = brandsModel.getSelectedBrand().brandName;
 
                     return dashboardData;
                 },
@@ -85,7 +85,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
             ];
 
             // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
-            dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
+            dashboardData.selectedBrand = brandsModel.getSelectedBrand().brandName;
             dashboardData.brandSelected = false;
             dashboardData.totalCampaigns = 0;
             dashboardData.totalBrands = 0;

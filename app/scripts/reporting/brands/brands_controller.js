@@ -15,8 +15,6 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
                     .fetchBrandList(accountId, advertiserId)
                     .then(function() {
                         $scope.brands = brandsModel.getBrandList();
-                        console.log('$scope.brands', $scope.brands.length);
-
                         if (brandsModel.allowedBrand($routeParams.brand_id)) {
                             $scope.selectedBrand = vistoconfig.getSelectedBrandId();
                         } else {
@@ -36,8 +34,8 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
 
 
         $scope.selectBrand = function (brand) {
-            $('#brand_name_selected').text(brand.name);
-            $('#brandsDropdown').attr('placeholder', brand.name).val('');
+            $('#brand_name_selected').text(brand.brandName);
+            $('#brandsDropdown').attr('placeholder', brand.brandName).val('');
 
             brandsModel.changeBrand($routeParams.accountId,
                 $routeParams.subAccountId, $routeParams.advertiserId, brand);
