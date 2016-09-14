@@ -655,8 +655,11 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser(args);
-                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            $timeout(function() {
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            }, 100);
+
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -677,8 +680,10 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser(args);
-                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            $timeout(function() {
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
