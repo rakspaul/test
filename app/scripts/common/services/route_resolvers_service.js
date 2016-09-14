@@ -429,8 +429,12 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (args.advertiserModel.allowedAdvertiser(params.advertiserId)) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
+                            console.log("advertiser", advertiser);
+                            $('#advertiser_name_selected').text(advertiser.name);
+                            $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                             $rootScope.$broadcast('advertiser:set', advertiser);
                             if (args.$location.path().endsWith('/dashboard')) {
+                                console.log("inside")
                                 $('#advertiserButton').hide();
                                 args.dashboardModel.setSelectedAdvertiser(advertiser);
                             }
@@ -459,6 +463,8 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
                             brand = args.brandsModel.getSelectedBrand();
+                            $('#brand_name_selected').text(brand.name);
+                            $('#brandsDropdown').attr('placeholder', brand.name).val('');
                             $rootScope.$broadcast('brand:set', brand);
                         } else {
                             console.log('brand not allowed');
