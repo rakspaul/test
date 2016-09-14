@@ -26,8 +26,20 @@ define(['angularAMD', 'brands-service'], function (angularAMD) {
                 fetchBrandList: function(accountId, advertiserId) {
                     accountId = Number(accountId);
                     advertiserId = Number(advertiserId);
-
                     var deferred = $q.defer();
+                    
+                    if (previousAdvertiserId !== advertiserId) {
+                        this.reset();
+                    }
+                    var deferred = $q.defer();
+                    if (brand.brandList.length > 0) {
+                        $timeout(function() {
+                            deferred.resolve();
+                        }, 10);
+                        return deferred.promise;
+                    }
+
+
                     workflowService.getBrands(accountId, advertiserId, 'read').then(function (result) {
                         if (result && result.data.data.length > 0) {
                             brand.brandList = _.map(result.data.data, function(a) {
