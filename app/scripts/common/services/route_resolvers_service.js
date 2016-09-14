@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', ['$rootScope', function ($rootScope) {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -375,7 +375,7 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             fetchAdvertiserAndBrand = function (args) {
-                console.log("fetchAdvertiserAndBrand");
+                console.log("fetchAdvertiserAndBrand")
                 args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
                 args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
             },
@@ -389,7 +389,10 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand(args);
+                            $timeout(function() {
+                                fetchAdvertiserAndBrand(args);
+                            }, 500);
+
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -410,7 +413,9 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand(args);
+                            $timeout(function() {
+                                fetchAdvertiserAndBrand(args);
+                            }, 500);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
