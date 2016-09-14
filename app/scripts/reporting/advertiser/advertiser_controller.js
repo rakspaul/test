@@ -49,6 +49,8 @@ define(['angularAMD', 'common-utils', 'advertiser-directive'], function (angular
             //broadcasting from route_resolvers_service.js
             $rootScope.$on('advertiser:set', function (event, advertiser) {
                 $scope.selectedAdvertiser = advertiser;
+                $('#advertiser_name_selected').text(advertiser.name);
+                $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
             })
 
             $(function () {
