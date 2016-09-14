@@ -89,11 +89,14 @@
                                           data-ng-if="(selectedFilters_tab === 'domains')">
                                           <a href="http://{{ stable.dimension}}"
                                              target="_blank"
-                                             id="inventory_url_val" ng-if="stable.dimension !== 'Media Plan Totals'"
+                                             id="inventory_url_val" ng-if="stable.dimension !== 'Media Plan Totals' && stable.dimension !== 'Line Item Totals'"
                                              data-ng-bind="stable.dimension | formatUrl : 15">
                                           </a>
                                         <span data-ng-bind="stable.dimension"
                                              ng-if="stable.dimension == 'Media Plan Totals'">
+                                        </span>
+                                         <span data-ng-bind="stable.dimension"
+                                               ng-if="stable.dimension == 'Line Item Totals'">
                                         </span>
                                      </span>
                                     <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
@@ -160,13 +163,15 @@
                                           data-ng-if="(selectedFilters_tab !== 'domains')"
                                           data-ng-bind="tableData.dimension | formatUrl : 20">
                                     </span>
-
-                                    <span class="url_val" title="{{tableData.dimension}}" data-ng-if="(selectedFilters_tab === 'domains')">
+                                    <span class="url_val" title="{{stable.dimension}}" data-ng-if="(selectedFilters_tab === 'domains')">
                                         <a href="http://{{ tableData.dimension}}"
-                                           target='_blank' id="inventory_domain"
+                                           target='_blank' id="inventory_domain" ng-if="tableData.dimension !== 'Ad Totals'"
                                            data-ng-bind="tableData.dimension | formatUrl : 15">
                                         </a>
-                                    </span>
+                                        <span data-ng-bind="tableData.dimension"
+                                              ng-if="tableData.dimension == 'Ad Totals'">
+                                        </span>
+                                     </span>
                                     <span class="cpa_col cpa_data pull-right {{tableData.kpi_type === selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                           data-ng-bind="(tableData[(selectedFilters.kpi_type.toLowerCase() === 'vtc') ?
                                             'vtc_100' : selectedFilters.kpi_type.toLowerCase()] |
