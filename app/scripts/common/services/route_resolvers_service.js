@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope) {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -374,8 +374,8 @@ define(['angularAMD'], function (angularAMD) {
                     });
             },
 
-            fetchAdvertiserAndBrand = function (args, deferred) {
-                args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args, deferred);
+            fetchAdvertiserAndBrand = function (args) {
+                args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
                 args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
             },
 
@@ -387,7 +387,13 @@ define(['angularAMD'], function (angularAMD) {
                     .fetchCampaign(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
-                            fetchAdvertiserAndBrand(args, deferred);
+
+                            $timeout(function() {
+                                deferred.resolve();
+                            }, 100);
+
+                            fetchAdvertiserAndBrand(args);
+
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -407,7 +413,11 @@ define(['angularAMD'], function (angularAMD) {
                         }
 
                         if (resolvedOtherDeferrer) {
-                            fetchAdvertiserAndBrand(args, deferred);
+                            $timeout(function() {
+
+                                deferred.resolve();
+                            }, 100);
+                            fetchAdvertiserAndBrand(args);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -416,9 +426,9 @@ define(['angularAMD'], function (angularAMD) {
                     });
             },
 
-            fetchCurrentAdvertiser = function (args, defer) {
+            fetchCurrentAdvertiser = function (args) {
                 var params = args.$route.current.params;
-                var deferred = defer || args.$q.defer();
+                var deferred = args.$q.defer();
                 args
                     .advertiserModel
                     .fetchAdvertiserList(params.subAccountId || params.accountId)
