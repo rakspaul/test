@@ -65,6 +65,11 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
                 return utils.highlightSearch(text, search);
             };
 
+            //broadcasting from route_resolvers_service.js
+            $rootScope.$on('brand:set', function (event, brand) {
+                $scope.selectedBrand = brand;
+            })
+
             $(function () {
                 $('header').on('click', '#brandsDropdownDiv', function () {
                     $('.brandsList_ul').scrollTop($(this).offset().top - 20 + 'px');
