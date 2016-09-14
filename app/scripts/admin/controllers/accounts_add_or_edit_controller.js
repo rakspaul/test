@@ -7,7 +7,7 @@ define(['angularAMD', 'admin-account-service'],
             var _currCtrl = this,
                 selectedBillingTypeName;
 
-            _currCtrl.isAdChoiceInClient = false;
+            _currCtrl.isAdChoiceInClient = false;           
 
             _currCtrl.getAdChoiceData = function () {
                 adminAccountsService
@@ -24,6 +24,7 @@ define(['angularAMD', 'admin-account-service'],
                         console.log('Error = ', err);
                     });
             };
+
 
             _currCtrl.saveAdChoiceData = function () {
                 var reqBody;
@@ -57,13 +58,13 @@ define(['angularAMD', 'admin-account-service'],
                     err = '',
 
                     code = $scope.setSelectedClientCode === 'Others' ?
-                        $scope.customClientCode :
+                        $scope.clientNameData.customClientCode :
                         $scope.setSelectedClientCode;
 
                 if (!$scope.clientType || $scope.clientType === '') {
                     err = constants.SELECT_CLIENT_TYPE;
                     ret = false;
-                } else if (!$scope.clientName || $scope.clientName === '') {
+                } else if (!$scope.clientNameData.clientName || $scope.clientNameData.clientName === '') {
                     err = constants.SELECT_CLIENT_NAME;
                     ret = false;
                 } else if (!code) {
@@ -89,13 +90,13 @@ define(['angularAMD', 'admin-account-service'],
 
             function createBillableBody() {
                 return {
-                    name: $scope.clientName
+                    name: $scope.clientNameData.clientName
                 };
             }
 
             function constructRequestBody(obj) {
                 var respBody = {
-                    name: $scope.clientName
+                    name: $scope.clientNameData.clientName
                 };
 
                 if ($scope.mode === 'edit') {
@@ -113,7 +114,7 @@ define(['angularAMD', 'admin-account-service'],
                     }
 
                     respBody.code = $scope.setSelectedClientCode === 'Others' ?
-                        $scope.customClientCode :
+                        $scope.clientNameData.customClientCode :
                         $scope.setSelectedClientCode;
                 } else {
                     respBody.billableAccountId = $scope.billableAccountId;
@@ -125,11 +126,11 @@ define(['angularAMD', 'admin-account-service'],
                     respBody.billableAccountId = $scope.billableAccountId;
 
                     respBody.code = $scope.setSelectedClientCode === 'Others' ?
-                        $scope.customClientCode :
+                        $scope.clientNameData.customClientCode :
                         $scope.setSelectedClientCode;
                 }
 
-                respBody.nickname = $scope.nickname || $scope.clientName;
+                respBody.nickname = $scope.clientNameData.nickname || $scope.clientNameData.clientName;
 
                 if ($scope.billingData.techFees.billingValue) {
                     respBody.techFeesBillingTypeId = $scope.billingData.techFees.billingTypeId;
@@ -257,10 +258,10 @@ define(['angularAMD', 'admin-account-service'],
                 'CPC' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
                 'CPCV' : 'BILLING_TYPE_CPCV_ID', 
                 'PCCPA' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
-                'TCPA' : 'BIILLING_TYPE_TCPA_ID', 
+                'TCPA' : 'BILLING_TYPE_TCPA_ID', 
                 'Flat Fees' : 'BILLING_TYPE_MONTHLY_FLAT_FEES_ID', 
                 '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID', 
-                '%NR' : 'ILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
+                '%NR' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
                 'Flat Fees+%' : 'BILLING_TYPE_FLATFEE_PERCENTAGE_ID'
                 };
 
@@ -518,6 +519,7 @@ define(['angularAMD', 'admin-account-service'],
                 $scope.feeSlotToggle(billingTypeMonthlyFee);
             };
 
+            $scope.clientNameData = {};
 
             $scope.showUserModeText = function () {
                 return ($scope.mode === 'create' ? 'Add Account' : 'Edit Account ( ' + $scope.clientObj.name + ' )');
@@ -540,17 +542,17 @@ define(['angularAMD', 'admin-account-service'],
 
             $scope.leaveFocusCustomClientCode = function() {
                 $scope.clientCodeExist = false;
-                $scope.customClientCode = $scope.customClientCode.replace(/ /g, '');
+                $scope.clientNameData.customClientCode = $scope.clientNameData.customClientCode.replace(/ /g, '');
                 $scope.textConstants.CLIENT_CODE_EXIST = constants.CLIENT_CODE_EXIST;
 
-                if ($scope.customClientCode.replace(/ /g, '').length !== 5 ||
-                    !(/^[a-zA-Z0-9_]*$/.test($scope.customClientCode))) {
+                if ($scope.clientNameData.customClientCode.replace(/ /g, '').length !== 5 ||
+                    !(/^[a-zA-Z0-9_]*$/.test($scope.clientNameData.customClientCode))) {
                     $scope.textConstants.CLIENT_CODE_EXIST = constants.CODE_VERIFICATION;
                     $scope.clientCodeExist = true;
                     return;
                 }
 
-                adminAccountsService.checkClientCodeExist($scope.customClientCode).then(function(result) {
+                adminAccountsService.checkClientCodeExist($scope.clientNameData.customClientCode).then(function(result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.clientCodeExist = result.data.data.isExists;
                     }
@@ -560,10 +562,11 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             $scope.getClientCode = function() {
-                if ($scope.clientName) {
+              
+                if ($scope.clientNameData.clientName) {
                     adminAccountsService
-                        .getUserClientCode($scope.clientName)
-                        .then(function (result) {
+                        .getUserClientCode($scope.clientNameData.clientName)
+                        .then(function (result) { 
                             if (result.status === 'OK' || result.status === 'success') {
                                 var res = result.data.data;
 
@@ -583,7 +586,7 @@ define(['angularAMD', 'admin-account-service'],
 
             $scope.selectClientAdvertiser = function (advertiser) {
                 $scope.dropdownCss.display = 'none';
-                $scope.clientName = advertiser.name;
+                $scope.clientNameData.clientName = advertiser.name;
                 $scope.referenceId = advertiser.id;
             };
 
@@ -732,7 +735,7 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             if ($scope.mode === 'edit') {
-                $scope.clientName = $scope.clientObj.name;
+                $scope.clientNameData.clientName = $scope.clientObj.name;
                 $scope.clientType = $scope.clientObj.clientType;
                 $scope.selectedCurrency = $scope.clientObj.currency && $scope.clientObj.currency.currencyCode;
                 $scope.selectedCurrencyId = $scope.clientObj.currency && $scope.clientObj.currency.id;
@@ -740,7 +743,7 @@ define(['angularAMD', 'admin-account-service'],
                 $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.name;
                 $scope.timezone = $scope.clientObj.timezone;
                 $scope.setSelectedClientCode = $scope.clientObj.code;
-                $scope.nickname = $scope.clientObj.nickname || $scope.clientObj.name;
+                $scope.clientNameData.nickname = $scope.clientObj.nickname || $scope.clientObj.name;
 
                 _currCtrl.getAdnlData();
 
