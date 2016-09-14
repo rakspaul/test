@@ -1300,7 +1300,97 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/v1sto/invoices', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice_list,
+                    title: 'Invoices Reports',
+                    controller: 'ReportsInvoiceListController',
+                    controllerUrl: 'reports-invoice-list-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/v1sto/invoices', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice_list,
+                    title: 'Invoices Reports',
+                    controller: 'ReportsInvoiceListController',
+                    controllerUrl: 'reports-invoice-list-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice_list,
+                    title: 'Invoices Reports',
+                    controller: 'ReportsInvoiceListController',
+                    controllerUrl: 'reports-invoice-list-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/sa/:subAccountId/v1sto/invoices/:invoiceId', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice,
+                    title: 'Media Plan - Overview',
+                    controller: 'reportsInvoiceController',
+                    controllerUrl: 'reports-invoice-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice,
+                    title: 'Media Plan - Overview',
+                    controller: 'reportsInvoiceController',
+                    controllerUrl: 'reports-invoice-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/v1sto/invoices/:invoiceId', angularAMD.route({
+                    templateUrl: assets.html_reports_invoice,
+                    title: 'Media Plan - Overview',
+                    controller: 'reportsInvoiceController',
+                    controllerUrl: 'reports-invoice-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId', angularAMD.route({
                     templateUrl: assets.html_reports_invoice,
                     title: 'Media Plan - Overview',
                     controller: 'reportsInvoiceController',
