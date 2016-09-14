@@ -21,18 +21,6 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
 
                     accountId = Number(accountId);
 
-                    // if (previousAccountId !== accountId) {
-                    //     this.reset();
-                    // }
-
-                    // if (advertiserData.advertiserList.length > 0) {
-                    //     $timeout(function() {
-                    //         deferred.resolve();
-                    //     }, 10);
-                    //
-                    //     return deferred.promise;
-                    // }
-
                     workflowService.getAdvertisers(accountId, 'read').then(function (result) {
                         if (result && result.data.data.length > 0) {
                             advertiserData.advertiserList = _.map(result.data.data, function(a) {
