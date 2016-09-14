@@ -13,9 +13,9 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','
             $scope.invoiceReports = {
                 clientId: vistoconfig.getSelectedAccountId(),
 
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                advertiserId: vistoconfig.getSelectAdvertiserId(),
 
-                brandId: (brandsModel.getSelectedBrand().id),
+                brandId: vistoconfig.getSelectedBrandId(),
                 startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
                 endDate: moment().format(constants.DATE_US_FORMAT),
                 page_num: 1
@@ -141,8 +141,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','
             };
 
             $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
-                $scope.invoiceReports.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser ?
-                    advertiserModel.getAdvertiser().selectedAdvertiser.id : -1;
+                $scope.invoiceReports.advertiserId = vistoconfig.getSelectAdvertiserId();
 
                 $scope.getInvoiceData(0);
             });
