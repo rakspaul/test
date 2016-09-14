@@ -200,7 +200,7 @@
             <!--    </label>-->
             <!--</div>-->
         </div>
-        <div class="col-md-6 zeroPadding" style="margin-left: 10px;">
+        <div class="col-md-6 zeroPadding" style="margin-left: 10px;" id="budgetHolder">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
             <div class="clearfix budgetFields">
                 <span class="currencySymWLabel">{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
@@ -254,7 +254,7 @@
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FREQCAP"></label>
                 <div class="form-group col-md-4 pull-left zeroPadding dynamicChkBox"
                      ng-click="enableChkBox($event)">
-                    <input id="setCap" name="setCap" ng-value="enableFreqCap" class="cmn-toggle cmn-toggle-round pull-left" type="checkbox">
+                    <input id="setCap" name="setCap" ng-model="enableFreqCap" ng-value="enableFreqCap" class="cmn-toggle cmn-toggle-round pull-left" type="checkbox">
                     <label for="setCap" class="pull-left"></label>
                 </div>
 

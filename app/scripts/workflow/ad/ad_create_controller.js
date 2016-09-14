@@ -436,7 +436,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 }*/
             }
 
-            function selectKpi(type) {
+            function selectKpi(type,isAutoComputeSet) {
                 var kpiTypeSymbolMap = {
                         '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
                         '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
@@ -471,7 +471,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                         autoCompute.detach();
                         var kpiFieldsDiv = $('#kpiFieldsDiv').find(j);
-                        if(autoCompute.find('input[type="checkbox"]').is(':checked')){
+                        if(isAutoComputeSet){
                             kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
                         }
                         kpiFieldsDiv.after(autoCompute);
@@ -498,7 +498,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     return obj.kpiType === responseData.kpiType;
                 }).displayName;
                 $scope.adData.targetValue=Number(responseData.kpiValue);
-                selectKpi(responseData.kpiType);
+                selectKpi(responseData.kpiType,responseData.autoCompute);
             }
 
             if (responseData.budgetValue >= 0) {
@@ -525,6 +525,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
             if (responseData.fetchValue) {
                 $scope.adData.fetchValue = responseData.fetchValue;
+                $('#budgetHolder').find('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
             } else {
                 $scope.adData.fetchValue = false;
             }
@@ -557,11 +558,10 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
+                $scope.adData.setCap = true;
+                $scope.enableFreqCap = true;
                 angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                     var freqType;
-
-                    $scope.adData.setCap = true;
-                    $scope.enableFreqCap = true;
                     $('.dynamicChkBox').addClass('after');
                     $('.cap_yes input').attr('checked', 'checked');
                     $scope.adData.quantity = frequencyCap.quantity;
@@ -657,7 +657,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 selectedFreqObj;
 
             isSetCap = formData.setCap ? true : false;
-
             if (isSetCap && formData.quantity) {
                 selectedFreqObj = {};
                 selectedFreqObj.frequencyType = formData.frequencyType.toUpperCase();
