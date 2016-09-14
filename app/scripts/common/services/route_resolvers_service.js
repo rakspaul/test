@@ -375,6 +375,7 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             fetchAdvertiserAndBrand = function (args) {
+                console.log("fetchAdvertiserAndBrand");
                 args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
                 args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
             },
