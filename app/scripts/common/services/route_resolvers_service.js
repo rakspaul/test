@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', function () {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -387,8 +387,13 @@ define(['angularAMD'], function (angularAMD) {
                     .fetchCampaign(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
-                            deferred.resolve();
+
+                            $timeout(function() {
+                                deferred.resolve();
+                            }, 100);
+
                             fetchAdvertiserAndBrand(args);
+
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -408,7 +413,10 @@ define(['angularAMD'], function (angularAMD) {
                         }
 
                         if (resolvedOtherDeferrer) {
-                            deferred.resolve();
+                            $timeout(function() {
+
+                                deferred.resolve();
+                            }, 100);
                             fetchAdvertiserAndBrand(args);
                         } else {
                             resolvedOtherDeferrer = true;
@@ -431,6 +439,7 @@ define(['angularAMD'], function (angularAMD) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                            $rootScope.$broadcast('advertiser:set', advertiser);
                             if (args.$location.path().endsWith('/dashboard')) {
                                 $('#advertiserButton').hide();
                                 args.dashboardModel.setSelectedAdvertiser(advertiser);
@@ -459,10 +468,10 @@ define(['angularAMD'], function (angularAMD) {
                         var brand;
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
-                            //brand = args.vistoconfig ? args.vistoconfig.getSelectedBrandId() : {};
                             brand = args.brandsModel.getSelectedBrand();
                             $('#brand_name_selected').text(brand.name);
                             $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                            $rootScope.$broadcast('brand:set', brand);
                         } else {
                             console.log('brand not allowed');
                             args.$location.url('/tmp');
@@ -1020,5 +1029,5 @@ define(['angularAMD'], function (angularAMD) {
             uploadReportsHeaderResolver: uploadReportsHeaderResolver,
             uploadReportsHeaderResolver2: uploadReportsHeaderResolver2
         };
-    });
+    }]);
 });
