@@ -387,13 +387,10 @@ define(['angularAMD'], function (angularAMD) {
                     .fetchCampaign(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
-
+                            deferred.resolve();
                             $timeout(function() {
-                                deferred.resolve();
+                                fetchAdvertiserAndBrand(args);
                             }, 100);
-
-                            fetchAdvertiserAndBrand(args);
-
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -413,11 +410,10 @@ define(['angularAMD'], function (angularAMD) {
                         }
 
                         if (resolvedOtherDeferrer) {
+                            deferred.resolve();
                             $timeout(function() {
-
-                                deferred.resolve();
+                                fetchAdvertiserAndBrand(args);
                             }, 100);
-                            fetchAdvertiserAndBrand(args);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
