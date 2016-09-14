@@ -93,6 +93,7 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                 },
 
                 reset: function() {
+                    console.log("reset");
                     advertiserData.advertiserList = [];
                     advertiserData.selectedAdvertiser = {id: -1, name: constants.ALL_ADVERTISERS};
                 },
