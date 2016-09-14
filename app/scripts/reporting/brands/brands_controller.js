@@ -67,9 +67,8 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
 
             //broadcasting from route_resolvers_service.js
             $rootScope.$on('brand:set', function (event, brand) {
-                console.log('brand:set', brand);
                 $scope.selectedBrand = brand;
-            })
+            });
 
             $(function () {
                 $('header').on('click', '#brandsDropdownDiv', function () {

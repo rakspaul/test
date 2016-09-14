@@ -93,7 +93,6 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                 },
 
                 reset: function() {
-                    console.log("reset");
                     advertiserData.advertiserList = [];
                     advertiserData.selectedAdvertiser = {id: -1, name: constants.ALL_ADVERTISERS};
                 },
@@ -103,8 +102,11 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                     var url = '/a/' + $routeParams.accountId,
                         reportUrlWithCampaignOnly,
                         that = this,
-                        subAccountId = advertiser.clientId || $routeParams.subAccountId;
+                        subAccountId;
 
+                    if($routeParams.subAccountId) {
+                        subAccountId = advertiser.clientId;
+                    }
 
                     subAccountId && (url += '/sa/' + subAccountId);
                     var cannedReportName = _.last($location.path().split('/'));

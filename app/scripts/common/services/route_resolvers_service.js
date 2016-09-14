@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -374,9 +374,8 @@ define(['angularAMD'], function (angularAMD) {
                     });
             },
 
-            fetchAdvertiserAndBrand = function (args) {
-                console.log("fetchAdvertiserAndBrand")
-                args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
+            fetchAdvertiserAndBrand = function (args, deferred) {
+                args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args, deferred);
                 args.$route.current.params.advertiserId && args.$route.current.params.brandId && fetchCurrentBrand(args);
             },
 
@@ -388,11 +387,7 @@ define(['angularAMD'], function (angularAMD) {
                     .fetchCampaign(args.$route.current.params.subAccountId || args.$route.current.params.accountId, args.$route.current.params.campaignId)
                     .then(function () {
                         if (resolvedOtherDeferrer) {
-                            deferred.resolve();
-                            $timeout(function() {
-                                fetchAdvertiserAndBrand(args);
-                            }, 500);
-
+                            fetchAdvertiserAndBrand(args, deferred);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -412,10 +407,7 @@ define(['angularAMD'], function (angularAMD) {
                         }
 
                         if (resolvedOtherDeferrer) {
-                            deferred.resolve();
-                            $timeout(function() {
-                                fetchAdvertiserAndBrand(args);
-                            }, 500);
+                            fetchAdvertiserAndBrand(args, deferred);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -424,9 +416,9 @@ define(['angularAMD'], function (angularAMD) {
                     });
             },
 
-            fetchCurrentAdvertiser = function (args) {
+            fetchCurrentAdvertiser = function (args, defer) {
                 var params = args.$route.current.params;
-                var deferred = args.$q.defer();
+                var deferred = defer || args.$q.defer();
                 args
                     .advertiserModel
                     .fetchAdvertiserList(params.subAccountId || params.accountId)
@@ -435,12 +427,10 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (args.advertiserModel.allowedAdvertiser(params.advertiserId)) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
-                            console.log("advertiser", advertiser);
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                             $rootScope.$broadcast('advertiser:set', advertiser);
                             if (args.$location.path().endsWith('/dashboard')) {
-                                console.log("inside")
                                 $('#advertiserButton').hide();
                                 args.dashboardModel.setSelectedAdvertiser(advertiser);
                             }
