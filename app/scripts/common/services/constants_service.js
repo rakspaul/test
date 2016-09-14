@@ -288,7 +288,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BUDGET_WITH_COLON = 'Budget:';
         this.CUMULATIVE_VALUE = 'Cumulative Value';
         this.ACTION_RATE_R_CAPS = 'Action Rate';
-        this.TOTAL_AD_BUDGET = 'Total Ad Budget';
+        this.TOTAL_AD_BUDGET = 'Ad Budget';
         this.ESTIMATED_IMPRESSIONS = 'Estimated Impressions';
         this.KPI_NOTSATISFIED_ERROR = 'Values provided for Budget and Unit Cost<br>may not meet the KPI Target.';
 
@@ -474,9 +474,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_GOAL = 'Goal';
         this.SELECT_GOAL = 'Select Goal';
         this.START_DATE = 'Start Date';
-        this.FLIGHT_START_DATE = 'Flight Start Date';
+        this.FLIGHT_START_DATE = 'Start Date';
         this.END_DATE = 'End Date';
-        this.FLIGHT_END_DATE = 'Flight End Date';
+        this.FLIGHT_END_DATE = 'End Date';
         this.SELECT_TIME = 'Select Time';
         this.UNTITLED_CAMPAIGN = 'Untitled Media Plan';
         this.SAVE_CAMPAIGN = 'Save Media Plan';
@@ -599,7 +599,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_CLONE = 'Clone';
         this.WF_PAUSE = 'Pause';
         this.WF_RESUME = 'Resume';
-        this.WF_MOVE_TO = 'Move to';
+        this.WF_MOVE_TO = 'Move to...';
         this.WF_ARCHIVE = 'Archive';
         this.WF_ARCHIVED = 'Archived';
         this.WF_NOT_SET = 'Not Set';
@@ -653,7 +653,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MP_PRIGOAL = 'Primary Goal';
         this.MP_SELGOAL = 'Please Select Goal';
         this.MP_PLEASEKPITYPE = 'Please select the KPI type.';
-
+        this.WF_TARGET_IMPRESSIONS_MANDATORY = 'Target Impressions is mandatory';
         this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =
             'You must enter media cost value less than the budget value specified for the media plan.';
         this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD =
@@ -673,7 +673,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
 
         this.IMPRESSION_PER_USER_MESSAGE =
-            'you must enter impression per user less than or equal to total ad impression';
+            'You must enter Impression per user less than or equal to Booked Impressions';
 
         //Ad Create: Header
         this.OBJECTIVES = 'Objectives';
@@ -682,10 +682,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1. Ad Type';
+        this.ADTYPESIDE = '1. About this Ad';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
+        this.ADBUDGET = '(Ad Budget)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
+        this.BOOKEDIMPS = '(Booked)';
+        this.FREQCAPSIDEBAR = 'Imps. Per User';
         this.SCREENPAR = '(Screen)';
         this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';
@@ -698,10 +701,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CREATIVESIDE = '6. Creative';
 
         //Ad Create: 1 Ad Type
-        this.SELECTADTYPE = 'Select Ad Type';
+        this.SELECTADTYPE = 'About this Ad';
         this.LEARNADTYPES = 'Learn more about Ad Types';
-        this.NAMEOFAD = 'What is the name of your Ad?';
-        this.LABEL = 'Add labels';
+        this.NAMEOFAD = 'Tell us about your Ad';
+        this.LABEL = 'Labels (Optional)';
+        this.ADNAME = 'Ad Name';
 
         //Ad Create: 2 Budget & Delivery
         this.SETBUDGET = 'Budget & Delivery';
@@ -712,11 +716,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
         this.BUDGET_EXCEEDED = 'Cannot create Ad Group as the Media Plan does not have sufficient budget',
         this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = 'Cannot create Ad Group as Media Plan has ended',
-        this.SETUPBUDGET = 'How do you want to budget your Ad?';
-        this.MEASUREBUDGET = 'How will you measure success for your Ad?';
+        this.SETUPBUDGET = 'How would you like to this Ad to book and deliver?';
+        this.MEASUREBUDGET = 'How would you like to measure this Ad?';
+        this.HOWMUCHSPEND = 'How much would you like to spend?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
-        this.BUDGETCAL = 'Select your Booking Method';
+        this.BUDGETCAL = 'Booking Method';
         this.COST = 'Cost';
         this.FREQCAP = 'Frequency Cap';
         this.IMPPERUSER = 'Impressions per user';
@@ -726,7 +731,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PACING = 'Pacing';
         this.PACEEVENLY = 'Pace Evenly';
         this.SENDFAST = 'Spend as fast as possible';
-        this.SELECTPRIMARYKPI = 'Select Primary KPI';
+        this.SELECTPRIMARYKPI = 'Primary KPI';
         this.TARGETVALUE = 'Target Value';
         this.RATE = 'Rate';
         this.VERIFICATION_TITLE = 'Which system will validate delivery and measure viewability for this Ad?';

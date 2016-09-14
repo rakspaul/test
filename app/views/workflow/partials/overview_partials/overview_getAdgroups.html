@@ -236,7 +236,7 @@
                                   data-ng-bind="adsData.label ? (adsData.label | toPascalCase) : textConstants.WF_IMPS">
                             </span>
                             <span class="col-md-12 text-center zeroPadding"
-                                  data-ng-bind="adsData.calculatedValue ? (adsData.calculatedValue | nrFormat) :
+                                  data-ng-bind="adsData.targetImpressions ? (adsData.targetImpressions | nrFormat) :
                                                 textConstants.WF_NOT_SET">
                             </span>
                         </div>
@@ -245,7 +245,7 @@
                                   data-ng-bind="adsData.rateType ? adsData.rateType : textConstants.CPM">
                             </span>
                             <span class="col-md-12 text-center zeroPadding"
-                                  data-ng-bind="adsData.rateValue ? (adsData.rateValue | currency:undefined) :
+                                  data-ng-bind="adsData.calculatedValue ? (adsData.calculatedValue | currency:undefined) :
                                                 textConstants.WF_NOT_SET">
                             </span>
                         </div>
