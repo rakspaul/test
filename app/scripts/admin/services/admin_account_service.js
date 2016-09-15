@@ -20,14 +20,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/currencies');
             },
 
-            createBillableAccount =  function (data) {
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/billable_accounts',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
-
             createAgencies =  function (data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/agencies',
@@ -500,7 +492,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
 
         return {
             getAllCurrency : getAllCurrency,
-            createBillableAccount : createBillableAccount,
             createAgencies : createAgencies,
             getCountries : getCountries,
             getAllAdvertisers : getAllAdvertisers,
@@ -549,7 +540,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getAdvertiserBillingSettings : getAdvertiserBillingSettings,
             updateClientBillingSettings : updateClientBillingSettings,
             updateAdvertiserBillingSettings : updateAdvertiserBillingSettings,
-            getBillingTypes : getBillingTypes,
             initCounter : initCounter,
             setCounter : setCounter,
             getCounter : getCounter,
