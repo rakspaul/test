@@ -551,6 +551,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             setPermissions: setPermissions,
             getAdChoiceDataFromClient : getAdChoiceDataFromClient,
             getBillingTypes : getBillingTypes,
+            getClientBillingData: getClientBillingData,
             saveAdChoiceDataForClient : saveAdChoiceDataForClient,
             getIABCategoryList : getIABCategoryList,
             getIABSubCategoryList : getIABSubCategoryList,
