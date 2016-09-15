@@ -521,7 +521,7 @@
          data-ng-bind="((daysOfWeekData.ctr > 0) || (daysOfWeekData.ctr === 0)) ?
             ((daysOfWeekData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{daysOfWeekData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{daysOfWeekData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}" tooltip="{{(daysOfWeekData.action_rate | actionRateToolTip )}}"
          data-ng-bind="((daysOfWeekData.action_rate > 0) || (daysOfWeekData.action_rate === 0)) ?
             ((daysOfWeekData.action_rate | number : 3) + '%') : '-'">
     </div>
@@ -610,7 +610,7 @@
     <div class="each_col forth_col {{formatData.kpi_type === 'ctr' ? 'bold' : ''}}"
          data-ng-bind="((formatData.ctr > 0) || (formatData.ctr === 0)) ? ((formatData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{formatData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{formatData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}" tooltip="{{(formatData.action_rate | actionRateToolTip )}}"
          data-ng-bind="((formatData.action_rate > 0) || (formatData.action_rate === 0)) ?
             ((formatData.action_rate | number : 3) + '%') : '-'">
     </div>
@@ -629,7 +629,7 @@
         <div class="each_col eight_col {{formatData.kpi_type === 'pc_cpa' ? 'bold' : ''}}">
             {{((formatData.pc_cpa > 0) || (formatData.pc_cpa === 0)) ? (formatData.pc_cpa | currency : undefined : 2) : '-'}}
         </div>
-        <div class="each_col eight_col {{formatData.kpi_type === 'spend' ? 'bold' : ''}}">
+        <div class="each_col eight_col {{formactionRateToolTipatData.kpi_type === 'spend' ? 'bold' : ''}}">
             {{((formatData.spend > 0) || (formatData.spend === 0)) ? (formatData.spend | currency : undefined : 2) : '-'}}
         </div>
         <!-- <div class="each_col eight_col {{formatData.kpi_type === 'suspicious_impressions_perc' ? 'bold' : ''}}">
@@ -696,7 +696,7 @@
          data-ng-bind="((creativesData.ctr > 0) || (creativesData.ctr === 0)) ?
             ((creativesData.ctr | number : 3) + '%')  :  '-'">
     </div>
-    <div class="each_col fifth_col {{creativesData.kpi_type.toLowerCase() === 'action rate' ? 'bold'  :  ''}}"
+    <div class="each_col fifth_col {{creativesData.kpi_type.toLowerCase() === 'action rate' ? 'bold'  :  ''}}" tooltip="{{(creativesData.action_rate | actionRateToolTip )}}"
          data-ng-bind="((creativesData.action_rate > 0) || (creativesData.action_rate === 0)) ?
             ((creativesData.action_rate | number : 3) + '%') : '-'">
     </div>
@@ -785,7 +785,7 @@
          data-ng-bind="((adSizesData.ctr > 0) || (adSizesData.ctr === 0)) ?
             ((adSizesData.ctr | number : 3) + '%') : '-'">
     </div>
-    <div class="each_col fifth_col {{adSizesData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
+    <div class="each_col fifth_col {{adSizesData.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}" tooltip="{{(adSizesData.action_rate | actionRateToolTip )}}"
          data-ng-bind="((adSizesData.action_rate > 0) || (adSizesData.action_rate === 0)) ?
             ((adSizesData.action_rate | number : 3) + '%') : '-'">
     </div>

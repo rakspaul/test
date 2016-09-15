@@ -101,6 +101,7 @@
                                         <div class="col-md-1 zeroPadding textRight
                                                 {{strategy.kpi_type === selectedFilters.kpi_type.toUpperCase() ?
                                                 'bold' : ''}}"
+                                             tooltip="{{selectedFilters.kpi_type.toLowerCase() === 'action_rate'?(strategy[selectedFilters.kpi_type.toLowerCase()] | actionRateToolTip ):null}}"
                                              data-ng-bind="(strategy[(selectedFilters.kpi_type.toLowerCase() === 'vtc')
                                                 ? 'vtc_100': selectedFilters.kpi_type.toLowerCase()] | appendDollar :
                                                 selectedFilters.kpi_type.toLowerCase())">
