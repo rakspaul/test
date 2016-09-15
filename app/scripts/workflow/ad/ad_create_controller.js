@@ -1174,6 +1174,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     }
 
                     startDateElem.datepicker('setEndDate', adGroupEndDate);
+                    endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate)
                 }
             } else {
                 // Normal ad (non-Adgroup)
