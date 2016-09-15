@@ -1324,7 +1324,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 $scope.getCdbChartData = function (campaign) {
                     // API call for campaign chart
                     dataService
-                        .getCdbChartData(clientId, campaign, 'life_time', 'campaigns', null)
+                        .getCdbChartData(clientId, campaign, 'life_time', 'campaigns', null, campaignListService.getIsRealTimeData())
                         .then(function (result) {
                             var lineData = [],
                                 showExternal = true,

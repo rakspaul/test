@@ -6,9 +6,9 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
     angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel',
         'campaignListModel', 'campaignSelectModel', 'strategySelectModel', 'utils', 'constants', 'vistoconfig',
-        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService',
+        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService', 'campaignListService',
         function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService) {
+                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService, campaignListService) {
 
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
@@ -59,6 +59,13 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             $scope.campaigns.searchTerm = '';
 
             $scope.campaigns.loadMoreCampaigns = false;
+
+            $scope.$watch('realTimeData', function(val){
+                campaignListService.setIsRealTimeData(val);
+                $scope.campaigns.noData = false;
+                $scope.campaigns.resetFilters();
+                $scope.campaigns.fetchData();
+            });
 
             $scope.campaignSearchFunc = function (e) {
                 // Perform search if enter key is pressed, or search button is clicked & user has entered something.

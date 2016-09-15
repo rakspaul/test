@@ -2,7 +2,6 @@
            data-ng-controller="popUpMsgCtr"
            data-ng-init="init('alertMessage')">
 </popup-msg>
-
 <div id="detailedPage" class="dashboard_outer_container yo" data-ng-controller="CampaignListController">
     <!-- header-->
     <div class="clearfix page_header_container campaign_list_header">
@@ -23,6 +22,15 @@
                 <span class="icon-plus"></span>
                 <span data-ng-bind="textConstants.CREATE"></span>
             </a>
+        </div>
+        <div class="video_switch_mediaplans">
+            <div class="pull-left view_mode_switch_container">
+                <span ng-class="realTimeData ? '' : 'active'" data-ng-bind="'Daily'"></span>
+                <span class="video_btn">
+                    <switch data-ng-model="realTimeData" ></switch>
+                </span>
+                <span ng-class="realTimeData ? 'active' : ''" data-ng-bind="'Real Time'"></span>
+            </div>
         </div>
 
         <!--Quick Filters-->
@@ -57,6 +65,7 @@
                 campaigns.dashboard.quickFilterSelectedCount + ' Media Plans'"
               style="font-size: 12px; margin: 10px 10px 0 0;">
         </span>
+
     </div>
 
     <div class="fixed_line"></div>
