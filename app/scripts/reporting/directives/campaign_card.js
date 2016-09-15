@@ -1,10 +1,10 @@
 define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCard', ['$rootScope', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
-        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService', 'subAccountService',
-        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
-                  campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
+    angularAMD.directive('campaignCard', ['$rootScope', '$routeParams', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
+        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService',
+        function ($rootScope, $routeParams, $location, utils, constants, momentService, featuresService, $sce,
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService) {
             return {
                 restrict: 'EAC',
 
@@ -95,17 +95,17 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                         return tempText.indexOf(phrase) >= 0;
                     };
 
-                    $scope.redirectToOverViewPage = function(mediaplanId) {
+                    $scope.redirectToOverViewPage = function(campaign) {
                         var url = '',
                             accountData = accountService.getSelectedAccount();
 
                         url = '/a/'+ accountData.id;
 
-                        if(!accountData.isLeafNode && subAccountService.getSelectedSubAccount()) {
-                            url += '/sa/' + subAccountService.getSelectedSubAccount().id;
+                        if(!accountData.isLeafNode &&  campaign.client_id) {
+                            url += '/sa/' + campaign.client_id;
                         }
 
-                        url += '/mediaplan/' + mediaplanId + '/overview';
+                        url += '/mediaplan/' + campaign.orderId + '/overview';
 
                         return url;
                     };
@@ -132,7 +132,7 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                             if (campaign.is_archived) {
                                 url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id + '/overview';
                             } else {
-                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id);
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id, $routeParams.accountId, campaign.client_id);
                             }
                         } else {
                             url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id +'/overview';
@@ -164,7 +164,12 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                             spend = campaignCDBObj.getSpend();
                             expectedSpend = campaign.expectedMediaCost;
 
-                            return $scope.getPercentDiff(expectedSpend, spend);
+                            // if spend is not available don't return any color
+                            if(spend) {
+                                return $scope.getPercentDiff(expectedSpend, spend);
+                            }else{
+                                return -999;
+                            }
                         }
                     };
 
@@ -224,18 +229,25 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
 
                     $scope.getSpendClass = function (campaign) {
                         var spendDifference;
-
                         if (campaign !== undefined) {
                             spendDifference = $scope.getSpendDifference(campaign);
-                            return $scope.getClassFromDiff(spendDifference, campaign.end_date);
+                            return $scope.getClassFromDiff(spendDifference, campaign.start_date);
                         }
                     };
 
-                    $scope.getClassFromDiff = function (spendDifference) {
-
+                    $scope.getClassFromDiff = function (spendDifference, campaignStartDate) {
                         // fix for initial loading
                         if (spendDifference === -999) {
                             return '';
+                        }
+
+                        // if startDate is less than the campaign start date , return;
+                        if (campaignStartDate !== undefined) {
+                            var dateDiffInDays =
+                                momentService.dateDiffInDays(campaignStartDate, momentService.todayDate('YYYY-MM-DD'));
+                            if(dateDiffInDays < 0){
+                                return;
+                            }
                         }
 
                         if (spendDifference >= -10 && spendDifference <= 20) {

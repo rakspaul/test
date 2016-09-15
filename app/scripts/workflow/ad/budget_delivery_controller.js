@@ -6,8 +6,8 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         var unallocatedAmount = 0,
             adMaximumRevenue = 0;
 
-        $scope.adData.primaryKpi = 'Impressions';
         $scope.adData.selectedSetting = {name: constants.VERIFICATION_DEFAULT, id: -1}; // vendor config setting
+        $scope.adData.primaryKpi = 'CPM';
         $scope.adData.budgetExceeded = false;
         $scope.adData.adBudgetExceedUnallocated = false;
         $scope.isChecked = true;
@@ -16,8 +16,14 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         $scope.adData.targetValue = '';
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
+        $scope.adData.existingAdBudget = 0;
         $scope.adData.budgetAmount = '';
-
+        $scope.adData.targetImpressions = '';
+        $scope.adData.targetClicks = '';
+        $scope.adData.targetActions = '';
+        $scope.adData.autoCompute = true;
+        $scope.adData.fetchValue = false;
+        $scope.adData.budgetType = 'Impressions';
         // Kpi Types in an array of objects, sorted alphabetically
         $scope.adData.primaryKpiList = vistoconfig.kpiList;
 
@@ -91,7 +97,24 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         };
 
         $scope.checkBudgetExceed = function () {
-            if (($scope.adData.budgetType).toUpperCase() === 'COST' &&
+            var totalBudget = Number($scope.adData.totalAdBudget);
+            var availableBudget = Number($scope.workflowData.adGroupData.deliveryBudget - $scope.workflowData.adGroupData.bookedSpend) + Number($scope.adData.existingAdBudget);
+            var mediaCost = Number($scope.adData.budgetAmount);
+            //validate adgroup budget with ad budget
+            if (totalBudget >= 0 && (totalBudget>availableBudget)) {
+                $scope.adData.adBudgetExceedUnallocated = true;
+            } else {
+                $scope.adData.adBudgetExceedUnallocated = false;
+            }
+
+            //validate ad budget with booking cost
+            if (($scope.adData.budgetType).toLowerCase() === 'cost' && totalBudget >=0 && mediaCost >=0 && (totalBudget<mediaCost)) {
+                $scope.adData.budgetExceeded = true;
+            } else {
+                $scope.adData.budgetExceeded = false;
+            }
+
+            /*if (($scope.adData.budgetType).toUpperCase() === 'COST' &&
                 ($scope.adData.totalAdBudget >= 0 && $scope.adData.budgetAmount >= 0)) {
                 if (Number($scope.adData.totalAdBudget) < Number($scope.adData.budgetAmount)) {
                     $scope.adData.budgetExceeded = true;
@@ -100,6 +123,15 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 }
             } else {
                 $scope.adData.budgetExceeded = false;
+            }*/
+        };
+
+        $scope.checkImpsValue = function() {
+            if(!$scope.adData.targetImpressions) {
+                $scope.budgetErrorObj.targetImpressionValidator = true;
+            }
+            else {
+                $scope.budgetErrorObj.targetImpressionValidator = false;
             }
         };
 
@@ -233,82 +265,191 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         };
 
-        $scope.resetBudgetField = function () {
+        $scope.resetBudgetField = function (budgetType) {
             $scope.adData.budgetAmount = '';
+            $scope.adData.budgetExceeded = false;
+            $scope.adData.budgetType = budgetType;
+            $scope.adData.fetchValue = false;
             $scope.budgetErrorObj.mediaCostValidator = '';
             $scope.budgetErrorObj.availableRevenueValidator = '';
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
+        };
+
+        $scope.fetch_existing_target_value = function (event) {
+            var elem = $(event.target);
+            if (elem.is(':checked')) {
+                $scope.adData.fetchValue = true;
+                elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
+                    $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
+                } else {
+                    $scope.adData.budgetAmount =  $scope.adData.totalAdBudget;
+                }
+            } else {
+                $scope.adData.fetchValue = false;
+                elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                $scope.adData.budgetAmount = '';
+            }
         };
 
         $scope.enable_budget_input = function (event) {
             var elem = $(event.target);
 
             if (elem.is(':checked')) {
-                $('.totalBudgetInputClass').attr('disabled', true).addClass('disabled-field');
-                $scope.calculateTotalAdBudget();
+                $('#autoComputeDiv').prev().find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                $scope.computeTargetValue();
             } else {
-                $('.totalBudgetInputClass').attr('disabled', false).removeClass('disabled-field');
+                $('#autoComputeDiv').prev().find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
             }
         };
 
-        $scope.select_kpi = function (event, type) {
-            var elem = $(event.target),
-                impressionsHolder = $('.impressions_holder'),
-                percentageSymbolArr = ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'];
+            $scope.computeTargetValue = function() {
+                var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
+                if($scope.adData.autoCompute){
+                    switch (type) {
+                        case 'CPM' : {
+                                        if($scope.adData.totalAdBudget && $scope.adData.targetValue) {
+                                            $scope.adData.targetImpressions = Math.round(Number(($scope.adData.totalAdBudget *1000) / $scope.adData.targetValue));
+                                            $scope.checkImpsValue();
+                                        }
+                                        break;
+                        }
 
-            $scope.adData.primaryKpi = type;
-            $scope.adData.targetValue = '';
-            $scope.adData.totalAdBudget = '';
+                        case 'CPC' : {
+                                        if($scope.adData.totalAdBudget && $scope.adData.targetValue) {
+                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.totalAdBudget / $scope.adData.targetValue));
+                                        }
+                                        break;
+                        }
 
-            elem.closest('.symbolAbs').find('.KPI_symbol').show();
-            elem.closest('.symbolAbs').find('.VTC_per').hide();
-            elem.closest('.symbolAbs').find('.target_val_input').removeClass('target_val_input_vtc');
-            elem.closest('.symbolAbs').find('.KPI_symbol').removeClass('perSymbol');
+                        case 'CPA':
+                        case 'POST CLICK CPA' : {
+                                                    if($scope.adData.totalAdBudget && $scope.adData.targetValue) {
+                                                        $scope.adData.targetActions = Math.round(Number(($scope.adData.totalAdBudget / $scope.adData.targetValue)));
+                                                    }
+                                                    break;
+                        }
 
-            if (type !== 'IMPRESSIONS') {
+                        case 'CTR': {
+                                        if($scope.adData.targetImpressions && $scope.adData.targetValue){
+                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions / $scope.adData.targetValue));
+                                        }
+                                        break;
+                        }
+                    }
+                }
 
-                $('#targetUnitCost_squaredFour').prop('checked', false);
+                if($scope.adData.fetchValue){
+                    if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
+                        $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
+                    } else {
+                        $scope.adData.budgetAmount =  $scope.adData.totalAdBudget;
+                    }
+                }
 
-                impressionsHolder
-                    .find('input[type="checkbox"]')
-                    .attr('disabled', true);
+                if(type.toUpperCase() === 'IMPRESSIONS') {
+                    $scope.adData.targetImpressions = $scope.adData.targetValue;
+                }
+            };
+
+            $scope.isKpiFieldOptional = function(fieldName) {
+                var res = true;
+                var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
+                var kpiOptionalFieldMap = {
+                    'actions':['CPA', 'POST CLICK CPA'],
+                    'clicks':['CPC', 'CTR']
+                };
+
+                for (var i in kpiOptionalFieldMap) {
+                    if (($.inArray(type, kpiOptionalFieldMap[i]) !== -1) && (i===fieldName)) {
+                        res = false;
+                        break;
+                    }
+                }
+                return res;
+            };
+
+
+
+            $scope.select_kpi = function (event, type) {
+                var elem = $(event.target),
+                    kpiTypeSymbolMap = {
+                        '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
+                        '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
+                    },
+                    autoComputeKpiTypeMap = {
+                        '.targetActions':['CPA', 'POST CLICK CPA'],
+                        '.targetImpressions':['CPM'],
+                        '.targetClicks':['CPC', 'CTR']
+                    };
+
+                $scope.adData.primaryKpi = type;
+                $scope.adData.targetValue = '';
+                $scope.adData.targetImpressions = '';
+                $scope.adData.targetActions = '';
+                $scope.adData.targetClicks = '';
+                //$scope.adData.totalAdBudget = '';
+
+                var symbol = '';
+
+                for (var j in kpiTypeSymbolMap) {
+                    if ($.inArray(type, kpiTypeSymbolMap[j]) !== -1) {
+                        symbol = j;
+                        break;
+                    }
+                }
+
+                if (symbol === '') {
+                    symbol = constants.currencySymbol;
+                }
 
                 elem.closest('.symbolAbs')
+                    .find('#primaryKpiDiv')
                     .find('.KPI_symbol')
-                    .html('$');
+                    .html(symbol);
 
-                $('.budget_holder_input')
-                    .find('input[type="text"]')
-                    .attr('disabled', false)
-                    .removeClass('disabled-field');
-
-                impressionsHolder
-                    .find('.external_chkbox')
-                    .addClass('disabled');
-
-                $('.external_chkbox').hide();
-
-                if($.inArray(type, percentageSymbolArr) !== -1){
-                    elem.closest('.symbolAbs')
-                        .find('.KPI_symbol')
-                        .addClass('perSymbol')
-                        .html('%');
-                }else if(type === 'VIEWABLE IMPRESSIONS'){
-                    elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
-                }
-            } else {
-                elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
-
-                if (($scope.adData.unitType.name).toUpperCase() === 'CPM') {
-                    $('.external_chkbox').show();
-                    impressionsHolder.find('input[type="checkbox"]').attr('disabled', false);
-                    $('#targetUnitCost_squaredFour').prop('checked', true);
-                    $('.budget_holder_input').find('input[type="text"]').attr('disabled', true);
-                    impressionsHolder.find('.external_chkbox').removeClass('disabled');
+                var flag = false;
+                $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                for (var i in autoComputeKpiTypeMap) {
+                    if ($.inArray(type, autoComputeKpiTypeMap[i]) !== -1) {
+                        var autoCompute = $('#autoComputeDiv');
+                        autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                        autoCompute.detach();
+                        var kpiFieldsDiv = $('#kpiFieldsDiv').find(i);
+                        if(autoCompute.find('input[type="checkbox"]').is(':checked')){
+                            kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                        }
+                        kpiFieldsDiv.after(autoCompute);
+                        autoCompute.show();
+                        flag = true;
+                        break;
+                    }
                 }
 
-            }
-        };
+                if (!flag) {
+                    var autoComputeOld = $('#autoComputeDiv');
+                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    autoComputeOld.hide();
+                    if (type.toLowerCase() === 'impressions') {
+                        $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    }
+                }
+
+            };
+
+            $scope.enableChkBox = function(event) {
+                var elem = $(event.target);
+                if (elem.is(':checked')) {
+                    $scope.adData.autoCompute = true;
+                    $scope.enableFreqCap = true;
+                    $scope.adData.setCap = true;
+                } else {
+                    $scope.adData.autoCompute = false;
+                    $scope.enableFreqCap = false;
+                    $scope.adData.setCap = false;
+                }
+
+            };
 
         $scope.select_unitType = function (event, type) {
             var impressionsHolder = $('.impressions_holder');
@@ -339,66 +480,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         };
 
-        $scope.$parent.initiateDatePicker = function () {
-            var endDateElem = $('#endDateInput'),
-                startDateElem = $('#startDateInput'),
-                campaignData = $scope.workflowData.campaignData,
-                campaignStartTime = momentService.utcToLocalTime(campaignData.startTime),
-                campaignEndTime = momentService.utcToLocalTime(campaignData.endTime),
-                adGroupStartDate,
-                adGroupEndDate,
-                currentDate = moment().format(constants.DATE_US_FORMAT);
-
-            if (moment().isAfter(campaignStartTime, 'day')) {
-                campaignStartTime = moment().format(constants.DATE_US_FORMAT);
-            }
-
-            $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
-
-            // If we are handling an ad of an Adgroup
-            if (location.href.indexOf('adGroup') > -1) {
-                if ($scope.mode === 'edit') {
-                    if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
-                        adGroupStartDate = currentDate;
-                    } else {
-                        adGroupStartDate = $scope.workflowData.adGroupData.startDate;
-                    }
-
-                    adGroupEndDate = $scope.workflowData.adGroupData.endDate;
-                    startDateElem.datepicker('setStartDate', adGroupStartDate);
-                    startDateElem.datepicker('setEndDate', adGroupEndDate);
-                    $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
-                } else {
-                    // When creating a new Adgroup ad, if Adgroup start date is:
-                    // 1) before currrent date (in the past), default start & end dates will be current date
-                    // 2) else (in the future)m default current date will be Adgroup start date.
-                    adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
-                    adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
-
-                    if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
-                        startDateElem.datepicker('setStartDate', currentDate);
-                        startDateElem.datepicker('update', currentDate);
-                    } else {
-                        startDateElem.datepicker('setStartDate', adGroupStartDate);
-                        startDateElem.datepicker('update', adGroupStartDate);
-                    }
-
-                    startDateElem.datepicker('setEndDate', adGroupEndDate);
-                }
-            } else {
-                // Normal ad (non-Adgroup)
-                startDateElem.datepicker('setStartDate', campaignStartTime);
-                endDateElem.datepicker('setEndDate', campaignEndTime);
-
-                if ($scope.mode === 'edit') {
-                    $scope.setDateInEditMode(campaignStartTime, campaignEndTime);
-                } else {
-                    startDateElem.datepicker('setEndDate', campaignEndTime);
-                    startDateElem.datepicker('update', campaignStartTime);
-                }
-            }
-        };
-
         $scope.$parent.budgetErrorObj = {};
 
         $scope.$watch('adData.budgetType', function (newValue, oldValue) {
@@ -408,9 +489,11 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         });
 
+
         $scope.selectVerificationSetting = function(setting) {
             $scope.adData.selectedSetting.name = setting.name;
             $scope.adData.selectedSetting.id = setting.id;
-        }
+        };
+
     }]);
 });

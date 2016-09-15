@@ -452,7 +452,7 @@ define(['angularAMD'], function (angularAMD) {
                     platformCustomeJson.platformCustomInputActivationOrderList;
 
                 // if namespace is greater than 1.
-                if (_self.platformCustomInputNamespaceList.length > 2 ) {
+                if (platformCustomeJson && platformCustomeJson.uiTabLayout === 'TRUE' ) {
                     _self.customPlatformWithTab = true;
                     $('.eachBuyingSection').not('.staticMarkup').remove();
                 }

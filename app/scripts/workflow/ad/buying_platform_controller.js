@@ -289,7 +289,11 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                 });
 
                 if(!value) {
-                    customInpChildrenData = _.filter($scope.adData.customInpNameSpaceList, function(obj) { return obj.hasChildren; });
+                    customInpChildrenData = _.filter($scope.adData.customInpNameSpaceList, function(obj) {
+                        return !((obj.displayName === 'Deal' || obj.displayName === 'Direct')  &&
+                            $scope.adData.budgetType.toLowerCase() === 'cost') &&
+                            obj.hasChildren;
+                    });
                     if(customInpChildrenData && customInpChildrenData.length > 0) {
                         value = customInpChildrenData[0].name;
                     }
@@ -336,6 +340,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             $scope.adData.customInpNameSpaceList = [];
             $scope.adData.customPlatformLoader = true;
             _buyingPlatform.showCustomFieldBox();
+            $('.eachBuyingSection.staticMarkup').hide();
 
             workflowService
                 .getPlatformCustomInputs(clientId, $scope.adData.platformId)
@@ -353,7 +358,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         if (result.data.data.customInputJson !== '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
 
-                            if (platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length > 2) {
+                            if (platformCustomeJson && platformCustomeJson.uiTabLayout === 'TRUE') {
                                 $scope.adData.customInpNameSpaceList = _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
 
                                 _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
@@ -373,14 +378,6 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 tabName = getplatformCustomNameSpace($scope.$parent.postPlatformDataObj);
                                 platformCustomeModule.init(platformCustomeJson, platformWrap, $scope.$parent.postPlatformDataObj);
 
-                                if (tabName) {
-                                    $timeout(function () {
-                                        if($('#' + tabName).attr('disabled') !== 'disabled') { //Abhimanyu TODO
-                                            $('#' + tabName).trigger('click');
-                                        }
-                                    }, 500);
-                                }
-
                             } else {
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     // maintain state of building platform strategy when user selects it
@@ -391,6 +388,15 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                     $scope.$parent.postPlatformDataObj.length === 0) {
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
                                 }
+                                tabName = getplatformCustomNameSpace($scope.adData.customInpNameSpaceList);
+                            }
+
+                            if (tabName) {
+                                $timeout(function () {
+                                    if($('#' + tabName).attr('disabled') !== 'disabled') { //Abhimanyu TODO
+                                        $('#' + tabName).trigger('click');
+                                    }
+                                }, 500);
                             }
                         }
                     }

@@ -213,7 +213,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         };
 
         $scope.creativeSearchFunc = function (e) {
-            if (e && e.keyCode === 13) {
+            if (!e || e.keyCode === 13) {
                 isSearch = true;
                 creativeParams.query = $scope.creativeSearch;
                 $scope.creativeData.creatives = [];

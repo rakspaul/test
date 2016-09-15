@@ -154,7 +154,7 @@
             </div>
             <div class="each_metric_graph_details metric_graph_details_action"
                  data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                <span class="detail_val"
+                <span class="detail_val" tooltip="{{(campaigns.cdbDataMap[campaign.orderId].action_rate | actionRateToolTip )}}"
                       data-ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number : 3) + '%'">
                 </span>
                 <span data-ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>

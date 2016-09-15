@@ -308,8 +308,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     break;
 
                 case 'brand':
-                    $scope.brandName = data.name;
-                    $scope.creative.brandId = data.id;
+                    $scope.brandName = data.brandName;
+                    $scope.creative.brandId = data.brandId;
                     $scope.selectedAdServer = {};
 
                     //update vendorConfig

@@ -369,6 +369,10 @@ select {
 }
 
 // Switch Toggle
+.dynamicChkBox {
+    width: 65px;    
+}
+
 .cmn-toggle {
     position: absolute;
     margin-left: -9999px;
@@ -386,7 +390,7 @@ select {
 
 input.cmn-toggle-round + label {
     padding: 2px;
-    width: 72px;
+    width: 65px;
     height: 36px;
     background-color: @stroke-gray-borders;
     border-radius: 2px;
@@ -410,7 +414,7 @@ input.cmn-toggle-round + label {
 
     &:after {
         width: 20px;
-        background-color: @active-gray;
+        background-color: #fff;
         border-radius: 2px;
         //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         transition: margin 0.4s;
@@ -419,16 +423,22 @@ input.cmn-toggle-round + label {
     }
 }
 
+input.cmn-toggle-round + label:before{
+    content: "Off";
+    padding: 8px 0 0 32px;
+    background-color: @active-gray; 
+    color: @label-gray;
+}
+
 input.cmn-toggle-round:checked + label:before {
-    background-color: @visto-blue;
-    background-image: url(/images/workflow/checkMark.svg);
-    background-repeat: no-repeat;
-    background-position-x: 15px;
-    background-position-y: 11px;
+    background-color: @congress-blue; 
+    color: #FFFFFF;
+    content: "On";
+    padding: 8px 0 0 12px;
 }
 
 input.cmn-toggle-round:checked + label:after {
-    margin-left: 49px;
+    margin-left: 42px;
 }
 
 // Button With Check Boxes

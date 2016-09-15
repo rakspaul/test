@@ -20,7 +20,6 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                     var deferred = $q.defer();
 
                     accountId = Number(accountId);
-
                     if (previousAccountId !== accountId) {
                         this.reset();
                     }
@@ -32,6 +31,7 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
 
                         return deferred.promise;
                     }
+
 
                     workflowService.getAdvertisers(accountId, 'read').then(function (result) {
                         if (result && result.data.data.length > 0) {
@@ -97,10 +97,16 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                     advertiserData.selectedAdvertiser = {id: -1, name: constants.ALL_ADVERTISERS};
                 },
 
-                changeAdvertiser: function(accountId, subAccountId, advertiser) {
-                    var url = '/a/' + accountId,
+                changeAdvertiser: function(advertiser) {
+
+                    var url = '/a/' + $routeParams.accountId,
                         reportUrlWithCampaignOnly,
-                        that = this;
+                        that = this,
+                        subAccountId;
+
+                    if($routeParams.subAccountId) {
+                        subAccountId = advertiser.clientId;
+                    }
 
                     subAccountId && (url += '/sa/' + subAccountId);
                     var cannedReportName = _.last($location.path().split('/'));
@@ -116,7 +122,7 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                         if($route.current.params.campaignId){
 
                             //check which is the apropriate client id master or subaccount.
-                            var accountIdToFetchCamp = accountId;
+                            var accountIdToFetchCamp = $routeParams.accountId;
                             if(subAccountId) {
                                 accountIdToFetchCamp = subAccountId;
                             }

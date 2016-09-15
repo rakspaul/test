@@ -61,7 +61,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                         .getBrands(clientId, advertiserId, 'write')
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
-                                $scope.workflowData.brands = _.sortBy(result.data.data, 'name');
+                                $scope.workflowData.brands = _.sortBy(result.data.data, 'brandName');
                             } else {
                                 createCampaign.errorHandler(result);
                             }

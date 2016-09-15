@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('requestCanceller', ['$q', function ($q) {
+    angularAMD.factory('requestCanceller', ['$q','$timeout', function ($q) {
         var cancellersById = {},
 
             initCanceller = function (id) {
@@ -15,7 +15,7 @@ define(['angularAMD'], function (angularAMD) {
                 var canceller = cancellersById[id];
 
                 if (canceller !== undefined) {
-                    canceller.resolve('user cancelled');
+                        canceller.resolve('user cancelled');
                 }
             },
 

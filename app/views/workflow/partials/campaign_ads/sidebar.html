@@ -15,6 +15,13 @@
                data-ng-bind="textConstants.ADTYPESIDE">
             </a>
             <div class="col-md-12 zeroPadding">
+                <div class="statusLabel" data-ng-if="adData.startTime">
+                    <div class="col-md-12">
+                        <div class="statusIcon icon-calendar"></div>
+                        <span data-ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.FLIGHTPAR"></span>
+                    </div>
+                </div>
                 <div class="statusLabel disabled"
                      data-ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length === 0">
                     <div class="col-md-12">
@@ -52,13 +59,23 @@
                data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
             </a>
             <div>
+                <div class="statusLabel" data-ng-if="adData.totalAdBudget">
+                    <div class="col-md-12">
+                        <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span data-ng-bind="adData.totalAdBudget"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.ADBUDGET"></span>
+                    </div>
+                </div>
                 <div class="statusLabel" data-ng-if="adData.primaryKpi">
                     <div class="col-md-12">
+                        <span style="margin-right: 1px;" data-ng-bind="adData.primaryKpi.toLowerCase().search('impressions')!==-1? '#': locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span style="margin-right: 3px;" data-ng-bind="adData.targetValue"></span>
                         <span data-ng-bind="displayKpiInSideBar(adData.primaryKpi)"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
                     </div>
                 </div>
-                <div class="statusLabel disabled"
+
+                <!--<div class="statusLabel disabled"
                      data-ng-if="!adData.startTime &&
                                  !adData.unitCost &&
                                  !adData.unitType &&
@@ -71,13 +88,6 @@
                         <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
                     </div>
                 </div>
-                <div class="statusLabel" data-ng-if="adData.startTime">
-                    <div class="col-md-12">
-                        <div class="statusIcon icon-calendar"></div>
-                        <span data-ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
-                        <span class="greyTxt" data-ng-bind="textConstants.FLIGHTPAR"></span>
-                    </div>
-                </div>
                 <div class="statusLabel" data-ng-if="(adData.unitCost)">
                     <div class="col-md-12">
                         <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
@@ -86,13 +96,30 @@
                         </span>
                         <span class="greyTxt" data-ng-bind="textConstants.UNITCOSTPAR"></span>
                     </div>
-                </div>
+                </div>-->
                 <div class="statusLabel" data-ng-if="(adData.budgetType && adData.budgetAmount)">
                     <div class="col-md-12">
-                        <span style="margin-right: 1px;" data-ng-bind="adData.budgetType === 'Cost' ? '$' : '#'"></span>
-                        <span data-ng-bind="adData.budgetAmount | number"></span>
-                        <span>&nbsp;</span>
-                        <span class="greyTxt" data-ng-bind="(adData.budgetType)"></span>
+                        <span style="margin-right: 1px;" data-ng-bind="adData.budgetType.toLowerCase() === 'cost' ? '$' : '#'"></span>
+                        <span style="margin-right: 3px;" data-ng-bind="adData.budgetAmount | number"></span>
+                        <span data-ng-bind="(adData.budgetType)"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.BOOKEDIMPS"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" data-ng-if="adData.quantity">
+                    <div class="col-md-12">
+                        <span style="margin-right: 3px;" data-ng-bind="adData.quantity"></span>
+                        <span style="margin-right: 3px;" data-ng-bind="textConstants.FREQCAPSIDEBAR"></span>
+                        <span data-ng-bind="selectedFreq"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.SELECTEDFREQCAP"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" data-ng-if="adData.selectedSetting.name">
+                    <div class="col-md-12">
+                        <span title="{{displayVerificationInSideBar(adData.selectedSetting.name)}}">
+                            <span data-ng-bind="displayVerificationInSideBar(adData.selectedSetting.name)" style="max-width: 172px;
+                            text-align: left; overflow: hidden; white-space: nowrap; line-height: normal; text-overflow: ellipsis;"></span>
+                            <span class="greyTxt" data-ng-bind="textConstants.SELECTEDVERIFICATIONVENDOR"></span>
+                        </span>
                     </div>
                 </div>
             </div>

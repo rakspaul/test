@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', function () {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -388,7 +388,9 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand(args);
+                            $timeout(function() {
+                                fetchAdvertiserAndBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -409,7 +411,9 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand(args);
+                            $timeout(function() {
+                                fetchAdvertiserAndBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -431,6 +435,7 @@ define(['angularAMD'], function (angularAMD) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                            $rootScope.$broadcast('advertiser:set', advertiser);
                             if (args.$location.path().endsWith('/dashboard')) {
                                 $('#advertiserButton').hide();
                                 args.dashboardModel.setSelectedAdvertiser(advertiser);
@@ -459,10 +464,10 @@ define(['angularAMD'], function (angularAMD) {
                         var brand;
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
-                            //brand = args.vistoconfig ? args.vistoconfig.getSelectedBrandId() : {};
                             brand = args.brandsModel.getSelectedBrand();
-                            $('#brand_name_selected').text(brand.name);
-                            $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                            $('#brand_name_selected').text(brand.brandName);
+                            $('#brandsDropdown').attr('placeholder', brand.brandName).val('');
+                            $rootScope.$broadcast('brand:set', brand);
                         } else {
                             console.log('brand not allowed');
                             args.$location.url('/tmp');
@@ -650,8 +655,11 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser(args);
-                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            $timeout(function() {
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            }, 100);
+
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -672,8 +680,10 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser(args);
-                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            $timeout(function() {
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -1020,5 +1030,5 @@ define(['angularAMD'], function (angularAMD) {
             uploadReportsHeaderResolver: uploadReportsHeaderResolver,
             uploadReportsHeaderResolver2: uploadReportsHeaderResolver2
         };
-    });
+    }]);
 });

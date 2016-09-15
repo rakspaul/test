@@ -83,9 +83,9 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CTR',                        displayName: 'CTR'},
             {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
-            //{kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
+            {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            //{kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
+            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
             //{kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
             {kpiType: 'VTC',                        displayName: 'VTC'}
         ];

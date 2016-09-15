@@ -33,6 +33,8 @@ define(['angularAMD'],
                         classification = params.selectedCategory,
                         clientId =  vistoconfig.getSelectedAccountId(),
                         advertiserId=params.advertiserId,
+                        platformId=params.platformId,
+                        seatId=params.seatId,
                         url,
                         i,
                         j;
@@ -40,6 +42,8 @@ define(['angularAMD'],
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/'+advertiserId+
+                        '/vendors/'+platformId+
+                        '/seats/'+seatId+
                         '/segments?pageNo=' + pageNo +
                         '&pageSize=' + pageSize;
 

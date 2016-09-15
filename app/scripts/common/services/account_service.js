@@ -19,7 +19,7 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 workflowService.getClients().then(function (result) {
-                    if (result && result.data.data.length > 0) {
+                    if (result && result.data.data && result.data.data.length > 0) {
                         accountList = _.map(result.data.data, function (org) {
                             return {'id': org.id, 'name': org.name, 'isLeafNode': org.isLeafNode, 'timezone' : org.timezone};
                         });
@@ -83,15 +83,15 @@ define(['angularAMD'], function (angularAMD) {
 
                         // fetch all the subaccounts including the leaf accounts
                         subAccountService
-                            .fetchDashboardSubAccountList(account.id)
+                            .fetchSubAccountList(account.id)
                             .then(function () {
-                                var subAccountId = subAccountService.getDashboardSubAccountList()[0].id;
+                                var subAccountId = subAccountService.getSubAccounts()[0].id;
                                 url += '/sa/' + subAccountId;
                                 $location.url(page.buildPage(url));
 
                             });
                     } else if (page.isCustomReportsPage() || page.isCustomReportsListPage()) {
-                        // doesn't require the sub account id
+                        // doesn't require the sub account idF
                         $location.url(page.buildPage(url));
                     } else {
                         // fetch only the leaf subaccounts

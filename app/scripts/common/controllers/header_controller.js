@@ -122,12 +122,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
         };
 
         $scope.getDashboardUrl = function() {
-            var url = 'a/'+$routeParams.accountId;
-            if($routeParams.subAccountId) {
-                url+= '/sa/'+$routeParams.subAccountId;
-            }
-            url+='/dashboard';
-            $location.url(url);
+            $location.url(urlBuilder.buildBaseUrl() + '/dashboard');
         };
 
         $scope.showProfileMenu = function () {
@@ -156,7 +151,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             //On click of strategy dropdown we are not making a call, on page refresh strategy is becoming blank, so it shouldn't be reset here.
             //strategySelectModel.reset();
             if (page === 'dashboard') {
-                $location.url(urlBuilder.dashboardUrl());
+                $location.url(urlBuilder.buildBaseUrl() + '/dashboard');
             } else if (page === 'mediaplanList') {
                 urlBuilder.mediaPlansListUrl();
             } else if (page === 'reportsSubPage') {

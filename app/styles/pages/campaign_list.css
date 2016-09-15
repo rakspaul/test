@@ -3360,3 +3360,18 @@ input[type="submit"] {
 .campaignListContainer .campaignListHolder .common-load-more {
   margin: 150px auto 110px ;
 }
+.video_switch_mediaplans {
+  float: left;
+  position: relative;
+  width: 200px;
+  margin-left: 50px ;
+}
+.video_switch_mediaplans .view_mode_switch_container {
+  left: 0;
+  right: 0px;
+  margin: 10px ;
+  top: 0;
+}
+.video_switch_mediaplans .active {
+  color: #0078cc;
+}
