@@ -665,6 +665,43 @@ define(['angularAMD'],
                     }
                     return retVal;
                 };
+            })
+
+            .filter('actionRateToolTip',function($filter){
+                return function (value) {
+                   // value = 0.12345;
+                    var findForDigit = true,
+                        valueWorkedUpon,
+                        index = 0,
+                        finalValue, beforeDecimalCount,
+                        defaultFormat = 3;
+
+                    // Get the count of numbers before decimal point eg: 123.789 then beforeDecimalCount = 123
+                    beforeDecimalCount = String(value).split('.')[0].length;
+
+                    // Get the second part of the decimal value eg: 123.789 then valueWorkedUpon = 0.789
+                    valueWorkedUpon = Number('0.' + String(value).split('.')[1]);
+
+                    while (findForDigit) {
+                        valueWorkedUpon = valueWorkedUpon * 10;
+                        index++;
+
+                        if ((valueWorkedUpon >= 1) || (index >= 18)) {
+                            findForDigit = false;
+                            if (valueWorkedUpon > 0) {
+                                if (index > defaultFormat) {
+                                    finalValue = String(value).slice(0, beforeDecimalCount + index + 1);
+                                } else {
+                                    finalValue = $filter('number')(value, 3);
+                                }
+
+                            } else if (index >= 18) {
+                                finalValue = $filter('number')(value, 3);
+                            }
+                        }
+                    }
+                    return finalValue;
+                };
             });
     }
 );
