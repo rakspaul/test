@@ -96,6 +96,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                         selectedSource: $scope.selectedSource,
                         selectedCategory: $scope.selectedCategory,
                         seatId: $scope.adData.platformSeatId,
+                        platformId: $scope.adData.platformId,
                         advertiserId: vistoconfig.getSelectAdvertiserId()
                     };
 
