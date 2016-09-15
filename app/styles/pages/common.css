@@ -2570,3 +2570,7 @@ tags-input .autocomplete {
 .datepicker-dropdown {
   z-index: 999999 !important ;
 }
+.targetValueInput {
+  text-indent: 9px;
+  width: 100%;
+}
