@@ -465,8 +465,8 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
                             brand = args.brandsModel.getSelectedBrand();
-                            $('#brand_name_selected').text(brand.name);
-                            $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                            $('#brand_name_selected').text(brand.brandName);
+                            $('#brandsDropdown').attr('placeholder', brand.brandName).val('');
                             $rootScope.$broadcast('brand:set', brand);
                         } else {
                             console.log('brand not allowed');
