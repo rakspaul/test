@@ -20,16 +20,16 @@
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" data-toggle="dropdown">
-                    <li class="available" data-ng-click="setSelectedClientType('MARKETER')">
+                    <li class="available" data-ng-hide="isCreateTopClient"  data-ng-click="setSelectedClientType('MARKETER')">
                         <a>MARKETER</a>
                     </li>
-                    <li class="available" data-ng-click="setSelectedClientType('AGENCY')">
+                    <li class="available" data-ng-hide="isCreateTopClient" data-ng-click="setSelectedClientType('AGENCY')">
                         <a>AGENCY</a>
                     </li>
-                    <li class="available" data-ng-click="setSelectedClientType('RESELLER')">
+                    <li class="available" data-ng-hide="isCreateTopClient" data-ng-click="setSelectedClientType('RESELLER')">
                         <a>RESELLER</a>
                     </li>
-                    <li class="available" data-ng-click="setSelectedClientType('ORGANIZATION')">
+                    <li class="available" data-ng-show="isCreateTopClient" data-ng-click="setSelectedClientType('ORGANIZATION')">
                         <a>ORGANIZATION</a>
                     </li>
                 </ul>

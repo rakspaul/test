@@ -88,12 +88,6 @@ define(['angularAMD', 'admin-account-service'],
                 return ret;
             };
 
-            function createBillableBody() {
-                return {
-                    name: $scope.clientNameData.clientName
-                };
-            }
-
             function constructRequestBody(obj) {
                 var respBody = {
                     name: $scope.clientNameData.clientName
@@ -102,7 +96,7 @@ define(['angularAMD', 'admin-account-service'],
                 if ($scope.mode === 'edit') {
                     respBody.id = obj.id;
                     respBody.updatedAt = obj.updatedAt;
-                    respBody.billableAccountId = obj.billableAccountId;
+                    respBody.isBillable = obj.isBillable;
                     respBody.clientType = $scope.clientType;
                     respBody.referenceId = obj.referenceId;
                     respBody.timezone = $scope.timezone;
@@ -117,13 +111,12 @@ define(['angularAMD', 'admin-account-service'],
                         $scope.clientNameData.customClientCode :
                         $scope.setSelectedClientCode;
                 } else {
-                    respBody.billableAccountId = $scope.billableAccountId;
+                    respBody.isBillable = $scope.isBillable;
                     respBody.clientType = $scope.clientType;
                     respBody.currency = Number($scope.selectedCurrencyId);
                     respBody.countryId=Number($scope.selectedCountryId);
                     respBody.referenceId = $scope.referenceId;
                     respBody.timezone = $scope.timezone;
-                    respBody.billableAccountId = $scope.billableAccountId;
 
                     respBody.code = $scope.setSelectedClientCode === 'Others' ?
                         $scope.clientNameData.customClientCode :
@@ -504,20 +497,14 @@ define(['angularAMD', 'admin-account-service'],
 
             $scope.deleteItemizationItem = function(itemizationArray,index){
                itemizationArray = itemizationArray.splice(index,1);
-            }
-
-           
+            };
 
             $scope.getClientBillingData = function(clientId){
                    adminAccountsService
                     .getClientBillingData(clientId)
                     .then(function (res) {
-                        
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                            rateTypes = res.data.data;
-
-                            $scope.rateTypes =  rateTypes;
-                          
+                            $scope.rateTypes =  res.data.data;
                            }
                         }
                     , function (err) {
@@ -527,12 +514,10 @@ define(['angularAMD', 'admin-account-service'],
 
 
             getBillingTypes();
-           
-            
+
             initBillingForm();
             
-
-            if($scope.clientObj && $scope.clientObj.id > 0){     
+            if($scope.clientObj && $scope.clientObj.id > 0){
                 getClientBillingSettings($scope.clientObj.id);
                 getAdvertiserBillingSettings($scope.clientObj.id);
             }
@@ -669,7 +654,6 @@ define(['angularAMD', 'admin-account-service'],
                 if ($scope.mode === 'edit') {
                     clientObj =  adminAccountsService.getToBeEditedClient();
                     body = constructRequestBody(clientObj);
-
                     adminAccountsService
                         .updateClient(body, body.id)
                         .then(function (result) {
@@ -702,50 +686,22 @@ define(['angularAMD', 'admin-account-service'],
                             console.log('Error = ', err);
                         });
                 } else {
-                      
                     if ($scope.isCreateTopClient) {
-                        adminAccountsService
-                            .createBillableAccount(createBillableBody())
-                            .then(function (result) {                                
-                                if (result.status === 'OK' || result.status === 'success') {
-                                    $scope.billableAccountId = result.data.data.id;
-                                    body = constructRequestBody();
-                                     createClient(body).then(function(result){                                        
-                                        if(result.status === 'OK' || result.status === 'success')
-                                            saveBillingData(result.data.data.id).then(function(result){          
-                                               if(result.status !== 'OK' && result.status !== 'success') 
-                                                  $rootScope.setErrAlertMessage(result.message);
-                                        });
-                                    });
-                                }else{
-                                    $rootScope.setErrAlertMessage(result.message);
-                                }
-                            }, function (err) {
-                                console.log('Error = ', err);
-                            });
+                        $scope.isBillable = true;
+                        body = constructRequestBody();
                     } else {
-                        adminAccountsService
-                            .getClient($scope.clientObj)
-                            .then(function (res) {
-                                if (res.status === 'OK' || res.status === 'success') {
-                                    body = constructRequestBody();
-                                    body.billableAccountId = res.data.data.billableAccountId;
-                                    body.parentId = $scope.clientObj;
-                                    createClient(body).then(function(result){                                        
-                                        if(result.status === 'OK' || result.status === 'success')
-                                            saveBillingData(result.data.data.id).then(function(result){          
-                                               if(result.status !== 'OK' && result.status !== 'success') 
-                                                  $rootScope.setErrAlertMessage(result.message);
-                                        });
-                                    });
-                                } else {
-                                    $rootScope.setErrAlertMessage(res.message);
-                                }
-                            }, function (err) {
-                                console.log('Error = ', err);
-                            });
+                        $scope.isBillable = false;
+                        body = constructRequestBody();
+                        body.parentId = $scope.clientObj;
                     }
 
+                    createClient(body).then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success')
+                            saveBillingData(result.data.data.id).then(function (result) {
+                                if (result.status !== 'OK' && result.status !== 'success')
+                                    $rootScope.setErrAlertMessage(result.message);
+                            });
+                    });
 
                 }
             };
