@@ -336,6 +336,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                                         }
                                         break;
                         }
+                       
                     }
                 }
 
@@ -347,8 +348,11 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
 
-                if(type.toUpperCase() === 'IMPRESSIONS') {
-                    $scope.adData.targetImpressions = $scope.adData.targetValue;
+                if(type.toUpperCase() === 'IMPRESSIONS' || type.toUpperCase() === 'VIEWABLE IMPRESSIONS') {
+                    $scope.adData.targetValue = Math.round($scope.adData.targetValue);
+                    if(type.toUpperCase() === 'IMPRESSIONS') {
+                        $scope.adData.targetImpressions = $scope.adData.targetValue;
+                    }
                 }
             };
 
