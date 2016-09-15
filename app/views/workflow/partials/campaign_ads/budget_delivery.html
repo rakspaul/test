@@ -19,11 +19,11 @@
 
         <div class="col-md-10 zeroPadding">
             <span class="pull-left clearLeft">{{workflowData.adGroupData.name}}</span>
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.deliveryBudget}}</span>
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.deliveryBudget | number : 2}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend | number : 2}}</span>
             <!-- UNCOMMENT THIS LINE AND SET CORRECT VALUE WHEN WE GET SPENT FROM REPORTING
             <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{workflowData.adGroupData.bookedSpend}}</span>-->
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend)}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend) | number : 2}}</span>
         </div>
     </div>
 
