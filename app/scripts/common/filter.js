@@ -688,19 +688,25 @@ define(['angularAMD'],
 
                         if ((valueWorkedUpon >= 1) || (index >= 18)) {
                             findForDigit = false;
+
                             if (valueWorkedUpon > 0) {
+
+                                //if digit found after 3 decimal place eg 0.000045 then finalValue will be 0.00004
                                 if (index > defaultFormat) {
+                                    // + 1 is the decimal count
                                     finalValue = String(value).slice(0, beforeDecimalCount + index + 1);
+
                                 } else {
+                                  //If digit found befoe or at 3 decimal place eg: 0.0123789 then final value will be 0.012
                                     finalValue = $filter('number')(value, 3);
                                 }
-
+                            //Have kept a limit 18 so that we check for a number after decimal till 18th position, after 18th position it breaks the loop
                             } else if (index >= 18) {
                                 finalValue = $filter('number')(value, 3);
                             }
                         }
                     }
-                    return finalValue;
+                    return finalValue+'%';
                 };
             });
     }

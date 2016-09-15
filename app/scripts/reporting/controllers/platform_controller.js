@@ -156,8 +156,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                             errorHandlerForPerformanceTab();
                         } else {
                             marginPercentage = function (item) {
-                                if (item.gross_rev && item.gross_rev !== 0) {
-                                    item.margin = item.margin * 100 / item.gross_rev;
+                                if (item.spend && item.spend !== 0) {
+                                    item.margin = item.margin * 100 / item.spend;
                                 }
                             };
 
