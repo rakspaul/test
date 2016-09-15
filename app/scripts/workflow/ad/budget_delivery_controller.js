@@ -336,6 +336,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                                         }
                                         break;
                         }
+                       
                     }
                 }
 
@@ -351,7 +352,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     $scope.adData.targetImpressions = $scope.adData.targetValue;
                 }
             };
-
+            
             $scope.isKpiFieldOptional = function(fieldName) {
                 var res = true;
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
