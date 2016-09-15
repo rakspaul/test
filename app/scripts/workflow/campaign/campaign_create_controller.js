@@ -450,11 +450,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 $scope.selectedCampaign.kpiValue = 100;
             }
         };
-        $scope.decimalValueChk = function() {
-            if ($scope.kpiName.toUpperCase() === 'IMPRESSIONS' || $scope.kpiName.toUpperCase() === 'VIEWABLE IMPRESSIONS' ) {
-                $scope.selectedCampaign.kpiValue = Math.round($scope.selectedCampaign.kpiValue);
-            }
-        };
+        
         $scope.calculateEffective = function () {
             var ind;
 
@@ -935,6 +931,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
         $scope.setKPIName = function (kpi) {
             $scope.kpiName = kpi;
             $scope.selectedCampaign.kpiValue = '';
+            $('#selectKPIDropdown').removeClass('open');
         };
 
         // nav control

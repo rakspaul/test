@@ -348,14 +348,11 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
 
-                if(type.toUpperCase() === 'IMPRESSIONS' || type.toUpperCase() === 'VIEWABLE IMPRESSIONS') {
-                    $scope.adData.targetValue = Math.round($scope.adData.targetValue);
-                    if(type.toUpperCase() === 'IMPRESSIONS') {
-                        $scope.adData.targetImpressions = $scope.adData.targetValue;
-                    }
+                if(type.toUpperCase() === 'IMPRESSIONS') {
+                    $scope.adData.targetImpressions = $scope.adData.targetValue;
                 }
             };
-
+            
             $scope.isKpiFieldOptional = function(fieldName) {
                 var res = true;
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
