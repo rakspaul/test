@@ -590,9 +590,9 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
 
                     $scope.mode = mode;
                     $scope.client = client;
-                    $scope.brandName = brand.name;
+                    $scope.brandName = brand.brandName;
                     $scope.advertiser = advObj;
-                    $scope.clientId = client.id;
+                    $scope.clientId = client.brandId;
                     $scope.advertiserId = advObj.id;
                     $('html, body').animate({scrollTop: 0}, 30);
                     _currCtrl.fetchAllBrands(client.id);
@@ -673,8 +673,8 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 // create brand
                 $scope.selectBrand = function (brand) {
                     $scope.dropdownCss.display = 'none';
-                    $scope.brandName = brand.name;
-                    $scope.selectedBrandId = brand.id;
+                    $scope.brandName = brand.brandName;
+                    $scope.selectedBrandId = brand.brandId;
                     $('#brandNameInp').val($scope.brandName);
                 };
 

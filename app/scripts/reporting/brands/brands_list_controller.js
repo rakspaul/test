@@ -22,7 +22,7 @@ define(['angularAMD'], function (angularAMD) {
             $scope.isExcludedByBrandFilter = !isSubString && ($scope.brandData.showAll === false);
         }
 
-        $scope.$watch('selectedBrand.name', function (newName, oldName) {
+        $scope.$watch('selectedBrand.brandName', function (newName, oldName) {
             if (newName === oldName) {
                 return;
             }

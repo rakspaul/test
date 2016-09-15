@@ -85,13 +85,13 @@ define(['angularAMD'], function (angularAMD) {
                         subAccountService
                             .fetchSubAccountList(account.id)
                             .then(function () {
-                                var subAccountId = subAccountService.getSubAccountList()[0].id;
+                                var subAccountId = subAccountService.getSubAccounts()[0].id;
                                 url += '/sa/' + subAccountId;
                                 $location.url(page.buildPage(url));
 
                             });
                     } else if (page.isCustomReportsPage() || page.isCustomReportsListPage()) {
-                        // doesn't require the sub account id
+                        // doesn't require the sub account idF
                         $location.url(page.buildPage(url));
                     } else {
                         // fetch only the leaf subaccounts
