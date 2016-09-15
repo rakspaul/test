@@ -699,6 +699,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AUDIENCE = 'Audience';
         this.INVENTORYSIDE = '5. Inventory Filters';
         this.CREATIVESIDE = '6. Creative';
+        this.SELECTEDFREQCAP = '(Freq. Cap)';
+        this.SELECTEDVERIFICATIONVENDOR = '(Verification)';
+
 
         //Ad Create: 1 Ad Type
         this.SELECTADTYPE = 'About this Ad';

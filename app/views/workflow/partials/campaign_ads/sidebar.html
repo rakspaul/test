@@ -116,6 +116,16 @@
                         <span style="margin-right: 3px;" data-ng-bind="adData.quantity"></span>
                         <span style="margin-right: 3px;" data-ng-bind="textConstants.FREQCAPSIDEBAR"></span>
                         <span data-ng-bind="selectedFreq"></span>
+                        <span class="greyTxt" data-ng-bind="textConstants.SELECTEDFREQCAP"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" data-ng-if="adData.selectedSetting.name">
+                    <div class="col-md-12">
+                        <span title="{{displayVerificationInSideBar(adData.selectedSetting.name)}}">
+                            <span data-ng-bind="displayVerificationInSideBar(adData.selectedSetting.name)" style="max-width: 172px;
+                            text-align: left; overflow: hidden; white-space: nowrap; line-height: normal; text-overflow: ellipsis;"></span>
+                            <span class="greyTxt" data-ng-bind="textConstants.SELECTEDVERIFICATIONVENDOR"></span>
+                        </span>
                     </div>
                 </div>
             </div>
