@@ -263,9 +263,9 @@ define(['angularAMD'], function (angularAMD) {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             args
                                 .subAccountService
-                                .fetchSubAccountList(args.$route.current.params.accountId)
+                                .fetchDashboardSubAccountList(args.$route.current.params.accountId)
                                 .then(function () {
-                                    if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                    if (args.subAccountService.allowedDashboardSubAccount(args.$route.current.params.subAccountId)) {
                                         args
                                             .accountService
                                             .fetchAccountData(params.accountId)
@@ -528,12 +528,11 @@ define(['angularAMD'], function (angularAMD) {
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
-                                    .fetchMediaplanCreateSubAccountList(args.$route.current.params.accountId)
+                                    .fetchSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if(!args.subAccountService.allowedMediaplanCreateSubAccount(args.$route.current.params.subAccountId)) {
-                                            args.subAccountService.allowedMediaplanCreateSubAccount(args.subAccountService.getMediaplanCreateSubAccounts()[0].id);
+                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
+                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                         }
-                                        fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                     });
                             } else {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);

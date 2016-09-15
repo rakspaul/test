@@ -24,7 +24,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             var selectedBrand = vistoconfig.getSelectedBrandId();
 
             campaignSelectModel
-                .getCampaigns(selectedBrand.brandId)
+                .getCampaigns(selectedBrand.id)
                 .then(function (response) {
                     $scope.campaignList = response;
                 });

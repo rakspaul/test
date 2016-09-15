@@ -362,13 +362,15 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
         $scope.getPreviewUrl = function (creativeData, campaignId, adId) {
 
-            var previewUrl;
+            var previewUrl,
+                isLeafNode;
 
 
             previewUrl = '/a/' + $routeParams.accountId;
+            isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
-            if ($routeParams.subAccountId) {
-                previewUrl += '/sa/' + creativeData.client.id;
+            if (!isLeafNode) {
+                previewUrl += '/sa/' + $routeParams.subAccountId;
             }
 
             previewUrl +=  '/adv/' + creativeData.advertiserId;

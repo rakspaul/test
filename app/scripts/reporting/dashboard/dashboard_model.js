@@ -46,10 +46,8 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                 getData = function () {
                     dashboardData.brandSelected = vistoconfig.getSelectedBrandId() !== -1;
 
-                    if(dashboardData.brandSelected) {
-                        // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
-                        dashboardData.selectedBrand = brandsModel.getSelectedBrand().brandName;
-                    }
+                    // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
+                    dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
 
                     return dashboardData;
                 },
@@ -87,7 +85,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
             ];
 
             // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
-            dashboardData.selectedBrand = brandsModel.getSelectedBrand().brandName;
+            dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
             dashboardData.brandSelected = false;
             dashboardData.totalCampaigns = 0;
             dashboardData.totalBrands = 0;

@@ -16,6 +16,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GANTT_CHART_CANCELLER = 6;
         this.GANTT_CHART_BRAND_CANCELLER = 7;
         this.NEW_REPORT_RESULT_CANCELLER = 3;
+        this.CLIENT_BILLING_SLICE_LIMIT = 4;
+
         this.PERIOD_LIFE_TIME = 'life_time';
         this.SORT_DESC = 'desc';
         this.ACTIVE_UNDERPERFORMING = 'underperforming';//has to be this way as per database
@@ -31,7 +33,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.REPORTS_OVERVIEW = 'Reports Overview';
         this.ADMIN = 'Admin';
         this.INVOICE_TOOL = 'Billing';
-
+        
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
         this.ACTIVE = 'active';
@@ -817,6 +819,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DOWNLOAD = 'Download';
         this.CHOOSE_FILTER = 'Choose filter';
         this.SELECT = 'Select';
+        this.ACCOUNT_UPDATED_SUCCESSFULLY = 'Account updated successfully';
+        this.ACCOUNT_CREATED_SUCCESSFULLY = 'Account created successfully';
 
         //User Creation
         this.super_admin = '1';

@@ -20,14 +20,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/currencies');
             },
 
-            createBillableAccount =  function (data) {
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/billable_accounts',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
-
             createAgencies =  function (data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/agencies',
@@ -101,6 +93,76 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     {cache: false}
                 );
             },
+
+             getClientBillingTypes =  function () {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/client_billing_types',
+                    {cache: false}
+                );
+            },
+
+            getAdvertiserBillingTypes =  function () {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertiser_billing_types',
+                    {cache: false}
+                );
+            },
+
+
+            getClientBillingSettings =  function (clientId) {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/billing_settings',
+                    {cache: false}
+                );
+            },
+
+            updateClientBillingSettings = function(clientId,data){ 
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing_settings';
+
+                    return dataService.post(url, data,  {'Content-Type': 'application/json'});
+            },
+
+            getAdvertiserBillingSettings =  function (clientId) {
+                return dataService.fetch(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertiser_billing_settings',
+                    {cache: false}
+                );
+            },
+
+             updateAdvertiserBillingSettings = function(clientId,data){ 
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/advertiser_billing_settings';
+
+                    return dataService.post(url, data,  {'Content-Type': 'application/json'});
+            },
+
+             getClientBillingData = function(clientid){
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing';
+
+                    return dataService.fetch(url);
+            },
+
+            updateClientBillingData = function(data){
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing';
+
+                    return dataService.post(url, data, {'Content-Type': 'application/json'});
+            },
+
+            insertClientBillingData = function(data){
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing';
+
+                    return dataService.put(url, data);
+            },
+
 
             updateAdvertiser =  function (data) {
                 return dataService.put(
@@ -430,7 +492,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
 
         return {
             getAllCurrency : getAllCurrency,
-            createBillableAccount : createBillableAccount,
             createAgencies : createAgencies,
             getCountries : getCountries,
             getAllAdvertisers : getAllAdvertisers,
@@ -473,6 +534,12 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             getUserAdvertiser : getUserAdvertiser,
             getUserBrands : getUserBrands,
             getUserPages : getUserPages,
+            getClientBillingTypes : getClientBillingTypes,
+            getAdvertiserBillingTypes : getAdvertiserBillingTypes,
+            getClientBillingSettings : getClientBillingSettings,
+            getAdvertiserBillingSettings : getAdvertiserBillingSettings,
+            updateClientBillingSettings : updateClientBillingSettings,
+            updateAdvertiserBillingSettings : updateAdvertiserBillingSettings,
             initCounter : initCounter,
             setCounter : setCounter,
             getCounter : getCounter,
@@ -484,6 +551,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             setPermissions: setPermissions,
             getAdChoiceDataFromClient : getAdChoiceDataFromClient,
             getBillingTypes : getBillingTypes,
+            getClientBillingData: getClientBillingData,
             saveAdChoiceDataForClient : saveAdChoiceDataForClient,
             getIABCategoryList : getIABCategoryList,
             getIABSubCategoryList : getIABSubCategoryList,

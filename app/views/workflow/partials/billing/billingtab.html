@@ -1,0 +1,456 @@
+<!--Billing & Invoices-->
+<div class="col-md-12 zeroPadding">
+    <h2 class="pull-left">Billing Method</h2>
+    
+    <div class="col-md-12 zeroPadding" style="margin-bottom: 20px;">
+        <div class="radioBtnToggle">
+            <div class="btn-group miniToggle">
+                <label class="active btn btn-default noFeeBill" ng-click="noFeeBill();">
+                    <span >Non-billable Account</span>
+                    <input type="radio" autocomplete="off" checked hidden="hidden"
+                           name="billShow" value="noFeeBill" class="btn_rad">
+                </label>
+                <label class="btn btn-default seeFeeBill" ng-click="seeFeeBill();">
+                    <span>VISTO Licence & Usage Fees</span>
+                    <input type="radio" hidden="hidden" class="btn_rad"
+                           name="billShow" value="seeFeeBill">
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<div class="col-md-12 zeroPadding licenseFee" style="margin-bottom: 30px; display: none;">
+    <div class="col-md-12 zeroPadding ddlFeeType" style="margin-bottom: 24px;">
+        <label class="col-sm-12 greyTxt">Select Fee Type:</label>
+        <div class="dropdown-workflow col-md-4 zeroPadding">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true">
+                    <span class="text" data-ng-bind="billingTypeName"></span>
+                    <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available" data-ng-repeat="billingType in clientBillingTypesData" ng-click="feeSlotToggle(billingType);">
+                         <a data-ng-bind="billingType.name"></a>
+                   </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!--Monthly Flat Fee-->
+    <div class="billingMethods billingMethodSlot monthlyFlatSlot feeSlot{{clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID}}">
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left" style="margin: 10px 0;">Monthly Flat Fee</h1>
+            <span class="pull-left clearBoth">This fee is applied on a monthly basis.</span>
+        </div>
+        
+        <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+            <label class="col-sm-12 greyTxt">Fee</label>
+            <div class="symbol-input pull-left">
+                <span class="symbol">$</span>
+                <input type="text" class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].rate">
+            </div>
+        </div>
+        
+        <div class="form-group col-md-5 zeroMargin" style="padding: 0 15px 0 0;">
+            <label class="col-sm-12 greyTxt">Billing Start</label>
+            <!--Month-->
+            <div class="dropdown-workflow col-md-8" style="padding: 0 15px 0 0;">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].startMonth">January</span>
+                        <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown" >
+                        <li class="available" data-ng-repeat="month in months" data-ng-click="setStartMonth(month.month,month.index,clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID])" data-ng-bind="month.month"><a></a></li>  
+                    </ul>
+                </div>
+            </div>
+            
+            <!--Year-->
+            <div class="dropdown-workflow col-md-4 zeroPadding">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text" data-ng-bind="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].startYear">2016</span>
+                        <span class="icon-arrow-solid-down" style="margin-left: 192px"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                         <li class="available" data-ng-repeat="year in years" data-ng-click="setStartYear(year,clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID])"><a>{{year}}</a></li>  
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--Total CPM-->
+    <div class="billingMethods billingMethodSlot totalCPMSlot feeSlot{{clientBillingTypes.BILLING_TYPE_CPM_ID}}" style="display: none;">
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left" style="margin: 10px 0;">Total CPM</h1>
+            <span class="pull-left clearBoth">CPM rate, calculated from Visto Tracker's impression counts for all Media Plans
+            run for this account and all of its child accounts.</span>
+            
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol">$</span>
+                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPM fees</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
+            portions in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+  <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].itemize">
+            <div class="col-md-12 zeroPadding centerAlign">
+                <div class="table-responsive" id="table_responsive">
+                    <div class="vistoTable" id="visto_table">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="col-md-9 th">
+                                    <span>Label</span>
+                                </div>
+                                <div class="col-md-2 th">
+                                    <span>Portion</span>
+                                </div>
+                                <div class="col-md-1 th">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices" >
+                            <div class="tr" >
+                                <div class="td col-md-9">
+                                    <input type="text" class="form-control" ng-model="slice.label" />
+                                </div>
+                                <div class="td col-md-2">
+                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                </div>
+                                <div class="td col-md-1 text-center">
+                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices,$index)"></a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-12 zeroPadding">
+                <a class="pull-left">
+                    <a class="icon-plus pull-left"></a>
+                    <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices)">Add Item</a>
+                </a>
+            </div>
+        </div>        <!--Itemize Chart End-->
+        
+       
+    </div>
+    
+    <!--Total COGS + %-->
+    <div class="billingMethods billingMethodSlot totalCogsSlot feeSlot{{clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID}}" style="display: none;">
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left" style="margin: 10px 0;">Total COGS + %</h1>
+            <span class="pull-left clearBoth">Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, ad
+            serving costs), plus a percentage markup.</span>
+        
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total Markup</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text" class="form-control" ng-model="billingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="billingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize fees</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup will be broken down into the following portions
+            in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+      <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize">
+            <div class="col-md-12 zeroPadding centerAlign">
+                <div class="table-responsive" id="table_responsive">
+                    <div class="vistoTable" id="visto_table">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="col-md-9 th">
+                                    <span>Label</span>
+                                </div>
+                                <div class="col-md-2 th">
+                                    <span>Portion</span>
+                                </div>
+                                <div class="col-md-1 th">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices" >
+                            <div class="tr" >
+                                <div class="td col-md-9">
+                                    <input type="text" class="form-control" ng-model="slice.label" />
+                                </div>
+                                <div class="td col-md-2">
+                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                </div>
+                                <div class="td col-md-1 text-center">
+                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices,$index)"></a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices)">Add Item</a>
+            </a>
+           </div>
+        </div>
+        <!--Itemize Chart End-->
+        
+       
+    </div>
+    
+    <!--Total COGS + CPM-->
+    <div class="billingMethods billingMethodSlot totalCogsCpmSlot feeSlot{{clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID}}" style="display: none;">
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left" style="margin: 10px 0;">Total COGS + CPM</h1>
+            <span class="pull-left clearBoth">Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, ad
+            serving costs), plus a percentage markup</span>
+        
+            <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize fees</span>
+                </div>
+            </div>
+        </div>
+        
+        <!--Itemize Chart Start-->
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize">
+            <div class="col-md-12 zeroPadding centerAlign">
+                <div class="table-responsive" id="table_responsive">
+                    <div class="vistoTable" id="visto_table">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="col-md-9 th">
+                                    <span>Label</span>
+                                </div>
+                                <div class="col-md-2 th">
+                                    <span>Portion</span>
+                                </div>
+                                <div class="col-md-1 th">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices" >
+                            <div class="tr" >
+                                <div class="td col-md-9">
+                                    <input type="text" class="form-control" ng-model="slice.label" />
+                                </div>
+                                <div class="td col-md-2">
+                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                </div>
+                                <div class="td col-md-1 text-center">
+                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices,$index)"></a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices)">Add Item</a>
+            </a>
+            </div>
+        </div>
+        <!--Itemize Chart End-->
+        
+       
+    </div>
+    
+    <!--% of Gross Revenue-->
+    <div class="billingMethods billingMethodSlot grossRevenueSlot feeSlot{{clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID}}" style="display: none;">
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left" style="margin: 10px 0;">% of Gross Revenue</h1>
+            <span class="pull-left clearBoth">Visto will change a percentage of Gross Revenue (Sum of Billable Amounts for all Line Item
+            run under this Account and its Sub-Accounts).</span>
+        
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize fees</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup will be broken down into the following portions
+            in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].itemize">
+            <div class="col-md-12 zeroPadding centerAlign">
+                <div class="table-responsive" id="table_responsive">
+                    <div class="vistoTable" id="visto_table">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="col-md-9 th">
+                                    <span>Label</span>
+                                </div>
+                                <div class="col-md-2 th">
+                                    <span>Portion</span>
+                                </div>
+                                <div class="col-md-1 th">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].slices" >
+                            <div class="tr" >
+                                <div class="td col-md-9">
+                                    <input type="text" class="form-control" ng-model="slice.label" />
+                                </div>
+                                <div class="td col-md-2">
+                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                </div>
+                                <div class="td col-md-1 text-center">
+                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].slices,$index)"></a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].slices)">Add Item</a>
+            </a>
+            </div>
+        </div>
+        <!--Itemize Chart End-->
+        
+        
+    </div>
+
+    <!--% of Net Revenue-->
+<div class="billingMethods billingMethodSlot netRevenueSlot feeSlot{{clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID}}" style="display: none;">
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left" style="margin: 10px 0;">% of Net Revenue</h1>
+            <span class="pull-left clearBoth">Visto will charge a percentage of Net Revenue</span>
+            <span class="pull-left clearBoth" style="margin-top: 10px;">Net Revenue = (Sum of Line Items' Billable Amounts) - ("Retail" Media Cost + Verification + Ad
+            Serving + Data Segment Costs + Misc. Fixed Costs defined for Media Plan)</span>
+        
+            <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize fees</span>
+                </div>
+            </div>
+        </div>
+        
+        <!--Itemize Chart Start-->
+  <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].itemize">
+            <div class="col-md-12 zeroPadding centerAlign">
+                <div class="table-responsive" id="table_responsive">
+                    <div class="vistoTable" id="visto_table">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="col-md-9 th">
+                                    <span>Label</span>
+                                </div>
+                                <div class="col-md-2 th">
+                                    <span>Portion</span>
+                                </div>
+                                <div class="col-md-1 th">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices" >
+                            <div class="tr" >
+                                <div class="td col-md-9">
+                                    <input type="text" class="form-control" ng-model="slice.label" />
+                                </div>
+                                <div class="td col-md-2">
+                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                </div>
+                                <div class="td col-md-1 text-center">
+                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices,$index)"></a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 zeroPadding">
+            <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices)">Add Item</a>
+            </a>
+            </div>
+        </div>
+        <!--Itemize Chart End-->
+        
+        
+    </div>
+</div>

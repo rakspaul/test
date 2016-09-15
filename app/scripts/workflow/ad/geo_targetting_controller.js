@@ -841,13 +841,7 @@ define(['angularAMD', 'zip-code-service', 'common-utils', 'lrInfiniteScroll'], f
                     workflowService
                         .validateZipCodes(params)
                         .then(function (result) {
-                            $scope.zipCodeLoader = false;
-
-                            if(result.data.status === 0 || result.data.status === 413) {
-                                $rootScope.setErrAlertMessage(constants.LARGE_ZIP_CODE_LENGTH);
-                            } else {
-                                callback && callback(result.data.data);
-                            }
+                            callback && callback(result.data.data);
                             console.log('responseData = ', result.data.data);
                         }, function (error) {
                             console.log('error = ', error);
@@ -1829,6 +1823,7 @@ define(['angularAMD', 'zip-code-service', 'common-utils', 'lrInfiniteScroll'], f
             zipCodes = zipCodes.split(/[,]+/);
 
             geoTargeting.validateZipCodes(zipCodes, function (data) {
+                $scope.zipCodeLoader = false;
 
                 if (data && data.length > 0) {
                     $rootScope.setErrAlertMessage(data + ' zip code' + (data.length > 1 ? 's are' : ' is') +

@@ -1,0 +1,574 @@
+<!--Advertiser Defaults-->
+<div class="col-md-12 zeroPadding">
+    <h2 class="pull-left">Billing Method (Advertiser Defaults)</h2>
+    
+    <div class="col-md-12 zeroPadding" style="margin-bottom: 20px;">
+        <div class="radioBtnToggle">
+            <div class="btn-group miniToggle">
+                <label class="active btn btn-default arbitrageBill" ng-click="arbitrageBill();">
+                    <span>Arbitrage</span>
+                    <input type="radio" autocomplete="off" checked hidden="hidden"
+                           name="billShow" value="arbitrageBill" class="btn_rad">
+                </label>
+                <label class="btn btn-default cogsBill" ng-click="cogsBill();">
+                    <span>COGs</span>
+                    <input type="radio" hidden="hidden" class="btn_rad"
+                           name="billShow" value="cogsBill">
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Arbitrage View-->
+<div class="col-md-12 zeroPadding arbitrageBillView" style="margin-bottom: 30px;">
+    <!--Flat Fee-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].rate > 0" style="margin: 14px 5px 0 0;"/>
+            <h1 class="pull-left" style="margin: 10px 0;">Flat Fee</h1>
+            <span class="pull-left clearBoth">Charge a simple flat fee, unassociated the delivery or performance
+            of any specific ads or ad groups.</span>
+        </div>
+    </div>
+    
+    <!--CPM-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].rate > 0" />
+            <h1 class="pull-left" style="margin: 10px 0;">CPM</h1>
+            <span class="pull-left clearBoth">This rate will be entered by default in any CPM line items.</span>
+            
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol">$</span>
+                        <input type="text"class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPM fees</span>
+                </div>
+                
+                <div class="pull-left" style="margin: 43px 0 0 15px;">
+                    <input type="checkbox" class="pull-left" ng-model="checkboxItemize.value"/>
+                    <span class="pull-left" style="margin-left: 5px;">Allow rate changes in Line Item setup</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
+            portions in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value" />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 zeroPadding">
+                    <a class="pull-left">
+                        <a class="icon-plus pull-left"></a>
+                        <a class="pull-left" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].slices)" style="margin-left: 5px;">Add Item</a>
+                    </a>
+                </div>
+            </div>  
+
+
+        <!--Itemize Chart End-->
+        
+        
+    </div>
+    
+    <!--CPC-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate > 0"/>
+            <h1 class="pull-left" style="margin: 10px 0;">CPC</h1>
+            <span class="pull-left clearBoth">This rate will be entered by default in any CPC line items.</span>
+            
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol">$</span>
+                        <input type="text" class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate" /> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPC fees</span>
+                </div>
+                
+                <div class="pull-left" style="margin: 43px 0 0 15px;">
+                    <input type="checkbox" class="pull-left" ng-model="checkboxItemize.value"/>
+                    <span class="pull-left" style="margin-left: 5px;">Allow rate changes in Line Item setup</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
+            portions in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+     <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value" />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="col-md-12 zeroPadding">
+                    <a class="pull-left">
+                        <a class="icon-plus pull-left"></a>
+                        <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPC_ID].slices)" >Add Item</a>
+                    </a>
+                </div>
+            </div>  
+
+        <!--Itemize Chart End-->
+        
+      
+    </div>
+    
+    <!--Total CPA-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].rate > 0"/>
+            <h1 class="pull-left" style="margin: 10px 0;">Total CPA</h1>
+            <span class="pull-left clearBoth">For a particular group of ads, charge a specific rate each time user takes
+            desired action (i.e. firing an action pixel) at any time. This rate will be entered by default in any
+            CPM line items.</span>
+            
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol">$</span>
+                        <input type="text"class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left"  ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].itemize"/>
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPA fees</span>
+                </div>
+                
+                <div class="pull-left" style="margin: 43px 0 0 15px;">
+                    <input type="checkbox" class="pull-left" />
+                    <span class="pull-left" style="margin-left: 5px;">Allow rate changes in Line Item setup</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
+            portions in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+            <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value"  />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-12 zeroPadding">
+                    <a class="pull-left">
+                        <a class="icon-plus pull-left"></a>
+                        <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].slices)">Add Item</a>
+                    </a>
+                </div>
+            </div>  
+       
+        <!--Itemize Chart End-->
+        
+       
+    </div>
+    
+    <!--CPCV-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].rate > 0"/>
+            <h1 class="pull-left" style="margin: 10px 0;">CPCV</h1>
+            <span class="pull-left clearBoth">This rate will be entered by default in any CPCV rates.</span>
+            
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPCV</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol">$</span>
+                        <input type="text"class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].rate" /> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left"  ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].itemize" />
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPCV fees</span>
+                </div>
+                
+                <div class="pull-left" style="margin: 43px 0 0 15px;">
+                    <input type="checkbox" class="pull-left" />
+                    <span class="pull-left" style="margin-left: 5px;">Allow rate changes in Line Item setup</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
+            portions in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value" />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-12 zeroPadding">
+                    <a class="pull-left">
+                        <a class="icon-plus pull-left"></a>
+                        <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].slices)">Add Item</a>
+                    </a>
+                </div>
+            </div>  
+        <!--Itemize Chart End-->
+        
+       
+    </div>
+</div>
+
+<!--COGs View-->
+<div class="col-md-12 zeroPadding cogsBillView" style="margin-bottom: 30px; display: none;" >
+    <!--Flat Fee + Percentage Markup-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].rate > 0"/>
+            <h1 class="pull-left" style="margin: 10px 0;">Flat Fee + Percentage Markup</h1>
+            <span class="pull-left clearBoth">Charge a simple flat fee, unassociated the delivery of performance
+            of any specific ads or ad groups.</span>
+            
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0; margin-bottom: 10px;">
+                    <label class="col-sm-12 greyTxt">Total Markup</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text" class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].rate" /> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].itemize" />
+                    <span class="pull-left" style="margin-left: 5px;">Itemize Markup fees</span>
+                </div>
+            </div>
+        </div>
+        
+        <!--Itemize Chart Start-->
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value" />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-12 zeroPadding">
+                 <a class="pull-left">
+                    <a class="icon-plus pull-left"></a>
+                    <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].slices)">Add Item</a>
+                 </a>
+                </div>
+            </div>  
+        <!--Itemize Chart End-->
+        
+       
+    </div>
+    
+    <!--Variable COGS + Percentage Markup-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate > 0" />
+            <h1 class="pull-left" style="margin: 10px 0;">Variable COGS + Percentage Markup</h1>
+            <span class="pull-left clearBoth">Costs of running media plan (e.g. Ad Serving, buying & execution, verification)
+            are passed through to the advertiser with an additional percentage based-markup.</span>
+        
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text"class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate" /> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize" />
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPM fees</span>
+                </div>
+            </div>
+            
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup will be broken down into the following portions
+            in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value" />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 zeroPadding">
+                <a class="pull-left">
+                <a class="icon-plus pull-left"></a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices)">Add Item</a>
+                </a>
+                </div>
+            </div>  
+        <!--Itemize Chart End-->
+        
+        
+    </div>
+    
+    <!--Variable COGS + CPM Merkup-->
+    <div class="billingMethods">
+        <div class="col-md-12 zeroPadding">
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate > 0"/>
+            <h1 class="pull-left" style="margin: 10px 0;">Variable COGS + CPM Markup</h1>
+            <span class="pull-left clearBoth">Specific costs of running media plan (e.g. Ad Serving, buying & execution,
+            verification) are passed through to the billable party, with an additional CPM based-markup.</span>
+        
+            <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
+                <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <div class="symbol-input pull-left">
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
+                        <input type="text" class="form-control" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate"> 
+                    </div>
+                </div>
+                
+                <div class="pull-left" style="margin-top: 43px;">
+                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize" />
+                    <span class="pull-left" style="margin-left: 5px;">Itemize CPM fees</span>
+                </div>
+            </div>
+        
+            <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup will be broken down into the following portions
+            in the invoice files:</span>
+        </div>
+        
+        <!--Itemize Chart Start-->
+       <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize">
+                <div class="col-md-12 zeroPadding centerAlign">
+                    <div class="table-responsive" id="table_responsive">
+                        <div class="vistoTable" id="visto_table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="col-md-9 th">
+                                        <span>Label</span>
+                                    </div>
+                                    <div class="col-md-2 th">
+                                        <span>Portion</span>
+                                    </div>
+                                    <div class="col-md-1 th">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices" >
+                                <div class="tr" >
+                                    <div class="td col-md-9">
+                                        <input type="text" class="form-control" ng-model="slice.label" />
+                                    </div>
+                                    <div class="td col-md-2">
+                                        <input type="text" class="form-control" ng-model="slice.value" />
+                                    </div>
+                                    <div class="td col-md-1 text-center">
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices,$index)"></a>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 zeroPadding">
+                   <a class="pull-left">
+                    <a class="icon-plus pull-left"></a>
+                    <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices)">Add Item</a>
+                   </a>
+               </div>
+            </div>  
+        <!--Itemize Chart End-->
+        
+        
+    </div>
+</div>
