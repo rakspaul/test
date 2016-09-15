@@ -19,6 +19,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
                             $scope.creativeListLoading = false;
                             $scope.creativesNotFound = false;
+                            $scope.loadCreativeData = false;
 
                             if (response.length > 0) {
                                 if (!$scope.creativeData.creatives || $scope.creativeData.creatives.length === 0) {
@@ -67,8 +68,10 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                 },
 
                 onScrollFetchCreatives :  function () {
-                    if ($(window).scrollTop() + $(window).height() === $(document).height() && !isSearch && !$scope.creativeLastPage) {
-                        creativeParams.pageNo = $scope.pageNo + 1;
+                    if ($(window).scrollTop() + $(window).height() === $(document).height() && !$scope.creativeLastPage) {
+                        $scope.loadCreativeData = true;
+                        $scope.pageNo += 1;
+                        creativeParams.pageNo = $scope.pageNo;
 
                         if (window.location.href.indexOf('creative/list') > -1) {
                             creativeList.getCreativesList(creativeParams);
@@ -219,6 +222,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
                 $scope.isCreativeSearched = true;
+                $scope.pageNo = creativeParams.pageNo = 1;
                 creativeList.getCreativesList(creativeParams);
             }
         };
@@ -485,7 +489,8 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
                 creativeParams.query = '';
-                creativeParams.pageNo = 1;
+                creativeParams.pageNo = $scope.pageNo = 1;
+                $scope.isCreativeSearched = false;
                 creativeList.getCreativesList(creativeParams);
             }
         };
