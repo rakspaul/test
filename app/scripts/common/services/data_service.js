@@ -23,7 +23,7 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                     return this.fetch(vistoconfig.apiPaths.apiSerivicesUrl_NEW + urlPath);
                 },
 
-                getCdbChartData = function (clientId, campaign, timePeriod, type, strategyId) {
+                getCdbChartData = function (clientId, campaign, timePeriod, type, strategyId, realTime) {
                     var urlPath,
                         campaignId= campaign.orderId,
                         durationQuery= 'date_filter=' + timePeriod,
@@ -57,6 +57,10 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
                             '/campaigns/' + campaignId +
                             '/lineitems/' + strategyId +
                             '/bydays/perf?' + durationQuery;
+                    }
+
+                    if($location.path().endsWith('/mediaplans')){
+                        urlPath += '&source=' + (realTime ? 'tracker' : 'sor');
                     }
 
                     return this.fetch(urlPath);

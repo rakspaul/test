@@ -211,7 +211,8 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                 url,
                                 clientId,
                                 advertiserId,
-                                brandId;
+                                brandId,
+                                isRealTimeData = campaignListService.getIsRealTimeData();
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
@@ -265,7 +266,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
-                                                    queryId: 14,
+                                                    queryId: (isRealTimeData ? 53 : 14),
                                                     clientId: clientId,
                                                     advertiserId: advertiserId,
                                                     brandId: brandId,
@@ -295,7 +296,6 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                                             campaign.kpi_type = 'CTR';
                                                             campaign.kpi_value = 0;
                                                         }
-
                                                         campaignListService.getCdbLineChart(clientId, campaign, self.timePeriod, function (cdbData) {
                                                             if (cdbData) {
                                                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
