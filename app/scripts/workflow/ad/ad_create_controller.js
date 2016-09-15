@@ -464,7 +464,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $('#primaryKpiDiv').find('.KPI_symbol').html(symbol);
 
                 var flag = false;
-
+                $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                 for (var j in autoComputeKpiTypeMap) {
                     if ($.inArray(type, autoComputeKpiTypeMap[j]) !== -1) {
                         var autoCompute = $('#autoComputeDiv');
@@ -483,12 +483,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 if(!flag) {
                     var autoComputeOld = $('#autoComputeDiv');
+                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    autoComputeOld.hide();
                     if(type.toLowerCase() === 'impressions') {
                         $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
-                    } else{
-                        autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                     }
-                    autoComputeOld.hide();
                 }
 
             }
@@ -700,6 +699,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 });
             }
         };
+
+
+            $scope.displayVerificationInSideBar = function (selectedSetting) {
+                if (selectedSetting && selectedSetting === constants.VERIFICATION_DEFAULT) {
+                    return constants.VERIFICATION_DEFAULT_SMALL;
+                } else {
+                    return selectedSetting;
+                }
+            };
 
         $scope.redirectUser = function (isAdArchived) {
             var url;
