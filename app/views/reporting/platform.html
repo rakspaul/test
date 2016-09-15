@@ -149,7 +149,7 @@
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow"
                                                      data-ng-repeat="platform in data"
-                                                     data-ng-include="'costTpl'">
+                                                     data-ng-include="'costTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
                                                 </div>
                                             </div>
                                         </div>
@@ -225,12 +225,12 @@
                                                 <div data-ng-if="!adFormats.videoAds || !videoMode"
                                                      class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
                                                      data-ng-repeat="platform in data"
-                                                     data-ng-include="'viewabilityTpl'">
+                                                     data-ng-include="'viewabilityTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
                                                 </div>
                                                 <div data-ng-if="adFormats.videoAds && videoMode"
                                                      class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
                                                      data-ng-repeat="platform in data"
-                                                     data-ng-include="'videoViewabilityTpl'">
+                                                     data-ng-include="'videoViewabilityTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
                                                 </div>
                                             </div>
                                         </div>
