@@ -3473,3 +3473,21 @@ button, i, input[type="submit"] {
         color: #0078cc;
     }
 }
+#realTimeToggleBtn {
+  position: relative;
+  .btn-group {
+    position: absolute;
+    right: 0;
+    top: -31px;
+  }
+  .tooltip {
+    width: 150px !important;
+  }
+
+  .btn-group.create .btn [class^="icon-"], .btn-group.create .btn [class*=" icon-"] {
+    margin-right: 0;
+  }
+  .active {
+    cursor: default;
+  }
+}

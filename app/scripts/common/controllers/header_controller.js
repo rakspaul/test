@@ -254,6 +254,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                 var cdbDropdownId = $('#cdbDropdown'),
                     brandsListId = $('#brandsList'),
                     platform_popup = $('.buying-platform-popup'),
+                    messageInsideContainer = $('.messageInsideContainer'),
                     advertisersDropDownList = $('#advertisersDropDownList'),
                     dropdownMenuWithSearch = $('.dropdown-menu-with-search'),
                     subAccountDropDownList = $('#subAccountDropDownList'),
@@ -270,6 +271,9 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     childTier = $('.childTier'),
                     quickFilterId,
                     regionTooltipId;
+                if (messageInsideContainer.is(':visible') && ($(event.target).closest('.goalBtnGroup').hasClass('realTimeButton') === false)  ) {
+                    messageInsideContainer.hide();
+                }
 
                 if (platform_popup.is(':visible') && ($(event.target).closest('div').hasClass('select-btn') === false) ) {
                     platform_popup.hide();
