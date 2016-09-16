@@ -6,7 +6,7 @@ define(['angularAMD'], function (angularAMD) {
             textConstants = constants,
 
             widgetTypeMapper = {
-                checkbox : 'checkbox',
+                checkbox_boolean : 'checkbox',
                 textbox_integer : 'number',
                 textbox_double : 'number',
                 textbox_string : 'string',
