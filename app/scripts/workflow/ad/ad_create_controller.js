@@ -504,15 +504,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.adData.budgetAmount = Number(responseData.budgetValue);
             }
 
-            if (responseData.targetImpressions && responseData.targetImpressions >0) {
+            if (responseData.targetImpressions && responseData.targetImpressions >=0) {
                 $scope.adData.targetImpressions = Number(responseData.targetImpressions);
             }
 
-            if (responseData.targetClicks && responseData.targetClicks >0) {
+            if (responseData.targetClicks && responseData.targetClicks >=0) {
                 $scope.adData.targetClicks = Number(responseData.targetClicks);
             }
 
-            if (responseData.targetActions && responseData.targetActions >0) {
+            if (responseData.targetActions && responseData.targetActions >=0) {
                 $scope.adData.targetActions = Number(responseData.targetActions);
             }
 
