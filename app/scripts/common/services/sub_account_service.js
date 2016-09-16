@@ -146,6 +146,7 @@ define(['angularAMD'], function (angularAMD) {
                             return subAccountId === client.id;
                         });
                         if (selectedSubAccount) {
+                            vistoconfig.setClientTimeZone(selectedSubAccount.timezone);
                             return true;
                         }
                     }
