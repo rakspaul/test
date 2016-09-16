@@ -332,11 +332,11 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
                         case 'CTR': {
                                         if($scope.adData.targetImpressions && $scope.adData.targetValue){
-                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions / $scope.adData.targetValue));
+                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions * $scope.adData.targetValue)/ 100);
                                         }
                                         break;
                         }
-                       
+
                     }
                 }
 
@@ -352,7 +352,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     $scope.adData.targetImpressions = $scope.adData.targetValue;
                 }
             };
-            
+
             $scope.isKpiFieldOptional = function(fieldName) {
                 var res = true;
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
