@@ -3375,3 +3375,21 @@ input[type="submit"] {
 .video_switch_mediaplans .active {
   color: #0078cc;
 }
+#realTimeToggleBtn {
+  position: relative;
+}
+#realTimeToggleBtn .btn-group {
+  position: absolute;
+  right: 0;
+  top: -31px;
+}
+#realTimeToggleBtn .tooltip {
+  width: 150px !important;
+}
+#realTimeToggleBtn .btn-group.create .btn [class^="icon-"],
+#realTimeToggleBtn .btn-group.create .btn [class*=" icon-"] {
+  margin-right: 0;
+}
+#realTimeToggleBtn .active {
+  cursor: default;
+}

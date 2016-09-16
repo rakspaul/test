@@ -67,6 +67,22 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                 $scope.campaigns.fetchData();
             });
 
+
+            $scope.selectCardView = function (event, type) {
+                var elem = $(event.currentTarget);
+                if ( !elem.hasClass('active')) {
+                    $scope.realTimeData=!$scope.realTimeData ;
+                    $('#realTimeToggleBtn').find('.active').removeClass('active');
+                    elem.addClass('active');
+                    if(type==='RealTime') {
+                        $('#realTimeMessage').show();
+                    }
+                    setTimeout(function(){ 
+                        $('#realTimeMessage').hide(); 
+                    }, 6000);
+                }
+            };
+
             $scope.campaignSearchFunc = function (e) {
                 // Perform search if enter key is pressed, or search button is clicked & user has entered something.
                 // NOTE: The event object (e) is not passed if called from search button.

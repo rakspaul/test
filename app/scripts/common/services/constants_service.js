@@ -677,6 +677,11 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.IMPRESSION_PER_USER_MESSAGE =
             'You must enter Impression per user less than or equal to Booked Impressions';
 
+        this.CARD_VIEW_REALTIME = 'Real-time Card View';
+        this.CARD_VIEW_STANDARD = 'Standard Card View';
+        this.CARD_VIEW_REALTIME_MESSAGE = 'The real-time view of Media Plans uses the most recent Visto Tracker<sup>TM</sup> data available.';
+
+
         //Ad Create: Header
         this.OBJECTIVES = 'Objectives';
         this.CONTACTS = 'Contacts';
