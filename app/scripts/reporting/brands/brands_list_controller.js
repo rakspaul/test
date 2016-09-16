@@ -3,13 +3,13 @@ define(['angularAMD'], function (angularAMD) {
 
     angularAMD.controller('BrandsListController', ['$scope', 'constants', function ($scope, constants) {
         function applyBrandFilter() {
-            var filter = $scope.selectedBrand.name.toUpperCase(),
-                value = $scope.brand.name.toUpperCase(),
+            var filter = $scope.selectedBrand.brandName.toUpperCase(),
+                value = $scope.brand.brandName.toUpperCase(),
                 isSubString = (value.indexOf(filter) > -1);
 
             if ($scope.selectedBrand &&
-                ($scope.selectedBrand.name === undefined ||
-                $scope.selectedBrand.name.length < 1)) {
+                ($scope.selectedBrand.brandName === undefined ||
+                $scope.selectedBrand.brandName.length < 1)) {
                 $scope.isExcludedByBrandFilter = false;
 
                 return;
@@ -22,7 +22,7 @@ define(['angularAMD'], function (angularAMD) {
             $scope.isExcludedByBrandFilter = !isSubString && ($scope.brandData.showAll === false);
         }
 
-        $scope.$watch('selectedBrand.brandName', function (newName, oldName) {
+        $scope.$watch('selectedBrand.name', function (newName, oldName) {
             if (newName === oldName) {
                 return;
             }

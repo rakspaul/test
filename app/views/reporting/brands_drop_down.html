@@ -5,21 +5,22 @@
 </div>
 
 <div class="clearfix">
-  <div class="brandsDropdownSearch dropdown-workflow" ng-class="brands.length > 0 ? '' : 'loadedDropdownData' ">
-    <ul class="dropdown-menu" role="menu" id="brandsList">
-      <div id="brandsDropdownDiv">
-        <input class="dropdown-toggle inactive"  id="brandsDropdown"   ng-keyup="disableShowAll();" ng-model="searchInput"/>
-        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
-      </div>
-      <div class="brandsList_ul" id="brandsList_ul">
-          <li ng-repeat="brand in brands | filter : searchInput track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === selectedBrand.id}">
-          <a data-ng-click="selectBrand(brand, '', 'clicked')">
-            <span class="tick"></span>
-            <span class="menuItemText" ng-bind="brand.name"></span>
-          </a>
-        </li>
-      </div>
-    </ul>
-  </div>
+    <div class="brandsDropdownSearch dropdown-workflow" ng-class="brands.length > 0 ? '' : 'loadedDropdownData' ">
+        <ul class="dropdown-menu" role="menu" id="brandsList">
+            <div id="brandsDropdownDiv">
+                <input class="dropdown-toggle inactive"  id="brandsDropdown"   ng-keyup="disableShowAll();" ng-model="searchInput"/>
+                <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+            </div>
+            <div class="brandsList_ul" id="brandsList_ul">
+                <li ng-repeat="brand in brands | filter : searchInput track by brand.brandId" ng-hide="isExcludedByBrandFilter"
+                    ng-class="{'active' : brand.brandId === selectedBrand.brandId}">
+                    <a data-ng-click="selectBrand(brand, '', 'clicked')">
+                        <span class="tick"></span>
+                        <span class="menuItemText" ng-bind="brand.brandName"></span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </div>
 </div>
 

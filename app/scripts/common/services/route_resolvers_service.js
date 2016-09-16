@@ -263,9 +263,9 @@ define(['angularAMD'], function (angularAMD) {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             args
                                 .subAccountService
-                                .fetchDashboardSubAccountList(args.$route.current.params.accountId)
+                                .fetchSubAccountList(args.$route.current.params.accountId)
                                 .then(function () {
-                                    if (args.subAccountService.allowedDashboardSubAccount(args.$route.current.params.subAccountId)) {
+                                    if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
                                         args
                                             .accountService
                                             .fetchAccountData(params.accountId)
@@ -465,8 +465,8 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
                             brand = args.brandsModel.getSelectedBrand();
-                            $('#brand_name_selected').text(brand.brandName);
-                            $('#brandsDropdown').attr('placeholder', brand.brandName).val('');
+                            $('#brand_name_selected').text(brand.name);
+                            $('#brandsDropdown').attr('placeholder', brand.name).val('');
                             $rootScope.$broadcast('brand:set', brand);
                         } else {
                             console.log('brand not allowed');
@@ -528,11 +528,12 @@ define(['angularAMD'], function (angularAMD) {
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
-                                    .fetchSubAccountList(args.$route.current.params.accountId)
+                                    .fetchMediaplanCreateSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
+                                        if(!args.subAccountService.allowedMediaplanCreateSubAccount(args.$route.current.params.subAccountId)) {
+                                            args.subAccountService.allowedMediaplanCreateSubAccount(args.subAccountService.getMediaplanCreateSubAccounts()[0].id);
                                         }
+                                        fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                     });
                             } else {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
