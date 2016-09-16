@@ -108,7 +108,8 @@
 
             <div class="col-md-2 targetInputs targetActions">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" name="targetActions" ng-model="adData.targetActions" ng-value="adData.targetActions" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetActions" ng-value="adData.targetActions" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                <input type="hidden" name="targetActions" ng-model="adData.targetActions" ng-value="adData.targetActions">
             </div>
 
         </div>
@@ -121,7 +122,8 @@
 
             <div class="col-md-2 targetInputs targetClicks">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" name="targetClicks" ng-model="adData.targetClicks" ng-value="adData.targetClicks" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetClicks" ng-value="adData.targetClicks" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                <input type="hidden" name="targetClicks" ng-model="adData.targetClicks" ng-value="adData.targetClicks">
             </div>
         </div>
     </div>
