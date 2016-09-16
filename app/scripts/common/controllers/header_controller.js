@@ -271,7 +271,6 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     childTier = $('.childTier'),
                     quickFilterId,
                     regionTooltipId;
-                    console.log($(event.target).closest('div'), 'hello') ;
                 if (messageInsideContainer.is(':visible') && ($(event.target).closest('.goalBtnGroup').hasClass('realTimeButton') === false)  ) {
                     messageInsideContainer.hide();
                 }
