@@ -162,6 +162,24 @@ define(['angularAMD', 'admin-account-service'],
                 };
             }
 
+            function getErrorMessage(result){
+                var message = '';
+                var resultData = result.data.data;
+                var indexes = ['name','code','currency','nickname','timezone','clientType'];
+
+                if(resultData.data.length){
+                    for(var i = 0; i < indexes.length; i++)
+                        {
+                            if(resultData.data[0][indexes[i]])
+                            message += indexes[i] + ' ' + resultData.data[0][indexes[i]] + ' ';
+                        }
+                } else {
+                    message = resultData.message;
+                }
+
+                return message;
+            }
+
             function createClient(body) {
                 return adminAccountsService
                     .createClient(body)
@@ -178,6 +196,8 @@ define(['angularAMD', 'admin-account-service'],
                             _currCtrl.saveAdnlData();
                             $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
                             return adv;
+                        }else {
+                            $rootScope.setErrAlertMessage(getErrorMessage(adv));
                         }
                     });
             }
@@ -685,6 +705,9 @@ define(['angularAMD', 'admin-account-service'],
                                         }
                                     });
                             } else {
+
+
+
                                 console.log('Failed to save data. Error = ', result.data.data.message);
                             }
                         }, function (err) {
