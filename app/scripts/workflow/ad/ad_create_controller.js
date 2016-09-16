@@ -1182,6 +1182,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     }
 
                     startDateElem.datepicker('setEndDate', adGroupEndDate);
+                    endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate)
                 }
             } else {
                 // Normal ad (non-Adgroup)
@@ -1944,7 +1945,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.editedAdSourceId = null;
         $scope.dayPartData = {};
         $scope.adData.budgetTypeLabel = 'Impressions';
-        $scope.adData.budgetType = 'Cost';
+        $scope.adData.budgetType = 'Impressions';
 
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
