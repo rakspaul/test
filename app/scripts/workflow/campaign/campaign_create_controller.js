@@ -661,7 +661,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     postDataObj.endTime = momentService.postDateModifier($scope.selectedCampaign.endTime, $scope.mediaPlanAPIEndTime, 'endTime');
 
                     postDataObj.kpiType = formData.kpi;
-                    postDataObj.kpiValue = formData.kpiValue;
+                    postDataObj.kpiValue = Number(utils.stripCommaFromNumber(formData.kpiValue));
                     postDataObj.marginPercent = formData.marginPercent;
                     postDataObj.deliveryBudget = formData.deliveryBudget;
                     postDataObj.totalBudget = utils.stripCommaFromNumber(formData.totalBudget);
