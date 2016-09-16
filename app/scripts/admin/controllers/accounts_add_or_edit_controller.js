@@ -168,7 +168,7 @@ define(['angularAMD', 'admin-account-service'],
                     .then(function (adv) {
                         if (adv.status === 'OK' || adv.status === 'success') {
                             
-                            saveBillingData(result.data.data.id).then(function (result) {
+                            saveBillingData(adv.data.data.id).then(function (result) {
                                 if (result.status !== 'OK' && result.status !== 'success')
                                     $rootScope.setErrAlertMessage(result.message);
                             });
@@ -628,13 +628,13 @@ define(['angularAMD', 'admin-account-service'],
 
             function saveBillingData(clientId){
                 var billingDataToSave = getBillingDataToSave($scope.clientBillingSettings,clientId);
-
                 
                 return adminAccountsService
                     .updateClientBillingSettings(clientId,billingDataToSave)
                         .then(function (result){
                              if (result.status === 'OK' || result.status === 'success') {
                                 var advertiserBillingDataToSave = getBillingDataToSave($scope.advertiserBillingSettings,clientId);
+
                                 return adminAccountsService
                                     .updateAdvertiserBillingSettings(clientId,advertiserBillingDataToSave);
                                         
