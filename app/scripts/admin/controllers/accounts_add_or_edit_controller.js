@@ -267,9 +267,11 @@ define(['angularAMD', 'admin-account-service'],
                 _.each(settings, function(item,index){
              
                     var name = item.abbreviatedName ? item.abbreviatedName : item.name;
-                    settingsMap[settingMapIds[name]] = item.id;
-                 });
 
+                    if(!settingsMap[settingMapIds[name]])
+                        settingsMap[settingMapIds[name]] = item.id;
+                 });
+                
                 return settingsMap;
             }
 

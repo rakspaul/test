@@ -130,8 +130,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             },
 
              updateAdvertiserBillingSettings = function(clientId,data){ 
-                debugger;
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertiser_billing_settings';
 
