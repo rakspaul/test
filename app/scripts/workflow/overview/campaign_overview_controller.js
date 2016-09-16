@@ -111,7 +111,8 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                             data.calculatedValue = data.totalBudget / data.rateValue;
                         }*/
 
-                        data.calculatedValue = ((data.totalBudget * 1000)/data.targetImpressions);
+                        data.calculatedValue = (data.targetImpressions && data.targetImpressions >=0)?
+                            ((data.totalBudget * 1000)/data.targetImpressions):0;
                     });
 
                     return adsData;
