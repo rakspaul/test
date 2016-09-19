@@ -1093,6 +1093,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.EMPTY_BRAND_SELECTION = 'Please select the brand';
         this.EMPTY_LOOKBACK_IMPRESSION = 'Please add some value for impression look back field';
         this.EMPTY_LOOKBACK_CLICK = 'Please add some value for click look back field';
+        this.PIXEL_TYPE_PAGE_VIEW = 'Action - Page View';
+        this.PIXEL_TYPE_AUDIENCE_CREATION = 'Audience Creation Pixel';
+        this.PIXEL_TYPE_RETARGETING = 'Retargeting Pixel';
         this.EMPTY_PIXEL_FIELD = 'Please add pixel name';
         this.EMPTY_PIXEL_TYPE = 'Please select the pixel type';
         this.EMPTY_PIXEL_EXPIREAT = 'Please select the pixel expiration date';

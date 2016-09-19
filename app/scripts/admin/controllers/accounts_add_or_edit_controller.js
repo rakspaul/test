@@ -2,12 +2,13 @@ define(['angularAMD', 'admin-account-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants','momentService',
-            function ($scope, $rootScope, $modalInstance, adminAccountsService, constants,momentService) {
+        angularAMD.controller('AccountsAddOrEdit', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'constants','momentService','dataService','urlService',
+            function ($scope, $rootScope, $modalInstance, adminAccountsService, constants, momentService, dataService, urlService) {
             var _currCtrl = this,
                 selectedBillingTypeName;
 
             _currCtrl.isAdChoiceInClient = false;
+            _currCtrl.downloadPixelIds = [];
 
             _currCtrl.getAdChoiceData = function () {
                 adminAccountsService
@@ -47,10 +48,44 @@ define(['angularAMD', 'admin-account-service'],
 
             _currCtrl.getAdnlData = function () {
                 _currCtrl.getAdChoiceData();
+                _currCtrl.getPixels();
             };
 
             _currCtrl.saveAdnlData = function () {
                 _currCtrl.saveAdChoiceData();
+                _currCtrl.savePixelData();
+            };
+
+            _currCtrl.savePixelData = function(){
+                _currCtrl.createPixels();
+            };
+
+            _currCtrl.getPixels = function(){
+                adminAccountsService
+                    .getPixels($scope.clientObj.id)
+                    .then(function (res) {
+                        if (res.data.status === 'OK' || res.data.status === 'success') {
+                            $scope.topCtrlData.pixels = res.data.data;
+
+                            _.each($scope.topCtrlData.pixels, function (item, i) {
+                                $scope.topCtrlData.pixels[i].pixelTypeName =
+                                    (item.pixelType === 'PAGE_VIEW') ? constants.PIXEL_TYPE_PAGE_VIEW :
+                                        (item.pixelType === 'AUDIENCE_CREATION') ?
+                                            constants.PIXEL_TYPE_AUDIENCE_CREATION : constants.PIXEL_TYPE_RETARGETING;
+
+                                $scope.topCtrlData.pixels[i].isFeedData = true;
+
+                                if (item.expiryDate) {
+                                    $scope.topCtrlData.pixels[i].expiryDate =
+                                        momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
+                                }
+
+                                $scope.topCtrlData.impLookbackWindow = item.impLookbackWindow;
+                                $scope.topCtrlData.clickLookbackWindow = item.clickLookbackWindow;
+                            });
+                        }
+                    },function () {
+                    });
             };
 
             _currCtrl.verifyInput = function () {
@@ -165,8 +200,8 @@ define(['angularAMD', 'admin-account-service'],
             function createClient(body) {
                 return adminAccountsService
                     .createClient(body)
-                    .then(function (adv) {
-                        if (adv.status === 'OK' || adv.status === 'success') {
+                    .then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success') {
 
                             saveBillingData(result.data.data.id).then(function (result) {
                                 if (result.status !== 'OK' && result.status !== 'success')
@@ -177,7 +212,7 @@ define(['angularAMD', 'admin-account-service'],
                             $scope.close();
                             _currCtrl.saveAdnlData();
                             $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
-                            return adv;
+                            return result;
                         }
                     });
             }
@@ -644,6 +679,51 @@ define(['angularAMD', 'admin-account-service'],
                         });
             };
 
+            $scope.downLoadPixel = function(){
+                var url = urlService.downloadAdminAdvPixel($scope.clientObj.id);
+
+                if (!_currCtrl.downloadPixelIds.length) {
+                    return false;
+                }
+
+                if (_currCtrl.downloadPixelIds.length &&
+                    (_currCtrl.downloadPixelIds.length <= $scope.topCtrlData.pixels.length)) {
+                    url += '?ids=' + _currCtrl.downloadPixelIds.join(',');
+                }
+
+                dataService
+                    .downloadFile(url)
+                    .then(function (res) {
+                        if (res.status === 'OK' || res.status === 'success') {
+                            saveAs(res.file, res.fileName);
+                            $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
+                        } else {
+                            $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
+                        }
+                    }, function (err) {
+                        console.log('Error = ', err);
+                        $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR);
+                    });
+            };
+
+            $scope.selectPixel = function (pixelId, isSelected) {
+                if (isSelected) {
+                    $scope.topCtrlData.disableDownLoadPixel = false;
+
+                    if (_currCtrl.downloadPixelIds.indexOf(pixelId) === -1) {
+                        _currCtrl.downloadPixelIds.push(pixelId);
+                    }
+                } else {
+                    _currCtrl.downloadPixelIds =
+                        _.filter(_currCtrl.downloadPixelIds, function (item) {
+                            return item !== pixelId;
+                        });
+
+                    if (!_currCtrl.downloadPixelIds.length) {
+                        $scope.topCtrlData.disableDownLoadPixel = true;
+                    }
+                }
+            }
 
             $scope.saveClients = function () {
                 var clientObj,
@@ -701,6 +781,46 @@ define(['angularAMD', 'admin-account-service'],
 
                 }
             };
+
+            _currCtrl.createPixels = function(){
+                var clientId = $scope.clientObj.id;
+                adminAccountsService
+                    .createPixels(clientId, getRequestDataforPixel(clientId))
+                    .then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success') {
+                            console.log("Pixel updated successfully");
+                        }else{
+                            console.log("Error: Pixel updated");
+                        }
+                    }, function (err) {
+                        console.log("Error: Pixel updated");
+                    });
+            };
+
+            function getRequestDataforPixel(clientId){
+                _.map($scope.topCtrlData.pixels, function (item, index) {
+                    $scope.topCtrlData.pixels[index] = {
+                        name: item.name,
+                        clientId: clientId,
+                        advertiserId: null,
+                        pixelType: item.pixelType,
+                        poolSize: 0,
+                        description: item.description,
+                        createdBy: item.createdBy,
+                        createdAt: item.createdAt,
+                        updatedAt: item.updatedAt,
+                        impLookbackWindow: item.impLookbackWindow,
+                        clickLookbackWindow: item.clickLookbackWindow,
+                        expiryDate: momentService.localTimeToUTC(item.expiryDate, 'endTime')
+                    };
+
+                    if (item.id) {
+                        $scope.topCtrlData.pixels[index].id = item.id;
+                    }
+                });
+
+                return $scope.topCtrlData.pixels;
+            }
 
             $scope.$on('$locationChangeSuccess', function () {
                 $scope.close();

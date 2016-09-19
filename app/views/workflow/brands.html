@@ -66,12 +66,12 @@
             <div class="tbody thin" id="admin_brand_table_body" style="height:350px;overflow-y:scroll;">
                 <div class="tr" ng-repeat="brand in brandsData" >
                     <div class="td col-md-4">
-                        <div class="col-md-10 zeroPadding" data-ng-bind="brand.brandName"></div>
+                        <div class="col-md-10 zeroPadding" data-ng-bind="brand.name"></div>
                         <div class="pull-right col-md-2 edit" style="margin-right:10px ;" data-ng-click="editBrand(brand)"></div>
                     </div>
 
                     <div class="td col-md-1">
-                        <div data-ng-bind="brand.brandId"></div>
+                        <div data-ng-bind="brand.id"></div>
                     </div>
 
                     <div class="td col-md-5">

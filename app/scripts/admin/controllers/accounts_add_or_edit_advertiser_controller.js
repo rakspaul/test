@@ -78,7 +78,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             function createAdvertiserUnderClient(advId) {
                 var requestData = {
                     clientId: $scope.client.id,
-                    companyUrl: $scope.advertiserData.companyUrl,
+                    companyUrl: $scope.topCtrlData.companyUrl,
                     lookbackImpressions : 14,
                     lookbackClicks : 14,
                     adChoice: '',
@@ -132,7 +132,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                             $scope.resetBrandAdvertiserAfterEdit();
                             $scope.close();
 
-                            if ($scope.advertiserData.pixels.length) {
+                            if ($scope.topCtrlData.pixels.length) {
                                 createPixelsforAdvertiser($scope.clientId, advId);
                             } else {
                                 $scope.fetchAllClients();
@@ -161,8 +161,8 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             }
 
             function getRequestDataforPixel(clientId, advertiserId) {
-                _.each($scope.advertiserData.pixels, function (item, index) {
-                    $scope.advertiserData.pixels[index] = {
+                _.each($scope.topCtrlData.pixels, function (item, index) {
+                    $scope.topCtrlData.pixels[index] = {
                         name: item.name,
                         clientId: clientId,
                         advertiserId: advertiserId,
@@ -178,16 +178,16 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     };
 
                     if (item.id) {
-                        $scope.advertiserData.pixels[index].id = item.id;
+                        $scope.topCtrlData.pixels[index].id = item.id;
                     }
                 });
 
-                return $scope.advertiserData.pixels;
+                return $scope.topCtrlData.pixels;
             }
 
             function createPixelsforAdvertiser(clientId, advId) {
                 adminAccountsService
-                    .createPixelsUnderAdvertiser(clientId, getRequestDataforPixel(clientId, advId))
+                    .createPixels(clientId, getRequestDataforPixel(clientId, advId))
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.fetchAllClients();
@@ -260,7 +260,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     });
             }
 
-            $scope.advertiserData.disableDownLoadPixel = true;
+            $scope.topCtrlData.disableDownLoadPixel = true;
 
             $scope.billingData = {
                 techFees: {
@@ -357,7 +357,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                 }
 
                 if (_currCtrl.downloadPixelIds.length &&
-                    (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)) {
+                    (_currCtrl.downloadPixelIds.length < $scope.topCtrlData.pixels.length)) {
                     url += '?ids=' + _currCtrl.downloadPixelIds.join(',');
                 }
 
@@ -378,7 +378,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
 
             $scope.selectPixel = function (pixelId, isSelected) {
                 if (isSelected) {
-                    $scope.advertiserData.disableDownLoadPixel = false;
+                    $scope.topCtrlData.disableDownLoadPixel = false;
 
                     if (_currCtrl.downloadPixelIds.indexOf(pixelId) === -1) {
                         _currCtrl.downloadPixelIds.push(pixelId);
@@ -390,7 +390,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                         });
 
                     if (!_currCtrl.downloadPixelIds.length) {
-                        $scope.advertiserData.disableDownLoadPixel = true;
+                        $scope.topCtrlData.disableDownLoadPixel = true;
                     }
                 }
             };
@@ -401,10 +401,10 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                 checkBoxes.prop('checked', !checkBoxes.prop('checked'));
 
                 if (checkBoxes.prop('checked')) {
-                    $scope.advertiserData.disableDownLoadPixel = false;
-                    _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id');
+                    $scope.topCtrlData.disableDownLoadPixel = false;
+                    _currCtrl.downloadPixelIds = _.pluck($scope.topCtrlData.pixels, 'id');
                 } else {
-                    $scope.advertiserData.disableDownLoadPixel = true;
+                    $scope.topCtrlData.disableDownLoadPixel = true;
                     _currCtrl.downloadPixelIds = [];
                 }
             };
@@ -412,7 +412,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             $scope.checkDuplicatePixel = function (name) {
                 $scope.advertiserAddOrEditData.duplicatePixelName = false;
 
-                _.each($scope.advertiserData.pixels, function (item, i) {
+                _.each($scope.topCtrlData.pixels, function (item, i) {
                     if (!$scope.advertiserAddOrEditData.duplicatePixelName) {
                         $scope.advertiserAddOrEditData.duplicatePixelName =
                             ((item.name === name) && ($scope.pixelIndex !== i)) ? true : false;
