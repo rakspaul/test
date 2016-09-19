@@ -199,6 +199,14 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             };
 
             var fetchDataOnScroll = function() {
+                // Don't attempt to scroll if:
+                // - there's no data, or
+                // - last page is already loaded.
+                if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 || (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
+                    $scope.campaigns.dashboard.quickFilterSelectedCount)) {
+                    $scope.campaigns.loadMoreCampaigns = false;
+                    return;
+                }
                 if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
                     $scope.campaigns.loadMoreCampaigns = true;
 
@@ -210,17 +218,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                 }
 
             }
-            // Lazy Loader
-            $(window).scroll(function () {
-                // Don't attempt to scroll if:
-                // - there's no data, or
-                // - last page is already loaded.
-                if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 || (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
-                    $scope.campaigns.dashboard.quickFilterSelectedCount)) {
-                    $scope.campaigns.loadMoreCampaigns = false;
-                    return;
-                }
-            });
 
             //the function will be called after it stops being called for N milliseconds.
             $(window).on('scroll', _.debounce(fetchDataOnScroll, 200));
