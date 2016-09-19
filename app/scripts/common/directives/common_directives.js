@@ -3,8 +3,8 @@ define(['angularAMD'],  function (angularAMD) {
 
     angularAMD.directive('header', ['$http', '$compile', 'constants',  function ($http, $compile, constants) {
         return {
-            controller:  function ($scope, $cookieStore, $location) {
-                $scope.isCdeskSession = (!$cookieStore.get('cdesk_session') && $location.path() === '/login') ? true : false;
+            controller:  function ($scope, $cookies, $location) {
+                $scope.isCdeskSession = (!$cookies.get('cdesk_session') && $location.path() === '/login') ? true : false;
             },
 
             restrict: 'EAC',

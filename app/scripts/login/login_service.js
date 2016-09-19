@@ -14,9 +14,11 @@ define(['angularAMD'],
                 },
 
                 logoutAction = function (callback) {
-                    return dataService.fetch(urlService.APIlogoutAction()).then(function(response) {
-                        callback(response);
-                    });
+                    return dataService
+                        .fetch(urlService.APIlogoutAction())
+                        .then(function(response) {
+                            callback(response);
+                        });
                 },
 
                 setCredentials = function (data) {

@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('loginModel', ['$cookieStore', '$cookies', '$location', '$http', 'constants', function ($cookieStore, $cookies, $location, $http, constants) {
+    angularAMD.service('loginModel', ['$cookies', '$location', '$http', 'constants', function ($cookies, $location, $http, constants) {
         var data = {
                 user_id: undefined,
                 user_name: '',
@@ -15,52 +15,9 @@ define(['angularAMD'], function (angularAMD) {
 
             updateRedirectUrl = function (redirectPath) {
                 if (['/', '/login'].indexOf(redirectPath) === -1) {
-                    $cookieStore.put(constants.COOKIE_REDIRECT, redirectPath);
+                    $cookies.put(constants.COOKIE_REDIRECT, redirectPath, {path: '/'});
                 }
             };
-
-        // function to ensure cookie is set to the root path of domain
-        function setCookie(name, value) {
-            document.cookie = name + '=' + value + '; Path=/;';
-        }
-
-        // function to delete cookie by setting its Expires value to the past
-        function deleteCookie(name, path) {
-            path = path || '';
-
-            // Don't delete cookie if path is set to root.
-            if (path !== ' Path=/;') {
-                document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;' + path;
-            }
-        }
-
-        function deleteRootCookie(name) {
-            document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;';
-        }
-
-        // function to read the value of a cookie whose name is given
-        function readCookie(name) {
-            var nameEQ = name + '=',
-                ca = document.cookie.split(';'),
-                i,
-                c,
-                retValue = '';
-
-            for(i = 0; i < ca.length; i++) {
-                c = ca[i];
-
-                while (c.charAt(0) === ' ') {
-                    c = c.substring(1, c.length);
-                }
-
-                if (c.indexOf(nameEQ) === 0) {
-                    retValue = c.substring(nameEQ.length, c.length);
-                    break;
-                }
-            }
-
-            return retValue;
-        }
 
         return {
             deleteData: function () {
@@ -118,8 +75,7 @@ define(['angularAMD'], function (angularAMD) {
 
             setUser: function (user) {
                 data = user;
-                $cookieStore.put('cdesk_session', user);
-                setCookie('cdesk_session', window.escape(JSON.stringify(user)));
+                $cookies.put('cdesk_session', JSON.stringify(user), {path: '/'});
 
                 // campaignDetails object is required for reports tab.
                 localStorage.setItem('selectedCampaign', JSON.stringify({
@@ -141,86 +97,89 @@ define(['angularAMD'], function (angularAMD) {
 
                 // TODO (Lalding): Commenting out the following code because of the temp. return statement above.
                 /*if (data.is_network_user) {
-                    data.cost_transparency = true;
-                }
+                 data.cost_transparency = true;
+                 }
 
-                if (data.cost_transparency) {
-                    return data.cost_transparency;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.cost_transparency = $cookieStore.get('cdesk_session').cost_transparency;
-                    return $cookieStore.get('cdesk_session').cost_transparency;
-                }*/
+                 if (data.cost_transparency) {
+                 return data.cost_transparency;
+                 } else if ($cookies.get('cdesk_session')) {
+                 data.cost_transparency = $cookies.get('cdesk_session').cost_transparency;
+                 return $cookies.get('cdesk_session').cost_transparency;
+                 }*/
             },
 
             getLoginName: function () {
-                if (data.login_name) {
-                    return data.login_name;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.login_name = $cookieStore.get('cdesk_session').login_name;
-                    return $cookieStore.get('cdesk_session').login_name;
+                var cdeskSession = $cookies.get('cdesk_session');
+
+                if (!data.login_name && cdeskSession) {
+                    cdeskSession = JSON.parse(cdeskSession);
+                    data.login_name = cdeskSession.login_name;
                 }
+
+                return data.login_name;
             },
 
             getUserId: function () {
-                if (data.user_id) {
-                    return data.user_id;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.user_id = $cookieStore.get('cdesk_session').user_id;
-                    return $cookieStore.get('cdesk_session').user_id;
+                var cdeskSession = $cookies.get('cdesk_session');
+
+                if (!data.user_id && cdeskSession) {
+                    cdeskSession = JSON.parse(cdeskSession);
+                    data.user_id = cdeskSession.user_id;
                 }
+
+                return data.user_id;
             },
 
             getAgencyId: function () {
-                if (data.agency_id) {
-                    return data.agency_id;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.agency_id = $cookieStore.get('cdesk_session').agency_id;
-                    return $cookieStore.get('cdesk_session').agency_id;
+                var cdeskSession = $cookies.get('cdesk_session');
+
+                if (!data.agency_id && cdeskSession) {
+                    cdeskSession = JSON.parse(cdeskSession);
+                    data.agency_id = cdeskSession.agency_id;
                 }
+
+                return data.agency_id;
             },
 
             getUserName: function () {
-                if (data.user_name) {
-                    return data.user_name;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.user_name = $cookieStore.get('cdesk_session').user_name;
-                    return $cookieStore.get('cdesk_session').user_name;
+                var cdeskSession = $cookies.get('cdesk_session');
+
+                if (!data.user_name && cdeskSession) {
+                    cdeskSession = JSON.parse(cdeskSession);
+                    data.user_name = cdeskSession.user_name;
                 }
+
+                return data.user_name;
             },
 
             getExpirySecs: function () {
-                if (data.expiry_secs) {
-                    return data.expiry_secs;
-                } else if ($cookieStore.get('cdesk_session')) {
-                    data.expiry_secs = $cookieStore.get('cdesk_session').expiry_secs;
-                    return $cookieStore.get('cdesk_session').expiry_secs;
+                var cdeskSession = $cookies.get('cdesk_session');
+
+                if (!data.expiry_secs && cdeskSession) {
+                    cdeskSession = JSON.parse(cdeskSession);
+                    data.expiry_secs = cdeskSession.expiry_secs;
                 }
+
+                return data.expiry_secs;
             },
 
             getAuthToken: function () {
-                if ($cookieStore.get('cdesk_session')) {
-                    data.auth_token = $cookieStore.get('cdesk_session').auth_token;
+                var cdeskSession = $cookies.get('cdesk_session');
 
-                    // This is to ensure the cookie's path is set to the domain root path
-                    setCookie('cdesk_session', readCookie('cdesk_session'));
+                if (cdeskSession) {
+                    cdeskSession = JSON.parse(cdeskSession);
+                    data.auth_token = cdeskSession.auth_token;
 
                     return data.auth_token;
                 }
             },
 
             cookieExists: function () {
-                return ($cookieStore.get('cdesk_session')) ? true : false;
+                return ($cookies.get('cdesk_session')) ? true : false;
             },
 
             checkCookieExpiry: function () {
-                var cookiesLen = document.cookie.split('cdesk_session').length - 1;
-
-                if (cookiesLen > 1) {
-                    // Any cookie whose path is not ' Path=/;'
-                    deleteCookie('cdesk_session');
-                }
-
-                if (!$cookieStore.get('cdesk_session')) {
+                if (!$cookies.get('cdesk_session')) {
                     localStorage.clear();
                     updateRedirectUrl($location.$$path);
 
@@ -232,21 +191,21 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             logout: function () {
-                $cookieStore.remove('cdesk_session');
+                // Remove cdesk_session cookie. NOTE: Cookie's path should be '/', but just in case it is not, do a second delete with generic path
+                $cookies.remove('cdesk_session', {path: '/'});
+                $cookies.remove('cdesk_session');
+
                 $http.defaults.headers.common.Authorization = '';
                 localStorage.clear();
                 this.deleteData();
                 $location.url('/login');
-
-                // 'Manually' delete cookie using pure JS if AngularJS failed to delete it
-                deleteRootCookie('cdesk_session');
 
                 // remove header bar on login page
                 $('.main_navigation_holder').hide();
             },
 
             unauthorized: function () {
-               this.logout();
+                this.logout();
             },
 
             forbidden: function () {

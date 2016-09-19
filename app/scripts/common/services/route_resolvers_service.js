@@ -488,6 +488,7 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
+
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
