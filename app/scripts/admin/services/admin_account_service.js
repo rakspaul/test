@@ -116,6 +116,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
+
             updateClientBillingSettings = function(clientId,data){ 
                      return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -128,6 +129,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     {cache: false}
                 );
             },
+
 
              updateAdvertiserBillingSettings = function(clientId,data){ 
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -213,11 +215,10 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-            createPixelsUnderAdvertiser = function (clientId, advertiserId, data) {
+            createPixelsUnderAdvertiser = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
-                    '/advertisers/' + advertiserId +
                     '/pixels',
                     data,
                     {'Content-Type': 'application/json'}
@@ -238,7 +239,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands',
                     data,
-                    {'Content-Type': 'application/json'}
+                    {'Content-Type': 'application/json'} 
                 );
             },
 
@@ -473,8 +474,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
-                    '/advertisers/' + advId +
-                    '/pixels_download',
+                    '/pixels_download'+'?advertiserId='+advId,
                     {cache: false}
                 );
             },
