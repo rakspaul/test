@@ -51,9 +51,9 @@
         
         <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
             <label class="col-sm-12 greyTxt">Fee</label>
-            <div class="symbol-input pull-left">
+            <div class="symbol-input pull-left"> 
                 <span class="symbol">$</span>
-                <input type="text" class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].rate">
+                <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID].rate">
             </div>
         </div>
         
@@ -107,7 +107,7 @@
                     <label class="col-sm-12 greyTxt">Total CPM</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol">$</span>
-                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].rate"> 
+                        <input type="text"class="form-control" fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].rate"> 
                     </div>
                 </div>
                 
@@ -146,7 +146,7 @@
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
                                 <div class="td col-md-2">
-                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                    <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices,$index)"></a>
@@ -179,7 +179,7 @@
                     <label class="col-sm-12 greyTxt">Total Markup</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">%</span>
-                        <input type="text" class="form-control" ng-model="billingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate"> 
+                        <input type="text" class="form-control"  fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate"> 
                     </div>
                 </div>
                 
@@ -218,7 +218,7 @@
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
                                 <div class="td col-md-2">
-                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                    <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices,$index)"></a>
@@ -252,7 +252,7 @@
                     <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">%</span>
-                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate"> 
+                        <input type="text" class="form-control"  fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate"> 
                     </div>
                 </div>
                 
@@ -288,7 +288,7 @@
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
                                 <div class="td col-md-2">
-                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                    <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices,$index)"></a>
@@ -322,7 +322,7 @@
                     <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">%</span>
-                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].rate"> 
+                        <input type="text"class="form-control" fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].rate"> 
                     </div>
                 </div>
                 
@@ -361,7 +361,7 @@
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
                                 <div class="td col-md-2">
-                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                    <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].slices,$index)"></a>
@@ -396,7 +396,7 @@
                     <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">%</span>
-                        <input type="text"class="form-control" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].rate"> 
+                        <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].rate"> 
                     </div>
                 </div>
                 
@@ -432,7 +432,7 @@
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
                                 <div class="td col-md-2">
-                                    <input type="text" class="form-control" ng-model="slice.value" />
+                                    <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices,$index)"></a>
