@@ -65,23 +65,23 @@ define(['angularAMD', 'admin-account-service'],
                     .getPixels($scope.clientObj.id)
                     .then(function (res) {
                         if (res.data.status === 'OK' || res.data.status === 'success') {
-                            $scope.parentData.pixels = res.data.data;
+                            $scope.topCtrlData.pixels = res.data.data;
 
-                            _.each($scope.parentData.pixels, function (item, i) {
-                                $scope.parentData.pixels[i].pixelTypeName =
-                                    (item.pixelType === 'PAGE_VIEW') ? 'Action - Page View' :
+                            _.each($scope.topCtrlData.pixels, function (item, i) {
+                                $scope.topCtrlData.pixels[i].pixelTypeName =
+                                    (item.pixelType === 'PAGE_VIEW') ? constants.PIXEL_TYPE_PAGE_VIEW :
                                         (item.pixelType === 'AUDIENCE_CREATION') ?
-                                            'Audience Creation Pixel' : 'Retargeting Pixel';
+                                            constants.PIXEL_TYPE_AUDIENCE_CREATION : constants.PIXEL_TYPE_RETARGETING;
 
-                                $scope.parentData.pixels[i].isFeedData = true;
+                                $scope.topCtrlData.pixels[i].isFeedData = true;
 
                                 if (item.expiryDate) {
-                                    $scope.parentData.pixels[i].expiryDate =
+                                    $scope.topCtrlData.pixels[i].expiryDate =
                                         momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
                                 }
 
-                                $scope.parentData.impLookbackWindow = item.impLookbackWindow;
-                                $scope.parentData.clickLookbackWindow = item.clickLookbackWindow;
+                                $scope.topCtrlData.impLookbackWindow = item.impLookbackWindow;
+                                $scope.topCtrlData.clickLookbackWindow = item.clickLookbackWindow;
                             });
                         }
                     },function () {
@@ -687,7 +687,7 @@ define(['angularAMD', 'admin-account-service'],
                 }
 
                 if (_currCtrl.downloadPixelIds.length &&
-                    (_currCtrl.downloadPixelIds.length <= $scope.parentData.pixels.length)) {
+                    (_currCtrl.downloadPixelIds.length <= $scope.topCtrlData.pixels.length)) {
                     url += '?ids=' + _currCtrl.downloadPixelIds.join(',');
                 }
 
@@ -708,7 +708,7 @@ define(['angularAMD', 'admin-account-service'],
 
             $scope.selectPixel = function (pixelId, isSelected) {
                 if (isSelected) {
-                    $scope.parentData.disableDownLoadPixel = false;
+                    $scope.topCtrlData.disableDownLoadPixel = false;
 
                     if (_currCtrl.downloadPixelIds.indexOf(pixelId) === -1) {
                         _currCtrl.downloadPixelIds.push(pixelId);
@@ -720,7 +720,7 @@ define(['angularAMD', 'admin-account-service'],
                         });
 
                     if (!_currCtrl.downloadPixelIds.length) {
-                        $scope.parentData.disableDownLoadPixel = true;
+                        $scope.topCtrlData.disableDownLoadPixel = true;
                     }
                 }
             }
@@ -798,8 +798,8 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             function getRequestDataforPixel(clientId){
-                _.each($scope.parentData.pixels, function (item, index) {
-                    $scope.parentData.pixels[index] = {
+                _.map($scope.topCtrlData.pixels, function (item, index) {
+                    $scope.topCtrlData.pixels[index] = {
                         name: item.name,
                         clientId: clientId,
                         advertiserId: null,
@@ -815,11 +815,11 @@ define(['angularAMD', 'admin-account-service'],
                     };
 
                     if (item.id) {
-                        $scope.parentData.pixels[index].id = item.id;
+                        $scope.topCtrlData.pixels[index].id = item.id;
                     }
                 });
 
-                return $scope.parentData.pixels;
+                return $scope.topCtrlData.pixels;
             }
 
             $scope.$on('$locationChangeSuccess', function () {
