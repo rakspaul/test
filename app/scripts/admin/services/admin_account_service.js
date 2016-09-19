@@ -116,7 +116,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-            updateClientBillingSettings = function(clientId,data){ 
+            updateClientBillingSettings = function(clientId,data){
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/billing_settings';
@@ -131,7 +131,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-             updateAdvertiserBillingSettings = function(clientId,data){ 
+             updateAdvertiserBillingSettings = function(clientId,data){
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertiser_billing_settings';
@@ -215,11 +215,10 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-            createPixelsUnderAdvertiser = function (clientId, advertiserId, data) {
+            createPixelsUnderAdvertiser = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
-                    '/advertisers/' + advertiserId +
                     '/pixels',
                     data,
                     {'Content-Type': 'application/json'}
@@ -475,8 +474,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.fetch(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
-                    '/advertisers/' + advId +
-                    '/pixels_download',
+                    '/pixels_download'+'?advertiserId='+advId,
                     {cache: false}
                 );
             },
