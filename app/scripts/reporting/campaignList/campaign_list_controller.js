@@ -76,10 +76,9 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                     elem.addClass('active');
                     if(type==='RealTime') {
                         $('#realTimeMessage').show();
-                    }
-                    setTimeout(function(){
+                    } else {
                         $('#realTimeMessage').hide();
-                    }, 15000);
+                    }
                 }
             };
 
