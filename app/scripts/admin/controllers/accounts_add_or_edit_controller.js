@@ -7,7 +7,7 @@ define(['angularAMD', 'admin-account-service'],
             var _currCtrl = this,
                 selectedBillingTypeName;
 
-            _currCtrl.isAdChoiceInClient = false;           
+            _currCtrl.isAdChoiceInClient = false;
 
             _currCtrl.getAdChoiceData = function () {
                 adminAccountsService
@@ -167,7 +167,7 @@ define(['angularAMD', 'admin-account-service'],
                     .createClient(body)
                     .then(function (adv) {
                         if (adv.status === 'OK' || adv.status === 'success') {
-                            
+
                             saveBillingData(result.data.data.id).then(function (result) {
                                 if (result.status !== 'OK' && result.status !== 'success')
                                     $rootScope.setErrAlertMessage(result.message);
@@ -251,21 +251,21 @@ define(['angularAMD', 'admin-account-service'],
 
                 var settingMapIds = {
                 'COGS+%' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
-                'COGS+CPM' : 'BILLING_TYPE_COGS_PLUS_CPM_ID', 
-                'CPM' : 'BILLING_TYPE_CPM_ID', 
-                'CPC' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
-                'CPCV' : 'BILLING_TYPE_CPCV_ID', 
-                'PCCPA' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
-                'TCPA' : 'BILLING_TYPE_TCPA_ID', 
+                'COGS+CPM' : 'BILLING_TYPE_COGS_PLUS_CPM_ID',
+                'CPM' : 'BILLING_TYPE_CPM_ID',
+                'CPC' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
+                'CPCV' : 'BILLING_TYPE_CPCV_ID',
+                'PCCPA' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
+                'TCPA' : 'BILLING_TYPE_TCPA_ID',
                 'Flat Fees' : 'BILLING_TYPE_MONTHLY_FLAT_FEES_ID',
-                'Flat Fee' : 'BILLING_TYPE_MONTHLY_FLAT_FEE_ID', 
-                '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID', 
-                '%NR' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID', 
+                'Flat Fee' : 'BILLING_TYPE_MONTHLY_FLAT_FEE_ID',
+                '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID',
+                '%NR' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
                 'FlatFees+%' : 'BILLING_TYPE_FLATFEE_PERCENTAGE_ID'
                 };
 
                 _.each(settings, function(item,index){
-             
+
                     var name = item.abbreviatedName ? item.abbreviatedName : item.name;
                     settingsMap[settingMapIds[name]] = item.id;
                  });
@@ -280,11 +280,11 @@ define(['angularAMD', 'admin-account-service'],
                     if(res.status === 'OK' || res.status === 'success'){
                         getAdvertiserBillingTypes().then(function(res){
                              if(res.status === 'OK' || res.status === 'success'){
-                                
+
                                     var count = 0;
                                     $scope.months = [];
                                     while (count < 12) $scope.months.push({'index':count + 1,'month':moment().month(count++).format("MMMM")});
-                                    
+
                                     $scope.years = []
                                     var year = momentService.getCurrentYear();
                                     while (year < momentService.getCurrentYear() + 10) $scope.years.push(year++);
@@ -299,11 +299,11 @@ define(['angularAMD', 'admin-account-service'],
                                         getAdvertiserBillingSettings($scope.clientObj.id);
                                     }
 
-                                    
+
                              }
-                        });  
+                        });
                     }
-                });   
+                });
             }
 
 
@@ -316,10 +316,10 @@ define(['angularAMD', 'admin-account-service'],
 
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                             clientBillingTypesData = res.data.data;
-                         
-                            $scope.clientBillingTypes = mapBillingSettingTypes(clientBillingTypesData);   
-                            $scope.clientBillingTypesData = clientBillingTypesData;    
-                           } 
+
+                            $scope.clientBillingTypes = mapBillingSettingTypes(clientBillingTypesData);
+                            $scope.clientBillingTypesData = clientBillingTypesData;
+                           }
 
                            return res;
                         }
@@ -333,11 +333,11 @@ define(['angularAMD', 'admin-account-service'],
                 return adminAccountsService
                     .getAdvertiserBillingTypes()
                     .then(function (res) {
-                        var advertiserBillingTypesData;                     
+                        var advertiserBillingTypesData;
 
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                              advertiserBillingTypesData = res.data.data;
-                             $scope.advertiserBillingTypes =  mapBillingSettingTypes(advertiserBillingTypesData);                    
+                             $scope.advertiserBillingTypes =  mapBillingSettingTypes(advertiserBillingTypesData);
                            }
                            return res;
                         }
@@ -347,19 +347,19 @@ define(['angularAMD', 'admin-account-service'],
              }
 
              function makeDefaultBillingSettings(clientId,billingTypes,settings){
-               
+
              _.each(billingTypes, function(item,index){
                 var rateTypeId = item;
-              
+
                 if(!settings[rateTypeId]){
                     settings[rateTypeId] = {};
                     settings[rateTypeId].clientId = clientId;
                     settings[rateTypeId].rateTypeId = item;
                     settings[rateTypeId].slices = [{'label':'', 'value':''}];
                   }
-               });   
+               });
 
-               return settings;       
+               return settings;
             }
 
             function createEmptyBillingSettings(){
@@ -373,7 +373,7 @@ define(['angularAMD', 'admin-account-service'],
                 .getClientBillingSettings(clientId)
                 .then(function (res) {
 
-                  if ((res.status === 'OK' || res.status === 'success') && res.data.data) {  
+                  if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
                    var clientBillingSettings;
 
                  clientBillingSettings = res.data.data;
@@ -381,14 +381,14 @@ define(['angularAMD', 'admin-account-service'],
                   _.each(clientBillingSettings, function(item,index){
 
                          item.slices = [];
-                         
+
                          for(var i = 1; i < constants.CLIENT_BILLING_SLICE_LIMIT + 1; i++){
                             var sliceLabel = item['slice' + i + 'Label'];
                             var sliceValue = item['slice' + i + 'Value'];
 
                             if(typeof sliceLabel !== 'undefined' && sliceLabel != ''){
                                 item.slices.push({'label' : sliceLabel, 'value' : sliceValue})
-                            }                                
+                            }
                          }
 
                          if(item.startTime){
@@ -404,9 +404,9 @@ define(['angularAMD', 'admin-account-service'],
                              }
 
                          $scope.clientBillingSettings[item.rateTypeId]=item;
-                  }); 
+                  });
 
-                  $scope.clientBillingSettings =  makeDefaultBillingSettings(clientId,$scope.clientBillingTypes,$scope.clientBillingSettings);   
+                  $scope.clientBillingSettings =  makeDefaultBillingSettings(clientId,$scope.clientBillingTypes,$scope.clientBillingSettings);
 
                   if(clientBillingSettings.length > 0){
                         $scope.seeFeeBill();
@@ -420,8 +420,8 @@ define(['angularAMD', 'admin-account-service'],
 
             }
 
-          
-            function getAdvertiserBillingSettings(clientId){  
+
+            function getAdvertiserBillingSettings(clientId){
                      adminAccountsService
                     .getAdvertiserBillingSettings(clientId)
                     .then(function (res) {
@@ -432,14 +432,14 @@ define(['angularAMD', 'admin-account-service'],
                       _.each(advertiserBillingSettings, function(item,index){
 
                              item.slices = [];
-                             
+
                              for(var i = 1; i < constants.CLIENT_BILLING_SLICE_LIMIT + 1; i++){
                                 var sliceLabel = item['slice' + i + 'Label'];
                                 var sliceValue = item['slice' + i + 'Value'];
 
                                 if(typeof sliceLabel !== 'undefined' && sliceLabel != ''){
                                     item.slices.push({'label' : sliceLabel, 'value' : sliceValue})
-                                }                                
+                                }
                              }
 
                              if(item.slices.length > 0)
@@ -450,10 +450,10 @@ define(['angularAMD', 'admin-account-service'],
                                  }
 
                              $scope.advertiserBillingSettings[item.rateTypeId]=item;
-                      }); 
+                      });
 
-                     $scope.advertiserBillingSettings = makeDefaultBillingSettings(clientId,$scope.advertiserBillingTypes,$scope.advertiserBillingSettings);        
-                                      
+                     $scope.advertiserBillingSettings = makeDefaultBillingSettings(clientId,$scope.advertiserBillingTypes,$scope.advertiserBillingSettings);
+
                            }
                         }
                     , function (err) {
@@ -465,7 +465,7 @@ define(['angularAMD', 'admin-account-service'],
             function getBillingDataToSave(billingSettings,clientId){
                 var settingsToSave = [];
 
-                _.each(billingSettings, function(item,index){ 
+                _.each(billingSettings, function(item,index){
                     if(item && item.rate){
                         var tempItem = {};
 
@@ -473,12 +473,12 @@ define(['angularAMD', 'admin-account-service'],
                             tempItem.id = item.id;
 
                         tempItem.rate = Number(item.rate);
-                        tempItem.rateTypeId = item.rateTypeId;    
+                        tempItem.rateTypeId = item.rateTypeId;
                         tempItem.clientId = clientId;
-                        tempItem.startTime = item.startTime;      
+                        tempItem.startTime = item.startTime;
 
                         if(item.updatedAt)
-                            tempItem.updatedAt = item.updatedAt;              
+                            tempItem.updatedAt = item.updatedAt;
 
                         if(item.rate && item.slices){
 
@@ -491,10 +491,10 @@ define(['angularAMD', 'admin-account-service'],
                             }
                         }
                         settingsToSave.push(tempItem);
-                    }                   
+                    }
                 });
 
-                return settingsToSave;                 
+                return settingsToSave;
             }
 
             $scope.addItemizationItem = function(itemizationArray){
@@ -512,10 +512,9 @@ define(['angularAMD', 'admin-account-service'],
                     .getClientBillingData(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                            $scope.rateTypes =  res.data.data;
-                           }
+                            $scope.rateTypes = res.data.data;
                         }
-                    , function (err) {
+                    }, function (err) {
                         console.log('Error = ', err);
                     });
             };
@@ -532,9 +531,9 @@ define(['angularAMD', 'admin-account-service'],
                 $('#serviceFeesBillingValue').trigger('focus');
             };
 
-            function initBillingTypeDropdown(){            
+            function initBillingTypeDropdown(){
                 var billingTypeMonthlyFee =  $scope.clientBillingTypesData.find(function(o){return o.id == $scope.clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID});
-                $scope.billingTypeName = billingTypeMonthlyFee.name; 
+                $scope.billingTypeName = billingTypeMonthlyFee.name;
                 $scope.feeSlotToggle(billingTypeMonthlyFee);
             };
 
@@ -581,11 +580,11 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             $scope.getClientCode = function() {
-              
+
                 if ($scope.clientNameData.clientName) {
                     adminAccountsService
                         .getUserClientCode($scope.clientNameData.clientName)
-                        .then(function (result) { 
+                        .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
                                 var res = result.data.data;
 
@@ -610,10 +609,10 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             $scope.setStartMonth = function (month,monthIndex,feeTypeItem){
-                feeTypeItem.startMonth = month; 
+                feeTypeItem.startMonth = month;
                 if(!feeTypeItem.startTime) feeTypeItem.startTime = momentService.today();
-                
-                var newDate = momentService.setMonth(feeTypeItem.startTime,month); 
+
+                var newDate = momentService.setMonth(feeTypeItem.startTime,month);
                 feeTypeItem.startTime = momentService.setDate(newDate,1).toDate();
 
             }
@@ -621,15 +620,15 @@ define(['angularAMD', 'admin-account-service'],
             $scope.setStartYear = function (year,feeTypeItem){
                 feeTypeItem.startYear = year;
                 if(!feeTypeItem.startTime) feeTypeItem.startTime = momentService.today();
-                
-                var newDate = momentService.setYear(feeTypeItem.startTime,year); 
-                feeTypeItem.startTime = momentService.setDate(newDate,1).toDate();   
+
+                var newDate = momentService.setYear(feeTypeItem.startTime,year);
+                feeTypeItem.startTime = momentService.setDate(newDate,1).toDate();
             }
 
             function saveBillingData(clientId){
                 var billingDataToSave = getBillingDataToSave($scope.clientBillingSettings,clientId);
 
-                
+
                 return adminAccountsService
                     .updateClientBillingSettings(clientId,billingDataToSave)
                         .then(function (result){
@@ -637,7 +636,7 @@ define(['angularAMD', 'admin-account-service'],
                                 var advertiserBillingDataToSave = getBillingDataToSave($scope.advertiserBillingSettings,clientId);
                                 return adminAccountsService
                                     .updateAdvertiserBillingSettings(clientId,advertiserBillingDataToSave);
-                                        
+
                              }else{
                                  console.log('Failed to save data. Error = ', result.data.data.message);
                                  return result;
@@ -661,10 +660,10 @@ define(['angularAMD', 'admin-account-service'],
                         .updateClient(body, body.id)
                         .then(function (result) {
                             if (result.status === 'OK' || result.status === 'success') {
-                                
+
                                saveBillingData(clientObj.id)
                                 .then(function(result){
-                                       
+
                                       if (result.status === 'OK' || result.status === 'success'){
 
                                             $scope.close();
@@ -772,26 +771,26 @@ define(['angularAMD', 'admin-account-service'],
                 $(".noFeeBill").addClass("active");
                 $(".seeFeeBill").removeClass("active");
             }
-            
+
             $scope.seeFeeBill = function() {
                 $(".licenseFee").show();
                 $(".seeFeeBill").addClass("active");
                 $(".noFeeBill").removeClass("active");
             }
-            
+
             $scope.feeSlotToggle = function (billingType) {
                 $(".billingMethodSlot").hide();
                 $(".feeSlot" + billingType.id).show();
                 $scope.billingTypeName = billingType.name;
             }
-            
+
             $scope.arbitrageBill = function() {
                 $(".arbitrageBillView").show();
                 $(".cogsBillView").hide();
                 $(".arbitrageBill").addClass("active");
                 $(".cogsBill").removeClass("active");
             }
-            
+
             $scope.cogsBill = function() {
                 $(".cogsBillView").show();
                 $(".arbitrageBillView").hide();

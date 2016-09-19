@@ -183,7 +183,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
 
             function createPixelsforAdvertiser(clientId, advId) {
                 adminAccountsService
-                    .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
+                    .createPixelsUnderAdvertiser(clientId, getRequestDataforPixel(clientId, advId))
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.fetchAllClients();
