@@ -77,8 +77,8 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                     if(type==='RealTime') {
                         $('#realTimeMessage').show();
                     }
-                    setTimeout(function(){ 
-                        $('#realTimeMessage').hide(); 
+                    setTimeout(function(){
+                        $('#realTimeMessage').hide();
                     }, 15000);
                 }
             };
@@ -198,18 +198,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                 }
             };
 
-            // Lazy Loader
-            $(window).scroll(function () {
-                // Don't attempt to scroll if:
-                // - there's no data, or
-                // - last page is already loaded.
-                if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 || (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
-                    $scope.campaigns.dashboard.quickFilterSelectedCount)) {
-                    $scope.campaigns.loadMoreCampaigns = false;
-
-                    return;
-                }
-
+            var fetchDataOnScroll = function() {
                 if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
                     $scope.campaigns.loadMoreCampaigns = true;
 
@@ -219,7 +208,23 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                         $scope.campaigns.fetchData();
                     }
                 }
+
+            }
+            // Lazy Loader
+            $(window).scroll(function () {
+                // Don't attempt to scroll if:
+                // - there's no data, or
+                // - last page is already loaded.
+                if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 || (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
+                    $scope.campaigns.dashboard.quickFilterSelectedCount)) {
+                    $scope.campaigns.loadMoreCampaigns = false;
+                    return;
+                }
             });
+
+            //the function will be called after it stops being called for N milliseconds.
+            $(window).on('scroll', _.debounce(fetchDataOnScroll, 200));
+
 
             $scope.navigateToMediaPlanCreatePage = function() {
                 $location.url(urlBuilder.mediaPlanCreateUrl());
