@@ -215,7 +215,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-            createPixelsUnderAdvertiser = function (clientId, data) {
+            createPixels = function (clientId, data) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
@@ -225,12 +225,14 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-            getPixelsUnderAdvertiser = function (clientId, advertiserId) {
+            getPixels = function (clientId, advertiserId) {
+                var url =  vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId;
+
+                url += advertiserId ? '/advertisers/' + advertiserId : '';
+                url += '/pixels';
                 return dataService.fetch(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/advertisers/' + advertiserId +
-                    '/pixels',
+                    url,
                     {cache: false}
                 );
             },
@@ -506,8 +508,8 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
             createAdvertiserUnderClient : createAdvertiserUnderClient,
             updateAdvertiserUnderClient : updateAdvertiserUnderClient,
             getAdvertiserUnderClient : getAdvertiserUnderClient,
-            createPixelsUnderAdvertiser : createPixelsUnderAdvertiser,
-            getPixelsUnderAdvertiser : getPixelsUnderAdvertiser,
+            createPixels : createPixels,
+            getPixels : getPixels,
             createBrand : createBrand,
             getBrandDetails : getBrandDetails,
             createBrandUnderAdvertiser : createBrandUnderAdvertiser,

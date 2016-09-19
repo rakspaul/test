@@ -330,10 +330,11 @@ define(['angularAMD'], function (angularAMD) {
                 },
 
                 downloadAdminAdvPixel = function (clientId, advId){
-                    return vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/advertisers/' + advId +
                         '/pixels_download';
+                    url += advId ? 'advertiserId='+advId : '';
+                    return url;
                 },
 
                 getInvoiceDetials = function (clientId, invoiceId){

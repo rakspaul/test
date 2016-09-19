@@ -1,6 +1,7 @@
 <div class="nav_filters_heading">Brand</div>
 <div class="col-md-12 zeroPadding" ng-class="{no_pointer: advertiser_id &&  advertiser_id == -1}">
-    <div class="brand_name_selected" id="brand_name_selected" ng-click="(advertiser_id &&  advertise_id !== -1)   ? brandsDropdownClicked() : ''" title="{{selectedBrand.name}}" ng-bind="(selectedBrand.name ? selectedBrand.name : 'All Brands')" ></div>
+    <div class="brand_name_selected" id="brand_name_selected" ng-click="(advertiser_id &&  advertise_id !== -1)   ? brandsDropdownClicked() : ''"
+         title="{{selectedBrand.brandName}}" ng-bind="(selectedBrand.brandName ? selectedBrand.brandName : 'All Brands')" ></div>
     <span class="icon-arrow-solid-down"></span>
 </div>
 

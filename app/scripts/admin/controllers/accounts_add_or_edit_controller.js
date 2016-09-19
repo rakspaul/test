@@ -232,11 +232,9 @@ define(['angularAMD', 'admin-account-service'],
                             _currCtrl.saveAdnlData();
                             $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
                             return result;
-<<<<<<< .merge_file_N9k6MR
+
                         }else {
-                            $rootScope.setErrAlertMessage(getErrorMessage(adv));
-=======
->>>>>>> .merge_file_3UIl0f
+                            $rootScope.setErrAlertMessage(getErrorMessage(result));
                         }
                     });
             }
@@ -315,7 +313,7 @@ define(['angularAMD', 'admin-account-service'],
                 'CPC' : 'BILLING_TYPE_CPC_ID',
                 'CPCV' : 'BILLING_TYPE_CPCV_ID',
                 'PCCPA' : 'BILLING_TYPE_PCCPA_ID',
-                'TCPA' : 'BILLING_TYPE_TCPA_ID',
+                'TCPA' : 'BILLING_TYPE_TCPA_ID', 
                 'Flat Fees' : 'BILLING_TYPE_MONTHLY_FLAT_FEES_ID',
                 'Flat Fee' : 'BILLING_TYPE_MONTHLY_FLAT_FEE_ID',
                 '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID',
