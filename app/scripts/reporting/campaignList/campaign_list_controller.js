@@ -216,7 +216,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                     }
                 }
 
-            }
+            };
 
             //the function will be called after it stops being called for N milliseconds.
             $(window).on('scroll', _.debounce(fetchDataOnScroll, 200));
