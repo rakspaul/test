@@ -1,7 +1,8 @@
 define(['angularAMD'], function (angularAMD) {
     angularAMD.service('accountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'workflowService',
-        'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig', 'pageFinder',
-        function ($rootScope, $location, $q, $route, $timeout, workflowService, subAccountService, RoleBasedService, featuresService, dataService, vistoconfig, pageFinder) {
+        'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig',  'pageFinder',
+        function ($rootScope, $location, $q, $route, $timeout, workflowService, subAccountService, RoleBasedService, featuresService, dataService,
+                  vistoconfig, pageFinder) {
         var accountList = [],
             selectedAccount;
 
@@ -65,46 +66,114 @@ define(['angularAMD'], function (angularAMD) {
                 return selectedAccount;
             },
 
+            goToLandingPage : function(features, url) {
+                if (features.indexOf('ENABLE_ALL') !== -1) {
+                    url += '/dashboard';
+                } else {
+                    if (features.indexOf('DASHBOARD') !== -1) {
+                        url += '/dashboard';
+                    } else {
+                        url += '/mediaplans';
+                    }
+                }
+                $location.url(url);
+            },
+
             changeAccount: function(account) {
-                var page,
-                    url;
 
                 subAccountService.reset();
                 featuresService.reset && featuresService.reset();
 
-                page = pageFinder.pageBuilder($location.path());
-                url = '/a/' + account.id;
+                var selectedAccount,
+                    routePermissionMapper = {
+                        'mediaplans' : 'mediaplan_list',
+                        'dashboard' : 'dashboard',
+                        'creativeList' : 'creative_list',
+                        'performance' : 'performance',
+                        'platform' : 'platform',
+                        'cost' : 'cost',
+                        'inventory' : 'inventory',
+                        'quality' : 'quality',
+                        'optimization' : 'optimization_impact',
+                        //'overview' : 'report_overview',
+                        'invoice' : 'reports_invoice'
+                    },
+                    fparams,
+                    path,
+                    routePath,
+                    page,
+                    url,
+                    features,
+                    subAccountId,
+                    that = this;
 
-                if (account.isLeafNode) {
-                    url = page.buildPage(url);
-                    $location.url(url);
+                selectedAccount = _.find(this.getAccounts(), function (client) {
+                    return client.id === account.id;
+                });
 
-                } else {
-                    if (page.isDashboardPage()) {
+                if(!selectedAccount) {
+                    selectedAccount = this.getAccounts()[0];
+                }
 
-                        // fetch all the subaccounts including the leaf accounts
-                        subAccountService
-                            .fetchSubAccountList(account.id)
-                            .then(function () {
-                                var subAccountId = subAccountService.getSubAccounts()[0].id;
-                                url += '/sa/' + subAccountId;
-                                $location.url(page.buildPage(url));
 
-                            });
-                    } else if (page.isCustomReportsPage() || page.isCustomReportsListPage()) {
-                        // doesn't require the sub account idF
-                        $location.url(page.buildPage(url));
-                    } else {
-                        // fetch only the leaf subaccounts
-                        subAccountService
-                            .fetchSubAccountList(account.id)
-                            .then(function () {
-                                var subAccountId = subAccountService.getSubAccounts()[0].id;
 
-                                url += '/sa/' + subAccountId;
-                                $location.url(page.buildPage(url));
-                            });
-                    }
+                if (that.allowedAccount(account.id)) {
+                    that
+                        .fetchAccountData(account.id)
+                        .then(function (response) {
+                            url = '/a/' + account.id;
+                            features = response.data.data.features;
+                            featuresService.setFeatureParams(features);
+                            path = _.last($location.path().split('/'));
+                            routePath = routePermissionMapper[path];
+                            fparams = featuresService.getFeatureParams();
+                            if(routePath && fparams[0] && !fparams[0][routePath])  {
+                                if(account.isLeafNode) {
+                                    that.goToLandingPage(features, url);
+                                } else {
+                                    subAccountService
+                                        .fetchSubAccountList(account.id)
+                                        .then(function () {
+                                            subAccountId = subAccountService.getSubAccounts()[0].id;
+                                            url += '/sa/' + subAccountId;
+                                            that.goToLandingPage(features, url);
+                                        });
+                                }
+                            } else {
+
+                                page = pageFinder.pageBuilder($location.path());
+                                if (account.isLeafNode) {
+                                    url = page.buildPage(url);
+                                    $location.url(url);
+
+                                } else {
+                                    if (page.isDashboardPage()) {
+
+                                        // fetch all the subaccounts including the leaf accounts
+                                        subAccountService
+                                            .fetchSubAccountList(account.id)
+                                            .then(function () {
+                                                subAccountId = subAccountService.getSubAccounts()[0].id;
+                                                url += '/sa/' + subAccountId;
+                                                $location.url(page.buildPage(url));
+
+                                            });
+                                    } else if (page.isCustomReportsPage() || page.isCustomReportsListPage()) {
+                                        // doesn't require the sub account idF
+                                        $location.url(page.buildPage(url));
+                                    } else {
+                                        // fetch only the leaf subaccounts
+                                        subAccountService
+                                            .fetchSubAccountList(account.id)
+                                            .then(function () {
+                                                subAccountId = subAccountService.getSubAccounts()[0].id;
+                                                url += '/sa/' + subAccountId;
+                                                $location.url(page.buildPage(url));
+                                            });
+                                    }
+                                }
+                            }
+                        });
                 }
             },
 
