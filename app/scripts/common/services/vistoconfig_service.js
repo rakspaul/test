@@ -203,7 +203,7 @@ define(['angularAMD'], function (angularAMD) {
             selectedAccountData = accountData;
         };
 
-        this.getCurrentSelectedAccount = function(accountData) {
+        this.getCurrentSelectedAccount = function() {
             return selectedAccountData;
         };
 
