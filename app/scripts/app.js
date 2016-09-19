@@ -236,11 +236,7 @@ define(['common'], function (angularAMD) {
                                                     });
                                             } else {
                                                 deferrer.reject('advertiser not allowed');
-                                                routeResolversParams.$location.url
-
-
-
-                                                ('/tmp');
+                                                routeResolversParams.$location.url('/tmp');
                                             }
                                         });
                                 });
