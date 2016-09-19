@@ -1,11 +1,11 @@
 define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('HeaderController', ['$http', '$q', '$scope', '$rootScope', '$route', '$cookieStore', '$location',
+    angularAMD.controller('HeaderController', ['$http', '$q', '$scope', '$rootScope', '$route', '$location',
         '$modal', '$routeParams', '$sce', '$timeout', 'constants', 'loginModel', 'domainReports', 'campaignSelectModel', 'RoleBasedService',
         'workflowService', 'featuresService', 'accountService', 'subAccountService', 'vistoconfig', 'localStorageService', 'advertiserModel', 'brandsModel',
         'strategySelectModel', 'pageFinder', 'urlBuilder',
-        function ($http, $q, $scope, $rootScope, $route, $cookieStore, $location, $modal, $routeParams, $sce, $timeout, constants, loginModel,
+        function ($http, $q, $scope, $rootScope, $route, $location, $modal, $routeParams, $sce, $timeout, constants, loginModel,
                   domainReports, campaignSelectModel, RoleBasedService, workflowService, featuresService, accountService, subAccountService,
                   vistoconfig, localStorageService, advertiserModel, brandsModel, strategySelectModel, pageFinder, urlBuilder) {
         var featurePermission = function () {

@@ -19,9 +19,10 @@ define(['common'], function (angularAMD) {
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping Visto',
                     templateUrl: 'home.html',
-                    controller: function ($cookieStore, $location, RoleBasedService, dataService, accountService, urlBuilder) {
+                    controller: function ($cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
-                        if ($cookieStore.get('cdesk_session')) {
+
+                        if ($cookies.get('cdesk_session')) {
                             preferredClientId = RoleBasedService.getUserData().preferred_client;
                             dataService.updateRequestHeader();
 
@@ -44,7 +45,6 @@ define(['common'], function (angularAMD) {
                                     }
 
                                     if (accountService.allowedAccount(account.id)) {
-
                                         accountService
                                             .fetchAccountData(account.id)
                                             .then(function (response) {
@@ -755,7 +755,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
                 .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/quality', angularAMD.route({
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
@@ -769,7 +768,6 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/quality', angularAMD.route({
                     templateUrl: assets.html_viewability,
@@ -953,7 +951,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
                 .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
@@ -967,7 +964,6 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
                     templateUrl: assets.html_optimization,
@@ -1697,7 +1693,6 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
-
                 }))
 
                 .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({
@@ -1853,9 +1848,7 @@ define(['common'], function (angularAMD) {
             $compileProvider.debugInfoEnabled(false);
         }])
 
-        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService , subAccountService, $window) {
-
+        .run(function ($rootScope, $location, loginModel, brandsModel, dataService, workflowService , subAccountService, $window) {
             var loginCheckFunc = function () {
                     var locationPath = $location.path();
 
