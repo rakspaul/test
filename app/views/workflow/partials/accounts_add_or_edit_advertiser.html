@@ -6,7 +6,7 @@
     <!--Header-->
     <div class="modal-header">
         <span class="btn btn-primary pull-right"
-              data-ng-click="saveAdvertisers()"
+              data-ng-click="isEditMode ? saveAdvertisers() : saveAdvertisers(true)"
               data-ng-bind="isEditMode ? 'Update' : 'Create'">
             Save
         </span>
@@ -263,7 +263,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="pixelsCnt" data-ng-if="activeEditAdvertiserTab == 'pixel'">
             <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
                 <h1 class="pull-left zeroMargin">Pixels</h1>
@@ -504,5 +504,20 @@
 
     </ul>
     <input type="hidden"  data-ng-model="selectedAdvertiserId">
+
+    <div class="common-popup-container" ng-show="showInfoMessage" id="infoPopup" style="z-index:999999999">
+        <div class="popup" style="min-height:200px;">
+            <div class="popup-header-body">
+                <div class="popup-content" >
+                    <span class="icon-info pull-left" style="color: #6ABDFA;margin: 0px 25px 20px 0;font-size: 26px;"></span>
+                    <span class="font-bold">{{selectedAdvertiser}}</span> {{textConstants.AD_CREATION_INFO}}</div>
+            </div>
+            <div class="clearfix popup-footer" >
+                <button type="button" ng-click="saveAdvertisers()" class="common_primary_btn pull-right" ng-show="!loadingBtnFlag" data-ng-bind="textConstants.CREATE"></button>
+                <div  class="common-loading-btn pull-right" ng-show="loadingBtnFlag"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- end of modal_body -->

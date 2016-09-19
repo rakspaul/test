@@ -7,6 +7,8 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             var _currCtrl = this,
                 selectedBillingTypeName,
                 searchAdvertisersTimer = 0;
+            $scope.showInfoMessage = false;
+            $scope.loadingBtnFlag = false;
 
             _currCtrl.downloadPixelIds = [];
 
@@ -141,6 +143,8 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                             } else {
                                 $rootScope.setErrAlertMessage('Advertiser added successfully', 0);
                             }
+                            $('#infoPopup').remove();
+                            $scope.loadingBtnFlag = false;
                         } else {
                             $rootScope.setErrAlertMessage(result.data.data.message);
                         }
@@ -328,12 +332,17 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                 $scope.advertiserAddOrEditData.selectedIABSubCategoryId = type.id;
             };
 
-            $scope.saveAdvertisers = function () {
+            $scope.saveAdvertisers = function (showPopupFlag) {
                 if (!_currCtrl.verifyCreateAdvInputs()) {
                     return;
                 }
+                if($scope.isEditMode == false && showPopupFlag) {
+                    $scope.showInfoMessage = true;
+                } else {
+                    $scope.loadingBtnFlag = true ;
+                    createAdvertiserUnderClient($scope.selectedAdvertiserId);
+                }
 
-                createAdvertiserUnderClient($scope.selectedAdvertiserId);
             };
 
             $scope.showRespectiveMethod = function (type) {
@@ -497,9 +506,9 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                 .opened
                 .then(function () {
                     $('popup-msg').appendTo(document.body);
-
                     $timeout(function() {
                         $('#pixelExpDate').datepicker('setEndDate', momentService.addDays('YYYY-MM-DD', 364));
+                        $('#infoPopup').appendTo(document.body);
                     }, 5000);
 
                 });

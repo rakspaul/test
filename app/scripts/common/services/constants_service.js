@@ -33,7 +33,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.REPORTS_OVERVIEW = 'Reports Overview';
         this.ADMIN = 'Admin';
         this.INVOICE_TOOL = 'Billing';
-        
+
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
         this.ACTIVE = 'active';
@@ -840,6 +840,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CLIENT_CODE_EXIST = 'Already exists. Please choose a different Client Code.';
         this.ADVERTISER_CODE_EXIST = 'Please choose a different Advertiser Code.';
         this.CODE_VERIFICATION = 'Please enter valid 5 alphanumeric characters';
+        this.AD_CREATION_INFO = 'will now be created on all the associated buying platforms'
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
