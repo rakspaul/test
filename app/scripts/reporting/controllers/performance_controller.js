@@ -33,7 +33,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         $scope.sortType             = 'impressions';
         $scope.sortTypebyformats    = '-impressions';
         $scope.sortTypebyplatforms  = '-impressions';
-        $scope.sortTypebydaysofweek = '-impressions';
+        $scope.sortTypebydaysofweek = 'dimension1';
         $scope.sortTypeByCreatives  = '-impressions';
         $scope.sortTypeByAdSizes    = '-impressions';
         $scope.sortTypeScreens      = '-impressions';
