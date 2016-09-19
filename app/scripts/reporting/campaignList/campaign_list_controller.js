@@ -79,7 +79,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                     }
                     setTimeout(function(){ 
                         $('#realTimeMessage').hide(); 
-                    }, 6000);
+                    }, 15000);
                 }
             };
 
