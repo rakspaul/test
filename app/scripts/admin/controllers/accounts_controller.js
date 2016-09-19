@@ -138,26 +138,26 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
 
                 function getPixelsData(clientId, advId) {
                     adminAccountsService
-                        .getPixelsUnderAdvertiser(clientId, advId)
+                        .getPixels(clientId, advId)
                         .then(function (res) {
                             if (res.data.status === 'OK' || res.data.status === 'success') {
-                                $scope.advertiserData.pixels = res.data.data;
+                                $scope.parentData.pixels = res.data.data;
 
-                                _.each($scope.advertiserData.pixels, function (item, i) {
-                                    $scope.advertiserData.pixels[i].pixelTypeName =
+                                _.each($scope.parentData.pixels, function (item, i) {
+                                    $scope.parentData.pixels[i].pixelTypeName =
                                         (item.pixelType === 'PAGE_VIEW') ? 'Action - Page View' :
                                             (item.pixelType === 'AUDIENCE_CREATION') ?
                                                 'Audience Creation Pixel' : 'Retargeting Pixel';
 
-                                    $scope.advertiserData.pixels[i].isFeedData = true;
+                                    $scope.parentData.pixels[i].isFeedData = true;
 
                                     if (item.expiryDate) {
-                                        $scope.advertiserData.pixels[i].expiryDate =
+                                        $scope.parentData.pixels[i].expiryDate =
                                             momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
                                     }
 
-                                    $scope.advertiserData.impLookbackWindow = item.impLookbackWindow;
-                                    $scope.advertiserData.clickLookbackWindow = item.clickLookbackWindow;
+                                    $scope.parentData.impLookbackWindow = item.impLookbackWindow;
+                                    $scope.parentData.clickLookbackWindow = item.clickLookbackWindow;
                                 });
                             }
                         },function () {
@@ -188,6 +188,15 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                     pixelTypeName: 'Select Pixel Type'
                 };
 
+                $scope.parentData = {
+                    id: '',
+                    companyUrl: '',
+                    name: '',
+                    lookbackImpressions: 14,
+                    lookbackClicks: 14,
+                    pixels:[],
+                    disableDownLoadPixel : true
+                };
                 $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
                 $scope.brandsList = [];
                 $scope.advertisersList = [];
@@ -267,11 +276,11 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                             ];
 
                             _.each(keyArr,function (v) {
-                                $scope.advertiserData.pixels[$scope.pixelIndex][v] =  $scope.pixelFormData[v];
+                                $scope.parentData.pixels[$scope.pixelIndex][v] =  $scope.pixelFormData[v];
                             });
                         } else {
                             // Create
-                            $scope.advertiserData.pixels.push($scope.pixelFormData);
+                            $scope.parentData.pixels.push($scope.pixelFormData);
                         }
 
                         $scope.clearPixel();
@@ -279,8 +288,8 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 };
 
                 $scope.removePixel = function () {
-                    $scope.advertiserData.pixels =
-                        _.filter($scope.advertiserData.pixels,function (item, i) {
+                    $scope.parentData.pixels =
+                        _.filter($scope.parentData.pixels,function (item, i) {
                             return i !== $scope.pixelIndex;
                         });
 
@@ -502,14 +511,6 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                     $scope.clientId = client.id;
                     $scope.isEditMode = (mode === 'edit') ? true : false;
 
-                    $scope.advertiserData = {
-                        id: '',
-                        companyUrl: '',
-                        name: '',
-                        lookbackImpressions: 14,
-                        lookbackClicks: 14,
-                        pixels:[]
-                    };
 
                     $scope.activeEditAdvertiserTab = 'basic';
                     $scope.clientObj = client;
@@ -533,9 +534,9 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
 
                                     $scope.selectedAdvertiserId = result.id ? result.id : advObj.id;
                                     $scope.selectedAdvertiser = result.name ? result.name : advObj.name;
-                                    $scope.advertiserData.lookbackImpressions = result.lookbackImpressions;
-                                    $scope.advertiserData.lookbackClicks = result.lookbackClicks;
-                                    $scope.advertiserData.companyUrl = result.companyUrl || '';
+                                    $scope.parentData.lookbackImpressions = result.lookbackImpressions;
+                                    $scope.parentData.lookbackClicks = result.lookbackClicks;
+                                    $scope.parentData.companyUrl = result.companyUrl || '';
                                 }
 
                                 getPixelsData(client.id,advObj.id);
@@ -556,7 +557,7 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                             loadTemplate = true;
 
                             if (res.data.status === 'OK' && res.data.statusCode === 200 && res.data.data.length) {
-                                $scope.advertiserData.clientId = client.id;
+                                $scope.parentData.clientId = client.id;
                                 $scope.advertisersList = res.data.data;
                             }
                         }, function (err) {
