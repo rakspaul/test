@@ -197,7 +197,6 @@ define(['angularAMD', 'data-store-model', 'common-utils', 'url-service'],
 
                     append = function (url, paramsObj) {
                         var property;
-console.log('dataService.append(), url = ', url, ', paramsObj = ', paramsObj);
 
                         for (property in paramsObj) {
                             if (paramsObj.hasOwnProperty(property)&&paramsObj[property] !== '') {
@@ -211,7 +210,7 @@ console.log('dataService.append(), url = ', url, ', paramsObj = ', paramsObj);
                     fetch = function (url, cacheObj) {
                         cacheObj = _.extend({cache:false}, cacheObj);
                         loginModel.checkCookieExpiry();
-console.log('dataService.fetch(), url = ', url, ', cacheObj = ', cacheObj);
+
                         return $http({
                             url: url,
                             method: 'GET',

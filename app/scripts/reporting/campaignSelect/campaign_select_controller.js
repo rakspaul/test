@@ -63,11 +63,10 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
                 $scope.fetchCampaigns = function (search) {
                     delete searchCriteria.clientId;
                     delete searchCriteria.advertiserId;
-console.log('campaignSelectController: fetchCampaigns(), search = ', search, ', searchCriteria = ', searchCriteria);
+
                     campaignSelectModel
                         .getCampaigns(vistoconfig.getSelectedBrandId(), searchCriteria)
                         .then(function () {
-                            // TODO: rewrite what to do in search condition
                             var campObj = campaignSelectModel.getCampaignObj(),
                                 campArrObj = campObj.campaigns;
 
@@ -86,9 +85,8 @@ console.log('campaignSelectController: fetchCampaigns(), search = ', search, ', 
 
                             _.uniq($scope.campaignData.campaigns);
                             $scope.fetching = false;
-console.log('campArrObj.length = ', campArrObj.length);
+
                             if (campArrObj.length < searchCriteria.limit) {
-console.log('Don\'t load next call');
                                 $scope.loading_icon_mediaplan = '' ;
                                 $scope.exhausted = true;
                             } else {
@@ -100,6 +98,7 @@ console.log('Don\'t load next call');
                 $scope.search = function (fileIndex) {
                     var search,
                         campaignDropdown = $('.campaignDropdown');
+
                     if (searchMoreTimer) {
                         clearTimeout(searchMoreTimer);
                     }
@@ -114,7 +113,7 @@ console.log('Don\'t load next call');
                         }
 
                         searchCriteria.key = search.trim();
-                        console.log('search = #' + searchCriteria.key + '#');
+
                         // Don't perform search if search key is exactly 1 char. This is in line with the API search implementation.
                         if (searchCriteria.key.length === 1) {
                             return;

@@ -699,7 +699,6 @@ define(['angularAMD'],
         $.fn.scrollWithinDiv = function () {
             this.bind('mousewheel DOMMouseScroll', function (e) {
                 var scrollTo;
-console.log('scrollWithinDiv()...');
 
                 if (e.type === 'mousewheel') {
                     scrollTo = (e.originalEvent.wheelDelta * -1);

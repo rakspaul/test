@@ -27,7 +27,6 @@ define(['angularAMD'], function (angularAMD) {
                 $('.dropdown_list_scroll').scrollWithinDiv();
 
                 $scope.addActiveSelection = function () {
-console.log('$scope.addActiveSelection()');
                     $('.dropdown_type2').removeClass('active');
                     $('.dropdown_type1_holder').addClass('active');
                 };
