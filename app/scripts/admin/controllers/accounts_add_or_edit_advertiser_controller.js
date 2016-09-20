@@ -165,7 +165,6 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     $scope.topCtrlData.pixels[index] = {
                         name: item.name,
                         clientId: clientId,
-                        advertiserId: advertiserId,
                         pixelType: item.pixelType,
                         poolSize: 0,
                         description: item.description,
@@ -176,6 +175,10 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                         clickLookbackWindow: item.clickLookbackWindow,
                         expiryDate: momentService.localTimeToUTC(item.expiryDate, 'endTime')
                     };
+
+                    if(advertiserId) {
+                        $scope.topCtrlData.pixels[index].advertiserId = advertiserId;
+                    }
 
                     if (item.id) {
                         $scope.topCtrlData.pixels[index].id = item.id;
