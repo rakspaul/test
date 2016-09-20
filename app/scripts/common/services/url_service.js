@@ -128,10 +128,12 @@ define(['angularAMD'], function (angularAMD) {
 
                 APICampaignCountsSummary = function (timePeriod, clientId, advertiserId, brandId, status) {
 
+                    brandId = (Number(brandId) === 0)?-1:brandId;
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/campaigns/summary/counts?advertiser_id=' + advertiserId +
-                        (brandId > -1 ? '&brand_id=' + brandId : '') + '&date_filter=' + timePeriod +
+                        '&brand_id=' + brandId + '&date_filter=' + timePeriod +
                         (status ? '&campaignState=' + status :'');
                 },
 
