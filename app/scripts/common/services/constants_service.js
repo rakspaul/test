@@ -679,7 +679,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.CARD_VIEW_REALTIME = 'Real-time Card View';
         this.CARD_VIEW_STANDARD = 'Standard Card View';
-        this.CARD_VIEW_REALTIME_MESSAGE = 'The real-time view of Media Plans uses the most recent Visto Tracker<sup>TM</sup> data available.';
+        this.CARD_VIEW_REALTIME_MESSAGE = 'The real-time view of Media Plans uses the most recent Visto Tracker<sup>TM</sup> data available. <br/> Real-time data provides preliminary numbers. Values may change after data audit.';
 
 
         //Ad Create: Header
