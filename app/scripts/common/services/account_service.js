@@ -48,8 +48,8 @@ define(['angularAMD'], function (angularAMD) {
                         });
 
                         if (selectedAccount) {
-                          //  vistoconfig.setCurrentSelectedAccount(selectedAccount);
-                          //  vistoconfig.setClientTimeZone(selectedAccount.timezone);
+                           vistoconfig.setCurrentSelectedAccount(selectedAccount);
+                           vistoconfig.setClientTimeZone(selectedAccount.timezone);
                             return true;
                         }
                     }
