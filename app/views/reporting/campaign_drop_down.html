@@ -14,7 +14,7 @@
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
             <ul class="nav navbar-nav">
-                <li class="dropdown {{loading_icon_mediaplan}}" >
+                <li class="dropdown {{loading_icon_mediaplan}}">
                     <ul class="dropdown-menu campaigns_list" role="menu" id="campaigns_list">
                         <div id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"
@@ -22,7 +22,7 @@
                                    data-ng-keyup="search(fileIndex)"
                                    placeHolder="Select Campaign">
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
-                            <span class="campaign_name_length" data-ng-bind="selectedObj.name"></span>
+                            <span class="campaign_name_length" data-ng-bind="selectedObj.name">wait...</span>
                         </div>
                         <div class="dropdown_list_scroll">
                             <li data-ng-repeat="campaign in campaignData.campaigns track by $index"
@@ -31,12 +31,11 @@
                                 title="{{campaign.name}}">
                                 <a data-ng-click="selectCampaign(campaign)">
                                     <span class="tick"></span>
-                                    <span class="menuItemText"
-                                          data-ng-bind-html="highlightSearch(campaign.name, selectedObj.name)"
-                                          data-ng-bind="campaign.name">
-                                    </span>
+                                    <span class="menuItemText" data-ng-bind-html="highlightSearch(campaign.name, selectedObj.name)" data-ng-bind="campaign.name"></span>
                                 </a>
                             </li>
+                            <li class="common-loading-area" data-ng-show="fetching"></li>
+                            <!--li class="common-loading-area" data-ng-show="brandsData.length > 0 && !noMoreBrandsToLoad"></li-->
                         </div>
                     </ul>
                 </li>

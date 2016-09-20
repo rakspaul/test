@@ -36,7 +36,7 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
                     var clientId = vistoconfig.getSelectedAccountId(),
                         advertiserId = vistoconfig.getSelectAdvertiserId(),
                         url = urlService.APICampaignDropDownList(clientId, advertiserId, brand, searchCriteria);
-
+console.log('campaignSelectModel.getCampaigns(), brand = ', brand, ', searchCriteria = ', searchCriteria, ', url = ', url);
                     return dataService
                         .fetch(dataService.append(url, searchCriteria))
                         .then(function (response) {

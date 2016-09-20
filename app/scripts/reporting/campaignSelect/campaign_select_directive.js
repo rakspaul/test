@@ -26,7 +26,8 @@ define(['angularAMD'], function (angularAMD) {
 
                 $('.dropdown_list_scroll').scrollWithinDiv();
 
-                $scope.add_active_selection = function () {
+                $scope.addActiveSelection = function () {
+console.log('$scope.addActiveSelection()');
                     $('.dropdown_type2').removeClass('active');
                     $('.dropdown_type1_holder').addClass('active');
                 };
@@ -42,13 +43,12 @@ define(['angularAMD'], function (angularAMD) {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
                     }
 
-                    if (( $(event.target).closest('.campaignDropdown').length === 0) &&
-                        ( $(event.target).closest('.campaign_name_selected').length === 0)  &&
+                    if (($(event.target).closest('.campaignDropdown').length === 0) &&
+                        ($(event.target).closest('.campaign_name_selected').length === 0)  &&
                         campaignsList.is(':visible') === true ) {
                         campaignsList.hide();
 
-                        if (localStorageCampaignData.id ||
-                            (localStorageCampaignData.id === $scope.$parent.selectedCampaign.id)) {
+                        if (localStorageCampaignData.id || (localStorageCampaignData.id === $scope.$parent.selectedCampaign.id)) {
                             inputValue = localStorageCampaignData.name;
 
                             if (inputValue) {
