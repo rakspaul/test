@@ -8,7 +8,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
 
             var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter')),
 
-                // by default it is active.  Now check local storage if we want to change it last saved status.
+            // by default it is active.  Now check local storage if we want to change it last saved status.
                 dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT},
 
                 setTitle = function () {
@@ -26,10 +26,10 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                     return dataService
                         .fetch(url)
                         .then(function (response) {
-                                var totalCamapigns = response.data.data.total_campaigns;
-                                var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
-                                dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
-                            });
+                            var totalCamapigns = response.data.data.total_campaigns;
+                            var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+                            dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
+                        });
                 },
 
 
@@ -75,9 +75,9 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
 
             if (localStoredCampaignStatus !== null && localStoredCampaignStatus !== undefined &&
                 (localStoredCampaignStatus === constants.DASHBOARD_STATUS_ALL ||
-                    localStoredCampaignStatus === constants.DASHBOARD_STATUS_IN_FLIGHT ||
-                    localStoredCampaignStatus === constants.DASHBOARD_STATUS_ENDED)) {
-               dashboardData.selectedStatus= localStoredCampaignStatus;
+                localStoredCampaignStatus === constants.DASHBOARD_STATUS_IN_FLIGHT ||
+                localStoredCampaignStatus === constants.DASHBOARD_STATUS_ENDED)) {
+                dashboardData.selectedStatus= localStoredCampaignStatus;
             }
 
             dashboardData.statusDropdownValues = [

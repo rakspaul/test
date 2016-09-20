@@ -18,10 +18,10 @@
         <div class="pull-left main_heading">
             <a data-ng-click="redirectTo(showManageButton,campaign, campaigns.dashboard.appliedFilterType, $event)">
                 <truncate-text-with-hover
-                        txt="{{campaign.campaignTitle}}"
-                        txt-html="{{campaign.campaignTitleHtml}}"
-                        txtlength="75"
-                        lst-campaign=campaign>
+                    txt="{{campaign.campaignTitle}}"
+                    txt-html="{{campaign.campaignTitleHtml}}"
+                    txtlength="75"
+                    lst-campaign=campaign>
                 </truncate-text-with-hover>
             </a>
         </div>
@@ -90,13 +90,13 @@
                 </div>
             </a>
 
-           <a data-ng-href="{{redirectToOverViewPage(campaign)}}"
-              id="campaigns_activity_btn" data-ng-show="showManageButton">
-               <div class="btn btn-default pull-right"
-                    data-ng-show="(campaigns.dashboard.appliedFilterType !== 'archived' &&
+            <a data-ng-href="{{redirectToOverViewPage(campaign)}}"
+               id="campaigns_activity_btn" data-ng-show="showManageButton">
+                <div class="btn btn-default pull-right"
+                     data-ng-show="(campaigns.dashboard.appliedFilterType !== 'archived' &&
                         campaigns.dashboard.appliedFilterType !== 'all') ||
                         (campaigns.dashboard.appliedFilterType === 'all' && !campaign.is_archived)">
-                   <span data-ng-bind="textConstants.MANAGE"></span>
+                    <span data-ng-bind="textConstants.MANAGE"></span>
                 </div>
             </a>
         </div>
@@ -159,8 +159,8 @@
                 </span>
                 <span data-ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>
             </div>
-             <div class="each_metric_graph_details metric_graph_details_vtc"
-                  data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
+            <div class="each_metric_graph_details metric_graph_details_vtc"
+                 data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
                 <div class="quartile_details_VTC_btn"
                      data-ng-mouseover="VTCpopup($event, 1)"
                      data-ng-mouseout="VTCpopup($event, 0)">

@@ -6,10 +6,13 @@ define(['angularAMD'], function (angularAMD) {
             textConstants = constants,
 
             widgetTypeMapper = {
-                checkbox: 'checkbox',
-                textbox: 'number',
-                hidden: 'hidden',
-                placement_widget: 'hidden'
+                checkbox_boolean : 'checkbox',
+                textbox_integer : 'number',
+                textbox_double : 'number',
+                textbox_string : 'string',
+                hidden_integer : 'hidden',
+                hidden_string :  'hidden',
+                placement_widget_string : 'hidden'
             },
 
             //private method
@@ -99,6 +102,7 @@ define(['angularAMD'], function (angularAMD) {
                     inputListHTML,
                     type,
                     platformCustomWidgetType,
+                    platformCustomInputType,
                     decoratorText,
                     label,
                     LabelHtml,
@@ -190,7 +194,8 @@ define(['angularAMD'], function (angularAMD) {
                     inputList.platformCustomWidgetType === 'HIDDEN' ||
                     inputList.platformCustomWidgetType === 'PLACEMENT_WIDGET') {
                     platformCustomWidgetType = inputList.platformCustomWidgetType;
-                    type = widgetTypeMapper[platformCustomWidgetType.toLowerCase()];
+                    platformCustomInputType = inputList.platformCustomInputType;
+                    type = widgetTypeMapper[platformCustomWidgetType.toLowerCase() + '_' + platformCustomInputType.toLowerCase()];
                     options = inputList.rangeJson && JSON.parse(inputList.rangeJson);
 
                     inputListHTML = $('<input/>').attr({

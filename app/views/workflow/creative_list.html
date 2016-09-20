@@ -156,12 +156,12 @@
                         <!--</div>-->
                         <!--Sample Ends Here-->
 
-                        <div class="col-md-12" style="margin-top: 10px;" data-ng-show="loadCreativeData">
+                        <div class="col-md-12" style="margin-top: 10px;" data-ng-show="!creativeListLoading && loadCreativeData">
                             <div class="common-loading-area"></div>
                         </div>
                     </div>
                 </div>
-                <div data-ng-show="creativesNotFound" class="emptyCreativeList">
+                <div data-ng-show="!creativeListLoading && creativesNotFound" class="emptyCreativeList">
                     <span data-ng-bind="textConstants.DATANOTAVAILABLE"></span>
                 </div>
                 <div data-ng-show="creativeListLoading" class="common-load-more"></div>

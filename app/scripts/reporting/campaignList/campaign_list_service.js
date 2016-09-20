@@ -320,7 +320,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                     getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue) {
                         selectedLineItemId = strategy.id;
                         dataService
-                            .getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id, this.getIsRealTimeData())
+                            .getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id, realTimeData)
                             .then(function (result) {
                                 var kpiTypeLower,
                                     maxDays,
@@ -499,7 +499,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
 
                     getCdbLineChart = function (clientId, campaignObject, timePeriod, callback) {
                         dataService
-                            .getCdbChartData(clientId, campaignObject, timePeriod, 'campaigns', null, this.getIsRealTimeData())
+                            .getCdbChartData(clientId, campaignObject, timePeriod, 'campaigns', null, realTimeData)
                             .then(function (result) {
                                 var cdData,
                                     kpiType,

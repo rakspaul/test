@@ -122,20 +122,24 @@ define(['angularAMD'],
                         }
                     },
 
-                    mediaPlanOverviewUrl = function (campaignId) {
-                        var url = '/a/' + $routeParams.accountId,
+                    mediaPlanOverviewUrl = function (campaignId, accountId, subAccountId) {
+
+                        accountId = accountId || $routeParams.accountId;
+                        subAccountId =  subAccountId || $routeParams.subAccountId;
+
+                        var url = '/a/' + accountId,
                             selectedAccount;
 
-                        if ($routeParams.subAccountId) {
-                            url += '/sa/' + $routeParams.subAccountId;
+                        if (subAccountId) {
+                            url += '/sa/' + subAccountId;
                         } else {
                             // user navigating from custom reports to media plans
                             selectedAccount = _.find(accountService.getAccounts(), function (a) {
-                                return Number(a.id) === Number($routeParams.accountId);
+                                return Number(a.id) === Number(accountId);
                             });
 
                             if (!selectedAccount.isLeafNode) {
-                                url += '/sa/' + $routeParams.accountId;
+                                url += '/sa/' + accountId;
                             }
                         }
 

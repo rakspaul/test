@@ -220,7 +220,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/advertisers/' + advertiserId +
                         '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
 
-                    if (brandId) {
+                    if(brandId) {
                         url += '&brandId=' + brandId;
                     }
 
@@ -283,6 +283,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 editAdGroups = function (clientId, campaignId, data) {
+
                     return dataService.put(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -314,6 +315,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 updateAd = function (clientId, data) {
+
                     return dataService.put(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -422,7 +424,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/advertisers/' + advertiserId +
                         '/vendors?vendorType=ADSERVING';
 
-                    if (brandId) {
+                    if(brandId){
                         url += '&brandId=' + brandId;
                     }
 
@@ -479,7 +481,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/creatives/' + creativeId);
                 },
 
-                getCreativePreViewData  = function (params) {
+                getCreativePreViewData  = function(params) {
                     var str,
                         qryStr;
 
@@ -507,13 +509,15 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     );
                 },
 
-                getCreatives = function (clientId, adId, formats, query, cacheObj, state, executionPlatformType, success, failure) {
+                getCreatives = function (clientId, adId, formats, query, cacheObj, state, executionPlatformType,
+                                         success, failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
                         url,
                         canceller;
 
                     state = state ? '&status=READY' : '';
+
                     executionPlatformType = executionPlatformType ? '&executionVendorType=' + executionPlatformType : '';
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
@@ -526,7 +530,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
-                validateCreative = function (o) {
+                validateCreative = function(o){
                     return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + o.clientId +
                         '/advertisers/' + o.advertiserId +
@@ -585,6 +589,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 uploadBulkCreativeUrl = function (clientId, adServerId, creativeFormat, templateId) {
+
                     return vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                         '/adserver/' + adServerId +
                         '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() +
@@ -707,6 +712,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 createLineItems = function (clientId, campaignId, data) {
+
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
@@ -720,6 +726,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 updateLineItems = function (clientId, campaignId, data) {
+
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
@@ -758,7 +765,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/advertisers/' + advertiserId +
                         '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false';
 
-                    if (brandId) {
+                    if(brandId){
                         url += '&brandId=' + brandId;
                     }
 
@@ -778,7 +785,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/advertisers/' + advertiserId +
                         '/clientVendorConfigs?rateType=FIXED';
 
-                    if (brandId) {
+                    if(brandId){
                         url += '&brandId=' + brandId;
                     }
 
@@ -798,7 +805,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         '/advertisers/' + advertiserId +
                         '/clientVendorConfigs?sor=true';
 
-                    if (brandId) {
+                    if(brandId){
                         url += '&brandId=' + brandId;
                     }
 
@@ -1045,7 +1052,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     return dataService.fetch(url);
                 },
 
-                validateZipCodes = function (params) {
+                validateZipCodes = function(params) {
                     return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/vendors/' + params.vendorId +
                         '/zipcodes/validate',
@@ -1072,11 +1079,11 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                         appList = [];
 
                     _.each(selectedList,function (item) {
-                        if (item.inventoryType === 'DOMAIN') {
+                        if(item.inventoryType === 'DOMAIN'){
                             domainList.push(item.domainListId);
                         }
 
-                        if (item.inventoryType === 'APP') {
+                        if(item.inventoryType === 'APP'){
                             appList.push(item.domainListId);
                         }
                     });
@@ -1260,14 +1267,14 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                     return lineitemDetailsBulk ;
                 },
 
-                wrapperForActiveAdGroups = function (groupList) {
+                wrapperForActiveAdGroups = function(groupList) {
                     // this wrapper is written because when the ad group api is called with ACTIVE parameter
                     // response structure is different from normal API
                     var obj = {
                         ad_groups: []
                     };
 
-                    _.each(groupList,function (group, key) {
+                    _.each(groupList,function(group,key) {
                         obj.ad_groups[key] = {};
                         obj.ad_groups[key].adGroup = group;
                     });

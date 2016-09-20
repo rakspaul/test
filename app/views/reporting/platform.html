@@ -149,7 +149,7 @@
                                             <div class="row_list_holder">
                                                 <div class="clearfix each_row_list expandRow"
                                                      data-ng-repeat="platform in data"
-                                                     data-ng-include="'costTpl'">
+                                                     data-ng-include="'costTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
                                                 </div>
                                             </div>
                                         </div>
@@ -225,12 +225,12 @@
                                                 <div data-ng-if="!adFormats.videoAds || !videoMode"
                                                      class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
                                                      data-ng-repeat="platform in data"
-                                                     data-ng-include="'viewabilityTpl'">
+                                                     data-ng-include="'viewabilityTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
                                                 </div>
                                                 <div data-ng-if="adFormats.videoAds && videoMode"
                                                      class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
                                                      data-ng-repeat="platform in data"
-                                                     data-ng-include="'videoViewabilityTpl'">
+                                                     data-ng-include="'videoViewabilityTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
                                                 </div>
                                             </div>
                                         </div>
@@ -341,7 +341,7 @@
         <div class="each_col forth_col {{platform.kpi_type === 'CTR' ? 'bold' : ''}}"
              data-ng-bind="((platform.ctr > 0) || (platform.ctr === 0)) ? ((platform.ctr | number : 3) + '%') : '-'">
         </div>
-        <div class="each_col fifth_col {{platform.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}"
+        <div class="each_col fifth_col {{platform.kpi_type.toLowerCase() === 'action rate' ? 'bold' : ''}}" tooltip="{{(platform.action_rate | actionRateToolTip )}}"
              data-ng-bind="((platform.action_rate > 0) || (platform.action_rate === 0)) ?
                 ((platform.action_rate | number : 3) + '%') : '-'">
         </div>
