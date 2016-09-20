@@ -154,11 +154,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                         resetSortingField = function(fieldName) {
                             this.sortFieldList.forEach(function (field) {
-                                if (fieldName === field.key) {
-                                    field.className = 'active';
-                                } else {
-                                    field.className = '';
-                                }
+                                field.className = (fieldName === field.key) ? 'active' : '';
                             });
                         },
 
