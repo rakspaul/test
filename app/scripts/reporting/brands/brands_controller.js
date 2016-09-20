@@ -27,6 +27,7 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
 
 
             if(vistoconfig.getNoMediaPlanFoundMsg()) {
+                utils.cleanSearchParameter();
                 $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
                 vistoconfig.setNoMediaPlanFoundMsg(null);
             }

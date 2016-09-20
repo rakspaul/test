@@ -100,18 +100,13 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                 changeAdvertiser: function(advertiser) {
 
                     var url = '/a/' + $routeParams.accountId,
-                        reportUrlWithCampaignOnly,
                         that = this,
-                        subAccountId;
+                        subAccountId,
+                        cannedReportName;
 
-                    if($routeParams.subAccountId) {
-                        subAccountId = advertiser.clientId;
-                    }
-
+                    subAccountId = $routeParams.subAccountId && advertiser.clientId;
                     subAccountId && (url += '/sa/' + subAccountId);
-                    var cannedReportName = _.last($location.path().split('/'));
-
-                    reportUrlWithCampaignOnly = url;
+                    cannedReportName = _.last($location.path().split('/'));
 
                     //brand is 0 in url always as when a new advertiser is selected it will be 'All Brands'
                     (advertiser.id > 0)?(url += '/adv/' + advertiser.id+'/b/0'):'';
@@ -143,13 +138,18 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                                     (cannedReportName && cannedReportName !== 'mediaplans') ? (url += '/' + cannedReportName) : '';
                                     $location.url(url);
                                 } else {
+                                    /* if for selected advertiser there is no media plan found*/
+                                    
+                                    url = '/a/' + $routeParams.accountId;
+                                    $routeParams.subAccountId && (url += '/sa/' + $routeParams.subAccountId);
                                     $rootScope.setErrAlertMessage(constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER);
                                     utils.cleanSearchParameter();
                                     that.reset();
-                                    reportUrlWithCampaignOnly += '/mediaplans/' + $routeParams.campaignId;
-                                    (cannedReportName && cannedReportName !== 'mediaplans') ? (reportUrlWithCampaignOnly += '/' + cannedReportName) : '';
-                                    $location.url(reportUrlWithCampaignOnly);
+                                    url += '/mediaplans/' + $routeParams.campaignId;
+                                    (cannedReportName && cannedReportName !== 'mediaplans') ? (url += '/' + cannedReportName) : '';
+                                    $location.url(url);
                                     $route.reload();
+
                                 }
                             });
                         } else {
