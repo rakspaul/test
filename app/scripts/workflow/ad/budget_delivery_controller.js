@@ -340,6 +340,11 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
 
+
+                if(type.toUpperCase() === 'IMPRESSIONS') {
+                    $scope.adData.targetImpressions = $scope.adData.targetValue;
+                }
+
                 if($scope.adData.fetchValue){
                     if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
                         $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
@@ -348,9 +353,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
 
-                if(type.toUpperCase() === 'IMPRESSIONS') {
-                    $scope.adData.targetImpressions = $scope.adData.targetValue;
-                }
             };
 
             $scope.isKpiFieldOptional = function(fieldName) {
@@ -391,7 +393,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 $scope.adData.targetClicks = '';
                 //$scope.adData.totalAdBudget = '';
 
-                if($scope.adData.fetchValue) {
+                if($scope.adData.fetchValue && $scope.adData.budgetType.toLowerCase() !== 'cost') {
                     $scope.adData.budgetAmount = '';
                 }
 
