@@ -334,7 +334,7 @@ define(['angularAMD'], function (angularAMD) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/pixels_download';
-                    url += advId ? 'advertiserId='+advId : '';
+                    url += advId ? '?advertiserId='+advId : '';
                     return url;
                 },
 
