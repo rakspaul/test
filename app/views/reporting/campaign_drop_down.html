@@ -19,7 +19,8 @@
                         <div id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"
                                    id="campaignDropdown"
-                                   data-ng-keyup="search(fileIndex)"
+                                   data-ng-keyup="search(fileIndex, $event)"
+                                   style="border: none !important; padding: 0;"
                                    placeHolder="Select Campaign">
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
                             <span class="campaign_name_length" data-ng-bind="selectedObj.name"></span>
@@ -34,7 +35,7 @@
                                     <span class="menuItemText" data-ng-bind-html="highlightSearch(campaign.name, selectedObj.name)" data-ng-bind="campaign.name"></span>
                                 </a>
                             </li>
-                            <li class="common-loading-area" data-ng-show="fetching"></li>
+                            <li class="common-loading-area" data-ng-show="campaignData.campaigns.length && fetching"></li>
                         </div>
                     </ul>
                 </li>
