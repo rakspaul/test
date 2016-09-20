@@ -47,12 +47,12 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             _currCtrl.getAdnlData = function () {
-                _currCtrl.getAdChoiceData();
+                //_currCtrl.getAdChoiceData();
                 _currCtrl.getPixels();
             };
 
             _currCtrl.saveAdnlData = function () {
-                _currCtrl.saveAdChoiceData();
+                //_currCtrl.saveAdChoiceData();
                 _currCtrl.savePixelData();
             };
 
@@ -230,7 +230,7 @@ define(['angularAMD', 'admin-account-service'],
                             $scope.fetchAllClients();
                             $scope.close();
                             _currCtrl.saveAdnlData();
-                            $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
+                          //  $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
                             return result;
 
                         }else {
@@ -313,7 +313,7 @@ define(['angularAMD', 'admin-account-service'],
                 'CPC' : 'BILLING_TYPE_CPC_ID',
                 'CPCV' : 'BILLING_TYPE_CPCV_ID',
                 'PCCPA' : 'BILLING_TYPE_PCCPA_ID',
-                'TCPA' : 'BILLING_TYPE_TCPA_ID', 
+                'TCPA' : 'BILLING_TYPE_TCPA_ID',
                 'Flat Fees' : 'BILLING_TYPE_MONTHLY_FLAT_FEES_ID',
                 'Flat Fee' : 'BILLING_TYPE_MONTHLY_FLAT_FEE_ID',
                 '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID',
@@ -328,7 +328,7 @@ define(['angularAMD', 'admin-account-service'],
                     if(!settingsMap[settingMapIds[name]])
                         settingsMap[settingMapIds[name]] = item.id;
                  });
-                
+
                 return settingsMap;
             }
 
@@ -527,9 +527,9 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             function getBillingDataToSave(billingSettings,clientId){
-                var settingsToSave = []; 
-                
-                _.each(billingSettings, function(item,index){ 
+                var settingsToSave = [];
+
+                _.each(billingSettings, function(item,index){
 
                     var flatFeeSelected = (typeof item.useFlatFee !== 'undefined');
 
@@ -550,7 +550,7 @@ define(['angularAMD', 'admin-account-service'],
                         if(item.rateTypeId == $scope.advertiserBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEE_ID){
                            tempItem.rate = item.useFlatFee ? 1 : 0;
                         }
-                          
+
 
                         if(item.rate && item.slices){
 
@@ -584,7 +584,7 @@ define(['angularAMD', 'admin-account-service'],
                     .getClientBillingData(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                            $scope.rateTypes = res.data.data;                            
+                            $scope.rateTypes = res.data.data;
                         }
                     }, function (err) {
                         console.log('Error = ', err);
@@ -603,17 +603,17 @@ define(['angularAMD', 'admin-account-service'],
                 $('#serviceFeesBillingValue').trigger('focus');
             };
 
-           
-            function initBillingTypeDropdown(){             
-                var billingSettingWithData = _.find($scope.clientBillingSettings,function(o){return o.rate > 0});     
+
+            function initBillingTypeDropdown(){
+                var billingSettingWithData = _.find($scope.clientBillingSettings,function(o){return o.rate > 0});
                 var billingSettingType = null;
-                
+
                 if(billingSettingWithData)
-                   billingSettingType = _.find($scope.clientBillingTypesData,function(o){return o.id == billingSettingWithData.rateTypeId}); 
+                   billingSettingType = _.find($scope.clientBillingTypesData,function(o){return o.id == billingSettingWithData.rateTypeId});
 
                 if(!billingSettingType)
-                    billingSettingType = _.find($scope.clientBillingTypesData,function(o){return o.id == $scope.clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID}); 
-                    
+                    billingSettingType = _.find($scope.clientBillingTypesData,function(o){return o.id == $scope.clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID});
+
                 $scope.feeSlotToggle(billingSettingType);
             };
 
@@ -793,7 +793,7 @@ define(['angularAMD', 'admin-account-service'],
 
                                             $scope.close();
                                             $scope.fetchAllClients();
-                                            $rootScope.setErrAlertMessage(constants.ACCOUNT_UPDATED_SUCCESSFULLY, 0);
+                                          //  $rootScope.setErrAlertMessage(constants.ACCOUNT_UPDATED_SUCCESSFULLY, 0);
                                             $scope.resetBrandAdvertiserAfterEdit();
                                             delete $scope.clientsDetails[body.parentId];
 
@@ -836,12 +836,13 @@ define(['angularAMD', 'admin-account-service'],
                     .createPixels(clientId, getRequestDataforPixel(clientId))
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-                            console.log("Pixel updated successfully");
+                            $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
                         }else{
-                            console.log("Error: Pixel updated");
+                            $rootScope.setErrAlertMessage(getErrorMessage(result));
                         }
                     }, function (err) {
                         console.log("Error: Pixel updated");
+                        $rootScope.setErrAlertMessage(getErrorMessage(err));
                     });
             };
 
