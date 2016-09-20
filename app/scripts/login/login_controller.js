@@ -65,6 +65,12 @@ define(['app', 'common-utils'],function (app) {
                 }
             };
 
+            $scope.appendDomain = function() {
+                if($scope.username !== '' && $scope.username.indexOf('@') < 0){
+                    $scope.username = $scope.username + '@collective.com';
+                }
+            };
+
             $scope.getLoadingClass = function () {
                 return $scope.loadingClass;
             };

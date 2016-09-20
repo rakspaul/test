@@ -1814,6 +1814,15 @@ define(['common'], function (angularAMD) {
                     controller: 'HelpController'
                 }))
 
+                .when('/auditLogViewer', angularAMD.route({
+                    templateUrl: assets.html_audit_dashboard,
+                    title: 'Audit DashBoard',
+                    controller: 'entityAuditCtrl',
+                    showHeader: false,
+                    controllerUrl: 'audit-controller'
+                }))
+
+
                 .otherwise({redirectTo: '/'});
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];

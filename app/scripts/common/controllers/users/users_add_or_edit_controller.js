@@ -517,8 +517,8 @@ define(['angularAMD', 'ng-update-hidden-dropdown','account-list-dropdown-control
         };
 
         $scope.selectBrand = function (brandObj, accountIndex, permissionIndex) {
-            $scope.permissions[accountIndex].resources[permissionIndex].brandName = brandObj.name;
-            $scope.permissions[accountIndex].resources[permissionIndex].brandId = brandObj.id;
+            $scope.permissions[accountIndex].resources[permissionIndex].brandName = brandObj.brandName;
+            $scope.permissions[accountIndex].resources[permissionIndex].brandId = brandObj.brandId;
         };
 
         $scope.selectPermission = function (permissionObj, accountIndex, permissionIndex) {

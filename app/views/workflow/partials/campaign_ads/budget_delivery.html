@@ -19,11 +19,11 @@
 
         <div class="col-md-10 zeroPadding">
             <span class="pull-left clearLeft">{{workflowData.adGroupData.name}}</span>
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.deliveryBudget}}</span>
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.deliveryBudget | number : 2}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend | number : 2}}</span>
             <!-- UNCOMMENT THIS LINE AND SET CORRECT VALUE WHEN WE GET SPENT FROM REPORTING
             <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{workflowData.adGroupData.bookedSpend}}</span>-->
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend)}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend) | number : 2}}</span>
         </div>
     </div>
 
@@ -66,7 +66,8 @@
             <div class="col-md-2">
                 <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px;">{{textConstants.currencySymbol}}</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off">
+                <input ng-if="((adData.primaryKpi).toLowerCase()=='impressions')||((adData.primaryKpi).toLowerCase()=='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fcsa-number="{  }" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" round-converter whole-number-only="whole-number-only" autocomplete="off">
+                <input ng-if="((adData.primaryKpi).toLowerCase()!='impressions')&&((adData.primaryKpi).toLowerCase()!='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off"  fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off">
             </div>
         </div>
 
@@ -78,8 +79,8 @@
 
             <div class="col-md-2 targetInputs targetImpressions">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input disabled-field" disabled style="text-indent: 9px; width: 100%;" type="text" ng-blur="checkImpsValue()" ng-keyup="checkBudgetExceed();computeTargetValue();checkImpsValue();" ng-model="adData.targetImpressions" autocomplete="off">
-                <input type="hidden" name="targetImpressions" ng-model="adData.targetImpressions" ng-value="adData.targetImpressions">
+                <input class="target_val_input disabled-field" disabled style="text-indent: 9px; width: 100%;" type="text" ng-blur="checkImpsValue()" ng-keyup="checkBudgetExceed();computeTargetValue();checkImpsValue();" ng-model="adData.targetImpressions" autocomplete="off" fcsa-number="{  }" round-converter whole-number-only="whole-number-only">
+                <input type="hidden" name="targetImpressions" ng-model="adData.targetImpressions" ng-value="adData.targetImpressions"  >
                 <label ng-if="budgetErrorObj.targetImpressionValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_TARGET_IMPRESSIONS_MANDATORY"></label>
             </div>
 
@@ -102,12 +103,13 @@
         <!--Row 3-->
         <div class="col-md-12 zeroPadding targetInputHolder" style="margin-top: 10px;">
             <div class="pull-left" style="width: 25%; padding-left: 0;">
-                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Actions<span class="text" ng-if="isKpiFieldOptional('actions')"> (Optional)</span></span>
+                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Actions<span class="text" style="margin-left: 3px;" ng-if="isKpiFieldOptional('actions')">(Optional)</span></span>
             </div>
 
             <div class="col-md-2 targetInputs targetActions">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" name="targetActions" ng-model="adData.targetActions" autocomplete="off">
+                <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetActions" ng-value="adData.targetActions" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                <input type="hidden" name="targetActions" ng-model="adData.targetActions" ng-value="adData.targetActions">
             </div>
 
         </div>
@@ -115,12 +117,13 @@
         <!--Row 4-->
         <div class="col-md-12 zeroPadding targetInputHolder" style="margin-top: 10px;">
             <div class="pull-left" style="width: 25%; padding-left: 0;">
-                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Clicks<span class="text" ng-if="isKpiFieldOptional('clicks')"> (Optional)</span></span>
+                <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Clicks<span style="margin-left: 3px;" class="text" ng-if="isKpiFieldOptional('clicks')">(Optional)</span></span>
             </div>
 
             <div class="col-md-2 targetInputs targetClicks">
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px; top: 14px !important;">#</span>
-                <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" name="targetClicks" ng-model="adData.targetClicks" autocomplete="off">
+                <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetClicks" ng-value="adData.targetClicks" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                <input type="hidden" name="targetClicks" ng-model="adData.targetClicks" ng-value="adData.targetClicks">
             </div>
         </div>
     </div>

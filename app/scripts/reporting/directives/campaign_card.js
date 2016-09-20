@@ -1,9 +1,9 @@
 define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCard', ['$rootScope', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
+    angularAMD.directive('campaignCard', ['$rootScope', '$routeParams', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
         'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService',
-        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
+        function ($rootScope, $routeParams, $location, utils, constants, momentService, featuresService, $sce,
                   campaignSelectModel, vistoconfig, urlBuilder, accountService) {
             return {
                 restrict: 'EAC',
@@ -132,7 +132,7 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                             if (campaign.is_archived) {
                                 url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id + '/overview';
                             } else {
-                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id);
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id, $routeParams.accountId, campaign.client_id);
                             }
                         } else {
                             url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id +'/overview';

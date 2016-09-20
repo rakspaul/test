@@ -332,11 +332,17 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
                         case 'CTR': {
                                         if($scope.adData.targetImpressions && $scope.adData.targetValue){
-                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions / $scope.adData.targetValue));
+                                            $scope.adData.targetClicks = Math.round(Number($scope.adData.targetImpressions * $scope.adData.targetValue)/ 100);
                                         }
                                         break;
                         }
+
                     }
+                }
+
+
+                if(type.toUpperCase() === 'IMPRESSIONS') {
+                    $scope.adData.targetImpressions = $scope.adData.targetValue;
                 }
 
                 if($scope.adData.fetchValue){
@@ -347,9 +353,6 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
 
-                if(type.toUpperCase() === 'IMPRESSIONS') {
-                    $scope.adData.targetImpressions = $scope.adData.targetValue;
-                }
             };
 
             $scope.isKpiFieldOptional = function(fieldName) {
@@ -390,6 +393,10 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 $scope.adData.targetClicks = '';
                 //$scope.adData.totalAdBudget = '';
 
+                if($scope.adData.fetchValue && $scope.adData.budgetType.toLowerCase() !== 'cost') {
+                    $scope.adData.budgetAmount = '';
+                }
+
                 var symbol = '';
 
                 for (var j in kpiTypeSymbolMap) {
@@ -409,6 +416,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     .html(symbol);
 
                 var flag = false;
+                $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                 for (var i in autoComputeKpiTypeMap) {
                     if ($.inArray(type, autoComputeKpiTypeMap[i]) !== -1) {
                         var autoCompute = $('#autoComputeDiv');
@@ -427,12 +435,11 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
                 if (!flag) {
                     var autoComputeOld = $('#autoComputeDiv');
+                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    autoComputeOld.hide();
                     if (type.toLowerCase() === 'impressions') {
                         $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
-                    } else {
-                        autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                     }
-                    autoComputeOld.hide();
                 }
 
             };

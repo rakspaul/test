@@ -6,7 +6,7 @@
     <!--Header-->
     <div class="modal-header">
         <span class="btn btn-primary pull-right"
-              data-ng-click="saveAdvertisers()"
+              data-ng-click="isEditMode ? saveAdvertisers() : saveAdvertisers(true)"
               data-ng-bind="isEditMode ? 'Update' : 'Create'">
             Save
         </span>
@@ -67,8 +67,8 @@
                         <input type="text"
                                style="width: 100%;"
                                data-ng-change="urlValidation=''"
-                               data-ng-blur="validateURL(advertiserData.companyUrl)"
-                               data-ng-model="advertiserData.companyUrl">
+                               data-ng-blur="validateURL(topCtrlData.companyUrl)"
+                               data-ng-model="topCtrlData.companyUrl">
                     </div>
                 </div>
                 <div class="col-md-12 zeroPadding errorText" data-ng-show="urlValidation" data-ng-bind="urlValidation"></div>
@@ -263,13 +263,14 @@
                 </div>
             </div>
         </div>
+
         <div id="pixelsCnt" data-ng-if="activeEditAdvertiserTab == 'pixel'">
             <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
                 <h1 class="pull-left zeroMargin">Pixels</h1>
                 <div class="btn-group create pull-right" role="group" aria-label="...">
                     <!--Search Input-->
                     <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
-                       data-ng-disabled="advertiserData.disableDownLoadPixel">
+                       data-ng-disabled="topCtrlData.disableDownLoadPixel">
                         <span class="icon-download"></span>
                         <span>Download Selected Pixels</span>
                     </a>
@@ -277,7 +278,7 @@
                         <span class="icon-plus"></span><span>Add Pixels</span>
                     </a>
                     <span class="pull-right"
-                          data-ng-bind="advertiserData.pixels.length + ' Pixels'"
+                          data-ng-bind="topCtrlData.pixels.length + ' Pixels'"
                           style="font-size: 12px; margin: 9px 10px 0 0;">
                     </span>
                 </div>
@@ -421,7 +422,7 @@
                     <a class="pull-right btn btn-link" data-ng-click="cancelPixel();" aria-label="Close">Cancel</a>
                     <a class="pull-right btn btn-default"
                         data-dismiss="modal"
-                        data-ng-if="pixelIndex !== null && advertiserData.pixels[pixelIndex].isFeedData !== true"
+                        data-ng-if="pixelIndex !== null && topCtrlData.pixels[pixelIndex].isFeedData !== true"
                         data-ng-click="removePixel();"
                         aria-label="Close">
                         Remove Pixel
@@ -451,7 +452,7 @@
                         </div>
                         <div class="tbody thin">
                             <!--Table Sample-->
-                            <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
+                            <div class="tr" data-ng-repeat="pixel in topCtrlData.pixels">
                                 <div class="td col-md-5">
                                     <a data-ng-bind="pixel.name | textEllipsis: 40"
                                        data-ng-click="editPixel($index, pixel);">
@@ -503,5 +504,20 @@
 
     </ul>
     <input type="hidden"  data-ng-model="selectedAdvertiserId">
+
+    <div class="common-popup-container" ng-show="showInfoMessage" id="infoPopup" style="z-index:999999999">
+        <div class="popup" style="min-height:200px;">
+            <div class="popup-header-body">
+                <div class="popup-content" >
+                    <span class="icon-info pull-left" style="color: #6ABDFA;margin: 0px 25px 20px 0;font-size: 26px;"></span>
+                    <span class="font-bold">{{selectedAdvertiser}}</span> {{textConstants.AD_CREATION_INFO}}</div>
+            </div>
+            <div class="clearfix popup-footer" >
+                <button type="button" ng-click="saveAdvertisers()" class="common_primary_btn pull-right" ng-show="!loadingBtnFlag" data-ng-bind="textConstants.CREATE"></button>
+                <div  class="common-loading-btn pull-right" ng-show="loadingBtnFlag"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- end of modal_body -->

@@ -665,6 +665,49 @@ define(['angularAMD'],
                     }
                     return retVal;
                 };
+            })
+
+            .filter('actionRateToolTip',function($filter){
+                return function (value) {
+                   // value = 0.12345;
+                    var findForDigit = true,
+                        valueWorkedUpon,
+                        index = 0,
+                        finalValue, beforeDecimalCount,
+                        defaultFormat = 3;
+
+                    // Get the count of numbers before decimal point eg: 123.789 then beforeDecimalCount = 123
+                    beforeDecimalCount = String(value).split('.')[0].length;
+
+                    // Get the second part of the decimal value eg: 123.789 then valueWorkedUpon = 0.789
+                    valueWorkedUpon = Number('0.' + String(value).split('.')[1]);
+
+                    while (findForDigit) {
+                        valueWorkedUpon = valueWorkedUpon * 10;
+                        index++;
+
+                        if ((valueWorkedUpon >= 1) || (index >= 18)) {
+                            findForDigit = false;
+
+                            if (valueWorkedUpon > 0) {
+
+                                //if digit found after 3 decimal place eg 0.000045 then finalValue will be 0.00004
+                                if (index > defaultFormat) {
+                                    // + 1 is the decimal count
+                                    finalValue = String(value).slice(0, beforeDecimalCount + index + 1);
+
+                                } else {
+                                  //If digit found befoe or at 3 decimal place eg: 0.0123789 then final value will be 0.012
+                                    finalValue = $filter('number')(value, 3);
+                                }
+                            //Have kept a limit 18 so that we check for a number after decimal till 18th position, after 18th position it breaks the loop
+                            } else if (index >= 18) {
+                                finalValue = $filter('number')(value, 3);
+                            }
+                        }
+                    }
+                    return finalValue+'%';
+                };
             });
     }
 );

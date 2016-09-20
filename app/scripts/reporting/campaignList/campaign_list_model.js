@@ -32,6 +32,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         {display: 'Flight Dates', key: 'start_date', className: 'active'}
                     ];
 
+
                     this.cdbDataMap = {};
                     this.campaignList = [];
                     this.costBreakdownList = [];
@@ -149,6 +150,12 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                 Campaigns.prototype = function () {
                     var reloadGraphs = function () {
                             campaignListService.loadGraphs(this.campaignList, timePeriodApiMapping(this.selectedTimePeriod.key));
+                        },
+
+                        resetSortingField = function(fieldName) {
+                            this.sortFieldList.forEach(function (field) {
+                                field.className = (fieldName === field.key) ? 'active' : '';
+                            });
                         },
 
                         resetCostBreakdown = function () {
@@ -883,6 +890,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         };
 
                     return {
+                        resetSortingField: resetSortingField,
                         reloadGraphs: reloadGraphs,
                         fetchCampaigns: fetchCampaigns,
                         compareCostDates: compareCostDates,

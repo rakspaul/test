@@ -34,11 +34,11 @@
                         <ul class="brands-list" lr-infinite-scroll="loadMoreBrands">
                             <li class="common-loading-area" data-ng-show="brandsLoading"></li>
                             <li data-ng-repeat="brand in brandsData"
-                                class="menuItemText {{brand.id === selectedBrandId ? ' active' : ''}}"
+                                class="menuItemText {{brand.brandId === selectedBrandId ? ' active' : ''}}"
                                 data-ng-bind="brand.name"
-                                data-ng-selected="{{brand.id === selectedBrandId}}"
+                                data-ng-selected="{{brand.brandId === selectedBrandId}}"
                                 data-ng-click="selectBrandAndClose(brand)"
-                                title="{{brand.name}}">
+                                title="{{brand.brandName}}">
                             </li>
                             <li class="common-loading-area" data-ng-show="brandsData.length > 0 && !noMoreBrandsToLoad"></li>
                         </ul>

@@ -38,10 +38,10 @@ define(['angularAMD', 'brands-service', 'common-utils', 'brands-directive'], fun
 
 
             $scope.selectBrand = function (brand) {
-                $('#brand_name_selected').text(brand.name);
-                $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                $('#brand_name_selected').text(brand.brandName);
+                $('#brandsDropdown').attr('placeholder', brand.brandName).val('');
 
-                var url = urlBuilder.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiserId, brand.id);
+                var url = urlBuilder.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiserId, brand.brandId);
                 $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
             };
 

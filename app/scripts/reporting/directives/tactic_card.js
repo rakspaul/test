@@ -137,12 +137,12 @@ define(['angularAMD'], function (angularAMD) {
                 // To show the corresponding tactic card
                 $scope.showStrategies = function (campaignId, strategiesCount) {
                     if (strategiesCount > 0) {
-                      $('#strategies-accordion-' + campaignId).toggle();
+                        $('#strategies-accordion-' + campaignId).toggle();
                     }
                 };
 
                 $scope.showTactics = function (strategyId) {
-                      $('#tactics-accordion-' + strategyId).toggle();
+                    $('#tactics-accordion-' + strategyId).toggle();
                 };
 
                 // This will call the Parent controllers loadMoreStrategies function

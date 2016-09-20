@@ -465,8 +465,10 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             $('.' + type + '_div').show();
 
             platformName = $scope.adData.platform.toLowerCase();
+            if(platformName) {
+                platformName = platformName.replace(/\./g, '_').replace(/\s/g, '_');
+            }
             customInpArr = ['buying_strategy_div' , platformName +'_deal_div', platformName + '_direct_div'];
-
 
             _.each(customInpArr, function(id) {
                     if (id === (type + '_div')) {

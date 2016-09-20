@@ -15,7 +15,7 @@ define(['angularAMD', 'url-service', 'dashboard-model', 'request-cancel-service'
             this.getGaugeData = function () {
                 var clientId = vistoconfig.getSelectedAccountId(),
                     advertiserId = vistoconfig.getSelectAdvertiserId(),
-                    brandId = vistoconfig.getSelectedBrandId(),
+                    brandId = (Number(vistoconfig.getSelectedBrandId()) === 0)?-1:vistoconfig.getSelectedBrandId(),
 
                     url = urlService.APICampaignCountsSummary(
                         constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId,

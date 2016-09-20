@@ -209,7 +209,33 @@ define(['angularAMD'], function (angularAMD) {
 
                 return moment(dateTime).format(format);
 
+            }; 
+
+            this.getMonth = function (dateTime){
+                return moment(dateTime).month();
             };
+
+            this.setMonth = function (dateTime,month){
+                return moment(dateTime).month(month);
+            };
+
+            this.getDate = function (dateTime){
+                return moment(dateTime).date();
+            };
+
+            this.setDate = function (dateTime,date){
+                return moment(dateTime).date(date);
+            };
+
+
+            this.getYear = function (dateTime){
+                return moment(dateTime).year();
+            };
+
+            this.setYear = function (dateTime,year){
+                return moment(dateTime).year(year);
+            };
+
 
             this.postDateModifier = function(UiDate, apiDate, type) {
                 var isDateChanged = true,
