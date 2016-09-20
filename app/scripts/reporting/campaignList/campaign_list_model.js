@@ -122,6 +122,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                     this.resetFilters = function (type) {
                         this.campaignList = [];
+                        this.cdbDataMap = {};
                         this.timePeriod = 'life_time';
 
                         if (!this.noData) {
