@@ -62,9 +62,11 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             $scope.$watch('realTimeData', function(val){
                 campaignListService.setIsRealTimeData(val);
-                $scope.campaigns.noData = false;
-                $scope.campaigns.resetFilters();
-                $scope.campaigns.fetchData();
+                var scopeCampaigns = $scope.campaigns;
+                scopeCampaigns.noData = false;
+                scopeCampaigns.resetSortingField('start_date');
+                scopeCampaigns.resetFilters();
+                scopeCampaigns.fetchData();
             });
 
 
