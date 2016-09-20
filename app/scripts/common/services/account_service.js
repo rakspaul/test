@@ -91,20 +91,32 @@ define(['angularAMD'], function (angularAMD) {
 
                     var selectedAccount,
                         routePermissionMapper = {
-                            'mediaplans': 'mediaplan_list',
+                            'mediaplanlist': 'mediaplan_list',
                             'dashboard': 'dashboard',
-                            'creativeList': 'creative_list',
-                            'performance': 'performance',
-                            'platform': 'platform',
-                            'cost': 'cost',
-                            'inventory': 'inventory',
-                            'quality': 'quality',
-                            'optimization': 'optimization_impact',
-                            'invoice': 'reports_invoice',
-                            'customreport': 'scheduled_reports'
+                            'creativelist': 'creative_list',
+                            'reports-performance': 'performance',
+                            'reports-platform': 'platform',
+                            'reports-cost': 'cost',
+                            'reports-inventory': 'inventory',
+                            'reports-quality': 'quality',
+                            'reports-optimization-impact': 'optimization_impact',
+                            'reportbuilder': 'scheduled_reports',
+                            'scheduledreports' : 'scheduled_reports',
+                            'reportsoverview' : 'report_overview',
+                            'uploadcustomreports' : 'collective_insights',
+                            'collectiveinsights' : 'collective_insights',
+                            'invoicesreports' : 'reports_invoice',
+                            'mediaplan-overview' : 'mediaplan_hub',
+                            'create-mediaplan' : 'create_mediaplan',
+                            'edit-mediaplan' : 'create_mediaplan',
+                            'mediaplan-adcreate' : 'ad_setup',
+                            'mediaplan-adedit' : 'ad_setup',
+                            'addcreative' : 'creative_list',
+                            'editcreative' : 'creative_list'
                         },
+
                         fparams,
-                        path,
+                        currentRouteTitle = $route.current.$$route.title,
                         routePath,
                         page,
                         url,
@@ -120,6 +132,8 @@ define(['angularAMD'], function (angularAMD) {
                         selectedAccount = this.getAccounts()[0];
                     }
 
+                    console.log($route.current.params);
+
                     if (that.allowedAccount(account.id)) {
                         that
                             .fetchAccountData(account.id)
@@ -127,8 +141,8 @@ define(['angularAMD'], function (angularAMD) {
                                 url = '/a/' + account.id;
                                 features = response.data.data.features;
                                 featuresService.setFeatureParams(features);
-                                path = _.last($location.path().split('/'));
-                                routePath = routePermissionMapper[path];
+                                currentRouteTitle = currentRouteTitle && currentRouteTitle.toLowerCase().replace(/\s/g, '');
+                                routePath = routePermissionMapper[currentRouteTitle];
                                 fparams = featuresService.getFeatureParams();
                                 if (routePath && fparams[0] && !fparams[0][routePath]) {
                                     if (account.isLeafNode) {
