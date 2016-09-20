@@ -47,12 +47,12 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             _currCtrl.getAdnlData = function () {
-                _currCtrl.getAdChoiceData();
+                //_currCtrl.getAdChoiceData();
                 _currCtrl.getPixels();
             };
 
             _currCtrl.saveAdnlData = function () {
-                _currCtrl.saveAdChoiceData();
+                //_currCtrl.saveAdChoiceData();
                 _currCtrl.savePixelData();
             };
 
