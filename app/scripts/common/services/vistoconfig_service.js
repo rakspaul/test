@@ -7,6 +7,7 @@ define(['angularAMD'], function (angularAMD) {
             WORKFLOW_API_URL: workflowCreate_api
         },
             clientTimeZone,
+            selectedAccountData,
             noMediaPlanFoundMsg;
 
         this.supportedBrowser = [
@@ -196,6 +197,14 @@ define(['angularAMD'], function (angularAMD) {
 
         this.getNoMediaPlanFoundMsg = function() {
            return noMediaPlanFoundMsg;
+        };
+
+        this.setCurrentSelectedAccount = function(accountData) {
+            selectedAccountData = accountData;
+        };
+
+        this.getCurrentSelectedAccount = function() {
+            return selectedAccountData;
         };
 
     }]);
