@@ -9,6 +9,7 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
                     loadCampaigns = true,
                     loadMoreOnScroll = true,
                     searchMoreTimer = 0,
+                    invalidInput = false,
 
                     setMediaPlan = function() {
                         var locationUrl = $location.url();
@@ -95,15 +96,22 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
                         });
                 };
 
-                $scope.search = function (fileIndex) {
+                $scope.search = function (fileIndex, event) {
                     var search,
-                        campaignDropdown = $('.campaignDropdown');
+                        campaignDropdown = $('.campaignDropdown'),
+                        keyCode = event.keyCode;
 
                     if (searchMoreTimer) {
                         clearTimeout(searchMoreTimer);
                     }
 
                     searchMoreTimer = setTimeout(function () {
+                        // If invalid input or Left / Right arrow key's pressed, don't perform search
+                        if (invalidInput || keyCode === 37 || keyCode === 39) {
+                            invalidInput = false;
+                            return;
+                        }
+
                         resetSearchCriteria();
 
                         if ($scope.multiCampaign === undefined) {
@@ -143,6 +151,22 @@ define(['angularAMD','campaign-select-model',  'common-utils'], function (angula
                         mediaPlanDdOpen = $('.mediaplan-dd-open'),
                         target,
                         campaignListElem;
+
+                    campaignDropdown.on('input', function() {
+                        var selectionStart = this.selectionStart,
+                            inputVal = $(this).val(),
+
+                            // valid keys are alpha-numeric, blank space, - (hyphen), and _ (underscore)
+                            validKeys = /[^a-z0-9 \-_]/gi;
+
+                        if (validKeys.test(inputVal)) {
+                            invalidInput = true;
+                            $(this).val(inputVal.replace(validKeys, ''));
+                            selectionStart--;
+                        }
+
+                        this.setSelectionRange(selectionStart, selectionStart);
+                    });
 
                     if (loadCampaigns) {
                         $scope.fetchCampaigns(false, false);
