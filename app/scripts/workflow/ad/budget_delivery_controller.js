@@ -391,6 +391,10 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 $scope.adData.targetClicks = '';
                 //$scope.adData.totalAdBudget = '';
 
+                if($scope.adData.fetchValue) {
+                    $scope.adData.budgetAmount = '';
+                }
+
                 var symbol = '';
 
                 for (var j in kpiTypeSymbolMap) {
