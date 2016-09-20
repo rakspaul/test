@@ -127,9 +127,6 @@ define(['angularAMD'],
                             return o.start_date;
                         });
 
-                    tdMonth = Number(tdMonth);
-                    tdDay = Number(tdDay);
-                    
                     // force stop scroll on edge
                     if (moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
                         switch (timeDomainString) {

@@ -116,12 +116,11 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-            updateClientBillingSettings = function(clientId,data){
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/billing_settings';
 
-                    return dataService.post(url, data,  {'Content-Type': 'application/json'});
+            updateClientBillingSettings = function(clientId,data){ 
+                     return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/billing_settings', data,  {'Content-Type': 'application/json'});
             },
 
             getAdvertiserBillingSettings =  function (clientId) {
@@ -131,8 +130,9 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 );
             },
 
-             updateAdvertiserBillingSettings = function(clientId,data){
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+
+             updateAdvertiserBillingSettings = function(clientId,data){ 
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertiser_billing_settings';
 
@@ -241,7 +241,7 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 return dataService.post(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands',
                     data,
-                    {'Content-Type': 'application/json'}
+                    {'Content-Type': 'application/json'} 
                 );
             },
 

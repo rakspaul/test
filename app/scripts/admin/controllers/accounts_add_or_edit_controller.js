@@ -197,6 +197,24 @@ define(['angularAMD', 'admin-account-service'],
                 };
             }
 
+            function getErrorMessage(result){
+                var message = '';
+                var resultData = result.data.data;
+                var indexes = ['name','code','currency','nickname','timezone','clientType'];
+
+                if(resultData.data.length){
+                    for(var i = 0; i < indexes.length; i++)
+                        {
+                            if(resultData.data[0][indexes[i]])
+                            message += indexes[i] + ' ' + resultData.data[0][indexes[i]] + ' ';
+                        }
+                } else {
+                    message = resultData.message;
+                }
+
+                return message;
+            }
+
             function createClient(body) {
                 return adminAccountsService
                     .createClient(body)
@@ -204,6 +222,7 @@ define(['angularAMD', 'admin-account-service'],
                         if (result.status === 'OK' || result.status === 'success') {
 
                             saveBillingData(result.data.data.id).then(function (result) {
+
                                 if (result.status !== 'OK' && result.status !== 'success')
                                     $rootScope.setErrAlertMessage(result.message);
                             });
@@ -213,6 +232,9 @@ define(['angularAMD', 'admin-account-service'],
                             _currCtrl.saveAdnlData();
                             $rootScope.setErrAlertMessage(constants.ACCOUNT_CREATED_SUCCESSFULLY, 0);
                             return result;
+
+                        }else {
+                            $rootScope.setErrAlertMessage(getErrorMessage(result));
                         }
                     });
             }
@@ -288,23 +310,25 @@ define(['angularAMD', 'admin-account-service'],
                 'COGS+%' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
                 'COGS+CPM' : 'BILLING_TYPE_COGS_PLUS_CPM_ID',
                 'CPM' : 'BILLING_TYPE_CPM_ID',
-                'CPC' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
+                'CPC' : 'BILLING_TYPE_CPC_ID',
                 'CPCV' : 'BILLING_TYPE_CPCV_ID',
-                'PCCPA' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
-                'TCPA' : 'BILLING_TYPE_TCPA_ID',
+                'PCCPA' : 'BILLING_TYPE_PCCPA_ID',
+                'TCPA' : 'BILLING_TYPE_TCPA_ID', 
                 'Flat Fees' : 'BILLING_TYPE_MONTHLY_FLAT_FEES_ID',
                 'Flat Fee' : 'BILLING_TYPE_MONTHLY_FLAT_FEE_ID',
                 '%GR' : 'BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID',
-                '%NR' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
+                '%NR' : 'BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID',
                 'FlatFees+%' : 'BILLING_TYPE_FLATFEE_PERCENTAGE_ID'
                 };
 
                 _.each(settings, function(item,index){
 
                     var name = item.abbreviatedName ? item.abbreviatedName : item.name;
-                    settingsMap[settingMapIds[name]] = item.id;
-                 });
 
+                    if(!settingsMap[settingMapIds[name]])
+                        settingsMap[settingMapIds[name]] = item.id;
+                 });
+                
                 return settingsMap;
             }
 
@@ -334,7 +358,7 @@ define(['angularAMD', 'admin-account-service'],
                                         getAdvertiserBillingSettings($scope.clientObj.id);
                                     }
 
-
+                                    initBillingTypeDropdown();
                              }
                         });
                     }
@@ -477,6 +501,11 @@ define(['angularAMD', 'admin-account-service'],
                                 }
                              }
 
+                             item.useFlatFee = false;
+
+                             if(item.rate == 1)
+                                 item.useFlatFee = true;
+
                              if(item.slices.length > 0)
                                 item.itemize = true;
                              else{
@@ -498,10 +527,13 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             function getBillingDataToSave(billingSettings,clientId){
-                var settingsToSave = [];
+                var settingsToSave = []; 
+                
+                _.each(billingSettings, function(item,index){ 
 
-                _.each(billingSettings, function(item,index){
-                    if(item && item.rate){
+                    var flatFeeSelected = (typeof item.useFlatFee !== 'undefined');
+
+                    if(item && item.rate  || flatFeeSelected){
                         var tempItem = {};
 
                         if(item.id)
@@ -514,6 +546,11 @@ define(['angularAMD', 'admin-account-service'],
 
                         if(item.updatedAt)
                             tempItem.updatedAt = item.updatedAt;
+
+                        if(item.rateTypeId == $scope.advertiserBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEE_ID){
+                           tempItem.rate = item.useFlatFee ? 1 : 0;
+                        }
+                          
 
                         if(item.rate && item.slices){
 
@@ -547,7 +584,7 @@ define(['angularAMD', 'admin-account-service'],
                     .getClientBillingData(clientId)
                     .then(function (res) {
                         if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                            $scope.rateTypes = res.data.data;
+                            $scope.rateTypes = res.data.data;                            
                         }
                     }, function (err) {
                         console.log('Error = ', err);
@@ -566,10 +603,18 @@ define(['angularAMD', 'admin-account-service'],
                 $('#serviceFeesBillingValue').trigger('focus');
             };
 
-            function initBillingTypeDropdown(){
-                var billingTypeMonthlyFee =  $scope.clientBillingTypesData.find(function(o){return o.id == $scope.clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID});
-                $scope.billingTypeName = billingTypeMonthlyFee.name;
-                $scope.feeSlotToggle(billingTypeMonthlyFee);
+           
+            function initBillingTypeDropdown(){             
+                var billingSettingWithData = _.find($scope.clientBillingSettings,function(o){return o.rate > 0});     
+                var billingSettingType = null;
+                
+                if(billingSettingWithData)
+                   billingSettingType = _.find($scope.clientBillingTypesData,function(o){return o.id == billingSettingWithData.rateTypeId}); 
+
+                if(!billingSettingType)
+                    billingSettingType = _.find($scope.clientBillingTypesData,function(o){return o.id == $scope.clientBillingTypes.BILLING_TYPE_MONTHLY_FLAT_FEES_ID}); 
+                    
+                $scope.feeSlotToggle(billingSettingType);
             };
 
             $scope.clientNameData = {};
@@ -663,12 +708,12 @@ define(['angularAMD', 'admin-account-service'],
             function saveBillingData(clientId){
                 var billingDataToSave = getBillingDataToSave($scope.clientBillingSettings,clientId);
 
-
                 return adminAccountsService
                     .updateClientBillingSettings(clientId,billingDataToSave)
                         .then(function (result){
                              if (result.status === 'OK' || result.status === 'success') {
                                 var advertiserBillingDataToSave = getBillingDataToSave($scope.advertiserBillingSettings,clientId);
+
                                 return adminAccountsService
                                     .updateAdvertiserBillingSettings(clientId,advertiserBillingDataToSave);
 
@@ -762,6 +807,9 @@ define(['angularAMD', 'admin-account-service'],
                                         }
                                     });
                             } else {
+
+
+
                                 console.log('Failed to save data. Error = ', result.data.data.message);
                             }
                         }, function (err) {

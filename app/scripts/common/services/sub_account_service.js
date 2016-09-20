@@ -97,8 +97,7 @@ define(['angularAMD'], function (angularAMD) {
              */
 
                 fetchSubAccountList = function (accountId) {
-                    var deferred = $q.defer(),
-                        accountData;
+                    var deferred = $q.defer();
 
                     accountId =  Number(accountId);
 
@@ -114,9 +113,7 @@ define(['angularAMD'], function (angularAMD) {
                         return deferred.promise;
                     }
 
-                    accountData = vistoconfig.getCurrentSelectedAccount();
-
-                    subAccountList = [{'id': accountId, 'displayName': 'All Sub-Accounts', 'timezone' : (accountData ? accountData.timezone : '')}];
+                    subAccountList = [{'id': accountId, 'displayName': 'All'}];
 
                     workflowService
                         .getDashboardSubAccount(accountId)

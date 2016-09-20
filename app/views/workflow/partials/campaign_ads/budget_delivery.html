@@ -276,7 +276,7 @@
                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
                     <div class="form-group col-md-7 zeroPadding">
                         <span>#</span>
-                        <input type="text" name="quantity" round-converter class="form-control" whole-number-only="whole-number-only" fcsa-number="{  }" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
+                        <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" fcsa-number="{  }" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
                         <label ng-if="budgetErrorObj.impressionPerUserValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.IMPRESSION_PER_USER_MESSAGE"></label>
                     </div>
 

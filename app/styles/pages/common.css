@@ -2597,18 +2597,14 @@ tags-input .autocomplete {
   font-size: 0px;
   color: #fff ;
   text-align: center;
-  position: relative;
 }
 .messageInsideContainer span.msg_box .msg_icon [class^="icon-"],
 .messageInsideContainer span.msg_box .msg_icon [class*=" icon-"] {
   color: #fff ;
-  position: absolute;
-  top: 31px;
-  left: 20px;
 }
 .messageInsideContainer span.msg_box .msg_txt {
   display: table-cell;
-  padding: 22px 20px 20px;
+  padding: 20px;
 }
 .messageInsideContainer span.msg_box .msg_txt .msg_type {
   font-family: "Avenir-bold";

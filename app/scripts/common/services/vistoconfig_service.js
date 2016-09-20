@@ -6,7 +6,6 @@ define(['angularAMD'], function (angularAMD) {
             workflow_apiServicesUrl: workflow_api,
             WORKFLOW_API_URL: workflowCreate_api
         },
-            selectedAccountData,
             clientTimeZone,
             noMediaPlanFoundMsg;
 
@@ -198,15 +197,6 @@ define(['angularAMD'], function (angularAMD) {
         this.getNoMediaPlanFoundMsg = function() {
            return noMediaPlanFoundMsg;
         };
-
-        this.setCurrentSelectedAccount = function(accountData) {
-            selectedAccountData = accountData;
-        };
-
-        this.getCurrentSelectedAccount = function() {
-            return selectedAccountData;
-        };
-
 
     }]);
 });
