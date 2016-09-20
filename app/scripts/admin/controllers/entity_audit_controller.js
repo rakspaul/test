@@ -21,7 +21,11 @@ define(['angularAMD'],
             };
 
             $scope.prettyPrint = function(responseJson) {
-                return JSON.stringify(JSON.parse(responseJson),null,'     ');
+                try {
+                    return JSON.stringify(JSON.parse(responseJson),null,'     ');
+                } catch(e) {
+                    return responseJson;
+                }
             }
 
         }]);
