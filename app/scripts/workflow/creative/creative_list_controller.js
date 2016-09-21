@@ -1,9 +1,9 @@
 define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$location', '$window', 'constants', 'domainReports', 'workflowService',
-        'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder',
-        function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
+    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$timeout', '$location', '$window', 'constants', 'domainReports',
+        'workflowService', 'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder',
+        function ($scope, $rootScope, $routeParams, $route, $timeout, $location, $window, constants, domainReports, workflowService,
                                                               momentService, loginModel, vistoconfig,accountService, urlBuilder) {
         var creativeDataArr,
             winHeight = $(window).height(),
@@ -230,6 +230,12 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         // broadcasted from filter directive once it fetches subaccounts
         $rootScope.$on('filterChanged',function (event, args) {
             creativeParams = args;
+            $timeout(function() {
+                $('.searchInputForm input').val('').trigger('blur');
+            }, 10);
+
+            isSearch = false;
+            $scope.isCreativeSearched = false;
             $scope.creativeListLoading = true;
             $scope.creativeLastPage = false;
             $scope.creativeData.creatives = [];

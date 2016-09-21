@@ -128,7 +128,7 @@ define(['angularAMD'],
                         });
                     tdMonth = Number(tdMonth);
                     tdDay = Number(tdDay);
-                    
+
                     // force stop scroll on edge
                     if (moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
                         switch (timeDomainString) {
@@ -1506,7 +1506,7 @@ define(['angularAMD'],
                                 var container = d3
                                     .select(this.parentNode)
                                     .select('text.past-marker-text'),
-                                    offset = 54,
+                                    offset = 68,
                                     padding = 16,
                                     textWidth,
                                     bbox;
