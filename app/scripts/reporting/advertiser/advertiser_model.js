@@ -98,13 +98,16 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                 },
 
                 changeAdvertiser: function(advertiser) {
-
-                    var url = '/a/' + $routeParams.accountId,
+                    var accountId = $routeParams.accountId,
+                        subAccountId = $routeParams.subAccountId,
+                        url = '/a/' + $routeParams.accountId,
                         that = this,
-                        subAccountId,
                         cannedReportName;
 
-                    subAccountId = $routeParams.subAccountId && advertiser.clientId;
+                    if(subAccountId) {
+                        subAccountId  = advertiser.clientId || subAccountId;
+                    }
+
                     subAccountId && (url += '/sa/' + subAccountId);
                     cannedReportName = _.last($location.path().split('/'));
 
@@ -116,32 +119,28 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                         // If it is canned reports
                         if($route.current.params.campaignId){
 
-                            //check which is the apropriate client id master or subaccount.
-                            var accountIdToFetchCamp = $routeParams.accountId;
-                            if(subAccountId) {
-                                accountIdToFetchCamp = subAccountId;
-                            }
-
                             //You need to fetch campaigns when ever an advertiser has changed from dropdown.  Brand will be -1 for call as in UI it will be 'All Brands'.
                             utils.cleanSearchParameter();
-                            campaignSelectModel.fetchCampaigns(accountIdToFetchCamp, advertiser.id, -1).then(function(response){
+                            campaignSelectModel.fetchCampaigns((subAccountId || accountId), advertiser.id, -1).then(function(response){
+
                                 var campaignArr = response.data.data,
                                     campaignId;
 
                                 if(campaignArr && campaignArr.length >0 && campaignArr[0].campaign_id) {
-                                    campaignId = campaignArr[0].campaign_id;
 
+                                    campaignId = campaignArr[0].campaign_id;
                                     //set first campaign as selected campaign
                                     campaignSelectModel.setSelectedCampaign(campaignArr[0]);
 
                                     url += '/mediaplans/' + campaignId;
                                     (cannedReportName && cannedReportName !== 'mediaplans') ? (url += '/' + cannedReportName) : '';
                                     $location.url(url);
+
                                 } else {
                                     /* if for selected advertiser there is no media plan found*/
-                                    
-                                    url = '/a/' + $routeParams.accountId;
-                                    $routeParams.subAccountId && (url += '/sa/' + $routeParams.subAccountId);
+
+                                    url = '/a/' + accountId;
+                                    subAccountId && (url += '/sa/' + subAccountId);
                                     $rootScope.setErrAlertMessage(constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER);
                                     utils.cleanSearchParameter();
                                     that.reset();
@@ -153,6 +152,7 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                                 }
                             });
                         } else {
+
                             // if it is mediaplan list page
                             url +='/mediaplans';
                             (cannedReportName && cannedReportName !== 'mediaplans')?(url += '/'+cannedReportName):'';
