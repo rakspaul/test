@@ -2,18 +2,19 @@ define(['angularAMD', 'gauge-model'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('GaugeController', ['$scope', '$rootScope', '$window', '$location', 'gauge', 'gaugeModel',
+        angularAMD.controller('GaugeController', ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'gauge', 'gaugeModel',
             'constants', 'accountService', 'subAccountService', 'vistoconfig',
 
-            function ($scope, $rootScope, $window, $location, gauge, gaugeModel, constants, accountService, subAccountService, vistoconfig) {
+            function ($scope, $rootScope, $window, $location, $routeParams, gauge, gaugeModel, constants, accountService, subAccountService, vistoconfig) {
 
-                var campaigns;
+                var campaigns,
+                    subAccountId;
 
                 if (accountService.getSelectedAccount().isLeafNode) {
                     campaigns = '/a/' + vistoconfig.getMasterClientId() + '/mediaplans';
                 } else {
-                    var firstSubAccount = subAccountService.getSubAccounts()[0].id;
-                    campaigns = '/a/' + vistoconfig.getMasterClientId() + '/sa/' + firstSubAccount + '/mediaplans';
+                    subAccountId = ($routeParams.subAccountId || subAccountService.getSubAccounts()[0].id);
+                    campaigns = '/a/' + vistoconfig.getMasterClientId() + '/sa/' + subAccountId + '/mediaplans';
                 }
 
                 gauge.setLeftArcClickHandler(function () {
