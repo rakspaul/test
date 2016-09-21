@@ -1165,6 +1165,21 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/upload', angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'custom-report-upload-controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/reports/list', angularAMD.route({
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
