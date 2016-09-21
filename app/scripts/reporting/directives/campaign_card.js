@@ -118,7 +118,8 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                     // NOTE: The params have been modified. To utilize the new feature,
                     // pass $event as the 3rd actual param when calling this method.
                     $scope.redirectTo = function (showManageButton, campaign, filterType, event) {
-                        var url = '';
+                        var url = '',
+                            subAccountId;
 
                         campaignSelectModel.setSelectedCampaign({
                             id: campaign.id,
@@ -128,11 +129,13 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                             kpi: campaign.kpiType
                         });
 
+                        subAccountId = $routeParams.subAccountId && campaign.client_id;
+
                         if (showManageButton) {
                             if (campaign.is_archived) {
                                 url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id + '/overview';
                             } else {
-                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id, $routeParams.accountId, campaign.client_id);
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id, $routeParams.accountId, subAccountId);
                             }
                         } else {
                             url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id +'/overview';
