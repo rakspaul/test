@@ -140,7 +140,7 @@ define(['angularAMD', 'advertiser-service'], function (angularAMD) {
                                     /* if for selected advertiser there is no media plan found*/
 
                                     url = '/a/' + accountId;
-                                    subAccountId && (url += '/sa/' + subAccountId);
+                                    $routeParams.subAccountId && (url += '/sa/' + $routeParams.subAccountId);
                                     $rootScope.setErrAlertMessage(constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER);
                                     utils.cleanSearchParameter();
                                     that.reset();
