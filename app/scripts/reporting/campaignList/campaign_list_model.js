@@ -785,19 +785,24 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                             this.scrollFlag = 1;
                             fetchData.call(this);
 
+                            dataView = localStorageService.mediaPlanView.get() || 'standard';
+                            this.realTimeData = (dataView === 'realtime') ? true : false;
+                            if(this.realTimeData){
+                                $('#realTimeMessage').show();
+                            } else{
+                                $('#realTimeMessage').hide();
+                            }
+                            dataView && $location.search('dataView', dataView);
+
                             if (filterToApply === 'all') {
                                 $location.search('filter', null);
                             } else {
                                 $location.search('filter', filterToApply);
                             }
-
-                            dataView = localStorageService.mediaPlanView.get() || 'standard';
-                            this.realTimeData = (dataView === 'realtime') ? true : false;
-                            dataView && $location.search('dataView', dataView);
                         },
 
                         initializeFilter = function () {
-                            var filterStatus = $location.url().split('filter=')[1],
+                            var filterStatus = $location.search().filter,
                                 $tmpSavedFilter;
 
                             if (filterStatus === undefined) {
