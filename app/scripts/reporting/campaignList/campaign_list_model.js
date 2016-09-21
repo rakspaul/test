@@ -72,6 +72,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                     this.sortDirection = 'desc';
                     this.brandId = vistoconfig.getSelectedBrandId();
                     this.client_id = vistoconfig.getSelectedAccountId();
+                    this.realTimeData = false;
 
                     this.dashboard = {
                         filterTotal: 1,
@@ -681,7 +682,8 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                         setQuickFilter = function (filterToApply) {
                             var kpiStatus = '',
-                                type = '';
+                                type = '',
+                                dataView;
 
                             this.loadMoreCampaigns = false;
                             this.unSelectQuickFilter();
@@ -788,6 +790,11 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                             } else {
                                 $location.search('filter', filterToApply);
                             }
+
+                            dataView = localStorageService.mediaPlanView.get() || 'standard';
+                            console.log("dataView", dataView);
+                            this.realTimeData = (dataView === 'realtime') ? true : false;
+                            dataView && $location.search('dataView', dataView);
                         },
 
                         initializeFilter = function () {
