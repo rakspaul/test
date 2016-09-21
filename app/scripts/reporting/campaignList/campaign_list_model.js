@@ -792,7 +792,6 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                             }
 
                             dataView = localStorageService.mediaPlanView.get() || 'standard';
-                            console.log("dataView", dataView);
                             this.realTimeData = (dataView === 'realtime') ? true : false;
                             dataView && $location.search('dataView', dataView);
                         },

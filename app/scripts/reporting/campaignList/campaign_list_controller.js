@@ -8,7 +8,8 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
         'campaignListModel', 'campaignSelectModel', 'strategySelectModel', 'utils', 'constants', 'vistoconfig',
         'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService', 'campaignListService', 'localStorageService',
         function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService, campaignListService, localStorageService) {
+                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService,
+                  urlBuilder, featuresService, campaignListService, localStorageService) {
 
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
