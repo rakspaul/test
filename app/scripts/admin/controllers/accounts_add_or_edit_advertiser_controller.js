@@ -361,7 +361,12 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
 
                 if (_currCtrl.downloadPixelIds.length &&
                     (_currCtrl.downloadPixelIds.length < $scope.topCtrlData.pixels.length)) {
-                    url += '?ids=' + _currCtrl.downloadPixelIds.join(',');
+                    if(url.indexOf('?') > -1) {
+                        url += '&';
+                    } else {
+                        url += '?';
+                    }
+                    url += 'ids=' + _currCtrl.downloadPixelIds.join(',');
                 }
 
                 dataService
