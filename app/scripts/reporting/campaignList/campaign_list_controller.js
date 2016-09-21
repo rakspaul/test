@@ -38,6 +38,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             enableFeaturePermission();
 
             if(vistoconfig.getNoMediaPlanFoundMsg()) {
+                utils.cleanSearchParameter();
                 $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
                 vistoconfig.setNoMediaPlanFoundMsg(null);
             }

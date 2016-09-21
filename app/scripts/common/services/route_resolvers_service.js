@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', 'utils', function ($rootScope, $timeout, utils) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -356,11 +356,13 @@ define(['angularAMD'], function (angularAMD) {
                                     } else {
 
                                         if (params.advertiserId) {
+                                            utils.cleanSearchParameter();
                                             args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
                                             (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
                                             (params.advertiserId > 0) && (url += '/b/0');
                                             url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
                                         } else {
+                                            utils.cleanSearchParameter();
                                             args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT);
                                             url += '/mediaplans';
                                         }
