@@ -17,20 +17,20 @@
     <div id="realTimeToggleBtn">
         <div class="pull-right btn-group">
             <div class="goalBtnGroup zeroPadding firstBtnGroup realTimeButton" >
-                <label class="btn btn-primary" tooltip="{{textConstants.CARD_VIEW_REALTIME}}" ng-click="selectCardView($event,'RealTime')"   >
+                <label class="btn btn-primary" ng-class="{active : campaigns.realTimeData}" tooltip="{{textConstants.CARD_VIEW_REALTIME}}" ng-click="selectCardView($event,'RealTime')"   >
                         <div class="icon-activity"></div>
                 </label>
             </div>
             <div class="goalBtnGroup zeroPadding lastBtnGroup">
-                <label class="btn btn-primary active"  tooltip="{{textConstants.CARD_VIEW_STANDARD}}" ng-click="selectCardView($event,'Standard')"  >
+                <label class="btn btn-primary"  ng-class="{active : !campaigns.realTimeData}" tooltip="{{textConstants.CARD_VIEW_STANDARD}}" ng-click="selectCardView($event,'Standard')"  >
                         <div class="icon-card-view"></div>
                 </label>
             </div>
-            
+
         </div>
     </div>
 
-    
+
 
 
     <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
@@ -86,9 +86,9 @@
 
     </div>
     <div class="col-md-12 zeroPadding messageInsideContainer" id="realTimeMessage" style="display:none;">
-        <span class="msg_box"> 
-              <span class="msg_icon"><span class="icon-activity"></span></span> 
-              <span class="msg_txt" data-ng-bind-html="textConstants.CARD_VIEW_REALTIME_MESSAGE"></span> 
+        <span class="msg_box">
+              <span class="msg_icon"><span class="icon-activity"></span></span>
+              <span class="msg_txt" data-ng-bind-html="textConstants.CARD_VIEW_REALTIME_MESSAGE"></span>
       </span>
     </div>
 
