@@ -56,7 +56,7 @@ define(['angularAMD', 'common-utils'],
                         }
 
                         if (kpIType === 'ctr' || kpIType === 'action_rate' || kpIType === 'action rate'){
-                            kpi_value = parseFloat(kpi_value.toFixed(4));
+                            kpi_value = (kpi_value) && parseFloat(kpi_value.toFixed(4));
                         }
 
                         if (kpIType === 'cpm' || kpIType === 'cpc' || kpIType === 'vtc'){

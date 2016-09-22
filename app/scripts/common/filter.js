@@ -406,7 +406,8 @@ define(['angularAMD'],
                     } else if (type.toLowerCase() === 'delivery (impressions)') {
                         returnValue = (val.toFixed(0)).toLocaleString();
                     } else {
-                        val = val.toFixed(3);
+                        //action rate,vtc,ctr should be of 3 decimals and CPA,CPM and CPC should be 2 decimal places
+                        val = ((type.toLowerCase() === 'action_rate') || ((type.toLowerCase() === 'ctr')))?val.toFixed(3):val.toFixed(2);
 
                         returnValue = (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
                         type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?

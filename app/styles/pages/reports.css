@@ -52,6 +52,9 @@
   width: 284px;
 }
 /* Generic Class */
+.wordWrap {
+  word-wrap: break-word;
+}
 .overflowAuto {
   overflow: auto;
 }
@@ -685,7 +688,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -823,7 +826,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1338,8 +1341,15 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .platform_logo_img {
   margin-left: 25px;
 }
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelNameHolder {
+  width: 250px;
+}
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
-  width: 225px;
+  width: 207px;
+  word-wrap: break-word;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelCategory {
+  word-wrap: break-word;
 }
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
@@ -4408,7 +4418,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
