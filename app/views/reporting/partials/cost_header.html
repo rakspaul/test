@@ -1,21 +1,21 @@
-<div class="eachCol zeroPadding icon_text_holder text-left platform_logo">
+<div class="eachCol icon_text_holder text-left platform_logo">
     {{textConstants.PLATFORM_NAME}}
 </div>
 
 <div class="col-md-11 zeroPadding">
-    <div class="eachCol zeroPadding"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
-    <div class="eachCol zeroPadding">
+    <div class="eachCol"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
+    <div class="eachCol">
         <div class="dropdown kpi-dd-holder col-md-12 zeroPadding">
             <kpi-drop-down type="selectedFilters.kpi_type.toLowerCase()"> </kpi-drop-down>
         </div>
     </div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.INVENTORY}}</div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.DATA}}</div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.AD_SERVING}}</div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.AD_VERIFICATION}}</div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.CREATIVE}}</div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.RESEARCH}}</div>
-    <div class="eachColClub zeroPadding" style="margin-top: -12px;">
+    <div class="eachCol text-center">{{textConstants.INVENTORY}}</div>
+    <div class="eachCol text-center">{{textConstants.DATA}}</div>
+    <div class="eachCol text-center">{{textConstants.AD_SERVING}}</div>
+    <div class="eachCol text-center">{{textConstants.AD_VERIFICATION}}</div>
+    <div class="eachCol text-center">{{textConstants.CREATIVE}}</div>
+    <div class="eachCol text-center">{{textConstants.RESEARCH}}</div>
+    <div class="eachColClub" style="margin-top: -12px;">
         <span class="col-md-12 zeroPadding text-center" style="border-bottom: 1px solid #000; margin: 0 0 5px 0;">Platform Fees</span>
         <div class="col-md-12 zeroPadding">
             <span class="icon_text_holder col-md-4 zeroPadding" data-ng-bind="textConstants.TECH_FEES"></span>
@@ -23,8 +23,8 @@
             <span class="icon_text_holder col-md-4 zeroPadding pull-right text-right" >Total</span>
         </div>
     </div>
-    <div class="eachCol zeroPadding text-center">{{textConstants.TOTAL_SPEND}}</div>
-    <div class="eachCol zeroPadding text-center">Margin %</div>
+    <div class="eachCol text-center">{{textConstants.TOTAL_SPEND}}</div>
+    <div class="eachCol text-center">Margin %</div>
     <!-- ngIf: more_options -->
 </div>
 

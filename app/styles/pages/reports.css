@@ -1953,6 +1953,129 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block.reports_video_mode_viewability_container .each_col.forth_col span {
   text-align: center;
 }
+#reports_platform_viewability_block .no_data_found {
+  border-top: solid 1px #d2dee7;
+  padding: 120px 0;
+}
+#reports_platform_viewability_block .viewability_header .delivered_col {
+  margin-top: 15px ;
+}
+#reports_platform_viewability_block .viewability_header .delivered_col > span {
+  text-transform: none;
+  font-size: 14px ;
+}
+#reports_platform_viewability_block .viewability_header .measurable_col .icon_text_holder,
+#reports_platform_viewability_block .viewability_header .forth_col .icon_text_holder {
+  padding-right: 17px ;
+}
+#reports_platform_viewability_block .viewability_header .suspicious_col .icon_text_holder:hover {
+  background-position: 110px 1px;
+}
+#reports_platform_viewability_block .strategy_total_container {
+  border-top: none ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child {
+  height: auto ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child .each_strategy:before {
+  display: none ;
+}
+#reports_platform_viewability_block .strategy_total_container div.seventh_col {
+  padding-right: 10px ;
+  width: 105px ;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+#reports_platform_viewability_block .strategy_total_container .each_col.first_col {
+  color: #21252b;
+  font-size: 18px;
+  font-family: "Avenir";
+  margin-bottom: 10px ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_col.first_col .active {
+  color: #0978c9;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .first_col {
+  color: #21252b;
+  font-size: 14px;
+  font-family: "Avenir-bold";
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .first_col .active {
+  color: #0978c9;
+}
+#reports_platform_viewability_block .suspicious_col {
+  width: 140px;
+  margin: 0 5px;
+}
+#reports_platform_viewability_block .suspicious_col .icon_text_holder {
+  background-position: 110px -65px;
+}
+#reports_platform_viewability_block .suspicious_col .icon_text_holder:hover {
+  background-position: 74px 1px;
+}
+#reports_platform_viewability_block .suspicious_col .icon_text_holder.active:hover {
+  background-position: 110px -65px;
+}
+#reports_platform_viewability_block .each_col {
+  padding-top: 0px ;
+  padding-bottom: 0px ;
+  /*margin-bottom: 10px;*/
+}
+#reports_platform_viewability_block .platform_name_col {
+  text-align: left;
+  margin-left: 0px ;
+  width: 280px ;
+  margin-right: 0px ;
+  padding-left: 15px ;
+}
+#reports_platform_viewability_block .third_col,
+#reports_platform_viewability_block .forth_col {
+  width: 160px ;
+}
+#reports_platform_viewability_block div.each_row_list div.platform_aggregation_row {
+  background-position: -2px 10px;
+}
+#reports_platform_viewability_block .reports_platform_header .platform_name_col {
+  margin-top: 15px ;
+  padding-left: 0px ;
+}
+#reports_platform_viewability_block .reports_platform_header {
+  padding: 0px ;
+}
+#reports_platform_viewability_block .icon_text_holder {
+  padding-right: 0px ;
+}
+#reports_platform_viewability_block .impressions_subcol {
+  text-align: center;
+}
+#reports_platform_viewability_block .impressions_subcol .icon_text_holder {
+  padding-right: 0px ;
+}
+#reports_platform_viewability_block .impressions_col {
+  text-align: right ;
+  padding-right: 36px ;
+}
+#reports_platform_viewability_block .ad_col .common_tooltip {
+  width: 140px;
+  left: -50px;
+}
+#reports_platform_viewability_block .ad_col .common_tooltip:after {
+  left: 52px ;
+}
+#reports_platform_viewability_block .sub_four_cols .common_tooltip {
+  width: 200px;
+  left: -90px;
+}
+#reports_platform_viewability_block .sub_four_cols .common_tooltip:after {
+  left: 92px ;
+}
+#reports_platform_viewability_block .vtc_col .common_tooltip {
+  width: 200px;
+  left: -90px;
+}
+#reports_platform_viewability_block .vtc_col .common_tooltip:after {
+  left: 93px ;
+}
 /* Margin cost */
 #reports_platform_margin_block.reports_video_mode_viewability_container .viewability_header .suspicious_col {
   width: 80px;
@@ -2198,129 +2321,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 25% ;
   text-align: right;
   padding-right: 17px;
-}
-#reports_platform_viewability_block .no_data_found {
-  border-top: solid 1px #d2dee7;
-  padding: 120px 0;
-}
-#reports_platform_viewability_block .viewability_header .delivered_col {
-  margin-top: 15px ;
-}
-#reports_platform_viewability_block .viewability_header .delivered_col > span {
-  text-transform: none;
-  font-size: 14px ;
-}
-#reports_platform_viewability_block .viewability_header .measurable_col .icon_text_holder,
-#reports_platform_viewability_block .viewability_header .forth_col .icon_text_holder {
-  padding-right: 17px ;
-}
-#reports_platform_viewability_block .viewability_header .suspicious_col .icon_text_holder:hover {
-  background-position: 110px 1px;
-}
-#reports_platform_viewability_block .strategy_total_container {
-  border-top: none ;
-}
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child {
-  height: auto ;
-}
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child .each_strategy:before {
-  display: none ;
-}
-#reports_platform_viewability_block .strategy_total_container div.seventh_col {
-  padding-right: 10px ;
-  width: 105px ;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-#reports_platform_viewability_block .strategy_total_container .each_col.first_col {
-  color: #21252b;
-  font-size: 18px;
-  font-family: "Avenir";
-  margin-bottom: 10px ;
-}
-#reports_platform_viewability_block .strategy_total_container .each_col.first_col .active {
-  color: #0978c9;
-}
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .first_col {
-  color: #21252b;
-  font-size: 14px;
-  font-family: "Avenir-bold";
-}
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .first_col .active {
-  color: #0978c9;
-}
-#reports_platform_viewability_block .suspicious_col {
-  width: 140px;
-  margin: 0 5px;
-}
-#reports_platform_viewability_block .suspicious_col .icon_text_holder {
-  background-position: 110px -65px;
-}
-#reports_platform_viewability_block .suspicious_col .icon_text_holder:hover {
-  background-position: 74px 1px;
-}
-#reports_platform_viewability_block .suspicious_col .icon_text_holder.active:hover {
-  background-position: 110px -65px;
-}
-#reports_platform_viewability_block .each_col {
-  padding-top: 0px ;
-  padding-bottom: 0px ;
-  /*margin-bottom: 10px;*/
-}
-#reports_platform_viewability_block .platform_name_col {
-  text-align: left;
-  margin-left: 0px ;
-  width: 280px ;
-  margin-right: 0px ;
-  padding-left: 15px ;
-}
-#reports_platform_viewability_block .third_col,
-#reports_platform_viewability_block .forth_col {
-  width: 160px ;
-}
-#reports_platform_viewability_block div.each_row_list div.platform_aggregation_row {
-  background-position: -2px 10px;
-}
-#reports_platform_viewability_block .reports_platform_header .platform_name_col {
-  margin-top: 15px ;
-  padding-left: 0px ;
-}
-#reports_platform_viewability_block .reports_platform_header {
-  padding: 0px ;
-}
-#reports_platform_viewability_block .icon_text_holder {
-  padding-right: 0px ;
-}
-#reports_platform_viewability_block .impressions_subcol {
-  text-align: center;
-}
-#reports_platform_viewability_block .impressions_subcol .icon_text_holder {
-  padding-right: 0px ;
-}
-#reports_platform_viewability_block .impressions_col {
-  text-align: right ;
-  padding-right: 36px ;
-}
-#reports_platform_viewability_block .ad_col .common_tooltip {
-  width: 140px;
-  left: -50px;
-}
-#reports_platform_viewability_block .ad_col .common_tooltip:after {
-  left: 52px ;
-}
-#reports_platform_viewability_block .sub_four_cols .common_tooltip {
-  width: 200px;
-  left: -90px;
-}
-#reports_platform_viewability_block .sub_four_cols .common_tooltip:after {
-  left: 92px ;
-}
-#reports_platform_viewability_block .vtc_col .common_tooltip {
-  width: 200px;
-  left: -90px;
-}
-#reports_platform_viewability_block .vtc_col .common_tooltip:after {
-  left: 93px ;
 }
 /****************** Maring Block  ************/
 #reports_platform_margin_block .no_data_found {
@@ -3611,6 +3611,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .each_strategy_holder {
   padding: 10px 0 10px 10px !important;
 }
+#reports_platform_cost_block .reports_platform_header .kpi-dd-holder.active .dd_txt,
+#reports_platform_cost_block .strategy_total_container_header .kpi-dd-holder.active .dd_txt,
+#reports_platform_cost_block .each_strategy_holder .kpi-dd-holder.active .dd_txt,
+#reports_platform_cost_block .reports_platform_header #kpi_dropdown.active .dd_txt,
+#reports_platform_cost_block .strategy_total_container_header #kpi_dropdown.active .dd_txt,
+#reports_platform_cost_block .each_strategy_holder #kpi_dropdown.active .dd_txt {
+  color: #313233;
+}
 #reports_platform_cost_block .reports_platform_header .eachCol,
 #reports_platform_cost_block .strategy_total_container_header .eachCol,
 #reports_platform_cost_block .each_strategy_holder .eachCol {
@@ -3619,6 +3627,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left;
   margin-left: 10px;
   word-wrap: break-word;
+  padding: 0 ;
 }
 #reports_platform_cost_block .reports_platform_header .eachCol.platform_logo,
 #reports_platform_cost_block .strategy_total_container_header .eachCol.platform_logo,
