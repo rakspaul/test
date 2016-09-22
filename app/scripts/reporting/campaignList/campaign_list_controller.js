@@ -1,15 +1,13 @@
-define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-select-model',
-    'strategy-select-service', 'common-utils', 'gauge-model', 'campaign-list-filter-directive', 'campaign-cost-sort',
-    'campaign-card', 'campaign-list-sort', 'quartiles-graph', 'campaign-chart',
-    'campaign-cost-card'], function (angularAMD) {
+define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-select-model', 'strategy-select-service', 'common-utils', 'gauge-model',
+    'campaign-list-filter-directive', 'campaign-cost-sort', 'campaign-card', 'campaign-list-sort', 'quartiles-graph', 'campaign-chart', 'campaign-cost-card'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel',
-        'campaignListModel', 'campaignSelectModel', 'strategySelectModel', 'utils', 'constants', 'vistoconfig',
-        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService', 'campaignListService',
-        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService, campaignListService) {
-
+    angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel', 'campaignListModel', 'campaignSelectModel',
+        'strategySelectModel', 'utils', 'constants', 'vistoconfig', 'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService',
+        'campaignListService', 'pageLoad', function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel, strategySelectModel,
+                                                     utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService,
+                                                     campaignListService, pageLoad) {
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
 
@@ -17,6 +15,10 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                     $scope.showCreateMediaPlan = fParams[0].create_mediaplan;
                     $scope.showCostTab = fParams[0].cost;
                 };
+
+            console.log('CAMPAIGN LIST (Media Plans List) controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             // Hot fix to show the campaign tab selected
             $('.main_navigation')

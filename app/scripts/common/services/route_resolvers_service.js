@@ -89,6 +89,7 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
+
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
@@ -425,8 +426,9 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             fetchCurrentAdvertiser = function (args) {
-                var params = args.$route.current.params;
-                var deferred = args.$q.defer();
+                var params = args.$route.current.params,
+                    deferred = args.$q.defer();
+
                 args
                     .advertiserModel
                     .fetchAdvertiserList(params.subAccountId || params.accountId)
@@ -438,6 +440,7 @@ define(['angularAMD'], function (angularAMD) {
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
                             $rootScope.$broadcast('advertiser:set', advertiser);
+
                             if (args.$location.path().endsWith('/dashboard')) {
                                 $('#advertiserButton').hide();
                                 args.dashboardModel.setSelectedAdvertiser(advertiser);
@@ -446,6 +449,7 @@ define(['angularAMD'], function (angularAMD) {
                             console.log('advertiser not allowed');
                             args.$location.url('/tmp');
                         }
+
                         deferred.resolve();
                     });
 
@@ -453,9 +457,10 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             fetchCurrentBrand = function (args,dashboardSubAccountId) {
-                var params = args.$route.current.params;
-                var accountId = params.subAccountId || params.accountId;
-                if(params.subAccountId && dashboardSubAccountId){
+                var params = args.$route.current.params,
+                    accountId = params.subAccountId || params.accountId;
+
+                if (params.subAccountId && dashboardSubAccountId) {
                     accountId = dashboardSubAccountId;
                 }
 
@@ -482,7 +487,7 @@ define(['angularAMD'], function (angularAMD) {
                     params = args.$route.current.params,
                     isLeafNode;
 
-                console.log('invoHeader, params = ', params);
+                console.log('invoiceHeader, params = ', params);
 
                 args
                     .accountService
@@ -533,7 +538,7 @@ define(['angularAMD'], function (angularAMD) {
                                     .subAccountService
                                     .fetchMediaplanCreateSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if(!args.subAccountService.allowedMediaplanCreateSubAccount(args.$route.current.params.subAccountId)) {
+                                        if (!args.subAccountService.allowedMediaplanCreateSubAccount(args.$route.current.params.subAccountId)) {
                                             args.subAccountService.allowedMediaplanCreateSubAccount(args.subAccountService.getMediaplanCreateSubAccounts()[0].id);
                                         }
                                         fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
@@ -705,9 +710,12 @@ define(['angularAMD'], function (angularAMD) {
                     .accountService
                     .fetchAccountList()
                     .then(function () {
+                        var isLeafNode;
+
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
-                            var isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
-                            if(!isLeafNode){
+                            isLeafNode = args.accountService.getSelectedAccount().isLeafNode;
+
+                            if (!isLeafNode) {
                                 args
                                     .subAccountService
                                     .fetchSubAccountList(args.$route.current.params.accountId)
@@ -796,7 +804,7 @@ define(['angularAMD'], function (angularAMD) {
                 return deferred.promise;
             },
 
-        // report header resolver without campaign id - we pick the campaign here
+            // report header resolver without campaign id - we pick the campaign here
             reportsHeaderResolverWOCampaign = function (args) {
                 var deferred = args.$q.defer();
 
@@ -964,7 +972,6 @@ define(['angularAMD'], function (angularAMD) {
                             } else {
                                 fetchAccountDataWithReports(args, deferred);
                             }
-
                         } else {
                             console.log('account not allowed');
                             args.$location.url('/tmp');

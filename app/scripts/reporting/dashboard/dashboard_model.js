@@ -1,14 +1,12 @@
 define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-service', 'common-utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel',
-        'constants', 'urlService', 'requestCanceller', 'dataService', 'utils','subAccountService', 'vistoconfig',
-        function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller,
-                  dataService, utils, subAccountService, vistoconfig) {
-
+    angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService',
+        'utils','subAccountService', 'vistoconfig', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller,
+                                                              dataService, utils, subAccountService, vistoconfig) {
             var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter')),
 
-            // by default it is active.  Now check local storage if we want to change it last saved status.
+                // by default it is active.  Now check local storage if we want to change it last saved status.
                 dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT},
 
                 setTitle = function () {
@@ -20,14 +18,14 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                 getCampaingsCount = function () {
                     var clientId = vistoconfig.getSelectedAccountId(),
                         advertiserId = vistoconfig.getSelectAdvertiserId(),
-                        url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId,
-                            'end_date', campaignStatusToSend());
+                        url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId, 'end_date', campaignStatusToSend());
 
                     return dataService
                         .fetch(url)
                         .then(function (response) {
-                            var totalCamapigns = response.data.data.total_campaigns;
-                            var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+                            var totalCamapigns = response.data.data.total_campaigns,
+                                mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
+
                             dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
                         });
                 },
@@ -46,7 +44,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                 getData = function () {
                     dashboardData.brandSelected = vistoconfig.getSelectedBrandId() !== -1;
 
-                    if(dashboardData.brandSelected) {
+                    if (dashboardData.brandSelected) {
                         // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
                         dashboardData.selectedBrand = brandsModel.getSelectedBrand().brandName;
                     }
@@ -68,6 +66,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
 
             function addCampaigns() {
                 dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
+
                 if (vistoconfig.getSelectedBrandId() === -1) {
                     dashboardData.titleSecondPart += constants.ALL_BRANDS;
                 }

@@ -19,7 +19,7 @@ define(['common'], function (angularAMD) {
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping Visto',
                     templateUrl: 'home.html',
-                    controller: function ($cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
+                    controller: function ($scope, $cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
 
                         if ($cookies.get('cdesk_session')) {
@@ -37,7 +37,7 @@ define(['common'], function (angularAMD) {
                                             return client.id === preferredClientId;
                                         });
 
-                                        if(!account) {
+                                        if (!account) {
                                             account = accountService.getAccounts()[0];
                                         }
                                     } else {
@@ -49,6 +49,7 @@ define(['common'], function (angularAMD) {
                                             .fetchAccountData(account.id)
                                             .then(function (response) {
                                                 features = response.data.data.features;
+
                                                 if (features.indexOf('ENABLE_ALL') !== -1) {
                                                     $location.url(urlBuilder.buildBaseUrl(account.id) + '/dashboard');
                                                 } else {
@@ -484,7 +485,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
@@ -555,7 +555,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/cost', angularAMD.route({
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
@@ -598,7 +597,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
                 .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform', angularAMD.route({
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
@@ -613,7 +611,6 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-
                 .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/platform', angularAMD.route({
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
@@ -627,7 +624,6 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-
 
                 .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/platform', angularAMD.route({
                     templateUrl: assets.html_platform,

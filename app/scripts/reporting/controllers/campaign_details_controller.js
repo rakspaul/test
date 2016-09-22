@@ -1,39 +1,22 @@
-define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-data', 'campaign-list-service',
-        'campaign-list-model', 'campaign-select-model', 'strategy-select-service', 'charts-actions', 'common-utils', 'pie-chart',
-        'charts-solid-gauge', 'url-service', 'kpi-select-model', 'edit-actions-model', 'activity-list',
-        'actions-controller', 'edit-actions-controller', 'campaign-chart', 'quartiles-graph', 'strategy-card',
-        'directive-pie-chart', 'advertiser-directive', 'brands-directive'],
+define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-data', 'campaign-list-service', 'campaign-list-model', 'campaign-select-model',
+    'strategy-select-service', 'charts-actions', 'common-utils', 'pie-chart', 'charts-solid-gauge', 'url-service', 'kpi-select-model', 'edit-actions-model', 'activity-list',
+    'actions-controller', 'edit-actions-controller', 'campaign-chart', 'quartiles-graph', 'strategy-card', 'directive-pie-chart', 'advertiser-directive', 'brands-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('CampaignDetailsController', ['$rootScope', '$scope', '$routeParams',
-            '$window', '$filter', '$location',  '$timeout',
-            'timePeriodModel', 'modelTransformer', 'campaignCDBData',
-            'campaignListService', 'campaignSelectModel',
-            'strategySelectModel', 'strategySelectService',
-            'actionChart', 'dataService', 'utils', 'pieChart',
-            'solidGaugeChart', 'constants', 'featuresService',
-            'loginModel', 'loginService', 'brandsModel', 'urlService',
-            'momentService', 'RoleBasedService', 'advertiserModel',
-            'kpiSelectModel', 'dataStore', 'vistoconfig',
-            'domainReports', 'editAction', 'activityList', 'urlBuilder', function ($rootScope, $scope, $routeParams,
-                                                                                   $window, $filter,$location,  $timeout,
-                                                                                   timePeriodModel, modelTransformer, campaignCDBData,
-                                                                                   campaignListService, campaignSelectModel,
-                                                                                   strategySelectModel, strategySelectService,
-                                                                                   actionChart, dataService, utils, pieChart,
-                                                                                   solidGaugeChart, constants, featuresService,
-                                                                                   loginModel, loginService, brandsModel, urlService,
-                                                                                   momentService, RoleBasedService, advertiserModel,
-                                                                                   kpiSelectModel, dataStore, vistoconfig,
-                                                                                   domainReports, editAction, activityList, urlBuilder) {
-
+        angularAMD.controller('CampaignDetailsController', ['$rootScope', '$scope', '$routeParams', '$window', '$filter', '$location',  '$timeout', 'timePeriodModel',
+            'modelTransformer', 'campaignCDBData', 'campaignListService', 'campaignSelectModel', 'strategySelectModel', 'strategySelectService', 'actionChart', 'dataService',
+            'utils', 'pieChart', 'solidGaugeChart', 'constants', 'featuresService', 'loginModel', 'loginService', 'brandsModel', 'urlService', 'momentService',
+            'RoleBasedService', 'advertiserModel', 'kpiSelectModel', 'dataStore', 'vistoconfig', 'domainReports', 'editAction', 'activityList', 'urlBuilder', 'pageLoad',
+            function ($rootScope, $scope, $routeParams, $window, $filter,$location,  $timeout, timePeriodModel, modelTransformer, campaignCDBData, campaignListService,
+                      campaignSelectModel, strategySelectModel, strategySelectService, actionChart, dataService, utils, pieChart, solidGaugeChart, constants, featuresService,
+                      loginModel, loginService, brandsModel, urlService, momentService, RoleBasedService, advertiserModel, kpiSelectModel, dataStore, vistoconfig,
+                      domainReports, editAction, activityList, urlBuilder, pageLoad) {
                 var orderBy = $filter('orderBy'),
                     campaign = campaignListService,
-                //Campaigns = campaignListModel,
                     getSetCampaignDetails,
 
-                // API call for campaign details
+                    // API call for campaign details
                     clientId = vistoconfig.getSelectedAccountId(),
                     advertiserId = vistoconfig.getSelectAdvertiserId(),
                     brandId = vistoconfig.getSelectedBrandId(),
@@ -41,6 +24,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
 
                     eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
                         var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
+
                         dataStore.deleteFromCache(urlService.APIActionData(clientId, campaignId));
                         updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
                     }),
@@ -50,7 +34,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     });
 
                 function getCustomQueryParams(queryId) {
-                    var dateFilter = constants.PERIOD_LIFE_TIME;//timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+                    var dateFilter = constants.PERIOD_LIFE_TIME;
 
                     return {
                         queryId: queryId,
@@ -149,8 +133,6 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     setWidgetInCarousel();
                 }
 
-                enableFeaturePermission();
-
                 function setWidgetInCarousel() {
                     setTimeout(function(){
                         var selAllCarousalWidget = '#myCarousel > .carousel-inner .item:not(.ng-hide)',
@@ -167,6 +149,11 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     },25);
                 }
 
+                enableFeaturePermission();
+
+                console.log('CAMPAIGN DETAILS controller is loaded!');
+                // Hide page loader when the page is loaded
+                pageLoad.hidePageLoader();
 
                 $rootScope.$on('features', function () {
                     enableFeaturePermission();

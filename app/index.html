@@ -14,6 +14,10 @@
         <link rel="stylesheet" href="/styles/cdesk_application.css">
 </head>
 <body class='{{bodyclass}} {{productType}} {{customReport}}'>
+    <div id="pageLoader" class="commonPagesLoader">
+        <div class="ui active large inline loader"></div>
+    </div>
+
     <header ng-show="showHeader"></header>
 
     <div class="bodyWrap" ng-view></div>

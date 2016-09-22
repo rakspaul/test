@@ -1,16 +1,12 @@
-define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-select-service',
-    'common-utils', 'url-service', 'time-period-model', 'strategy-select-directive',
-    'strategy-select-controller', 'time-period-pick-directive',
-    'kpi-select-directive'],function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-select-service', 'common-utils', 'url-service', 'time-period-model', 'strategy-select-directive',
+    'strategy-select-controller', 'time-period-pick-directive', 'kpi-select-directive'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CostController', ['$scope', '$window', 'campaignSelectModel', 'kpiSelectModel',
-        'advertiserModel', 'strategySelectModel', 'brandsModel', 'dataService',
-        'utils', 'loginModel', 'urlService', 'constants', 'timePeriodModel',
-        'domainReports', 'vistoconfig', function ($scope, $window, campaignSelectModel, kpiSelectModel,
-                                                       advertiserModel, strategySelectModel, brandsModel, dataService,
-                                                       utils, loginModel, urlService, constants, timePeriodModel,
-                                                       domainReports, vistoconfig) {
+    angularAMD.controller('CostController', ['$scope', '$window', 'campaignSelectModel', 'kpiSelectModel', 'advertiserModel', 'strategySelectModel', 'brandsModel', 'dataService',
+        'utils', 'loginModel', 'urlService', 'constants', 'timePeriodModel', 'domainReports', 'vistoconfig', 'pageLoad',
+        function ($scope, $window, campaignSelectModel, kpiSelectModel, advertiserModel, strategySelectModel, brandsModel, dataService, utils, loginModel, urlService,
+                  constants, timePeriodModel, domainReports, vistoconfig, pageLoad) {
         var dataHeader = function () {
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
                 constants.MEDIA_PLAN_TOTALS:
@@ -20,6 +16,10 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
                 constants.INCLUDES_FIXED_COSTS :
                 constants.EXCLUDES_MEDIA_PLAN_FIXED_COSTS;
         };
+
+        console.log('COST controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
 
