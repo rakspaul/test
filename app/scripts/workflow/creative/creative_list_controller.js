@@ -239,7 +239,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
             $scope.creativeListLoading = true;
             $scope.creativeLastPage = false;
             $scope.creativeData.creatives = [];
-            args.pageNo = 1
+            args.pageNo = 1;
             args.pageSize = $scope.pageSize;
             creativeList.getCreativesList(args);
         });
