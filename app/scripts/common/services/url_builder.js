@@ -311,8 +311,7 @@ define(['angularAMD'],
 
                     customReportsUrl = function () {
                         var url = '/a/' + $routeParams.accountId + '/customreport';
-                        $location.url(url);
-                        return;
+                        return url;
                     },
 
                     customReportsListUrl = function (inputUrl) {
