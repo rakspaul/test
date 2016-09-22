@@ -311,7 +311,8 @@ define(['angularAMD'],
 
                     customReportsUrl = function () {
                         var url = '/a/' + $routeParams.accountId + '/customreport';
-                        return url;
+                        $location.url(url);
+                        return;
                     },
 
                     customReportsListUrl = function (inputUrl) {
@@ -385,7 +386,7 @@ define(['angularAMD'],
 
 
                         if (!acccountData.isLeafNode) {
-                            url += '/sa/' + subAccountService.getSubAccounts()[0].id;
+                            url += '/sa/' + $routeParams.subAccountId || subAccountService.getSubAccounts()[0].id;
                         }
 
                         url += '/v1sto/invoices';
