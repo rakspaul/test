@@ -43,7 +43,9 @@
 
 
 /* Generic Class */
-
+.wordWrap {
+    word-wrap:break-word;
+}
 .overflowAuto{
     overflow: auto;
 }
@@ -1278,8 +1280,15 @@ div.strategy_total_container {
             .platform_logo_img {
                 margin-left:25px;
             }
+            .discrepancySecLevelNameHolder {
+                width:250px;
+            }
             .discrepancySecLevelName {
-                width: 225px;
+                width: 207px;
+                word-wrap: break-word;
+            }
+            .discrepancySecLevelCategory {
+                word-wrap: break-word;
             }
         }
         .rowHasSubRow {
@@ -5707,3 +5716,4 @@ body.custom_report_page {
 .disabled_txt {
     color : #aaa ;
 }
+
