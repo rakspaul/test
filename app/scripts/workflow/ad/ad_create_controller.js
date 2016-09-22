@@ -1556,15 +1556,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if ($scope.TrackingIntegrationsSelected) {
                             postAdDataObj.isTracking = true;
-                        } else {
-                            // custom field section.
-                            if ($.isEmptyObject($scope.postPlatformDataObj)) {
-                                $scope.saveCustomeFieldForPlatform(1);
-                            }
-
-                            postAdDataObj.adPlatformCustomInputs =
-                                wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
                         }
+                        // custom field section.
+                        if ($.isEmptyObject($scope.postPlatformDataObj)) {
+                            $scope.saveCustomeFieldForPlatform(1);
+                        }
+
+                        postAdDataObj.adPlatformCustomInputs =
+                            wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
+
                     }
 
                     if (creativesData && creativesData.creatives) {

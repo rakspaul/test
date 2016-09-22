@@ -53,7 +53,7 @@
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
-                    <li ng-repeat="brand in workflowData.brands track by brand.id" class="available" title="{{brand.name}}"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
+                    <li ng-repeat="brand in workflowData.brands " class="available" title="{{brand.brandName}}"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.brandName"></a></li>
                 </ul>
                 <input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
             </div>

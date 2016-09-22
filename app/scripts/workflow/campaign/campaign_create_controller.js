@@ -545,7 +545,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                         break;
 
                     case 'brand':
-                        $scope.selectedCampaign.brandId = data.id;
+                        $scope.selectedCampaign.brandId = data.brandId;
 
                         createCampaign.fetchCostAttributes();
                         createCampaign.fetchVendorConfigs();

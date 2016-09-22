@@ -1,7 +1,7 @@
 define(['angularAMD', 'admin-account-service', 'lrInfiniteScroll'], function (angularAMD) {
     'use strict';
-    angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', 'adminAccountsService', 'domainReports', 'constants',
-        function ($scope, $rootScope, $modalInstance, adminAccountsService, domainReports, constants ) {
+    angularAMD.controller('AccountsAddOrEditBrand', ['$scope', '$rootScope', '$modalInstance', '$routeParams', 'adminAccountsService', 'domainReports', 'constants',
+        function ($scope, $rootScope, $modalInstance, $routeParams, adminAccountsService, domainReports, constants ) {
             var searchBrandsTimer = 0;
 
             function createBrandUnderAdvertiser(brandId) {
@@ -46,7 +46,7 @@ define(['angularAMD', 'admin-account-service', 'lrInfiniteScroll'], function (an
                     $scope.$parent.brandsLoading = true;
                     $scope.$parent.brandsPageNo = 0;
                     $scope.$parent.brandsData = [];
-                    $scope.fetchAllBrands($scope.clientId, $scope.brandsQuery, $scope.$parent.brandsPageSize, $scope.$parent.brandsPageNo);
+                    $scope.fetchAllBrands($routeParams.accountId, $scope.brandsQuery, $scope.$parent.brandsPageSize, $scope.$parent.brandsPageNo);
                 }, 400);
             };
 
