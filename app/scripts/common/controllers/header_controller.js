@@ -270,7 +270,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     childTier = $('.childTier'),
                     quickFilterId,
                     regionTooltipId;
-                
+
 
                 if (platform_popup.is(':visible') && ($(event.target).closest('div').hasClass('select-btn') === false) ) {
                     platform_popup.hide();
