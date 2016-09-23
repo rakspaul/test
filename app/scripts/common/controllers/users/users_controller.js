@@ -18,7 +18,7 @@ define(['angularAMD', 'users-add-or-edit-controller', 'admin-account-service', '
                     }
                 };
 
-            console.log('ADMIN USERS controller is loaded!');
+            console.log('USERS controller is loaded!');
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 

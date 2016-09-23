@@ -9,7 +9,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
             var _curCtrl = this,
                 winHeight = $(window).height();
 
-            console.log('ADMIN ADVERTISERS controller is loaded!');
+            console.log('ADMIN USERS controller is loaded!');
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 

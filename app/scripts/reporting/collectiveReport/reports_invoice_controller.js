@@ -5,10 +5,14 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
 
         angularAMD.controller('reportsInvoiceController', ['$scope', '$filter', '$location', '$modal', '$rootScope', '$routeParams', '$q', '$timeout', 'collectiveReportModel',
             'utils', 'loginModel', 'constants', 'urlService', 'dataStore', 'dataService', 'momentService', 'domainReports', 'advertiserModel', 'brandsModel',
-            'adminAccountsService', 'vistoconfig', 'subAccountService',
+            'adminAccountsService', 'vistoconfig', 'subAccountService', 'pageLoad',
             function ($scope,$filter, $location, $modal, $rootScope, $routeParams, $q, $timeout, collectiveReportModel, utils, loginModel, constants, urlService, dataStore,
-                      dataService, momentService, domainReports, advertiserModel, brandsModel, adminAccountsService, vistoconfig, subAccountService) {
+                      dataService, momentService, domainReports, advertiserModel, brandsModel, adminAccountsService, vistoconfig, subAccountService, pageLoad) {
                 var _curCtrl = this;
+
+                console.log('REPORTS INVOICE controller is loaded!');
+                // Hide page loader when the page is loaded
+                pageLoad.hidePageLoader();
 
                 _curCtrl.invoiceId = $routeParams.invoiceId;
                 _curCtrl.clientId = vistoconfig.getSelectedAccountId();

@@ -27,7 +27,7 @@ define(['angularAMD', 'common-utils', 'accounts-add-or-edit-advertiser-controlle
                     });
             };
 
-            console.log('ADMIN BRANDS controller is loaded!');
+            console.log('ADMIN ADVERTISERS controller is loaded!');
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 
