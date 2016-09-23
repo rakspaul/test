@@ -380,16 +380,7 @@ define(['angularAMD'],
                     },
 
                     invoiceTool = function () {
-                        var url = '/a/' + $routeParams.accountId,
-                            acccountData =  accountService.getSelectedAccount();
-
-
-                        if (!acccountData.isLeafNode) {
-                            url += '/sa/' + $routeParams.subAccountId || subAccountService.getSubAccounts()[0].id;
-                        }
-
-                        url += '/v1sto/invoices';
-                        $location.url(url);
+                        $location.url(this.buildBaseUrl() + '/v1sto/invoices');
                     },
 
                     gotoInvoiceReport = function (invoiceId) {
