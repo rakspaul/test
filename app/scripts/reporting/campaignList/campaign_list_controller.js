@@ -5,9 +5,9 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
     angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel', 'campaignListModel', 'campaignSelectModel',
         'strategySelectModel', 'utils', 'constants', 'vistoconfig', 'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService',
-        'campaignListService', 'pageLoad', function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel, strategySelectModel,
-                                                     utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService,
-                                                     campaignListService, pageLoad) {
+        'campaignListService', 'localStorageService', 'pageLoad',
+        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel, strategySelectModel, utils, constants, vistoconfig,
+                  brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService, campaignListService, localStorageService, pageLoad) {
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
 
@@ -63,7 +63,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             $scope.campaigns.loadMoreCampaigns = false;
 
-            $scope.$watch('realTimeData', function(val){
+            $scope.$watch('campaigns.realTimeData', function(val){
                 campaignListService.setIsRealTimeData(val);
                 var scopeCampaigns = $scope.campaigns;
                 scopeCampaigns.noData = false;
@@ -75,15 +75,20 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             $scope.selectCardView = function (event, type) {
                 var elem = $(event.currentTarget);
+
+                type = type && type.toLowerCase();
+
                 if ( !elem.hasClass('active')) {
-                    $scope.realTimeData=!$scope.realTimeData ;
+                    $scope.campaigns.realTimeData = !$scope.campaigns.realTimeData;
                     $('#realTimeToggleBtn').find('.active').removeClass('active');
                     elem.addClass('active');
-                    if(type==='RealTime') {
+                    if(type==='realtime') {
                         $('#realTimeMessage').show();
                     } else {
                         $('#realTimeMessage').hide();
                     }
+                    localStorageService.mediaPlanView.set(type);
+                    $location.search('dataView', type);
                 }
             };
 

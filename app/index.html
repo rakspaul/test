@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="/styles/libs/bootstrap.min.css?v=@@BUST@@">
     <link rel="stylesheet" href="/styles/libs/ng-tags-input.min.css?v=@@BUST@@">
-        <link rel="stylesheet" href="/styles/cdesk_application.css">
+    <link rel="stylesheet" href="/styles/cdesk_application.css">
 </head>
 <body class='{{bodyclass}} {{productType}} {{customReport}}'>
     <div id="pageLoader" class="commonPagesLoader">
@@ -22,11 +22,6 @@
 
     <div class="bodyWrap" ng-view></div>
 
-    <script src="/conf/application-local.js?v=@@BUST@@"></script>
-    <script src="/scripts/file_path.js?v=@@BUST@@"></script>
-    <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
-
-        <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
     <div class="myModal modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="about_popup">
             <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span>
@@ -38,5 +33,10 @@
             </div>
         </div>
     </div>
+
+    <script src="/conf/application-local.js?v=@@BUST@@"></script>
+    <script src="/scripts/file_path.js?v=@@BUST@@"></script>
+    <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
+    <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
 </body>
 </html>

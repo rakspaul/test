@@ -677,9 +677,9 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                 // create brand
                 $scope.selectBrand = function (brand) {
                     $scope.dropdownCss.display = 'none';
-                    $scope.brandName = brand.brandName;
-                    $scope.selectedBrandId = brand.brandId;
-                    $('#brandNameInp').val($scope.brandName);
+                    $scope.brandName = brand.name;
+                    $scope.selectedBrandId = brand.id;
+                    $('#brandNameInp').val($scope.name);
                 };
 
                 $scope.selectClientCode = function(ev, code){

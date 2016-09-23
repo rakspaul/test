@@ -2,11 +2,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
     'geo-targetting-controller', 'audience-targetting-controller', 'daypart-create-controller', 'video-targetting-controller', 'inventory-filters-controller',
     'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller'],
     function (angularAMD) {
-        angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams', '$locale', '$location', '$filter', '$timeout', 'constants',
+
+    angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams', '$locale', '$location', '$filter', '$timeout', 'constants',
         'workflowService', 'loginModel', 'dataService', 'audienceService', 'RoleBasedService', 'momentService', 'vistoconfig', 'videoService', 'utils', 'urlBuilder',
         'accountService', 'pageLoad',
-        function ($scope, $modal, $rootScope, $routeParams, $locale, $location,  $filter, $timeout, constants, workflowService, loginModel,
-                  dataService, audienceService, RoleBasedService, momentService, vistoconfig, videoService, utils, urlBuilder, accountService, pageLoad) {
+        function ($scope, $modal, $rootScope, $routeParams, $locale, $location,  $filter, $timeout, constants, workflowService, loginModel, dataService, audienceService,
+                  RoleBasedService, momentService, vistoconfig, videoService, utils, urlBuilder, accountService, pageLoad) {
             var winHeaderHeight = $(window).height() - 50,
                 winHeight,
 
@@ -63,13 +64,13 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                                 adGroupData.startDate =
                                                     momentService
                                                         .utcToLocalTime(
-                                                        responseData.startTime
-                                                    );
+                                                            responseData.startTime
+                                                        );
                                                 adGroupData.endDate =
                                                     momentService
                                                         .utcToLocalTime(
-                                                        responseData.endTime
-                                                    );
+                                                            responseData.endTime
+                                                        );
 
                                                 adGroupData.clientCurrency = accountService.currencySymbol;
                                                 $scope.workflowData.adGroupData = adGroupData;
@@ -82,7 +83,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                         // to get all ads with in ad group
                                         workflowService
                                             .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
-                                            $scope.adGroupId, $scope.adId)
+                                                $scope.adGroupId, $scope.adId)
                                             .then(function (result) {
                                                 $scope.getAd_result = result.data.data;
 
@@ -102,7 +103,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                             advertiserId: advertiserId
                                         }]);
 
-                                        $timeout(function () {
+                                        $timeout(function() {
                                             $scope.initiateDatePicker();
                                         }, 2000);
                                     }
@@ -198,7 +199,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                     fetchVerificationSettings: function () {
                         //fetch verification settings
-                        workflowService.getVerificationSettings().then(function (result) {
+                        workflowService.getVerificationSettings().then(function(result){
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.adData.verificationSettings = result.data.data;
@@ -237,7 +238,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             postDataObj.state = $scope.state;
                         }
 
-                        if ($scope.adData.selectedSetting.id !== -1) {
+                        if($scope.adData.selectedSetting.id !== -1){
                             postDataObj.verificationVendorConfigId = $scope.adData.selectedSetting.id;
                         }
 
@@ -313,7 +314,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     );
                 }
 
-                if ($scope.workflowData.adsData.labels && $scope.workflowData.adsData.labels.length > 0) {
+                if ($scope.workflowData.adsData.labels && $scope.workflowData.adsData.labels.length > 0){
                     $scope.tags = workflowService.recreateLabels($scope.workflowData.adsData.labels);
                 }
 
@@ -341,11 +342,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 }
 
                 if (responseData.verificationVendorConfigId) {
-                    var verificationVendorConfigIndex = _.findIndex($scope.adData.verificationSettings ,function (setting) {
+                    var verificationVendorConfigIndex = _.findIndex($scope.adData.verificationSettings ,function(setting) {
                         return setting.id === responseData.verificationVendorConfigId;
                     });
 
-                    if (verificationVendorConfigIndex !== -1) {
+                    if(verificationVendorConfigIndex !== -1) {
                         $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[verificationVendorConfigIndex].name;
                         $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[verificationVendorConfigIndex].id;
                     }
@@ -449,7 +450,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                             autoCompute.detach();
                             var kpiFieldsDiv = $('#kpiFieldsDiv').find(j);
-                            if (isAutoComputeSet) {
+                            if(isAutoComputeSet){
                                 kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
                             }
                             kpiFieldsDiv.after(autoCompute);
@@ -459,19 +460,19 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         }
                     }
 
-                    if (!flag) {
+                    if(!flag) {
                         var autoComputeOld = $('#autoComputeDiv');
                         autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
                         autoComputeOld.hide();
-                        if (type.toLowerCase() === 'impressions') {
+                        if(type.toLowerCase() === 'impressions') {
                             $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
                         }
                     }
 
                 }
 
-                if (responseData.kpiType) {
-                    $scope.adData.primaryKpi= vistoconfig.kpiList.find(function (obj) {
+                if (responseData.kpiType){
+                    $scope.adData.primaryKpi= vistoconfig.kpiList.find(function(obj) {
                         return obj.kpiType === responseData.kpiType;
                     }).displayName;
                     $scope.adData.targetValue=Number(responseData.kpiValue);
@@ -668,7 +669,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             };
 
             // function to display the primaryKPI selected on left Nav
-            $scope.displayKpiInSideBar=function (selectedKpi) {
+            $scope.displayKpiInSideBar=function(selectedKpi){
                 if (((selectedKpi).toUpperCase() === 'CTR') ||
                     ((selectedKpi).toUpperCase() === 'VTC') ||
                     ((selectedKpi).toUpperCase() === 'CPM') ||
@@ -676,11 +677,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     ((selectedKpi).toUpperCase() === 'CPA')) {
                     return selectedKpi.toUpperCase();
                 } else {
-                    return selectedKpi.replace(/\w\S*/g, function (txt) {
+                    return selectedKpi.replace(/\w\S*/g, function(txt){
                         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                     });
                 }
             };
+
 
             $scope.displayVerificationInSideBar = function (selectedSetting) {
                 if (selectedSetting && selectedSetting === constants.VERIFICATION_DEFAULT) {
@@ -865,7 +867,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.adData[type] = item;
             };
 
-            $scope.getPreviewUrl = function (creativeData) {
+            $scope.getPreviewUrl = function(creativeData) {
                 var previewUrl,
                     isLeafNode;
 
@@ -873,13 +875,13 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 previewUrl = '/a/' + $routeParams.accountId;
                 isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
-                if (!isLeafNode) {
+                if(!isLeafNode) {
                     previewUrl += '/sa/' + $routeParams.subAccountId;
                 }
 
                 previewUrl +=  '/adv/'+ creativeData.advertiserId;
 
-                if ($scope.adId) {
+                if($scope.adId) {
                     previewUrl += '/campaign/'+ $scope.campaignId +'/ad/'+ $scope.adId +
                         '/creative/'+ creativeData.id +'/preview';
                 } else {
@@ -1061,7 +1063,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (moment().isAfter(endDate, 'day')) {
                             endDateElem
                                 .datepicker('setStartDate',
-                                moment().format(constants.DATE_US_FORMAT));
+                                    moment().format(constants.DATE_US_FORMAT));
                         }
                     } else {
                         endDateElem.datepicker('setStartDate', changeDate);
@@ -1398,8 +1400,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     videoTargetsData,
                     inventoryLists,
 
-                    wrapperToReplaceCustomPlatformHiddenValues = function (customPlatformData) {
-                        _.each(customPlatformData, function (obj) {
+                    wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
+                        _.each(customPlatformData, function(obj) {
                             if (obj.value === '$AD_KPI') {
                                 obj.value = $scope.adData.primaryKpi.toUpperCase();
                             }
@@ -1423,7 +1425,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.budgetErrorObj.availableMaximumAdRevenueValidator) ||
                     !formData.targetImpressions) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
-                    if (!formData.targetImpressions) {
+                    if(!formData.targetImpressions) {
                         $scope.budgetErrorObj.targetImpressionValidator = true;
                     }
                     return false;
@@ -1475,7 +1477,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     } else {
                         $scope.adCreateLoader = true;
 
-                        if (formData.targetValue) {
+                        if (formData.targetValue){
                             postAdDataObj.kpiType=formData.primaryKpi.toUpperCase();
                             postAdDataObj.kpiValue=utils.stripCommaFromNumber(formData.targetValue);
                         }
@@ -1490,20 +1492,21 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             }
                         }
 
-                        if (formData.totalAdBudget) {
+                        if (formData.totalAdBudget){
                             postAdDataObj.totalBudget = utils.stripCommaFromNumber(formData.totalAdBudget);
                             postAdDataObj.enabledBudgetCalculation = false;
+                            //($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true; this wouldn't be required anymore as total budget is a normal value now
                         }
 
-                        if (formData.targetImpressions) {
+                        if (formData.targetImpressions){
                             postAdDataObj.targetImpressions = formData.targetImpressions;
                         }
 
-                        if (formData.targetClicks) {
+                        if (formData.targetClicks){
                             postAdDataObj.targetClicks = formData.targetClicks;
                         }
 
-                        if (formData.targetActions) {
+                        if (formData.targetActions){
                             postAdDataObj.targetActions = formData.targetActions;
                         }
 
@@ -1511,7 +1514,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             postAdDataObj.autoCompute = formData.autoCompute;
                         }
 
-                        if (formData.fetchValue) {
+                        if (formData.fetchValue){
                             postAdDataObj.fetchValue = formData.fetchValue;
                         }
 
@@ -1536,15 +1539,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                             if ($scope.TrackingIntegrationsSelected) {
                                 postAdDataObj.isTracking = true;
-                            } else {
-                                // custom field section.
-                                if ($.isEmptyObject($scope.postPlatformDataObj)) {
-                                    $scope.saveCustomeFieldForPlatform(1);
-                                }
-
-                                postAdDataObj.adPlatformCustomInputs =
-                                    wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
                             }
+                            // custom field section.
+                            if ($.isEmptyObject($scope.postPlatformDataObj)) {
+                                $scope.saveCustomeFieldForPlatform(1);
+                            }
+
+                            postAdDataObj.adPlatformCustomInputs =
+                                wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
+
                         }
 
                         if (creativesData && creativesData.creatives) {
@@ -1707,11 +1710,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         domainListIds.length = 0;
                         appListsIds.length = 0;
 
-                        if (inventoryLists.domainList.length > 0) {
+                        if(inventoryLists.domainList.length > 0){
                             domainListIds = inventoryLists.domainList;
                         }
 
-                        if (inventoryLists.appList.length > 0) {
+                        if (inventoryLists.appList.length > 0){
                             appListsIds = inventoryLists.appList;
                         }
 
@@ -1750,37 +1753,37 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             };
 
             $scope.triggerBudgetTab = function () {
-                $timeout(function () {
+                $timeout(function() {
                     $('a[data-target="#setting"]').trigger('click');
                 }, 100);
             };
 
             $scope.triggerPlatformTab = function () {
-                $timeout(function () {
+                $timeout(function() {
                     $('a[data-target="#buying"]').trigger('click');
                 }, 100);
             };
 
             $scope.triggerTargetting = function () {
-                $timeout(function () {
+                $timeout(function() {
                     $('a[data-target="#targetting"]').trigger('click');
                 }, 100);
             };
 
             $scope.triggerInventory = function () {
-                $timeout(function () {
+                $timeout(function() {
                     $('a[data-target="#inventoryView"]').trigger('click');
                 }, 100);
             };
 
             $scope.triggerCreativeTag = function () {
-                $timeout(function () {
+                $timeout(function() {
                     $('a[data-target="#creative"]').trigger('click');
                 }, 100);
             };
 
             $scope.changePlatform = function (platformId) {
-                $timeout(function () {
+                $timeout(function() {
                     $scope.isPlatformId = platformId;
                     $scope.isPlatformSelected = platformId ? true : false;
                     $scope.$broadcast('renderTargetingUI', platformId);
@@ -1815,7 +1818,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 }
             };
 
-            $scope.isSaveBtnEnable = function () {
+            $scope.isSaveBtnEnable = function() {
                 var adData = $scope.adData;
 
                 return (
@@ -1955,7 +1958,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.adData.lineItemId = Number($routeParams.lineItemId);
             }
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 var clientId = vistoconfig.getSelectedAccountId();
                 var campaignId = vistoconfig.getSelectedCampaignId();
 
@@ -2032,26 +2035,26 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     i,
 
                     noRepeatC = function (arrC) {
-                    var aC = [],
-                        bC = [],
-                        prevC,
-                        i;
+                        var aC = [],
+                            bC = [],
+                            prevC,
+                            i;
 
-                    arrC.sort();
+                        arrC.sort();
 
-                    for (i = 0; i < arrC.length; i++) {
-                        if (arrC[i] !== prevC) {
-                            aC.push(arrC[i]);
-                            bC.push(1);
-                        } else {
-                            bC[bC.length - 1]++;
+                        for (i = 0; i < arrC.length; i++) {
+                            if (arrC[i] !== prevC) {
+                                aC.push(arrC[i]);
+                                bC.push(1);
+                            } else {
+                                bC[bC.length - 1]++;
+                            }
+
+                            prevC = arrC[i];
                         }
 
-                        prevC = arrC[i];
-                    }
-
-                    return [aC, bC];
-                };
+                        return [aC, bC];
+                    };
 
                 if (typeof selectedCreatives.creatives !== 'undefined') {
                     if (selectedCreatives.creatives.length === 1) {
@@ -2064,7 +2067,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 selectedCreatives.creatives[i].size.size : null);
                         }
                         $scope.sizeString = creativeSizeArrC.filter(Boolean);
-                        if ($scope.sizeString.length === 0) {
+                        if($scope.sizeString.length === 0){
                             $scope.sizeString='Unspecified Size';
                         }else{
                             arrC = creativeSizeArrC.filter(Boolean);
@@ -2102,18 +2105,17 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 }
             };
 
-            $scope.redirectToMediaPlanOverviewPage = function () {
+            $scope.redirectToMediaPlanOverviewPage = function() {
                 var campaignId = vistoconfig.getSelectedCampaignId();
                 $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
             };
 
             // on Broswers back button customreport behaving wierdly, this piece of code fixes it
             $scope.$on('$locationChangeStart', function (event, next) {
-                if (next.indexOf('customreport') > -1) {
+                if(next.indexOf('customreport') > -1){
                     var customReportUrl = next.split('/')[3];
                     $location.url('/' + customReportUrl);
                 }
             });
         }]);
-    }
-);
+});

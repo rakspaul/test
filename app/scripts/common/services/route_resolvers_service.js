@@ -831,7 +831,7 @@ define(['angularAMD'], function (angularAMD) {
                                                 url = '/a/' + params.accountId;
 
                                                 if (campaign) {
-                                                    url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                                                    //url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                                                     url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                                 } else {
                                                     (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);

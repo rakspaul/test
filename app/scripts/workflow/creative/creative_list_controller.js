@@ -1,10 +1,10 @@
 define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$location', '$window', 'constants', 'domainReports', 'workflowService',
-        'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder', 'pageLoad',
-        function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService, momentService, loginModel, vistoconfig,
-                  accountService, urlBuilder, pageLoad) {
+    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$timeout', '$location', '$window', 'constants', 'domainReports',
+        'workflowService', 'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder', 'pageLoad',
+        function ($scope, $rootScope, $routeParams, $route, $timeout, $location, $window, constants, domainReports, workflowService,
+                  momentService, loginModel, vistoconfig,accountService, urlBuilder, pageLoad) {
             var creativeDataArr,
                 winHeight = $(window).height(),
                 isSearch = false,
@@ -15,7 +15,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                         workflowService
                             .getCreativesforCreativeList(params)
                             .then(function (result) {
-                                 var response = result.data.data;
+                                var response = result.data.data;
 
                                 $scope.creativeListLoading = false;
                                 $scope.creativesNotFound = false;
@@ -234,16 +234,22 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
             // broadcasted from filter directive once it fetches subaccounts
             $rootScope.$on('filterChanged',function (event, args) {
                 creativeParams = args;
+                $timeout(function () {
+                    $('.searchInputForm input').val('').trigger('blur');
+                }, 10);
+
+                isSearch = false;
+                $scope.isCreativeSearched = false;
                 $scope.creativeListLoading = true;
                 $scope.creativeLastPage = false;
                 $scope.creativeData.creatives = [];
-                args.pageNo = $scope.pageNo;
+                args.pageNo = 1;
                 args.pageSize = $scope.pageSize;
                 creativeList.getCreativesList(args);
             });
 
-            $scope.changeSubAccount =  function(account) {
-                var url = '/a/' + $routeParams.accountId+'/sa/' + account.id + '/creative/list';
+            $scope.changeSubAccount =  function (account) {
+                var url = '/a/' + $routeParams.accountId + '/sa/' + account.id + '/creative/list';
 
                 $location.url(url);
             };
@@ -331,15 +337,15 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
             };
 
             $scope.downloadBulkCreativeErrorFile = function () {
-                  workflowService
-                      .downloadCreativeErrors($scope.errorRecordsFileName)
-                      .then(function (response) {
-                          if (response.status === 'success') {
-                              saveAs(response.file, response.fileName);
-                          } else {
-                              $scope.downloadBusy = false;
-                          }
-                      });
+                workflowService
+                    .downloadCreativeErrors($scope.errorRecordsFileName)
+                    .then(function (response) {
+                        if (response.status === 'success') {
+                            saveAs(response.file, response.fileName);
+                        } else {
+                            $scope.downloadBusy = false;
+                        }
+                    });
             };
 
             $scope.showRecordList = function () {
@@ -524,34 +530,34 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
 
                 for (i = 0; i < listSizeCreativeDataArr.length; i++) {
-                        widthHeight = listSizeCreativeDataArr[i].split('X');
-                        maxWidth = 68 ;
-                        maxHeight = 25;
-                        ratio = 0;
-                        width = widthHeight[0];
-                        height =widthHeight[1];
+                    widthHeight = listSizeCreativeDataArr[i].split('X');
+                    maxWidth = 68 ;
+                    maxHeight = 25;
+                    ratio = 0;
+                    width = widthHeight[0];
+                    height =widthHeight[1];
 
-                        $scope.creativeData.creatives[i].width = widthHeight[0];
-                        $scope.creativeData.creatives[i].height = widthHeight[1];
+                    $scope.creativeData.creatives[i].width = widthHeight[0];
+                    $scope.creativeData.creatives[i].height = widthHeight[1];
 
-                        // Check if the current width is larger than the max
-                        if (width > maxWidth) {
-                            ratio = maxWidth / width;
-                            $scope.creativeData.creatives[i].width = maxWidth;
-                            $scope.creativeData.creatives[i].height = height * ratio;
-                            height = height * ratio;
-                            width = width * ratio;
-                        }
-
-                        // Check if current height is larger than max
-                        if (height > maxHeight) {
-                            ratio = maxHeight / height;
-                            $scope.creativeData.creatives[i].height = maxHeight;
-                            $scope.creativeData.creatives[i].width =  width * ratio;
-                            width = width * ratio;
-                            height = height * ratio;
-                        }
+                    // Check if the current width is larger than the max
+                    if (width > maxWidth) {
+                        ratio = maxWidth / width;
+                        $scope.creativeData.creatives[i].width = maxWidth;
+                        $scope.creativeData.creatives[i].height = height * ratio;
+                        height = height * ratio;
+                        width = width * ratio;
                     }
+
+                    // Check if current height is larger than max
+                    if (height > maxHeight) {
+                        ratio = maxHeight / height;
+                        $scope.creativeData.creatives[i].height = maxHeight;
+                        $scope.creativeData.creatives[i].width =  width * ratio;
+                        width = width * ratio;
+                        height = height * ratio;
+                    }
+                }
             };
 
             // Sticky Header
@@ -589,6 +595,5 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
             $scope.clearHoverPreview = function () {
                 $('.hideOption').removeClass('open');
             };
-        }
-    ]);
+        }]);
 });

@@ -69,7 +69,7 @@
                 <div class="statusLabel" data-ng-if="adData.primaryKpi">
                     <div class="col-md-12">
                         <span style="margin-right: 1px;" data-ng-bind="adData.primaryKpi.toLowerCase().search('impressions')!==-1? '#': locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                        <span style="margin-right: 3px;" data-ng-bind="adData.targetValue"></span>
+                        <span style="margin-right: 3px;" data-ng-bind="adData.targetValue | number"></span>
                         <span data-ng-bind="displayKpiInSideBar(adData.primaryKpi)"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
                     </div>

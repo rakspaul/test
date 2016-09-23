@@ -163,7 +163,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             } else if (page === 'invoiceTool') {
                 urlBuilder.invoiceTool();
             } else if (page === 'customReports') {
-                $location.url(urlBuilder.customReportsUrl());
+                window.location = urlBuilder.customReportsUrl();
             } else if (page === 'scheduleReports') {
                 urlBuilder.customReportsListUrl(url);
             } else if (page === 'collectiveInsights') {
@@ -270,7 +270,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     childTier = $('.childTier'),
                     quickFilterId,
                     regionTooltipId;
-                
+
 
                 if (platform_popup.is(':visible') && ($(event.target).closest('div').hasClass('select-btn') === false) ) {
                     platform_popup.hide();

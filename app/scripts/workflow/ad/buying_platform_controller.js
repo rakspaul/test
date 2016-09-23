@@ -313,25 +313,29 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             _buyingPlatform._selectPlatform(event, platform, seat);
         };
 
+       var _selectTrackingIntegrations = function(trackingIntegration) {
+
+           trackingIntegration = $scope.trackingIntegration || trackingIntegration;
+
+           $scope.$parent.TrackingIntegrationsSelected = true;
+           $scope.selectedPlatform = {};
+           $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
+
+           // To populate the newly selected Platform in sideBar
+           $scope.adData.platform = trackingIntegration.displayName;
+           $scope.adData.platformId = trackingIntegration.id;
+           $scope.adData.platformName = trackingIntegration.name;
+           workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
+
+       };
+
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             $('.buying-platform-popup').hide();
             $scope.$parent.postPlatformDataObj = [];
-
-            trackingIntegration = $scope.trackingIntegration || trackingIntegration;
-
-            $scope.$parent.TrackingIntegrationsSelected = true;
-            $scope.selectedPlatform = {};
-            $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
-
-            // To populate the newly selected Platform in sideBar
-            $scope.adData.platform = trackingIntegration.displayName;
-            $scope.adData.platformId = trackingIntegration.id;
-            $scope.adData.platformName = trackingIntegration.name;
-
-            workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
+            _selectTrackingIntegrations(trackingIntegration);
         };
 
-        $scope.platformCustomInputs = function () {
+        $scope.platformCustomInputs = function (trackingIntegration,  callback) {
             var platformWrap = $('.platWrap'),
                 tabName = 'buying_strategy',
                 clientId = vistoconfig.getSelectedAccountId();
@@ -339,7 +343,13 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             platformWrap.html('');
             $scope.adData.customInpNameSpaceList = [];
             $scope.adData.customPlatformLoader = true;
-            _buyingPlatform.showCustomFieldBox();
+
+            if(!trackingIntegration) {
+
+                _buyingPlatform.showCustomFieldBox();
+
+            }
+
             $('.eachBuyingSection.staticMarkup').hide();
 
             workflowService
@@ -382,7 +392,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     // maintain state of building platform strategy when user selects it
                                     // navigates to other places
-                                    oldPlatformName = workflowService.getPlatform().displayName;
+                                    oldPlatformName = workflowService.getPlatform() && workflowService.getPlatform().displayName;
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
                                 } else if (!$scope.$parent.postPlatformDataObj ||
                                     $scope.$parent.postPlatformDataObj.length === 0) {
@@ -399,6 +409,15 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 }, 500);
                             }
                         }
+
+                        if(trackingIntegration) {
+                            if(result.data.data.customInputJson)  {
+                                _buyingPlatform.showCustomFieldBox();
+                            }
+                            callback && callback(result.data.data.customInputJson);
+                        }
+
+
                     }
                 });
         };
@@ -419,22 +438,38 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
         };
 
         $scope.showTrackingSetupInfoPopUp = function (event, trackingIntegration) {
-            var relativeX = $(event.target)
-                                .closest('.offeringWrap')
-                                .offset().left - $(event.target)
-                                .closest('.carousel-inner')
-                                .offset()
-                                .left + 50;
 
-            $scope.trackingIntegration = trackingIntegration;
+            var currentTarget = $(event.currentTarget);
+            $scope.adData.platform = trackingIntegration.displayName;
+            $scope.adData.platformId = trackingIntegration.id;
+            $scope.adData.platformName = trackingIntegration.name;
+            $scope.$parent.TrackingIntegrationsSelected = true;
+            $scope.selectedPlatform ={};
 
-            setTimeout(function(){
-                $('.buyingPlatformHolder .popUpCue').css({
-                    top: '-10px',
-                    left: relativeX + 'px'
-                });
-            }, 5);
-            $('.buying-platform-popup').show();
+            $scope.platformCustomInputs(trackingIntegration, function(data) {
+
+                if(!data) {
+                    var relativeX = currentTarget
+                            .closest('.offeringWrap')
+                            .offset().left - currentTarget
+                            .closest('.carousel-inner')
+                            .offset()
+                            .left + 50;
+
+                    $scope.trackingIntegration = trackingIntegration;
+
+                    setTimeout(function () {
+                        $('.buyingPlatformHolder .popUpCue').css({
+                            top: '-10px',
+                            left: relativeX + 'px'
+                        });
+                    }, 5);
+                    $('.buying-platform-popup').show();
+                }
+
+                $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
+                workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
+            });
         };
 
         $scope.hideTrackingSetupInfoPopUp = function () {

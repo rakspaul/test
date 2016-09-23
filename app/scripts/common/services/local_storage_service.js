@@ -115,7 +115,18 @@ define(['angularAMD'], function (angularAMD) {
                     localStorage.setItem('selectedClient', JSON.stringify(data));
                 }
 
+            },
+
+            mediaPlanView : {
+                set : function(view) {
+                    localStorage.setItem('mediaplanDataView', view);
+                },
+
+                get : function() {
+                    return localStorage.getItem('mediaplanDataView');
+                }
             }
+
         };
     });
 });
