@@ -345,29 +345,8 @@ define(['angularAMD'],
                         $location.url(url);
                     },
 
-                    creativeListUrl =  function () {
-                        var url = '/a/' + $routeParams.accountId,
-                            leafSubAccount;
-
-                        if ($routeParams.subAccountId) {
-                            leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
-                                return Number(a.id) === Number($routeParams.subAccountId);
-                            });
-
-                            if (leafSubAccount) {
-                                url += '/sa/' + $routeParams.subAccountId;
-                            }
-                        }
-
-                        if (!$routeParams.subAccountId || !leafSubAccount) {
-                            if (subAccountService.getSubAccounts().length) {
-                                console.log('$routeParams.accountId = ', $routeParams.accountId);
-                                url += '/sa/' + subAccountService.getSubAccounts()[0].id;
-                            }
-                        }
-
-                        url += '/creative/list';
-                        $location.url(url);
+                    creativeListUrl =  function (accountId, subAccountId, advertiserId, brandId) {
+                        $location.url(this.buildBaseUrl(accountId, subAccountId, advertiserId, brandId) + '/creative/list');
                     },
 
                     adminUrl = function () {

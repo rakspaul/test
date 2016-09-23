@@ -1832,7 +1832,64 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
@@ -1916,7 +1973,7 @@ define(['common'], function (angularAMD) {
                     showHeader: false,
                     controllerUrl: 'audit-controller'
                 }))
-                
+
                 .otherwise({redirectTo: '/'});
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];

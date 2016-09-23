@@ -4,7 +4,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
     angularAMD.directive('filterDirective', function () {
         return {
             controller: function ($scope, $rootScope, $location, $routeParams, workflowService, loginModel, constants, vistoconfig,
-                                  accountService, subAccountService, filterService) {
+                                  accountService, subAccountService, filterService, urlBuilder) {
 
                 $scope.filterData = {};
                 $scope.filterData.subAccountList = [];
@@ -19,6 +19,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
 
                     filterService
                         .fetchAdvertisers(clientId, function (advertiserData) {
+                            var selectedAdvertiserData;
 
                             $scope.filterData.advertiserList= [{
                                 id: '-1',
@@ -26,8 +27,17 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                             }].concat(advertiserData);
 
                             if($scope.filterData.advertiserList) {
-                                $scope.filterData.advertiserSelectedId = Number($scope.filterData.advertiserList[0].id);
-                                $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
+
+                                if($routeParams.advertiserId) {
+                                    selectedAdvertiserData = _.find($scope.filterData.advertiserList, function(obj) {
+                                        return obj.id === Number($routeParams.advertiserId);
+                                    });
+                                } else {
+                                    selectedAdvertiserData = $scope.filterData.advertiserList[0];
+                                }
+
+                                $scope.filterData.advertiserSelectedId = Number(selectedAdvertiserData.id);
+                                $scope.filterData.advertiserSelectedName = selectedAdvertiserData.name;
                             }
 
                             $rootScope.$broadcast('filterChanged', {
@@ -57,22 +67,9 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
                 };
 
                 $scope.selectAdvertisers = function (advertiser) {
-                     var args;
-
                      if(advertiser) {
-                         $scope.filterData.advertiserSelectedName = advertiser.name;
-                         $scope.filterData.advertiserSelectedId = advertiser.id;
-                         //set to localstorage
-
-                         args = {
-                             from: $scope.from,
-                             clientId: advertiser.clientId ? advertiser.clientId : vistoconfig.getSelectedAccountId(),
-                             advertiserId: advertiser.id
-                         };
-                         $rootScope.$broadcast('filterChanged', args);
-                         $scope.selectedAdvertiser = '';
+                         urlBuilder.creativeListUrl($routeParams.clientId, $routeParams.subAccountId, advertiser.id);
                      }
-
                 };
 
                 $scope.changeSubAccount =  function(account) {
