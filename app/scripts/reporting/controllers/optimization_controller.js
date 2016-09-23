@@ -1,18 +1,13 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model',
-    'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-actions', 'time-period-controller',
-    'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-actions',
+    'time-period-controller', 'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('OptimizationController', ['$timeout', '$rootScope', '$scope', 'kpiSelectModel',
-        'campaignSelectModel', 'strategySelectModel', 'dataService',
-        'utils', 'actionChart', 'domainReports', 'constants',
-        'timePeriodModel', 'loginModel', 'momentService', 'urlService',
-        'advertiserModel', 'brandsModel', 'vistoconfig', function ($timeout, $rootScope, $scope, kpiSelectModel,
-                                                              campaignSelectModel, strategySelectModel, dataService,
-                                                              utils, actionChart, domainReports, constants,
-                                                              timePeriodModel, loginModel, momentService, urlService,
-                                                              advertiserModel, brandsModel, vistoconfig) {
-
+    angularAMD.controller('OptimizationController', ['$timeout', '$rootScope', '$scope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService',
+        'utils', 'actionChart', 'domainReports', 'constants', 'timePeriodModel', 'loginModel', 'momentService', 'urlService', 'advertiserModel', 'brandsModel', 'vistoconfig',
+        'pageLoad',
+        function ($timeout, $rootScope, $scope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, utils, actionChart, domainReports, constants,
+                  timePeriodModel, loginModel, momentService, urlService, advertiserModel, brandsModel, vistoconfig, pageLoad) {
         var getCustomQueryParams,
             actionDataForSelectedCampaign,
             actionDataForSelectedStrategy,
@@ -24,6 +19,10 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             callStrategyChange,
             cbStrategySelected,
             setStrategyInScope;
+
+        console.log('OPTIMIZATION controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
 

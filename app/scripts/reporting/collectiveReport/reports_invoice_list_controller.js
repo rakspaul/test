@@ -1,14 +1,18 @@
-define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','report-schedule-delete-controller',
-    'reports-invoice-addAdjustment-controller', 'invoice-upload-SOR-controller','custom-date-picker'],
+define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','report-schedule-delete-controller', 'reports-invoice-addAdjustment-controller',
+    'invoice-upload-SOR-controller','custom-date-picker'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('ReportsInvoiceListController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
-            '$routeParams', 'collectiveReportModel', 'utils', 'loginModel', 'constants', 'advertiserModel', 'brandsModel', 'domainReports',
-            'dataService', 'momentService', 'RoleBasedService', 'urlService', 'dataStore', 'vistoconfig', 'urlBuilder', '$sce',
-            function ($scope, $filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils,
-                      loginModel, constants, advertiserModel, brandsModel, domainReports, dataService, momentService,
-                      RoleBasedService, urlService, dataStore, vistoconfig, urlBuilder, $sce) {
+        angularAMD.controller('ReportsInvoiceListController', ['$scope', '$filter', '$location', '$modal', '$rootScope', '$routeParams', 'collectiveReportModel', 'utils',
+            'loginModel', 'constants', 'advertiserModel', 'brandsModel', 'domainReports', 'dataService', 'momentService', 'RoleBasedService', 'urlService', 'dataStore',
+            'vistoconfig', 'urlBuilder', '$sce', 'pageLoad',
+            function ($scope, $filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils, loginModel, constants, advertiserModel, brandsModel,
+                      domainReports, dataService, momentService, RoleBasedService, urlService, dataStore, vistoconfig, urlBuilder, $sce, pageLoad) {
+            var _currCtrl = this;
+
+            console.log('INVOICE BILLING LIST controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             $scope.invoiceReports = {
                 clientId: vistoconfig.getSelectedAccountId(),
@@ -20,8 +24,6 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','
                 endDate: moment().format(constants.DATE_US_FORMAT),
                 page_num: 1
             };
-
-            var _currCtrl = this;
 
             _currCtrl.last_page = false;
 

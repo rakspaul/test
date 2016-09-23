@@ -61,20 +61,24 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
                         $timeout(function() {
                             deferred.resolve();
                         }, 5);
+
                         return deferred.promise;
                     }
                     url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId;
 
-                    dataService.getSingleCampaign(url).then(function (result) {
-                        if (result.status === 'success' && !angular.isString(result.data)) {
-                            campaign.selectedCampaignOriginal = result.data.data;
-                            campaign.setSelectedCampaign(result.data.data);
-                            console.log('fetchCampaign', 'is fetched');
-                        }
-                        deferred.resolve();
-                    }, function() {
-                        deferred.reject('Mediaplan not found');
-                    });
+                    dataService
+                        .getSingleCampaign(url)
+                        .then(function (result) {
+                            if (result.status === 'success' && !angular.isString(result.data)) {
+                                campaign.selectedCampaignOriginal = result.data.data;
+                                campaign.setSelectedCampaign(result.data.data);
+                                console.log('fetchCampaign is fetched');
+                            }
+
+                            deferred.resolve();
+                        }, function() {
+                            deferred.reject('Mediaplan not found');
+                        });
 
                     return deferred.promise;
                 };

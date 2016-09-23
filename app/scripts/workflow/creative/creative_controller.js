@@ -1,13 +1,10 @@
 define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-down', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeController', ['$scope', '$rootScope', '$routeParams', '$location',
-        'constants', 'workflowService', 'creativeCustomModule', 'loginModel', 'utils', 'localStorageService',
-        'vistoconfig', 'accountService', 'subAccountService', 'advertiserModel', 'urlBuilder',
-        function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule,
-                  loginModel, utils, localStorageService, vistoconfig, accountService, subAccountService, advertiserModel, urlBuilder) {
-
-
+    angularAMD.controller('CreativeController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants', 'workflowService', 'creativeCustomModule', 'loginModel', 'utils',
+        'localStorageService', 'vistoconfig', 'accountService', 'subAccountService', 'advertiserModel', 'urlBuilder', 'pageLoad',
+        function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule, loginModel, utils, localStorageService, vistoconfig,
+                  accountService, subAccountService, advertiserModel, urlBuilder, pageLoad) {
         var postCrDataObj = {},
             urlInfo = {},
 
@@ -226,6 +223,10 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     });
 
             };
+
+        console.log('CREATIVE controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.creative = {};
         $scope.adData = {};

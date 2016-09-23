@@ -1,20 +1,15 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model',
-    'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'time-period-controller',
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'time-period-controller',
     'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
-        'strategySelectModel', 'dataService', 'domainReports', 'constants',
-        'timePeriodModel', 'brandsModel', 'loginModel', 'urlService',
-        'advertiserModel', 'vistoconfig', 'featuresService', 'utils', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
-                                                             strategySelectModel, dataService, domainReports, constants,
-                                                             timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel, vistoconfig, featuresService, utils) {
-
+    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService', 'domainReports',
+        'constants', 'timePeriodModel', 'brandsModel', 'loginModel', 'urlService', 'advertiserModel', 'vistoconfig', 'featuresService', 'utils', 'pageLoad',
+        function ($scope,$rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, domainReports, constants, timePeriodModel, brandsModel,
+                  loginModel, urlService, advertiserModel, vistoconfig, featuresService, utils, pageLoad) {
         var _customCtrl = this,
             extractAdFormats,
 
-            performaceTabMap = [
+            performanceTabMap = [
                 {byscreens: 'Screen'},
                 {byformats: 'Format'},
                 {byplatforms: 'Platform'},
@@ -23,6 +18,10 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                 {byadsizes: 'Adsizes'},
                 {bydiscrepancy: 'Discrepancy'}
             ];
+
+        console.log('PERFORMANCE controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
 
@@ -198,7 +197,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                 },
 
                 url,
-                tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
+                tab = _.compact(_.pluck(performanceTabMap, [param.tab]))[0];
 
             if (Number($scope.selectedStrategy.id) >= 0) {
                 param.queryId = performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];

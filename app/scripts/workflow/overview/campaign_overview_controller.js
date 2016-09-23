@@ -4,12 +4,9 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
 
     angularAMD.controller('CampaignOverViewController', ['$scope', '$modal', '$rootScope', '$routeParams', '$timeout', '$location',
         '$route', 'constants', 'workflowService', 'momentService', 'vistoconfig', 'featuresService', 'dataService', 'loginModel', 'utils',
-        'accountService', 'subAccountService', 'urlBuilder', 'campaignOverviewService', '$sce',
-
-        function ($scope, $modal, $rootScope, $routeParams, $timeout, $location, $route, constants, workflowService, momentService,
-                  vistoconfig, featuresService, dataService, loginModel,utils, accountService, subAccountService, urlBuilder,
-                  campaignOverviewService, $sce) {
-
+        'accountService', 'subAccountService', 'urlBuilder', 'campaignOverviewService', '$sce', 'pageLoad',
+        function ($scope, $modal, $rootScope, $routeParams, $timeout, $location, $route, constants, workflowService, momentService, vistoconfig, featuresService, dataService,
+                  loginModel,utils, accountService, subAccountService, urlBuilder, campaignOverviewService, $sce, pageLoad) {
         var campaignOverView = {
                 modifyCampaignData: function () {
                     var campaignData = $scope.workflowData.campaignData,
@@ -337,7 +334,11 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
             campaignId,
             clientId;
 
-        $('.main_navigation_holder')
+            console.log('CAMPAIGN OVERVIEW (Media Plans Overview) controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
+
+            $('.main_navigation_holder')
             .find('.active_tab')
             .removeClass('active_tab');
 

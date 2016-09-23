@@ -1,16 +1,12 @@
-define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload-hidden', 'pixels-controller', 'budget-controller',
-    'line-item-controller', 'confirmation-modal-controller', 'custom-date-picker', 'campaign-archive-controller',
-    'decorate-numbers'], function (angularAMD) {
+define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload-hidden', 'pixels-controller', 'budget-controller', 'line-item-controller',
+    'confirmation-modal-controller', 'custom-date-picker', 'campaign-archive-controller', 'decorate-numbers'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreateCampaignController', ['$scope', '$window', '$rootScope', '$filter', '$routeParams',
-        '$locale', '$location', '$timeout', '$modal', 'constants', 'workflowService', 'vistoconfig', 'loginModel',
-        'momentService', 'campaignService', 'utils', 'accountService', 'urlBuilder', 'subAccountService',
-        function ($scope, $window, $rootScope, $filter, $routeParams,
-                  $locale, $location, $timeout, $modal, constants,
-                  workflowService, vistoconfig, loginModel,
-                  momentService, campaignService, utils,
-                  accountService, urlBuilder, subAccountService) {
+    angularAMD.controller('CreateCampaignController', ['$scope', '$window', '$rootScope', '$filter', '$routeParams', '$locale', '$location', '$timeout', '$modal', 'constants',
+        'workflowService', 'vistoconfig', 'loginModel', 'momentService', 'campaignService', 'utils', 'accountService', 'urlBuilder', 'subAccountService', 'pageLoad',
+        function ($scope, $window, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, vistoconfig, loginModel,
+                  momentService, campaignService, utils, accountService, urlBuilder, subAccountService, pageLoad) {
             var selectedAdvertiser,
 
                 createCampaign = {
@@ -275,6 +271,10 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                 $scope.lineItems.lineItemList = [];
                 $scope.selectedCampaign.selectedPixel = [];
             }
+
+            console.log('CREATE CAMPAIGN (MEDIA PLAN) controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             $scope.selectedKeywords = [];
             $scope.platformKeywords = [];

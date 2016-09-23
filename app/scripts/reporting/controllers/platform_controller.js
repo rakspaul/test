@@ -1,23 +1,19 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
-    'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
-    'strategy-select-directive','strategy-select-controller',
-    'time-period-pick-directive', 'kpi-select-directive'],
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
+    'strategy-select-directive','strategy-select-controller', 'time-period-pick-directive', 'kpi-select-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
-            'strategySelectModel', 'dataService', 'constants',
-            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel',
-            'RoleBasedService', 'advertiserModel', 'brandsModel',
-            'urlService', 'featuresService', 'requestCanceller',
-            'utils', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
-                                                              strategySelectModel, dataService, constants,
-                                                              domainReports, vistoconfig, timePeriodModel, loginModel,
-                                                              RoleBasedService, advertiserModel, brandsModel,
-                                                              urlService, featuresService, requestCanceller,
-                                                              utils) {
+        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService', 'constants',
+            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel', 'RoleBasedService', 'advertiserModel', 'brandsModel', 'urlService', 'featuresService',
+            'requestCanceller', 'utils', 'pageLoad',
+            function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, constants, domainReports, vistoconfig, timePeriodModel,
+                      loginModel, RoleBasedService, advertiserModel, brandsModel, urlService, featuresService, requestCanceller, utils, pageLoad) {
             var _currCtrl = this,
                 extractAdFormats;
+
+            console.log('PLATFORM controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             $scope.textConstants = constants;
 

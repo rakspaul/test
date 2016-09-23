@@ -1,10 +1,9 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativePreviewController', ['$scope', '$rootScope', '$routeParams', '$location',
-        'workflowService', 'loginModel', 'advertiserModel', 'localStorageService', 'vistoconfig',
-        function ($scope, $rootScope, $routeParams, $location, workflowService, loginModel, advertiserModel,
-                  localStorageService, vistoconfig) {
+    angularAMD.controller('CreativePreviewController', ['$scope', '$rootScope', '$routeParams', '$location', 'workflowService', 'loginModel', 'advertiserModel',
+        'localStorageService', 'vistoconfig', 'pageLoad',
+        function ($scope, $rootScope, $routeParams, $location, workflowService, loginModel, advertiserModel, localStorageService, vistoconfig, pageLoad) {
 
         var params = {
                 campaignId: $routeParams.campaignId,
@@ -51,6 +50,10 @@ define(['angularAMD'], function (angularAMD) {
                     $('#creativePreviewContainer').append(iFrame);
                 }
             };
+
+        console.log('CREATIVE PREVIEW controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.creativePreviewUrl = true;
 
