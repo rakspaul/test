@@ -1333,7 +1333,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.TOTAL_COGS_CPM_DESCRIPTION = 'Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, adserving costs), plus a percentage markup';
         this.TOTAL_PCT_MARKUP = 'Total Pct. Markup';
         this.PCT_GROSS_REVENUE = '% of Gross Revenue';
-        this.PCT_GROSS_REVENUE_DESCRIPTION = 'Visto will change a percentage of Gross Revenue (Sum of Billable Amounts for all Line Item run under this Account and its Sub-Accounts).';
+        this.PCT_GROSS_REVENUE_DESCRIPTION = 'Visto will change a percentage of Gross Revenue (Sum of Billable Amounts for ' +
+            'all Line Item run under this Account and its Sub-Accounts).';
         this.TOTAL_MARKUP_BROKEN = 'The total markup will be broken down into the following portions in the invoice files:';
         this.PCT_NET_REVENUE = '% of Net Revenue';
         this.PCT_NET_REVENUE_DESCRIPTION = 'Visto will charge a percentage of Net Revenue';
