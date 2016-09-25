@@ -1,8 +1,8 @@
 define(['app', 'common-utils'],function (app) {
     'use strict';
 
-    app.controller('loginController', ['$scope', '$sce', '$window', '$cookies', 'loginService', 'utils', 'constants', 'RoleBasedService', 'loginModel', 'vistoconfig', 'pageLoad',
-        function ($scope, $sce, $window, $cookies, loginService, utils, constants, RoleBasedService, loginModel, vistoconfig, pageLoad) {
+    app.controller('loginController', ['$sce', '$window', '$cookies', 'loginService', 'utils', 'constants', 'RoleBasedService', 'loginModel', 'vistoconfig', 'pageLoad',
+        function ($sce, $window, $cookies, loginService, utils, constants, RoleBasedService, loginModel, vistoconfig, pageLoad) {
             console.log('LOGIN controller is loaded!');
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
