@@ -7,35 +7,37 @@ define(['app', 'common-utils'],function (app) {
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 
-            $scope.textConstants = constants;
-            $scope.loadingClass = '';
-            $scope.loginErrorMsg = undefined;
-            $scope.loginError = false;
-            $scope.version = version;
-            $scope.showMessage = undefined;
-            $scope.browserMessage = undefined;
-            $scope.disabledFormFields = undefined;
-            $scope.copyRights = $sce.trustAsHtml(constants.COPY_RIGHTS);
+            var vm = this;
 
-            $scope.login = function() {
-                if ($scope.username === undefined ||
-                    $scope.username.trim() === '' ||
-                    $scope.password === undefined ||
-                    $scope.password.trim() === '') {
-                    $scope.loginErrorMsg = constants.USERNAME_OR_PASSWORD_INCORRECT;
-                    $scope.loginError = true;
+            vm.textConstants = constants;
+            vm.loadingClass = '';
+            vm.loginErrorMsg = undefined;
+            vm.loginError = false;
+            vm.version = version;
+            vm.showMessage = undefined;
+            vm.browserMessage = undefined;
+            vm.disabledFormFields = undefined;
+            vm.copyRights = $sce.trustAsHtml(constants.COPY_RIGHTS);
+
+            vm.SignIn = function() {
+                if (vm.username === undefined ||
+                    vm.username.trim() === '' ||
+                    vm.password === undefined ||
+                    vm.password.trim() === '') {
+                    vm.loginErrorMsg = constants.USERNAME_OR_PASSWORD_INCORRECT;
+                    vm.loginError = true;
                 } else {
-                    $scope.dataLoading = true;
-                    $scope.resetValidation();
-                    $scope.loadingClass = 'loading';
+                    vm.dataLoading = true;
+                    vm.resetValidation();
+                    vm.loadingClass = 'loading';
 
-                    loginService.loginAction($scope.username, $scope.password, function (response) {
+                    loginService.loginAction(vm.username, vm.password, function (response) {
                         var user,
                             redirectUrl;
 
                         if (response.status === 'success') {
                             user = response.data.data;
-                            user.login_name = $scope.username;
+                            user.login_name = vm.username;
                             loginModel.setClientData(user);
                             loginService.setCredentials(user);
                             RoleBasedService.setUserData(response);
@@ -49,45 +51,45 @@ define(['app', 'common-utils'],function (app) {
                                 $window.location.href = '/';
                             }
                         } else {
-                            $scope.error = response.data.message;
-                            $scope.loginErrorMsg = response.data.message;
-                            $scope.password = '';
+                            vm.error = response.data.message;
+                            vm.loginErrorMsg = response.data.message;
+                            vm.password = '';
 
-                            switch ($scope.error) {
+                            switch (vm.error) {
                                 case 'Password invalid':
                                 case 'User does not exist':
-                                    $scope.loginError = true;
+                                    vm.loginError = true;
                                     break;
                                 default:
-                                    $scope.loginError = true;
+                                    vm.loginError = true;
                             }
 
-                            $scope.loadingClass = '';
-                            $scope.dataLoading = false;
+                            vm.loadingClass = '';
+                            vm.dataLoading = false;
                         }
                     });
                 }
             };
 
-            $scope.appendDomain = function() {
-                if($scope.username !== '' && $scope.username.indexOf('@') < 0){
-                    $scope.username = $scope.username + '@collective.com';
+            vm.appendDomain = function() {
+                if(vm.username && vm.username.indexOf('@') < 0){
+                    vm.username = vm.username + '@collective.com';
                 }
             };
 
-            $scope.getLoadingClass = function () {
-                return $scope.loadingClass;
+            vm.getLoadingClass = function () {
+                return vm.loadingClass;
             };
 
-            $scope.showLoginError = function () {
-                return $scope.loginError;
+            vm.showLoginError = function () {
+                return vm.loginError;
             };
 
-            $scope.resetValidation = function () {
-                $scope.loginError = false;
+            vm.resetValidation = function () {
+                vm.loginError = false;
             };
 
-            $scope.getBrowserNameList = function (browsers) {
+            vm.getBrowserNameList = function (browsers) {
                 var lastCommaIndex,
                     browserNameList = '';
 
@@ -100,7 +102,7 @@ define(['app', 'common-utils'],function (app) {
                 return browserNameList + '.';
             };
 
-            $scope.checkoutBrowserInfo = function () {
+            vm.checkoutBrowserInfo = function () {
                 var browserInfo = utils.detectBrowserInfo(),
                     findData = _.where(vistoconfig.supportedBrowser, {name: browserInfo.browserName}),
                     browserList,
@@ -112,31 +114,53 @@ define(['app', 'common-utils'],function (app) {
                     findVersion = findData[0].version;
 
                     if (browserInfo.majorVersion >= findVersion) {
-                        $scope.showMessage = false;
-                        $scope.browserMessage = '';
-                        $scope.disabledFormFields = false;
+                        vm.showMessage = false;
+                        vm.browserMessage = '';
+                        vm.disabledFormFields = false;
                     } else {
                         if (findName === 'Internet Explorer') {
-                            $scope.showMessage = true;
-                            $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE1.replace(/\{findVersion}/g, findVersion);
-                            $scope.disabledFormFields = true;
+                            vm.showMessage = true;
+                            vm.browserMessage = constants.UPGRADE_BROWSER_MESSAGE1.replace(/\{findVersion}/g, findVersion);
+                            vm.disabledFormFields = true;
                         } else {
-                            $scope.showMessage = true;
-                            $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE2.replace(/\{browserName}/g, findName).replace(/\{findVersion}/g, findVersion);
-                            $scope.disabledFormFields = false;
+                            vm.showMessage = true;
+                            vm.browserMessage = constants.UPGRADE_BROWSER_MESSAGE2.replace(/\{browserName}/g, findName).replace(/\{findVersion}/g, findVersion);
+                            vm.disabledFormFields = false;
                         }
                     }
                 } else {
                     // unsupported Browser
-                    $scope.showMessage = true;
-                    browserList = $scope.getBrowserNameList(vistoconfig.supportedBrowser);
-                    $scope.browserMessage = constants.UPGRADE_BROWSER_MESSAGE3.replace(/\{browserList}/g, browserList);
-                    $scope.disabledFormFields = true;
+                    vm.showMessage = true;
+                    browserList = vm.getBrowserNameList(vistoconfig.supportedBrowser);
+                    vm.browserMessage = constants.UPGRADE_BROWSER_MESSAGE3.replace(/\{browserList}/g, browserList);
+                    vm.disabledFormFields = true;
                 }
             };
 
-            $scope.getSigninClass = function() {
-                return $scope.disabledFormFields ? 'signin_disabled' : '';
+            vm.getSigninClass = function() {
+                return vm.disabledFormFields ? 'signin_disabled' : '';
             };
+
+
+            $(document).ready(function () {
+
+                $(window).resize(function () {
+                    reports_login_position();
+                });
+
+                function reports_login_position() {
+                    var win_height = $(window).height();
+                    var min_height = $('.collective_ad_form_holder').height() + $('.collective_ad_form_holder').offset().top + 100;
+                    $('.reports_login_box_holder').css('height', win_height);
+                    if (win_height <= min_height) {
+                        $('.login_copyright_holder').css('position', 'static');
+                    } else {
+                        $('.login_copyright_holder').css('position', 'absolute');
+                    }
+                }
+
+                reports_login_position();
+            });
+
         }]);
 });

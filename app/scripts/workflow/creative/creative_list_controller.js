@@ -5,6 +5,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         'workflowService', 'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder', 'pageLoad',
         function ($scope, $rootScope, $routeParams, $route, $timeout, $location, $window, constants, domainReports, workflowService,
                   momentService, loginModel, vistoconfig,accountService, urlBuilder, pageLoad) {
+            
             var creativeDataArr,
                 winHeight = $(window).height(),
                 isSearch = false,

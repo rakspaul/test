@@ -18,7 +18,7 @@ define(['common'], function (angularAMD) {
             $routeProvider
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping Visto',
-                    templateUrl: 'home.html',
+                    templateUrl: assets.html_home,
                     controller: function ($scope, $cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
 
@@ -70,11 +70,12 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/login', angularAMD.route({
-                    templateUrl: assets.html_reports_login,
-                    title: 'Login',
-                    controller: 'loginController',
-                    showHeader: false,
-                    controllerUrl: 'login-controller'
+                    templateUrl: assets.html_login,
+                    title : 'Login',
+                    controller : 'loginController',
+                    controllerAs : 'login',
+                    showHeader : false,
+                    controllerUrl : 'login-controller'
                 }))
 
                 .when('/a/:accountId/dashboard', angularAMD.route({
