@@ -14,9 +14,9 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                         stateMapper = {
                             'In Flight' : 'In_flight',
                             'Ended' : 'Ended'
-                        }
+                        },
+                        selectedStatus = getSelectedStatus();
 
-                    var selectedStatus = getSelectedStatus();
 
                     if(stateMapper[selectedStatus]) {
                         _.each(dashboardData.campaignData.advertisers, function (obj) {

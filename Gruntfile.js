@@ -42,6 +42,7 @@ module.exports = function (grunt) {
         'preprocess:local',
         'connect:local',
         'jshint',
+        'html2js',
         'watch'
     ]);
 
@@ -51,6 +52,7 @@ module.exports = function (grunt) {
         'autoprefixer',
         'copy:dist',
         'ngAnnotate',
+        'html2js',
         'requirejs',
         'preprocess:' + env,
         'htmlmin',

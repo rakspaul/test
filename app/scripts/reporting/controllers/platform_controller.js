@@ -287,16 +287,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                             label: 'Platform by Quality',
                             download_config_id: 3
                         }
-                    ],
+                    ];
 
-                    isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                // if agency level cost model is opaque
-                if (!isAgencyCostModelTransparent) {
-                    download_report = _.filter(download_report, function (obj) {
-                        return obj.report_name !== 'by_cost';
-                    });
-                }
 
                 $scope.download_report = download_report;
             };
@@ -350,7 +342,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                 $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-                $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
                 $scope.selectedFilters.kpi_type = 'cpm';
                 $scope.selectedFilters2 = {};
