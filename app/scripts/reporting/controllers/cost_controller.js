@@ -66,6 +66,26 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             cost: null
         };
 
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+            $scope.removeKpiActive();
+        }
+
+        $scope.sortClassFunction = function(a){
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
+
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+
+            if ($('.kpi-dd-holder').hasClass('active')) {
+                $('.each_cost_col').removeClass('active');
+                return sortDirection;
+            } else{
+                return isActive + ' ' + sortDirection;
+            }
+        }
+
         $scope.init = function () {
             $scope.strategyCostData = [];
             $scope.tacticsCostData = [];

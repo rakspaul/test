@@ -29,7 +29,9 @@
                     <div class="reports_cost_header_holder smallScreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="col-md-1 zeroPadding">
+                            <div class="col-md-1 zeroPadding"
+                                 data-ng-class="sortClassFunction('impressions')"
+                                 data-ng-click="clickToSort('impressions')">
                                 <span class="pull-left default-kpi-header-icon"
                                       tooltip="Primary KPI"
                                       data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() ===
@@ -43,21 +45,35 @@
                                 </div>
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('inventory_cost')"
+                                 data-ng-click="clickToSort('inventory_cost')"
                                  data-ng-bind="textConstants.INVENTORY">
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('data_cost')"
+                                 data-ng-click="clickToSort('data_cost')"
                                  data-ng-bind="textConstants.DATA">
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('serving_cost')"
+                                 data-ng-click="clickToSort('serving_cost')"
                                  data-ng-bind="textConstants.AD_SERVING"
                                  >
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('verification_cost')"
+                                 data-ng-click="clickToSort('verification_cost')"
                                  data-ng-bind="textConstants.AD_VERIFICATION"
                                  >
                             </div>
-                            <div class="col-md-1 zeroPadding text-center" data-ng-bind="textConstants.CREATIVE"></div>
-                            <div class="col-md-1 zeroPadding text-center" data-ng-bind="textConstants.RESEARCH"></div>
+                            <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('creative_cost')"
+                                 data-ng-click="clickToSort('creative_cost')"
+                                 data-ng-bind="textConstants.CREATIVE"></div>
+                            <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('research_cost')"
+                                 data-ng-click="clickToSort('research_cost')"
+                                 data-ng-bind="textConstants.RESEARCH"></div>
                             <div class="col-md-2"
                                  style="margin-top: -12px;">
                                 <span class="col-md-12 zeroPadding text-center"
@@ -65,15 +81,29 @@
                                     Platform Fees
                                 </span>
                                 <div class="col-md-12 zeroPadding">
-                                    <span class="icon_text_holder col-md-4 zeroPadding" data-ng-bind="textConstants.TECH_FEES"></span>
-                                    <span class="icon_text_holder col-md-4 zeroPadding text-center">Service</span>
-                                    <span class="icon_text_holder col-md-4 zeroPadding text-right">Total</span>
+                                    <span class="icon_text_holder col-md-4 zeroPadding"
+                                          data-ng-class="sortClassFunction('tech_fees')"
+                                          data-ng-click="clickToSort('tech_fees')"
+                                          data-ng-bind="textConstants.TECH_FEES"></span>
+                                    <span class="icon_text_holder col-md-4 zeroPadding text-center"
+                                          data-ng-class="sortClassFunction('service_fees')"
+                                          data-ng-click="clickToSort('service_fees')"
+                                          data-ng-bind="'Service'"></span>
+                                    <span class="icon_text_holder col-md-4 zeroPadding text-right"
+                                          data-ng-class="sortClassFunction('tech_service_fees_total')"
+                                          data-ng-click="clickToSort('tech_service_fees_total')"
+                                          data-ng-bind="'Total'"></span>
                                 </div>
                             </div>
                             <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('gross_rev')"
+                                 data-ng-click="clickToSort('gross_rev')"
                                  data-ng-bind="textConstants.TOTAL_SPEND">
                             </div>
-                            <div class="col-md-1 zeroPadding text-center">Margin %</div>
+                            <div class="col-md-1 zeroPadding text-center"
+                                 data-ng-class="sortClassFunction('margin')"
+                                 data-ng-click="clickToSort('margin')"
+                                 data-ng-bind="'Margin %'"></div>
                         </div>
                         <!--cost  filter ends-->
 

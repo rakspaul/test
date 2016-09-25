@@ -605,7 +605,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             $scope.specialSort(type);
             $scope.removeKpiActive();
         }
-        $scope.sortClassFunction = function (a,b,c) {
+
+        $scope.sortClassFunction = function (a) {
             var isActive = (a === $scope.sortType) ?  'active' : '',
                 sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 
