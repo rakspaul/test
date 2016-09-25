@@ -664,6 +664,13 @@ define(['angularAMD'],
                     }
                 }
 
+                function swapValuesInArray(arr, index1, index2){
+                    var temp = angular.copy(arr[index1]);
+                    arr[index1] = angular.copy(arr[index2]);
+                    arr[index2] = angular.copy(temp);
+                    return arr;
+                }
+
 
                 return {
                     formatDate: formatDate,
@@ -691,7 +698,8 @@ define(['angularAMD'],
                     getResponseMsg: getResponseMsg,
 		            formatStringWithDate:formatStringWithDate,
                     capitaliseAllText: capitaliseAllText,
-                    cleanSearchParameter:cleanSearchParameter
+                    cleanSearchParameter:cleanSearchParameter,
+                    swapValuesInArray: swapValuesInArray
                 };
             }
         ]);

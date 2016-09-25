@@ -3,10 +3,10 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
     'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
+    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', '$filter', 'kpiSelectModel', 'campaignSelectModel',
         'strategySelectModel', 'dataService', 'domainReports', 'constants',
         'timePeriodModel', 'brandsModel', 'loginModel', 'urlService',
-        'advertiserModel', 'vistoconfig', 'featuresService', 'utils', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
+        'advertiserModel', 'vistoconfig', 'featuresService', 'utils', function ($scope, $rootScope, $filter, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
                                                              advertiserModel, vistoconfig, featuresService, utils) {
@@ -41,41 +41,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         // set the default sort order
         $scope.sortReverse  = false;
-
-        $scope.sortReverseFormatTab  = false;
-        $scope.sortReverseAdSizeTab  = false;
-        $scope.sortReverseCreativesTab  = false;
-        $scope.sortReverseDaysTab  = false;
-
-        $scope.sortReverseForCostscpm  = true;
-        $scope.sortReverseForCostscpa  = true;
-        $scope.sortReverseForCostscpc  = true;
-        $scope.sortReverseAdSizes  = false;
-
-        $scope.sortReverseForCostscpmFormats  = true;
-        $scope.sortReverseForCostscpaFormats  = true;
-        $scope.sortReverseForCostscpcFormats  = true;
-        $scope.sortReverseAdSizesFormats  = true;
-
-        $scope.sortReverseForCostscpmPlatforms  = true;
-        $scope.sortReverseForCostscpaPlatforms   = true;
-        $scope.sortReverseForCostscpcPlatforms    = true;
-        $scope.sortReverseAdSizesPlatforms    = true;
-
-        $scope.sortReverseForCostscpmDaysofweek  = true;
-        $scope.sortReverseForCostscpaDaysofweek  = true;
-        $scope.sortReverseForCostscpcDaysofweek  = true;
-        $scope.sortReverseAdSizesDaysofweek  = true;
-
-        $scope.sortReverseForCostscpmCreatives  = true;
-        $scope.sortReverseForCostscpaCreatives  = true;
-        $scope.sortReverseForCostscpcCreatives  = true;
-        $scope.sortReverseAdSizesCreatives  = true;
-
-        $scope.sortReverseForCostscpmAdsizes  = true;
-        $scope.sortReverseForCostscpaAdsizes  = true;
-        $scope.sortReverseForCostscpcAdsizes  = true;
-        $scope.sortReverseAdSizesAdsizes  = true;
 
         $scope.isStrategyDropDownShow = true;
         $scope.characterLimit  = 50;
@@ -198,6 +163,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                 },
 
                 url,
+                totalValIndex = null,
                 tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
 
             if (Number($scope.selectedStrategy.id) >= 0) {
@@ -255,9 +221,15 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
 
+                                totalValIndex = _.findIndex($scope['strategyPerfDataBy' + tab], function(item){
+                                    return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                    ' Totals' || item.dimension === 'Ad Totals');
+                                });
+                                $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+
                                 $scope['strategyPerfDataByTactic' + tab]  =
 
-                                    _.filter(result.data.data, function (item) {
+                                    _.filter(result.data.data, function (item, i) {
                                         if(item.dimension === 'Line Item Totals') {
                                             item.sepratorCls = 'sepratorCls';
                                         }
@@ -266,9 +238,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         }
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
-
-
-
 
                                 $scope.groupThem = _.chain($scope['strategyPerfDataByTactic' + tab])
                                     .groupBy('ad_id')
@@ -280,17 +249,33 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         };
                                     })
                                     .value();
+
+                                _.each($scope.groupThem, function(data){
+                                    data = data.perf_metrics;
+                                    totalValIndex = _.findIndex(data, function(item){
+                                        return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                        ' Totals' || item.dimension === 'Ad Totals');
+                                    });
+                                    data = utils.swapValuesInArray(data, 0, totalValIndex);
+                                });
+
                             } else {
                                 // Media Plan total
                                 $scope.showPerfMetrix = false;
                                 $scope['strategyPerfDataBy' + tab]  = result.data.data;
 
-                                _.each($scope['strategyPerfDataBy' + tab], function (item) {
+                                _.each($scope['strategyPerfDataBy' + tab], function (item, i) {
                                     if(item.dimension === 'Media Plan Totals') {
                                         item.sepratorCls = 'sepratorCls';
                                     }
+                                    if(item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                        ' Totals' || item.dimension === 'Ad Totals'){
+                                        totalValIndex = i;
+                                    }
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
+
+                                $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
                             }
 
                             if (param.tab === 'bydiscrepancy') {
@@ -584,32 +569,16 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         });
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-            if ($scope.selected_tab === 'byformats') {
-                $scope.sortTypebyformats = args;
-            } else if ($scope.selected_tab === 'bydaysofweek') {
-                $scope.sortTypebydaysofweek = args;
-            } else if ($scope.selected_tab === 'bycreatives') {
-                $scope.sortTypeByCreatives = args;
-            } else if ($scope.selected_tab === 'byadsizes') {
-                $scope.sortTypeByAdSizes = args;
-            } else if ($scope.selected_tab === 'byplatforms') {
-                $scope.sortTypebyplatforms = args;
-            } else if ($scope.selected_tab === 'byscreens') {
-                $scope.sortTypeScreens = args;
-
-                if (args === 'cpm') {
-                    $scope.sortReverseForCostscpm = sortorder;
-                } else if (args === 'cpc') {
-                    $scope.sortReverseForCostscpc = sortorder;
-                } else {
-                    $scope.sortReverseForCostscpa = sortorder;
-                }
-            }
-
             $scope.sortType = args;
             $scope.sortTypeSubSort = 'tactic.' + args;
+            $scope.sortTypeScreens = args;
             $scope.sortReverse = sortorder;
             $scope.kpiDropdownActive = true;
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                $scope.groupThem = _.sortBy( $scope.groupThem, function(item) {
+                    return $scope.sortReverse ? -item.perf_metrics[0][args] : item.perf_metrics[0][args];
+                });
+            }
         });
 
         $scope.removeKpiActive = function () {
@@ -621,12 +590,24 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         };
 
         $scope.specialSort = function (passedSortype) {
-            $scope.sortType = passedSortype;
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                $scope.groupThem = _.sortBy( $scope.groupThem, function(item) {
+                    return $scope.sortReverse ? -item.perf_metrics[0][passedSortype] : item.perf_metrics[0][passedSortype];
+                });
+            }else {
+                $scope.sortType = passedSortype;
+            }
         };
 
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+            $scope.specialSort(type);
+            $scope.removeKpiActive();
+        }
         $scope.sortClassFunction = function (a,b,c) {
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
 
