@@ -75,32 +75,54 @@
                                     </div> -->
                                     <div class="row_list_holder" >
                                         <div class="common-load-icon" data-ng-show="performanceBusy"></div>
-                                        <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                             data-ng-show="!performanceBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"
-                                             data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypeByPerformance : sortReverse track by $index"
-                                             data-ng-include="'performanceTpl'">
+                                        <!--<div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"-->
+                                             <!--data-ng-show="!performanceBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"-->
+                                             <!--data-ng-repeat="platform in platformData |-->
+                                                <!--orderBy : sortTypeByPerformance : sortReverse track by $index"-->
+                                             <!--data-ng-include="'performanceTpl'">-->
+                                        <!--</div>-->
+                                        <!--<div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"-->
+                                             <!--data-ng-show="!performanceBusy && platform.sepratorCls_platform != 'sepratorCls_platform'"-->
+                                             <!--data-ng-repeat="platform in platformData |-->
+                                                <!--orderBy : sortTypeByPerformance : sortReverse track by $index"-->
+                                             <!--data-ng-include="'performanceTpl'">-->
+                                        <!--</div>-->
+
+                                        <div class="">
+                                            <div class="clearfix each_row_list sepratorLineCls"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="platform in platformData | limitTo:1"
+                                                 data-ng-include="'performanceTpl'"></div>
                                         </div>
-                                        <div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                             data-ng-show="!performanceBusy && platform.sepratorCls_platform != 'sepratorCls_platform'"
-                                             data-ng-repeat="platform in platformData |
-                                                orderBy : sortTypeByPerformance : sortReverse track by $index"
-                                             data-ng-include="'performanceTpl'">
+                                        <div class="body">
+                                            <div class="clearfix each_row_list"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="platform in platformData | startFrom : 1 |
+                                                orderBy : sortTypeScreens : sortReverse track by $index"
+                                                 data-ng-include="'performanceTpl'">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!performanceBusy">
                                     <div class="each_strategy_holder clearfix"
 
-                                         data-ng-repeat="data in tacticPlatformData |
-                                            orderBy : sortTypeByPerformance : sortReverse track by $index">
+                                         data-ng-repeat="data in tacticPlatformData">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col" data-ng-bind="data[0].ad_name"></div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow"
-                                                     data-ng-repeat="platform in data"
-                                                     data-ng-include="'performanceTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
+                                                <div>
+                                                    <div class="clearfix each_row_list expandRow sepratorLineCls"
+                                                         data-ng-repeat="platform in data | limitTo:1"
+                                                         data-ng-include="'performanceTpl'">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="clearfix each_row_list expandRow"
+                                                         data-ng-repeat="platform in data | startFrom : 1"
+                                                         data-ng-include="'performanceTpl'">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -147,9 +169,17 @@
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col" data-ng-bind="data[0].ad_name"></div>
                                             <div class="row_list_holder">
-                                                <div class="clearfix each_row_list expandRow"
-                                                     data-ng-repeat="platform in data"
-                                                     data-ng-include="'costTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
+                                                <div>
+                                                    <div class="clearfix each_row_list expandRow sepratorLineCls"
+                                                         data-ng-repeat="platform in data | limitTo:1"
+                                                         data-ng-include="'costTpl'">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="clearfix each_row_list expandRow"
+                                                         data-ng-repeat="platform in data | startFrom : 1"
+                                                         data-ng-include="'costTpl'">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,15 +252,29 @@
                                         <div class="each_strategy clearfix">
                                             <div class="each_col first_col" data-ng-bind="data[0].ad_name"></div>
                                             <div class="row_list_holder">
-                                                <div data-ng-if="!adFormats.videoAds || !videoMode"
-                                                     class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                                     data-ng-repeat="platform in data"
-                                                     data-ng-include="'viewabilityTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
+                                                <div data-ng-if="!adFormats.videoAds || !videoMode">
+                                                    <div>
+                                                        <div class="clearfix each_row_list expandRow sepratorLineCls"
+                                                             data-ng-repeat="platform in data | limitTo:1"
+                                                             data-ng-include="'viewabilityTpl'">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix each_row_list expandRow"
+                                                         data-ng-repeat="platform in data | startFrom : 1"
+                                                         data-ng-include="'viewabilityTpl'">
+                                                    </div>
                                                 </div>
-                                                <div data-ng-if="adFormats.videoAds && videoMode"
-                                                     class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"
-                                                     data-ng-repeat="platform in data"
-                                                     data-ng-include="'videoViewabilityTpl'" ng-class="(platform.platform_name == 'Ad Totals' )?'sepratorLineCls':''">
+                                                <div data-ng-if="adFormats.videoAds && videoMode">
+                                                    <div>
+                                                        <div class="clearfix each_row_list expandRow sepratorLineCls"
+                                                             data-ng-repeat="platform in data | limitTo:1"
+                                                             data-ng-include="'videoViewabilityTpl'">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix each_row_list expandRow"
+                                                         data-ng-repeat="platform in data | startFrom : 1"
+                                                         data-ng-include="'videoViewabilityTpl'">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

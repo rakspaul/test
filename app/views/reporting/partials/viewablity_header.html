@@ -1,16 +1,25 @@
 <div class="viewability_header clearfix">
-    <div class="each_col platform_name_col icon_text_holder" data-ng-bind="textConstants.PLATFORM_NAME">
+    <div class="each_col platform_name_col icon_text_holder"
+         data-ng-bind="textConstants.PLATFORM_NAME">
     </div>
     <div class="each_col third_col delivered_col">
-        <span class="icon_text_holder" data-ng-bind="textConstants.DELIVERED_IMPS">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('other_view_impressions')"
+              data-ng-click=" clickToSort('other_view_impressions')"
+              data-ng-bind="textConstants.DELIVERED_IMPS">
         </span>
     </div>
     <div class="each_col third_col measurable_col">
         <span data-ng-bind="textConstants.MEASURABLE"></span>
         <div class="sub_col">
-            <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('other_view_measurable')"
+                  data-ng-click="clickToSort('other_view_measurable')"
+                  data-ng-bind="textConstants.IMP_WITH_DOT">
             </span>
-            <span class="icon_text_holder">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('other_view_measurable_perc')"
+                  data-ng-click="clickToSort('other_view_measurable_perc')">
                 %
             </span>
         </div>
@@ -18,9 +27,14 @@
     <div class="each_col forth_col">
         <span data-ng-bind="textConstants.VIEWABLE"></span>
         <div class="sub_col">
-            <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('other_viewable_impressions')"
+                  data-ng-click="clickToSort('other_viewable_impressions')"
+                  data-ng-bind="textConstants.IMP_WITH_DOT">
             </span>
-            <span class="tooltip_holder icon_text_holder">
+            <span class="tooltip_holder icon_text_holder"
+                  data-ng-class="sortClassFunction('other_viewable_impressions_perc')"
+                  data-ng-click="clickToSort('other_viewable_impressions_perc')">
                 %
                 <sup>*</sup>
                 <div class="common_tooltip" data-ng-bind="textConstants.BASED_ONLY_ON_VIEWABLE_IMPS"></div>
@@ -34,28 +48,39 @@
                 <span class="tooltip_show_icon"></span>
                 <span class="clearfix common_tooltip"
                       data-ng-bind=
-                        "textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD">
+                          "textConstants.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD">
                 </span>
             </span>
         </div>
 
         <div class="sub_col">
-            <span class="icon_text_holder">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('videos_1q_completed')"
+                  data-ng-click="clickToSort('videos_1q_completed')">
                 25%
             </span>
-            <span class="icon_text_holder">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('videos_2q_completed')"
+                  data-ng-click="clickToSort('videos_2q_completed')">
                 50%
             </span>
-            <span class="icon_text_holder">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('videos_3q_completed')"
+                  data-ng-click="clickToSort('videos_3q_completed')">
                 75%
             </span>
-            <span class="icon_text_holder">
+            <span class="icon_text_holder"
+                  data-ng-class="sortClassFunction('videos_4q_completed')"
+                  data-ng-click="clickToSort('videos_4q_completed')">
                 100%
             </span>
         </div>
     </div>
     <div class="each_col suspicious_col">
-        <span class="tooltip_holder icon_text_holder" ng-bind-html="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
+        <span class="tooltip_holder icon_text_holder"
+              data-ng-class="sortClassFunction('other_view_imps_suspicious_perc')"
+              data-ng-click="clickToSort('other_view_imps_suspicious_perc')"
+              ng-bind-html="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
         </span>
     </div>
 </div>
