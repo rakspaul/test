@@ -8,7 +8,6 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
             getReportsTabs: function (params) {
                 var tabs = [],
                     fParams = params || featuresService.getFeatureParams(),
-                    isAgencyCostModelTransparent,
                     userRole;
 
                 if (fParams[0].report_overview === true) {
@@ -37,15 +36,6 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
 
                 if (fParams[0].optimization_create === true || fParams[0].optimization_transparency === true) {
                     tabs.push({href: 'optimization', title: 'Optimization Impact'});
-                }
-
-                isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                // if agency level cost model is opaque
-                if (!isAgencyCostModelTransparent) {
-                    tabs = _.filter(tabs, function (obj) {
-                        return obj.href !== 'cost';
-                    });
                 }
 
                 userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;

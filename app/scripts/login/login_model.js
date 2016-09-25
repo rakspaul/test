@@ -4,7 +4,6 @@ define(['angularAMD'], function (angularAMD) {
                 user_id: undefined,
                 user_name: '',
 
-                // set the cookie value -->hardcoded
                 is_workflow_user: true,
 
                 auth_token: undefined,
@@ -25,45 +24,16 @@ define(['angularAMD'], function (angularAMD) {
                 data.is_workflow_user = false;
             },
 
-            getUserRole: function () {
-                return constants.ROLE_MARKETER;
-            },
 
             setMasterClient: function (data) {
                 localStorage.setItem('masterClient', JSON.stringify(data));
             },
 
-            getMasterClient: function () {
-                return localStorage.getItem('masterClient') && JSON.parse(localStorage.getItem('masterClient'));
-            },
 
             setSelectedClient: function (data) {
                 localStorage.setItem('selectedClient', JSON.stringify(data));
             },
 
-            getDashboardClient: function() {
-                return localStorage.getItem('dashboardClient') && JSON.parse(localStorage.getItem('dashboardClient'));
-            },
-
-            setMasterAndClient: function(masterId, masterName, isLeafNode, clientId, clientName) {
-                localStorage.setItem('masterClient', JSON.stringify({
-                    id: masterId,
-                    name: masterName,
-                    isLeafNode: isLeafNode
-                }));
-
-                if (isLeafNode) {
-                    localStorage.setItem('selectedClient', JSON.stringify({
-                        id: masterId,
-                        name: masterName
-                    }));
-                } else {
-                    localStorage.setItem('selectedClient', JSON.stringify({
-                        id: clientId,
-                        name: clientName
-                    }));
-                }
-            },
 
             setClientData: function (data) {
                 localStorage.setItem('clientData', JSON.stringify(data));
@@ -91,33 +61,6 @@ define(['angularAMD'], function (angularAMD) {
                 localStorage.setItem('isNavigationFromCampaigns', 'false');
             },
 
-            getIsAgencyCostModelTransparent: function () {
-                // TODO: for now until we define cost transparencies.  Sriram. Dec 28th.
-                return true;
-
-                // TODO (Lalding): Commenting out the following code because of the temp. return statement above.
-                /*if (data.is_network_user) {
-                 data.cost_transparency = true;
-                 }
-
-                 if (data.cost_transparency) {
-                 return data.cost_transparency;
-                 } else if ($cookies.get('cdesk_session')) {
-                 data.cost_transparency = $cookies.get('cdesk_session').cost_transparency;
-                 return $cookies.get('cdesk_session').cost_transparency;
-                 }*/
-            },
-
-            getLoginName: function () {
-                var cdeskSession = $cookies.get('cdesk_session');
-
-                if (!data.login_name && cdeskSession) {
-                    cdeskSession = JSON.parse(cdeskSession);
-                    data.login_name = cdeskSession.login_name;
-                }
-
-                return data.login_name;
-            },
 
             getUserId: function () {
                 var cdeskSession = $cookies.get('cdesk_session');
@@ -128,17 +71,6 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 return data.user_id;
-            },
-
-            getAgencyId: function () {
-                var cdeskSession = $cookies.get('cdesk_session');
-
-                if (!data.agency_id && cdeskSession) {
-                    cdeskSession = JSON.parse(cdeskSession);
-                    data.agency_id = cdeskSession.agency_id;
-                }
-
-                return data.agency_id;
             },
 
             getUserName: function () {
@@ -152,16 +84,6 @@ define(['angularAMD'], function (angularAMD) {
                 return data.user_name;
             },
 
-            getExpirySecs: function () {
-                var cdeskSession = $cookies.get('cdesk_session');
-
-                if (!data.expiry_secs && cdeskSession) {
-                    cdeskSession = JSON.parse(cdeskSession);
-                    data.expiry_secs = cdeskSession.expiry_secs;
-                }
-
-                return data.expiry_secs;
-            },
 
             getAuthToken: function () {
                 var cdeskSession = $cookies.get('cdesk_session');
