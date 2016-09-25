@@ -1,4 +1,5 @@
-define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model', 'common-utils', 'request-cancel-service', 'time-period-model'],
+define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model',
+        'common-utils', 'request-cancel-service', 'time-period-model','lrInfiniteScroll'],
     function (angularAMD) {
         'use strict';
 
@@ -266,7 +267,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 return params;
             };
 
-            _customctrl.createRequestParams = function (filterText, offset, isPrimary, rowIndex_2D, dataFormat) {
+          /*  _customctrl.createRequestParams = function (filterText, offset, isPrimary, rowIndex_2D, dataFormat) {
                 var params,
                     dimensionDataKey = isPrimary ? 'primary' : 'secondary',
                     filterDataKey = isPrimary ? 'secondary' : 'primary',
@@ -351,7 +352,126 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 params = _customctrl.createMetricRequestParams(params);
 
                 return params;
-            };
+            }; */
+
+                _customctrl.createRequestParams = function(firstDimId,firstDimValue, offset, isPrimary, rowIndex_2D){
+                    var
+                        dimensionDataKey = isPrimary ? 'primary' : 'secondary',
+                        filterDataKey = isPrimary ? 'secondary' : 'primary',
+                        requestStr = 'dimension=',
+                        nameFilter='',
+                        idFilter='',
+                        nameFilterExactMatch=''
+                        ;
+
+                    if (isPrimary) {
+                        $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
+                    }
+
+                    $scope.isReportForMultiDimension = false;
+
+                    if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
+                        $scope.isReportForMultiDimension = true;
+
+                        if (isPrimary) {
+                            $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
+                        }
+                    }
+
+
+                    //attach primary and secondary key(if selected)
+                    if(isPrimary){
+                        //for Primary level attach only primary key though secondary key is also selected.
+                        requestStr+= $scope.reports.reportDefinition.dimensions.primary.dimension;
+                    } else {
+                        //for Secondary level attach only secondary key though primary key is also selected.
+                        requestStr+= $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                    }
+
+                    //if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
+                      //  requestStr+=','+$scope.reports.reportDefinition.dimensions.secondary.dimension;
+                   // }
+
+                    //make primary and secondary value(if selected)
+                    if($scope.reports.reportDefinition.dimensions.primary.value) {
+                        nameFilter = 'name_filter='+
+                            $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
+                    }
+                    if($scope.reports.reportDefinition.dimensions.secondary.value) {
+                        nameFilter+= '~'+ $scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                    }
+
+                    //additional filter
+                    if ($scope.additionalFilters.length > 0) {
+                        _.each($scope.additionalFilters, function (eachObj,index) {
+
+                            // if id and value pair
+                            if(eachObj.id) {
+                                if(idFilter) {
+                                    idFilter += '~'+eachObj.key+':'+eachObj.id;
+                                } else {
+                                    idFilter ='id_filter='+eachObj.key+':'+eachObj.id;
+                                }
+                            } else if (eachObj.id === 0) {
+                                //comes here when there is no id but only name bascially for ad_kPI,..etc there are no id:name pair
+                                if(nameFilterExactMatch && eachObj.value){
+                                    nameFilterExactMatch += '~'+eachObj.key+':'+eachObj.value;
+                                } else if(eachObj.value){
+                                    nameFilterExactMatch = 'name_filter_exact_match='+eachObj.key+':'+eachObj.value;
+                                }
+                            } else {
+                                //comes here when filter is not selected from the auto suggestion dropdown
+                                if(nameFilter){
+                                    if(eachObj.value) {
+                                        nameFilter += '~'+eachObj.key+':'+eachObj.value;
+                                    } else if($scope.autoFill[index].text){
+                                        nameFilter += '~'+eachObj.key+':'+$scope.autoFill[index].text;
+                                    }
+                                } else {
+                                    if(eachObj.value) {
+                                        nameFilter = 'name_filter='+eachObj.key+':'+eachObj.value;
+                                    } else if($scope.autoFill[index] && $scope.autoFill[index].text){
+                                        nameFilter = 'name_filter='+eachObj.key+':'+$scope.autoFill[index].text;
+                                    }
+                                }
+                            }
+                        }); // each
+                    }// end of if
+
+                    //attach idFilter
+                    requestStr += (idFilter)?'&'+idFilter:'';
+
+                    //attach name filter
+                    requestStr += (nameFilter)?'&'+nameFilter:'';
+
+                    //attach nameFilterExactMatch
+                    requestStr += (nameFilterExactMatch)?'&'+nameFilterExactMatch:'';
+
+                    //attach datasource
+                    requestStr += ($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource)?'&data_source='+$scope.reports.reportDefinition.dataSource:'';
+
+                    // timeframe
+                    requestStr += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' + $scope.reports.reportDefinition.timeframe.end_date;
+
+                    //Page no
+                    requestStr += '&page_num=' + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
+
+                    //attach first_dim_id_filter or first_dim_name_filter if it's second level dimension (after generation the report click on icon to the left of each row)
+                    if(!isPrimary) {
+                        if(firstDimId > 0) {
+                            requestStr += '&first_dim_id_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+ firstDimId;
+                        } else {
+                            requestStr += '&first_dim_name_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+firstDimValue;
+                        }
+                    }
+
+                    // metrics attach string
+                    requestStr = _customctrl.createMetricRequestParams(requestStr);
+
+
+
+                    return requestStr;
+                };
 
             _customctrl.errorHandler = function () {
                 $scope.reportDataLoading = false;
@@ -381,7 +501,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             };
 
             _customctrl.getCustomReportData = function () {
-                var paramsObj = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1);
+                var paramsObj = _customctrl.createRequestParams(null,null, $scope.firstDimensionoffset, 1);
 
                 _customctrl
                     .fetchCustomReportData($scope.selectedMetricsList, paramsObj, null, function (respData) {
@@ -575,6 +695,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.reports.schedule = {};
             $scope.reports.reportDefinition.timeframe = {};
             $scope.reports.reportDefinition.dataSource = '';
+
+            $scope.autoFill = {};
 
             $scope.reports.reportDefinition.timeframe.start_date = moment()
                 .subtract(1, 'day')
@@ -1383,7 +1505,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         requestData.reportDefinition.filters.push({
                             dimension: eachObj.key,
                             type: 'Additional',
-                            values: eachObj.value
+                            value: eachObj.value,
+                            id:eachObj.id?eachObj.id:''
                         });
                     } else if (isIntermediateSave) {
                         // if a filter key is selected then show it with the input box
@@ -1577,7 +1700,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.downloadCreateRepBuilder = function (parentIndex, instanceIndex) {
                 var dropdownElem = $('#reportBuilderForm'),
                     reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
-                    params = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1, 0, 'csv');
+                    params = _customctrl.createRequestParams(null,null, $scope.firstDimensionoffset, 1, 0, 'csv');
 
                 $scope.reportDownloadBusy = true;
 
@@ -1768,7 +1891,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 };
             })();
 
-            $scope.showDataForClikedDimension = function (ev, value, rowIndex, loadMore) {
+            $scope.showDataForClikedDimension = function (ev, id,value, rowIndex, loadMore) {
                 var currFirstDimensionElem = $(ev.target).parents('.reportData'),
                     currSecondDimensionElem = currFirstDimensionElem.find('.second_dimension_row_holder'),
                     currentRowIndex = Number(currFirstDimensionElem.attr('data-result-row')),
@@ -1817,7 +1940,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = false;
 
-                    paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset, 0, currentRowIndex);
+                    paramsObj = _customctrl.createRequestParams(id,value, $scope.secondDimensionOffset, 0, currentRowIndex);
 
                     _customctrl.fetchCustomReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function (respData, currentRowIndex) {
                         var resultLen;
@@ -2556,10 +2679,36 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.additionalFilters[index].hide = false;
                     $scope.additionalFilters[index].key = key;
                     $scope.additionalFilters[index].name = $scope.displayName[key];
+                    $scope.additionalFilters[index].value = '';
+                    $scope.additionalFilters[index].id = '';
+
+                    //clear the value box
+                    if($scope.autoFill && $scope.autoFill[index]){
+                        $scope.autoFill[index].text = '';
+                    }
+
                 };
+
+                $scope.onChoosingAditFltValue = function (event, index, autoFiltObj,scrollDim,scrollText) {
+                    var elem = $(event.currentTarget);
+                    elem.closest('.dropdown').find('.autofill-dropdown').hide();
+                    $scope.filterAutoCompletion.onSelectingDropdown(scrollDim,scrollText);
+                    $scope.additionalFilters[index].hide = false;
+                    $scope.additionalFilters[index].id = autoFiltObj.id;
+                    $scope.additionalFilters[index].value = autoFiltObj.name;
+                    if(autoFiltObj.id > 0) {
+                        $scope.autoFill[index].text = autoFiltObj.name+'('+autoFiltObj.id+')';
+                    } else {
+                        $scope.autoFill[index].text = autoFiltObj.name;
+                    }
+                };
+
 
                 $scope.delAditFlt = function (index) {
                     $scope.additionalFilters.splice(index, 1);
+                    if($scope.autoFill[index]) {
+                        $scope.autoFill[index].text = '';
+                    }
                 };
 
                 $scope.addAdditionalFilters = function () {
@@ -2567,6 +2716,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         key: '',
                         name: '',
                         value: '',
+                        id: '',
                         hide: true
                     });
                 };
@@ -3047,7 +3197,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     key: eachObj.dimension,
                                     name: eachObj.name,
                                     value: eachObj.values,
-                                    hide: false
+                                    hide: false,
+                                    id:eachObj.id?eachObj.id:''
                                 });
                             }
                         });
@@ -3175,6 +3326,79 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         },
                     };
                 })();
+
+                $scope.filterAutoCompletion = (function(){
+                    $scope.filtersAutoComplArr = [];
+                    $scope.scrollDimension = undefined;
+                    $scope.scrollText = undefined;
+                    $scope.offSet = 100;
+
+                    $scope.hideVisibleDropdown = function (event) {
+                        event.stopPropagation();
+                        if ( $('.autofill-dropdown').is(':visible')) {
+                            $('.autofill-dropdown').hide();
+                        }
+                    };
+                    return {
+                        fetchFilterAutoSugtn : function(event,dimension,searchKey,isLoadMoreData) {
+                            $scope.filterAutoCompletion.onSelectingDropdown(dimension,searchKey);
+                            if(event) {
+                                var elem = $(event.currentTarget);
+                                if (elem.val() !== '') {
+                                    elem.closest('.dropdown').find('.autofill-dropdown').show();
+                                } else {
+                                    elem.closest('.dropdown').find('.autofill-dropdown').hide();
+                                }
+                            }
+
+                            if(!searchKey) {
+                                $scope.searchKey = '';
+                            }
+
+                            if(isLoadMoreData){
+                                $scope.offSet+= 100;
+                            } else {
+                                $scope.filtersAutoComplArr = [];
+                                $scope.offSet = 100;
+                            }
+
+                            if(dimension) {
+                                var urlParamas = {
+                                    'clientId':$routeParams.accountId,
+                                    'dimension':dimension,
+                                    'offset': $scope.offSet,
+                                    'searchKey': searchKey
+                                };
+                                var url = urlService.customRptFilterAutoSugg(urlParamas);
+
+                                dataService.fetch(url).then(function (response) {
+                                    if(response && response.data && response.data.data.length > 0){
+                                        if(!$scope.filtersAutoComplArr || $scope.filtersAutoComplArr.length === 0) {
+                                            $scope.filtersAutoComplArr = response.data.data;
+                                        } else if($scope.filtersAutoComplArr.length >= 100) {
+                                            $scope.filtersAutoComplArr = $scope.filtersAutoComplArr.concat(response.data.data);
+                                        }
+                                    } else {
+                                        if($scope.filtersAutoComplArr.length > 0) {
+                                            $scope.filtersAutoComplArr.noMoreData = true;
+                                        } else {
+                                            $scope.filtersAutoComplArr.dataNotFound = true;
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        onSelectingDropdown: function(scrollDimension,scrollText) {
+                            $scope.scrollDimension = scrollDimension;
+                            $scope.scrollText = scrollText;
+                        },
+                        loadMoreData: function() {
+                            $scope.filterAutoCompletion.fetchFilterAutoSugtn(null,$scope.scrollDimension,$scope.scrollText,true);
+                        }
+                    };
+                })();
+                //$scope.filterAutoCompletion.fetchFilterAutoSugtn('ad_format');
+
 
                 _customctrl.showCost_permission();
 
