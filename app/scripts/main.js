@@ -40,6 +40,7 @@ require.config({
         chosen:                     'libs/chosen',
         'modernizr-custom':        'libs/modernizr-custom',
         'dlmenu':              'libs/dlmenu',
+        'populatetemplatecache' : 'populate_template_cache',
 
         /*register Services - Start*/
         'local-storage-service':    'common/services/local_storage_service',
@@ -282,7 +283,8 @@ require.config({
         multiselect:           ['angular'],
         'bootstrap-toggle':    ['jquery'],
         showErrors:            ['angular'],
-        'ng-tag':              ['angular']
+        'ng-tag':              ['angular'],
+        populatetemplatecache: ['angular']
     },
 
     priority: ['angular'],

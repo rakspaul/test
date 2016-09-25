@@ -21,11 +21,12 @@
                    value="Select"
                    ng-disabled="!platform.active"
                    class="btn btn-default "
-                   ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)"> 
-            <input type="hidden" name="platformId" value="{{adData.platformId}}">
-            <input type="hidden" name="platformSeatId" value="{{adData.platformSeatId}}">
+                   ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)" > 
             </div>
         </div>
+
+        <input type="hidden" name="platformSeatId" value="{{adData.platformSeatId}}">
+        <input type="hidden" name="platformId" value="{{adData.platformId}}">
         <!-- <div class="col-md-6 platformHolder">
             <span data-ng-bind="textConstants.MORESELF"></span>
             <a href="" data-ng-bind="textConstants.CANTFIND"></a>
@@ -62,7 +63,6 @@
                             </div>
 
                         </div>
-                        <input type="hidden" name="platformId" value="{{adData.platformId}}">
                         <div class="sliderSpacing"></div>
                     </div>
                     <!--- start pop up -->
