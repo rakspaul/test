@@ -422,8 +422,7 @@
                                         <div class="common-load-icon" data-ng-show="discrepancyBusy"></div>
                                         <div class="col-md-12 zeroPadding"
                                              data-ng-show="!discrepancyBusy"
-                                             data-ng-repeat="vendor in strategyPerfDataByDiscrepancy  |
-                                                orderBy : sortTypediscrepancy track by $index"
+                                             data-ng-repeat="vendor in strategyPerfDataByDiscrepancy"
                                              data-ng-include="'discrepancyTpl'">
                                         </div>
                                     </div>
@@ -438,8 +437,7 @@
                                             <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
                                             <div class="row_list_holder col-md-12 zeroPadding">
                                                 <div class="clearfix each_row_list {{vendor.sepratorCls}}"
-                                                     data-ng-repeat="vendor in tactic.perf_metrics |
-                                                        orderBy : sortTypediscrepancy : sortReverse track by $index"
+                                                     data-ng-repeat="vendor in tactic.perf_metrics"
                                                      data-ng-include="'discrepancyTpl'">
                                                 </div>
                                             </div>

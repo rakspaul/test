@@ -31,13 +31,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         //domainReports.highlightSubHeaderMenu();
 
         $scope.sortType             = 'impressions';
-        $scope.sortTypebyformats    = '-impressions';
-        $scope.sortTypebyplatforms  = '-impressions';
-        $scope.sortTypebydaysofweek = 'dimension1';
-        $scope.sortTypeByCreatives  = '-impressions';
-        $scope.sortTypeByAdSizes    = '-impressions';
-        $scope.sortTypeScreens      = '-impressions';
-        $scope.sortTypediscrepancy  = '-imps';
 
         // set the default sort order
         $scope.sortReverse  = false;
