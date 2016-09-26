@@ -127,7 +127,7 @@ define(['angularAMD'],
                         accountId = accountId || $routeParams.accountId;
                         subAccountId = subAccountId || $routeParams.subAccountId;
 
-                        var url = this.buildBaseUrl(accountId, subAccountId);
+                        var url = this.buildBaseUrl(accountId, subAccountId, -1);
 
                         if (campaignId) {
                             url += '/mediaplan/' + campaignId;
