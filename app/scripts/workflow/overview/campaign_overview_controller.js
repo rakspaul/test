@@ -455,7 +455,8 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                         $scope.isAdGroupsSearched = false;
                     }
 
-                    campaignOverView.getAdgroups($routeParams.subAccountId ? $routeParams.subAccountId : $routeParams.accountId, $routeParams.campaignId, $scope.adGroupsSearch.term);
+                    campaignOverView.getAdgroups( ($routeParams.subAccountId ||$routeParams.accountId),
+                        $routeParams.campaignId, $scope.adGroupsSearch.term);
                 }
             };
 
