@@ -345,6 +345,8 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.TOTAL_VIEW = 'Total Views';
         this.TOTAL_EVENTS = 'Total Events';
         this.TOTAL_SPEND = 'Total Spend';
+        this.MARGIN_PERCENTAGE = 'Margin %';
+        this.SERVICE = 'Service';
         this.CONVERSIONS = 'Conversions';
         this.DELIVERY = 'Delivery';
 

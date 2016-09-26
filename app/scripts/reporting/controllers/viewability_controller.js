@@ -70,6 +70,37 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
         $scope.strategyLoading =  true;
 
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+            $scope.specialSort(type);
+            $scope.removeKpiActive();
+        };
+
+        $scope.sortClassFunction = function(a){
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
+
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+
+            if ($('.kpi-dd-holder').hasClass('active')) {
+                $('.each_cost_col').removeClass('active');
+                return sortDirection;
+            } else{
+                return isActive + ' ' + sortDirection;
+            }
+        };
+
+        $scope.specialSort = function(passedSortype){
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                $scope.tacticPlatformData = _.sortBy( $scope.tacticPlatformData, function(item) {
+                    return $scope.sortReverse ? -item[0][passedSortype] : item[0][passedSortype];
+                });
+            } else {
+                $scope.sortType = passedSortype;
+            }
+        };
+
         $scope.init = function () {
             $scope.viewData = {};
             $scope.strategyBusy = false;

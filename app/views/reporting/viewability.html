@@ -29,26 +29,38 @@
                 <div class="viewability_details_outer_container smallScreenScrollContent"
                      data-ng-show="(!adFormats.videoAds && adFormats.displayAds) || !videoMode">
                     <div class="viewability_header clearfix">
-                        <div class="each_col sec_col marginTopTwenty">
-                            <span data-ng-bind="textConstants.DELIVERED_IMPS">
+                        <div class="each_col sec_col viewability_delivered_col">
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('ias_imps_delivered')"
+                                  data-ng-click="clickToSort('ias_imps_delivered');"
+                                  data-ng-bind="textConstants.DELIVERED_IMPS">
                             </span>
                         </div>
                         <div class="each_col third_col">
-                            <div class="text-center" data-ng-bind="textConstants.MEASURABLE"></div>
-                            <div class="clearfix sub_col">
-                                <span  data-ng-bind="textConstants.IMP_WITH_DOT">
+                            <span data-ng-bind="textConstants.MEASURABLE"></span>
+                            <div class="sub_col">
+                                <span class="icon_text_holder"
+                                      data-ng-class="sortClassFunction('ias_measurable_imps')"
+                                      data-ng-click="clickToSort('ias_measurable_imps')"
+                                      data-ng-bind="textConstants.IMP_WITH_DOT">
                                 </span>
-                                <span >
-                                    %
+                                <span class="icon_text_holder"
+                                      data-ng-class="sortClassFunction('measurable_imps_perc')"
+                                      data-ng-click="clickToSort('measurable_imps_perc')">
                                 </span>
                             </div>
                         </div>
                         <div class="each_col forth_col">
-                            <div class="text-center" data-ng-bind="textConstants.VIEWABLE"></div>
-                            <div class="clearfix sub_col">
-                                <span  data-ng-bind="textConstants.IMP_WITH_DOT">
+                            <span data-ng-bind="textConstants.VIEWABLE"></span>
+                            <div class="sub_col">
+                                <span class="icon_text_holder"
+                                      data-ng-class="sortClassFunction('ias_measurable_imps')"
+                                      data-ng-click="clickToSort('ias_measurable_imps')"
+                                      data-ng-bind="textConstants.IMP_WITH_DOT">
                                 </span>
-                                <span class="tooltip_holder">
+                                <span class="tooltip_holder icon_text_holder"
+                                      data-ng-class="sortClassFunction('measurable_imps_perc')"
+                                      data-ng-click="clickToSort('measurable_imps_perc')">
                                     %<sup>*</sup>
                                     <div class="common_tooltip"
                                          data-ng-bind="textConstants.BASED_ONLY_ON_MEASURABLE_IMPS">
@@ -57,19 +69,33 @@
                             </div>
                         </div>
                         <div class="each_col fifth_col">
-                            <div data-ng-bind="textConstants.VIEWABLE + ' %'"></div>
-                            <div class="clearfix sub_col">
-                                <span  data-ng-bind="textConstants.ONE_S">
+                            <span data-ng-bind="textConstants.VIEWABLE + ' %'"></span>
+                            <div class="sub_col">
+                                <span class="icon_text_holder"
+                                      data-ng-class="sortClassFunction('viewable_1s_perc')"
+                                      data-ng-click="clickToSort('viewable_1s_perc')"
+                                      data-ng-bind="textConstants.ONE_S">
                                 </span>
-                                <span  data-ng-bind="textConstants.FIVE_S">
+                                <span class="icon_text_holder"
+                                      data-ng-class="sortClassFunction('viewable_5s_perc')"
+                                      data-ng-click="clickToSort('viewable_5s_perc')"
+                                      data-ng-bind="textConstants.FIVE_S">
                                 </span>
-                                <span 
+                                <span class="icon_text_holder"
+                                      data-ng-class="sortClassFunction('viewable_15s_perc')"
+                                      data-ng-click="clickToSort('viewable_15s_perc')"
                                       data-ng-bind="textConstants.FIFTEEN_S">
                                 </span>
                             </div>
                         </div>
-                        <div class="each_col suspicious_col marginTopTwenty">
-                            <span data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
+                        <div class="each_col suspicious_col">
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('susp_activity_perc')"
+                                  data-ng-click="clickToSort('susp_activity_perc')"
+                                  data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
+                            </span>
+                            <span  class="icon_text_holder">
+                                (%)
                             </span>
                         </div>
                     </div>
@@ -212,28 +238,39 @@
         <div class="viewability_video_mode_container">
             <div class="viewability_details_video_mode_outer_container" data-ng-show="adFormats.videoAds && videoMode">
                 <div class="viewability_header clearfix">
-                    <div class="each_col sec_col marginTopTwenty">
-                        <span
+                    <div class="each_col sec_col">
+                        <span class="icon_text_holder"
+                              data-ng-class="sortClassFunction('ias_imps_delivered')"
+                              data-ng-click="clickToSort('ias_imps_delivered')"
                               data-ng-bind="textConstants.DELIVERED_IMPS">
                         </span>
                     </div>
                     <div class="each_col third_col">
-                        <div class="text-center" data-ng-bind="textConstants.MEASURABLE"></div>
-                        <div class="clearfix sub_col">
-                            <span
+                        <span data-ng-bind="textConstants.MEASURABLE"></span>
+                        <div class="sub_col">
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('ias_measurable_imps')"
+                                  data-ng-click="clickToSort('ias_measurable_imps')"
                                   data-ng-bind="textConstants.IMP_WITH_DOT">
                             </span>
-                            <span>
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('measurable_imps_perc')"
+                                  data-ng-click="clickToSort('measurable_imps_perc')">
                                 %
                             </span>
                         </div>
                     </div>
                     <div class="each_col ad_col">
-                        <div class="text-center" data-ng-bind="textConstants.VIEWABLE"></div>
-                        <div class="clearfix sub_col">
-                            <span data-ng-bind="textConstants.IMP_WITH_DOT">
+                        <span data-ng-bind="textConstants.VIEWABLE"></span>
+                        <div class="sub_col">
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('ias_measurable_imps')"
+                                  data-ng-click="clickToSort('ias_measurable_imps')"
+                                  data-ng-bind="textConstants.IMP_WITH_DOT">
                             </span>
-                            <span class="tooltip_holder">
+                            <span class="tooltip_holder icon_text_holder"
+                                  data-ng-class="sortClassFunction('measurable_imps_perc')"
+                                  data-ng-click="clickToSort('measurable_imps_perc')">
                                    %<sup>*</sup>
                                 <div class="common_tooltip"
                                      data-ng-bind="textConstants.BASED_ONLY_ON_VIEWABLE_IMPS">
@@ -251,23 +288,34 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="clearfix sub_col">
-                            <span>
+                        <div class="sub_col">
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('videos_1q_completed')"
+                                  data-ng-click="clickToSort('videos_1q_completed')">
                                 25%
                             </span>
-                            <span>
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('videos_2q_completed')"
+                                  data-ng-click="clickToSort('videos_2q_completed')">
                                 50%
                             </span>
-                            <span>
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('videos_3q_completed')"
+                                  data-ng-click="clickToSort('videos_3q_completed')">
                                 75%
                             </span>
-                            <span>
+                            <span class="icon_text_holder"
+                                  data-ng-class="sortClassFunction('videos_4q_completed')"
+                                  data-ng-click="clickToSort('videos_4q_completed')">
                                 100%
                             </span>
                         </div>
                     </div>
-                    <div class="each_col suspicious_act_col marginTopTwenty">
-                        <span data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
+                    <div class="each_col suspicious_act_col">
+                        <span class="icon_text_holder"
+                              data-ng-class="sortClassFunction('videos_4q_completed')"
+                              data-ng-click="clickToSort('videos_4q_completed')"
+                              data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
                         </span>
                     </div>
                 </div>
