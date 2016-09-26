@@ -70,7 +70,7 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             $scope.sortType = type;
             $scope.sortReverse = !$scope.sortReverse;
             $scope.removeKpiActive();
-        }
+        };
 
         $scope.sortClassFunction = function(a){
             var isActive = (a === $scope.sortType) ?  'active' : '',
@@ -84,7 +84,7 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             } else{
                 return isActive + ' ' + sortDirection;
             }
-        }
+        };
 
         $scope.init = function () {
             $scope.strategyCostData = [];
@@ -296,7 +296,7 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             $('.direction_arrows div.kpi_arrow_sort').removeClass('active');
         };
 
-        $scope.sortClassFunction = function (a,b,c) {
+        $scope.sortClassFunction = function (a) {
             var isActive = (a === $scope.sortType) ?  'active' : '',
                 sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 

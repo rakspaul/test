@@ -4,10 +4,10 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
     angularAMD.controller('PerformanceController', ['$scope', '$rootScope', '$filter', 'kpiSelectModel', 'campaignSelectModel',
         'strategySelectModel', 'dataService', 'domainReports', 'constants',
         'timePeriodModel', 'brandsModel', 'loginModel', 'urlService',
-        'advertiserModel', 'vistoconfig', 'featuresService', 'utils', function ($scope, $rootScope, $filter, kpiSelectModel, campaignSelectModel,
+        'advertiserModel', 'vistoconfig', 'featuresService', 'utils','pageLoad', function ($scope, $rootScope, $filter, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel, vistoconfig, featuresService, utils) {
+                                                             advertiserModel, vistoconfig, featuresService, utils, pageLoad) {
 
         var _customCtrl = this,
             extractAdFormats,
@@ -159,7 +159,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                 url,
                 totalValIndex = null,
-                tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
+                tab = _.compact(_.pluck(performanceTabMap, [param.tab]))[0];
 
             if (Number($scope.selectedStrategy.id) >= 0) {
                 param.queryId = performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
@@ -224,7 +224,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                                 $scope['strategyPerfDataByTactic' + tab]  =
 
-                                    _.filter(result.data.data, function (item, i) {
+                                    _.filter(result.data.data, function (item) {
                                         if(item.dimension === 'Line Item Totals') {
                                             item.sepratorCls = 'sepratorCls';
                                         }
@@ -596,7 +596,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.sortReverse = !$scope.sortReverse;
             $scope.specialSort(type);
             $scope.removeKpiActive();
-        }
+        };
 
         $scope.sortClassFunction = function (a) {
             var isActive = (a === $scope.sortType) ?  'active' : '',

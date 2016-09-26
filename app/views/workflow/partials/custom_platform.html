@@ -20,7 +20,7 @@
         <!-- remove commented code below to get the direct/deal html -->
         <div class="form-group col-md-12 zeroPadding buyingPlatformContainer">
             <div class="" ng-if="adData.customInpNameSpaceList && adData.customInpNameSpaceList.length >0">
-                <span ext6 class="greyTxt col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY"></span>
+                <span class="greyTxt col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY"></span>
                 <div class="btn-group create" role="group" aria-label="...">
                     <button ng-repeat="tabName in adData.customInpNameSpaceList" type="button"
                             ng-disabled="(!tabName.hasChildren || (tabName.displayName === 'Deal' || tabName.displayName === 'Direct')  && adData.budgetType.toLowerCase() === 'cost')"
