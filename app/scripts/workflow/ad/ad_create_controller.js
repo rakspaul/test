@@ -2109,13 +2109,5 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 var campaignId = vistoconfig.getSelectedCampaignId();
                 $location.url(urlBuilder.mediaPlanOverviewUrl(campaignId));
             };
-
-            // on Broswers back button customreport behaving wierdly, this piece of code fixes it
-            $scope.$on('$locationChangeStart', function (event, next) {
-                if(next.indexOf('customreport') > -1){
-                    var customReportUrl = next.split('/')[3];
-                    $location.url('/' + customReportUrl);
-                }
-            });
         }]);
 });
