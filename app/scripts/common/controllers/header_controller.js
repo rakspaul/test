@@ -134,6 +134,8 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             };
 
             $scope.navigateToTab = function (url, event, page) {
+
+
                 // TODO: Temp code - get rid of it later.
                 if (_.isEmpty($routeParams) && page !== 'creativelist') {
                     return;
@@ -166,9 +168,9 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                 } else if (page === 'customReports') {
                     $location.url(urlBuilder.customReportsUrl());
                 } else if (page === 'scheduleReports') {
-                    urlBuilder.customReportsListUrl(url);
+                    urlBuilder.customReportsListUrl();
                 } else if (page === 'collectiveInsights') {
-                    urlBuilder.collectiveInsightsUrl(url);
+                    urlBuilder.collectiveInsightsUrl();
                 } else if (page === 'uploadReports') {
                     $location.url(urlBuilder.uploadReportsUrl());
                 } else if (page === 'uploadedReportsList') {

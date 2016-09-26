@@ -291,20 +291,18 @@ define(['angularAMD'],
 
                     },
 
-                    customReportsListUrl = function (inputUrl) {
+                    customReportsListUrl = function () {
 
-                        var url = '/a/' + $routeParams.accountId + '/' + inputUrl;
+                        var url = '/a/' + $routeParams.accountId + '/reports/schedules';
 
                         $location.url(url);
 
                     },
 
 
-                    collectiveInsightsUrl = function (inputUrl) {
+                    collectiveInsightsUrl = function () {
 
-                        var url = this.buildBaseUrl();
-
-                        url += '/' + inputUrl;
+                        var url = this.buildBaseUrl() + '/reports/list';
 
                         $location.url(url);
 

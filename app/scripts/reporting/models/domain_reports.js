@@ -57,11 +57,11 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                     fParams = featuresService.getFeatureParams();
 
                 if (fParams[0].scheduled_reports === true) {
-                    tabs.push({ href:'reports/schedules', title: 'My Reports', moduleName : 'scheduleReports'});
+                    tabs.push({title: 'My Reports', moduleName : 'scheduleReports'});
                 }
 
                 if (fParams[0].collective_insights === true) {
-                    tabs.push({href: 'reports/list', title: 'Collective Insights', moduleName : 'collectiveInsights'});
+                    tabs.push({title: 'Collective Insights', moduleName : 'collectiveInsights'});
                 }
 
                 return {
