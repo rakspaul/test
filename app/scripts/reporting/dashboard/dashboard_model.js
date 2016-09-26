@@ -16,6 +16,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                             'Ended' : 'Ended'
                         },
                         selectedStatus = getSelectedStatus();
+                        };
 
 
                     if(stateMapper[selectedStatus]) {

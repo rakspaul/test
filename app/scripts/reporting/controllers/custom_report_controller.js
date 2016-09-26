@@ -354,7 +354,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 return params;
             }; */
 
-                _customctrl.createRequestParams = function(firstDimId,firstDimValue, offset, isPrimary, rowIndex_2D){
+                _customctrl.createRequestParams = function(firstDimId,firstDimValue, offset, isPrimary, rowIndex_2D,dataFormat){
                     var
                         dimensionDataKey = isPrimary ? 'primary' : 'secondary',
                         filterDataKey = isPrimary ? 'secondary' : 'primary',
@@ -386,6 +386,12 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     } else {
                         //for Secondary level attach only secondary key though primary key is also selected.
                         requestStr+= $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                    }
+
+                    //attach key for download
+                    console.log("sapna dataFormat: ",dataFormat,isPrimary);
+                    if((dataFormat && dataFormat === 'csv') && (!isPrimary)){
+                        requestStr+= ','+ $scope.reports.reportDefinition.dimensions.secondary.dimension;
                     }
 
                     //if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
@@ -1697,7 +1703,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 }
             };
 
-            $scope.downloadCreateRepBuilder = function (parentIndex, instanceIndex) {
+            $scope.downloadCreateRepBuilder = function (parentIndex, instanceIndex) { console.log("download create builder")
                 var dropdownElem = $('#reportBuilderForm'),
                     reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
                     params = _customctrl.createRequestParams(null,null, $scope.firstDimensionoffset, 1, 0, 'csv');
@@ -3333,6 +3339,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.scrollText = undefined;
                     $scope.offSet = 100;
 
+
                     $scope.hideVisibleDropdown = function (event) {
                         event.stopPropagation();
                         if ( $('.autofill-dropdown').is(':visible')) {
@@ -3381,6 +3388,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     } else {
                                         if($scope.filtersAutoComplArr.length > 0) {
                                             $scope.filtersAutoComplArr.noMoreData = true;
+                                            $scope.filtersAutoComplArr.dataNotFound = false;
                                         } else {
                                             $scope.filtersAutoComplArr.dataNotFound = true;
                                         }

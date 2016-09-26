@@ -218,6 +218,9 @@
                                                     <ul class="dropdown-menu autofill-dropdown"
                                                         lr-infinite-scroll="filterAutoCompletion.loadMoreData" scroll-threshold="200"
                                                         style="min-width: 200px;display:none;">
+                                                        <div class="common-loading-area" ng-if="(!(filtersAutoComplArr.length > 0)&& (!filtersAutoComplArr.dataNotFound))"></div>
+                                                        <div class="no_data_found marginBottom" style="margin-top:10px;" ng-if="filtersAutoComplArr.dataNotFound">No Data Found</div>
+
                                                         <li data-ng-repeat="filterAutoSug in filtersAutoComplArr | filter : autoFill[filterIndex].text"
                                                             id="{{filterAutoSug}}"
                                                             data-ng-click="onChoosingAditFltValue( $event, filterIndex, filterAutoSug, addFilts.key, autoFill[filterIndex].text)"
