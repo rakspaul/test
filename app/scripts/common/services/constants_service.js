@@ -1302,6 +1302,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.LARGE_ZIP_CODE_LENGTH = 'Request zip code length is to large';
 
 
+
         //Admin Page
         this.ABOUT_THIS_ACCOUNT = 'About this Account';
         this.ACCOUNT_TYPE = 'Account Type:';
@@ -1342,6 +1343,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.TOTAL_MARKUP_BROKEN = 'The total markup will be broken down into the following portions in the invoice files:';
         this.PCT_NET_REVENUE = '% of Net Revenue';
         this.PCT_NET_REVENUE_DESCRIPTION = 'Visto will charge a percentage of Net Revenue';
+
 
         this.ADVERTISER_BILLING_SETTINGS_ERROR = 'There is an error in Account Advertiser Billing Settings';
         this.CLIENT_BILLING_SETTINGS_ERROR = 'There is an error in Client Billing Settings';
