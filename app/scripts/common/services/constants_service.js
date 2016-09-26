@@ -1,5 +1,5 @@
-define(['angularAMD'], function (angularAMD) { // jshint ignore:line
-    angularAMD.service('constants', ['$locale', function ($locale) {
+define(['angularAMD'], function(angularAMD) { // jshint ignore:line
+    angularAMD.service('constants', ['$locale', function($locale) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 10;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
@@ -33,7 +33,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.REPORTS_OVERVIEW = 'Reports Overview';
         this.ADMIN = 'Admin';
         this.INVOICE_TOOL = 'Billing';
-
+        
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
         this.ACTIVE = 'active';
@@ -113,7 +113,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.DELETE_CREATIVES = 'Are you sure you want to archive creatives?';
         this.CPMV = 'CPMv';
 
-        this.OPEN_EXCHANGE = 'Open Exchange';
+        this.OPEN_EXCHANGE =  'Open Exchange';
         this.DEAL = 'Deal';
         this.DIRECT = 'Direct';
         this.PLACEMENT = 'Placement';
@@ -132,11 +132,11 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
 
         this.COLLECTIVE_INSIGHTS = 'Collective Insights';
         this.UPLOAD_REPORT = 'Upload Report';
-        this.REPORT_LABEL = 'Report';
-        this.ADD_KEYWORDS = 'Add Keywords (optional)';
-        this.SELECT_DIMENTION = 'Select Dimension(s)';
-        this.ALL_TYPES = 'All Types';
-        this.AT_ANY_TIME = 'At any time';
+        this.REPORT_LABEL ='Report';
+        this.ADD_KEYWORDS ='Add Keywords (optional)';
+        this.SELECT_DIMENTION ='Select Dimension(s)';
+        this.ALL_TYPES ='All Types';
+        this.AT_ANY_TIME ='At any time';
 
         this.SCHEDULED_REPORTS = 'My Reports';
         this.REPORT_TYPES = 'Report Types';
@@ -144,10 +144,10 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.REPORT_GENERATED = 'Report Generated';
         this.DIMENSIONS_FIVE = 'Dimensions (select up to 5)';
         this.SCHEDULE_LABEL = 'Schedule';
-        this.GENERATE_LABEL = 'Generate';
-        this.SAVE_LABEL = 'Save';
-        this.SAVE_PUSH_LABEL = 'Save & Push';
-        this.RESET_LABEL = 'Clear';
+        this.GENERATE_LABEL ='Generate';
+        this.SAVE_LABEL ='Save';
+        this.SAVE_PUSH_LABEL ='Save & Push';
+        this.RESET_LABEL ='Clear';
         this.SET_SCHEDULE = 'Set Schedule';
         this.SAVE_SCHEDULE = 'Save/Schedule';
         this.NEW_REPORT = 'New Report';
@@ -160,7 +160,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.SCHEDULE_END_DATE_LABEL = 'Ends on';
         this.SCHEDULER_UPDATE = 'Do you want to update the Schedule report ?';
         this.SAVED_UPDATE = 'Do you want to update the Saved report ?';
-        this.REPORT_BUILDER_TIMEFRAME = 'Select Timeframe';
+        this.REPORT_BUILDER_TIMEFRAME ='Select Timeframe';
         this.SCHEDULE_LIST_REPORT_TYPE = 'Report Types';
         this.SCHEDULE_LIST_DATE = 'Report Generated';
         this.SCHEDULE_LIST_DIMENSIONS = 'Dimensions';
@@ -180,11 +180,11 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             'Custom dates'
         ];
         this.REPORT_LIST_GENERATEON = [
-            {key: 'Yesterday', value: 'Yesterday'},
-            {key: 'Last7Days', value: 'Last 7 days'},
-            {key: 'Last2Weeks', value: 'Last 2 weeks'},
-            {key: 'LastMonth', value: 'Last month'},
-            {key: 'LastQuater', value: 'Last quarter'}
+            { key:'Yesterday', value:'Yesterday'},
+            { key:'Last7Days', value:'Last 7 days'},
+            { key:'Last2Weeks', value:'Last 2 weeks'},
+            { key:'LastMonth', value:'Last month'},
+            { key:'LastQuater', value:'Last quarter'}
         ];
 
         this.REPORTS_DATE_FORMAT = 'D MMM YYYY';
@@ -427,13 +427,9 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
-        this.UPGRADE_BROWSER_MESSAGE1 = 'Unfortunately, we do not support your browser. Please upgrade to IE {findVersion}.';
-        this.UPGRADE_BROWSER_MESSAGE2 = 'Best viewed in {browserName} version {findVersion} and above. Please upgrade your browser.';
+        this.UPGRADE_BROWSER_MESSAGE1 =  'Unfortunately, we do not support your browser. Please upgrade to IE {findVersion}.';
+        this.UPGRADE_BROWSER_MESSAGE2 =  'Best viewed in {browserName} version {findVersion} and above. Please upgrade your browser.';
         this.UPGRADE_BROWSER_MESSAGE3 = 'Unfortunately, we don\'t yet support your browser. Please use {browserList}.';
-
-        this.SIGN_IN_LABEL = 'Sign In';
-        this.USERNAME_PLACEHOLDER = 'Username';
-        this.PASSWORD_LABEl = 'Password';
 
         this.STRATEGY = 'Ad Group';
 
@@ -683,8 +679,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
 
         this.CARD_VIEW_REALTIME = 'Real-time Card View';
         this.CARD_VIEW_STANDARD = 'Standard Card View';
-        this.CARD_VIEW_REALTIME_MESSAGE = 'The real-time view of Media Plans uses the most recent Visto Tracker<sup>TM</sup> data available. <br/> ' +
-            'Real-time data provides preliminary numbers. Values may change after data audit.';
+        this.CARD_VIEW_REALTIME_MESSAGE = 'The real-time view of Media Plans uses the most recent Visto Tracker<sup>TM</sup> data available. <br/> Real-time data provides preliminary numbers. Values may change after data audit.';
 
 
         //Ad Create: Header
@@ -730,8 +725,8 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.ADGROUP_FLIGHTPASSED = 'Ad flight dates cannot be edited';
         this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
         this.BUDGET_EXCEEDED = 'Cannot create Ad Group as the Media Plan does not have sufficient budget',
-            this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = 'Cannot create Ad Group as Media Plan has ended',
-            this.SETUPBUDGET = 'How would you like to this Ad to book and deliver?';
+        this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = 'Cannot create Ad Group as Media Plan has ended',
+        this.SETUPBUDGET = 'How would you like to this Ad to book and deliver?';
         this.MEASUREBUDGET = 'How would you like to measure this Ad?';
         this.HOWMUCHSPEND = 'How much would you like to spend?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
@@ -750,9 +745,9 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.TARGETVALUE = 'Target Value';
         this.RATE = 'Rate';
         this.VERIFICATION_TITLE = 'Which system will validate delivery and measure viewability for this Ad?';
-        this.VERIFICATION_VENDOR = 'Verification Vendor';
-        this.VERIFICATION_DEFAULT = 'None (Disable Verification Tracking)';
-        this.VERIFICATION_DEFAULT_SMALL = 'None';
+        this.VERIFICATION_VENDOR = 'Verification Vendor' ;
+        this.VERIFICATION_DEFAULT = 'None (Disable Verification Tracking)' ;
+        this.VERIFICATION_DEFAULT_SMALL = 'None' ;
 
         //Ad Create: 3 Buying Platform
         this.SELECTBUYPLAT = 'Select Buying Platform';
@@ -934,6 +929,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.ZERO_MESSAGE = 'You have entered $0 for your rate or billable amount.';
 
 
+
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
@@ -1067,7 +1063,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
             'Be sure to consult with Visto support or your Collective Visto account manager before using this code in a live ad.';
         this.TAB_CHANGED = 'tab_changed';
 
-        // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
+       // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
         //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
         this.INVOICE_ADJUSTMENT_FIELD_EMPTY = 'Please enter valid Type, Notes, Amounts';
 
@@ -1199,10 +1195,10 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.SELECT_CONVERSION_PIXELS = 'Conversion Pixel';
         this.SELECT_SYSTEM_OF_RECORD = 'System of Record';
         this.SELECT_VOLUME_TYPE = 'Volume Type';
-        this.AD_GRP_NAME = 'Ad Group Name';
+        this.AD_GRP_NAME='Ad Group Name';
         this.TOTAL_BILLABLE_AMOUNT = 'Total Billable Amount';
 
-        this.MEDIA_PLAN_CLONE = 'Media Plan Clone';
+        this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?';
 
         this.MEDIA_PLAN_TOTAL = 'Media Plan Total:';
@@ -1218,13 +1214,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.CLIENT_LOADED = 'clientLoaded';
 
         // Invoice Report
-        this.INVOICE_ACCOUNT = 'Account:';
-        this.INVOICE_ADVERTISER = 'Advertiser:';
-        this.INVOICE_ID = 'Invoice ID:';
-        this.INVOICE_MONTH = 'Invoice Month:';
-        this.INVOICE_MEDIA_PLAN = 'Media Plan';
         this.INVOICE_REPORT = 'Invoice Reports';
-        this.INVOICE_NOTES = 'Notes:';
         this.ADJUSTMENTS = 'Adjustments';
         this.INVOICE_REPORT_ADD_ADJUSTMENT = 'Add Adjustment to Invoice Report';
         this.INVOICE_DOWNLOAD = 'Download Invoice Report';
@@ -1260,7 +1250,7 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.CODE_FIELD_EMPTY = 'Please add code';
 
         //vendors page
-        this.VENDORS = 'Vendors';
+        this.VENDORS = 'Vendors' ;
         this.VENDOR_CONFIGURATION = 'My Vendor Configurations';
         this.CONFIGURATION = 'Configuration';
         this.ID = 'ID';
@@ -1268,88 +1258,42 @@ define(['angularAMD'], function (angularAMD) { // jshint ignore:line
         this.OWNER = 'Owner';
         this.CURRENCY = 'Currency';
         this.UPDATED = 'Updated';
-        this.VIEW_SUMMARY = 'View Summary';
-        this.CONTRACT_DATES = 'Contract Dates';
-        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections';
-        this.ENABLE = 'Enable';
-        this.OFFERING = 'Offering';
-        this.BASE_RATE_TYPE = 'Base Rate & Type';
-        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections';
+        this.VIEW_SUMMARY = 'View Summary' ;
+        this.CONTRACT_DATES = 'Contract Dates' ;
+        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
+        this.ENABLE = 'Enable' ;
+        this.OFFERING = 'Offering' ;
+        this.BASE_RATE_TYPE = 'Base Rate & Type' ;
+        this.SEAT_ID_CONNECTIONS = 'Seat ID | Connections' ;
         this.REPORT_BUILDER_METRIC_TOOLTIP = 'Metrics that don\'t apply to the selected Dimension(s) will be disabled.';
         this.WF_UNSPECIFIED = 'Unspecified Size';
 
-        this.NOTHINGSELECTED = 'Nothing is Selected';
-        this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area';
+        this.NOTHINGSELECTED = 'Nothing is Selected' ;
+        this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
         this.ERROR = 'Unkown Error:';
         this.NOTE_ADCHOICE_CODE = 'Note: Empty ad choice field will take default ad choice code from the system.';
         this.WF_PAUSE_ALL = 'Pause All';
         this.WF_RESUME_ALL = 'Resume All';
         this.SELECTCOUNTRY = 'Select Country';
-        this.PASSWORD_LENGTH_ERROR = 'Password should have more than 6 characters';
-        this.PASSWORD_MATCH_ERROR = 'Passwords are not matching';
-        this.PASSWORD = 'Password';
-        this.UPDATE_PASSWORD = 'Update Password';
-        this.CONFIRM_PASSWORD = 'Confirm Password';
-        this.CHANGE_PASSWORD = 'Change Password';
-        this.PASSWORD_SUCCESS_MSG = 'Password successfully changed';
+        this.PASSWORD_LENGTH_ERROR = 'Password should have more than 6 characters' ;
+        this.PASSWORD_MATCH_ERROR = 'Passwords are not matching' ;
+        this.PASSWORD = 'Password' ;
+        this.UPDATE_PASSWORD = 'Update Password' ;
+        this.CONFIRM_PASSWORD = 'Confirm Password' ;
+        this.CHANGE_PASSWORD = 'Change Password' ;
+        this.PASSWORD_SUCCESS_MSG = 'Password successfully changed' ;
         this.TECH_FEES = 'Tech';
-        this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)';
-        this.LINEITEM_SETUP = 'Line Item Setup';
-        this.LINEITEM_EDIT = 'Line Item Edit';
+        this.SPECIAL_CHARACTER_ERROR = 'Please omit any punctuation or special characters (e.g. &, @, etc)' ;
+        this.LINEITEM_SETUP = 'Line Item Setup' ;
+        this.LINEITEM_EDIT = 'Line Item Edit' ;
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER = 'There are no Media Plans for the selected Advertiser';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND = 'There are no Media Plans for the selected Brand';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT = 'There are no Media Plans for the selected account';
         this.LARGE_ZIP_CODE_LENGTH = 'Request zip code length is to large';
-
-
-
-        //Admin Page
-        this.ABOUT_THIS_ACCOUNT = 'About this Account';
-        this.ACCOUNT_TYPE = 'Account Type:';
-        this.ACCOUNT_NAME = 'Account Name:';
-        this.ACCOUNT_CODE = 'Account Code:';
-        this.ADMIN_CURRENCY = 'Currency:';
-        this.ADMIN_GEOGRAPHY = 'Geography:';
-        this.ADMIN_TIMEZONE = 'Timezone:';
-        this.AD_CHOICES = 'Ad Choices';
-        this.ENTER_CODE = 'Enter Code:';
-        this.ENABLE_AD_CHOICES = 'Enable Ad Choices:';
-        this.AD_CHOICES_CODE_BLOCK = 'Ad Choices Code Block:';
-        this.BILLING_METHOD = 'Billing Method';
-        this.NON_BILLABLE_ACCOUNT = 'Non-billable Account';
-        this.VISTO_LICENCE_USAGE_FEES = 'VISTO Licence & Usage Fees';
-        this.SELECT_FEE_TYPE = 'Select Fee Type:';
-        this.MONTHLY_FLAT_FEE = 'Monthly Flat Fee:';
-        this.MONTHLY_BASIS = 'This fee is applied on a monthly basis.';
-        this.BILLING_FEE = 'Fee';
-        this.BILLING_START = 'Billing Start';
-        this.BILLING_TOTAL_CPM = 'Total CPM';
-        this.BILLING_TOTAL_CPM_DESCRIPTION = 'CPM rate, calculated from Visto Trackers impression counts for all Media Plans run for this account and all of its child accounts.';
-        this.ITEMIZE_CPM_FEES = 'Itemize CPM fees';
-        this.BILLING_TOTAL_CPM_FEES = 'The total CPM fees will be broken down into the following portions in the invoice files:';
-        this.BILLING_LABEL = 'Label';
-        this.BILLING_PORTION = 'Portion';
-        this.TOTAL_COGS = 'Total COGS + %';
-        this.TOTAL_COGS_DESCRIPTION = 'Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, ad serving costs), plus a percentage markup.';
-        this.TOTAL_MARKUP = 'Total Markup';
-        this.ITEMIZE_FEES = 'Itemize Fees';
-        this.TOTAL_MARKUP = 'The total markup will be broken down into the following portions in the invoice files:';
-        this.TOTAL_COGS_CPM = 'Total COGS + CPM';
-        this.TOTAL_COGS_CPM_DESCRIPTION = 'Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, adserving costs), plus a percentage markup';
-        this.TOTAL_PCT_MARKUP = 'Total Pct. Markup';
-        this.PCT_GROSS_REVENUE = '% of Gross Revenue';
-        this.PCT_GROSS_REVENUE_DESCRIPTION = 'Visto will change a percentage of Gross Revenue (Sum of Billable Amounts for ' +
-            'all Line Item run under this Account and its Sub-Accounts).';
-        this.TOTAL_MARKUP_BROKEN = 'The total markup will be broken down into the following portions in the invoice files:';
-        this.PCT_NET_REVENUE = '% of Net Revenue';
-        this.PCT_NET_REVENUE_DESCRIPTION = 'Visto will charge a percentage of Net Revenue';
-
-
         this.ADVERTISER_BILLING_SETTINGS_ERROR = 'There is an error in Account Advertiser Billing Settings';
         this.CLIENT_BILLING_SETTINGS_ERROR = 'There is an error in Client Billing Settings';
         this.BILLING_SETTING_PERCENT_ERROR = 'The rate should be 0 - 100%';
         this.BILLING_ITEMIZATION_SUM_ERROR = 'Itemization item values must add up to ';
         this.BILLING_ITEMIZATION_PERCENT_ERROR = 'Itemization item values must add up to ';
-
     }]);
 });
