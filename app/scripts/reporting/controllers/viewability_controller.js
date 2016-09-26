@@ -76,9 +76,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.removeKpiActive();
         };
 
-        $scope.sortClassFunction = function(a, b, c){
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
+        $scope.sortClassFunction = function(a){
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
 

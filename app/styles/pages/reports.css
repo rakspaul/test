@@ -4184,7 +4184,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_cost_block .drop_list,
 .cost_container .drop_list {
-  width: 80%;
+  width: 80% !important;
 }
 #reports_platform_cost_block .direction_arrows,
 .cost_container .direction_arrows {
