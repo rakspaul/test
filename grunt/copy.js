@@ -37,7 +37,7 @@ module.exports =function(grunt) {
                     '{,*/}*.html',
                     '!*.master.html',
                     'fonts/{,*/}*.*',
-                    'views/**',
+                    //'views/**',
                     'conf/{,*/}*.*',
                     'scripts/**'
 

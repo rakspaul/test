@@ -172,16 +172,15 @@ define(['angularAMD'], function (angularAMD) {
                 },
 
                 APIActionData = function (clientId, campaignId) {
-
                     return vistoconfig.apiPaths.workflow_apiServicesUrl +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId + '/actions';
                 },
 
                 APICampaignDropDownList = function (clientId, advertiserId, brandId) {
-
                     brandId = Number(brandId) || -1;
                     advertiserId = Number(advertiserId) || -1;
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +

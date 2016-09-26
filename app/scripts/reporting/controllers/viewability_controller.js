@@ -1,19 +1,20 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
-    'time-period-model', 'url-service', 'common-utils', 'strategy-select-directive', 'strategy-select-controller',
-    'time-period-pick-directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'strategy-select-directive',
+    'strategy-select-controller', 'time-period-pick-directive'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ViewabilityController', ['$scope', 'kpiSelectModel', 'campaignSelectModel',
-        'strategySelectModel', 'dataService', 'domainReports', 'constants',
-        'vistoconfig', 'timePeriodModel', 'loginModel', 'urlService',
-        'utils', function ($scope, kpiSelectModel, campaignSelectModel,
-                                                             strategySelectModel, dataService, domainReports, constants,
-                                                             vistoconfig, timePeriodModel, loginModel, urlService,
-                                                             utils) {
+    angularAMD.controller('ViewabilityController', ['$scope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService', 'domainReports', 'constants',
+        'vistoconfig', 'timePeriodModel', 'loginModel', 'urlService', 'utils', 'pageLoad',
+        function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, domainReports, constants, vistoconfig, timePeriodModel, loginModel, urlService,
+                  utils, pageLoad) {
         var extractAdFormats =  function () {
             $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
             $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
         };
+
+        console.log('QUALITY (Viewability) controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
 

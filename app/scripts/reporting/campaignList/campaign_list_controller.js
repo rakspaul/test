@@ -1,15 +1,13 @@
-define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-select-model',
-    'strategy-select-service', 'common-utils', 'gauge-model', 'campaign-list-filter-directive', 'campaign-cost-sort',
-    'campaign-card', 'campaign-list-sort', 'quartiles-graph', 'campaign-chart',
-    'campaign-cost-card'], function (angularAMD) {
+define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-select-model', 'strategy-select-service', 'common-utils', 'gauge-model',
+    'campaign-list-filter-directive', 'campaign-cost-sort', 'campaign-card', 'campaign-list-sort', 'quartiles-graph', 'campaign-chart', 'campaign-cost-card'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel',
-        'campaignListModel', 'campaignSelectModel', 'strategySelectModel', 'utils', 'constants', 'vistoconfig',
-        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService', 'campaignListService',
-        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService, campaignListService) {
-
+    angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel', 'campaignListModel', 'campaignSelectModel',
+        'strategySelectModel', 'utils', 'constants', 'vistoconfig', 'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService',
+        'campaignListService', 'localStorageService', 'pageLoad',
+        function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel, strategySelectModel, utils, constants, vistoconfig,
+                  brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService, campaignListService, localStorageService, pageLoad) {
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
 
@@ -17,6 +15,10 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                     $scope.showCreateMediaPlan = fParams[0].create_mediaplan;
                     $scope.showCostTab = fParams[0].cost;
                 };
+
+            console.log('CAMPAIGN LIST (Media Plans List) controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             // Hot fix to show the campaign tab selected
             $('.main_navigation')
@@ -38,6 +40,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             enableFeaturePermission();
 
             if(vistoconfig.getNoMediaPlanFoundMsg()) {
+                utils.cleanSearchParameter();
                 $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
                 vistoconfig.setNoMediaPlanFoundMsg(null);
             }
@@ -60,7 +63,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             $scope.campaigns.loadMoreCampaigns = false;
 
-            $scope.$watch('realTimeData', function(val){
+            $scope.$watch('campaigns.realTimeData', function(val){
                 campaignListService.setIsRealTimeData(val);
                 var scopeCampaigns = $scope.campaigns;
                 scopeCampaigns.noData = false;
@@ -72,15 +75,20 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             $scope.selectCardView = function (event, type) {
                 var elem = $(event.currentTarget);
+
+                type = type && type.toLowerCase();
+
                 if ( !elem.hasClass('active')) {
-                    $scope.realTimeData=!$scope.realTimeData ;
+                    $scope.campaigns.realTimeData = !$scope.campaigns.realTimeData;
                     $('#realTimeToggleBtn').find('.active').removeClass('active');
                     elem.addClass('active');
-                    if(type==='RealTime') {
+                    if(type==='realtime') {
                         $('#realTimeMessage').show();
                     } else {
                         $('#realTimeMessage').hide();
                     }
+                    localStorageService.mediaPlanView.set(type);
+                    $location.search('dataView', type);
                 }
             };
 
@@ -104,8 +112,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             };
 
             $('html').css('background', '#fff');
-
-            $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
             // Based on gauge click, load the filter and reset data set after gauge click.
             if (gaugeModel.dashboard.selectedFilter !== '') {

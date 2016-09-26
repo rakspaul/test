@@ -38,6 +38,8 @@
             <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].rate > 0" />
             <h1 class="pull-left" style="margin: 10px 0;">CPM</h1>
             <span class="pull-left clearBoth">This rate will be entered by default in any CPM line items.</span>
+
+                <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPM_ID].isErrorMessage}}</span>
             
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
@@ -67,6 +69,7 @@
 
             <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
             portions in the invoice files:</span>
+            
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
                             <div class="thead">
@@ -88,7 +91,8 @@
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
                                     </div>
-                                    <div class="td col-md-2">
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input" style="top: 21px;left: 40px;">%</span>     
                                         <input type="text" class="form-control" ng-model="slice.value" fraction-numbers="fraction-numbers" />
                                     </div>
                                     <div class="td col-md-1 text-center">
@@ -119,10 +123,12 @@
             <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPC_ID].rate > 0"/>
             <h1 class="pull-left" style="margin: 10px 0;">CPC</h1>
             <span class="pull-left clearBoth">This rate will be entered by default in any CPC line items.</span>
+
+                <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPC_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPC_ID].isErrorMessage}}</span>
             
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
-                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <label class="col-sm-12 greyTxt">Total CPC</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol">$</span>
                         <input type="text" class="form-control"  fraction-numbers="fraction-numbers" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPC_ID].rate" /> 
@@ -146,6 +152,7 @@
                 <div class="col-md-12 zeroPadding centerAlign">
                   <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPC fees will be broken down into the following
             portions in the invoice files:</span>
+          
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
                             <div class="thead">
@@ -167,7 +174,8 @@
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
                                     </div>
-                                    <div class="td col-md-2">
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input" style="top: 21px;left: 40px;">%</span>     
                                         <input type="text" class="form-control"  fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                     </div>
                                     <div class="td col-md-1 text-center">
@@ -199,6 +207,8 @@
             <span class="pull-left clearBoth">For a particular group of ads, charge a specific rate each time user takes
             desired action (i.e. firing an action pixel) at any time. This rate will be entered by default in any
             CPA line items.</span>
+
+              <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_TCPA_ID].isErrorMessage}}</span>
             
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
@@ -227,6 +237,7 @@
 
             <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPA fees will be broken down into the following
             portions in the invoice files:</span>
+            
                 <div class="col-md-12 zeroPadding centerAlign">
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
@@ -249,7 +260,8 @@
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
                                     </div>
-                                    <div class="td col-md-2">
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input" style="top: 21px;left: 40px;">%</span>     
                                         <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value"  />
                                     </div>
                                     <div class="td col-md-1 text-center">
@@ -280,6 +292,8 @@
             <h1 class="pull-left" style="margin: 10px 0;">CPCV</h1>
             <span class="pull-left clearBoth">This rate will be entered by default in any CPCV rates.</span>
             
+                 <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_CPCV_ID].isErrorMessage}}</span>
+
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt">Total CPCV</label>
@@ -308,6 +322,7 @@
                 <div class="col-md-12 zeroPadding centerAlign">
                 <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPCV fees will be broken down into the following
             portions in the invoice files:</span>
+         
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
                             <div class="thead">
@@ -328,8 +343,9 @@
                                 <div class="tr" >
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
-                                    </div>
-                                    <div class="td col-md-2">
+                                    </div> 
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input" style="top: 21px;left: 40px;">%</span>     
                                         <input type="text" class="form-control" ng-model="slice.value" fraction-numbers="fraction-numbers" />
                                     </div>
                                     <div class="td col-md-1 text-center">
@@ -365,14 +381,14 @@
             
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0; margin-bottom: 10px;">
-                    <label class="col-sm-12 greyTxt">Total Markup</label>
+                    <label class="col-sm-12 greyTxt">Total Percentage Markup</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">%</span>
                         <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].rate" /> 
                     </div>
                 </div>
                 
-                <div class="pull-left" style="margin-top: 43px;">
+                <div class="pull-left" style="margin-top: 63px;">
                     <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].itemize" />
                     <span class="pull-left" style="margin-left: 5px;">Itemize Markup fees</span>
                 </div>
@@ -384,6 +400,7 @@
                 <div class="col-md-12 zeroPadding centerAlign">
                 <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup fees will be broken down into the following
             portions in the invoice files:</span>
+              <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].isErrorMessage}}</span>
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
                             <div class="thead">
@@ -405,10 +422,11 @@
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
                                     </div>
-                                    <div class="td col-md-2">
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input itemize_symbol">%</span>     
                                         <input type="text" class="form-control" ng-model="slice.value" fraction-numbers="fraction-numbers" />
                                     </div>
-                                    <div class="td col-md-1 text-center">
+                                    <div class="td col-md-1 text-center">                                        
                                         <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_FLATFEE_PERCENTAGE_ID].slices,$index)"></a>
                                     </div>
                                 </div>                            
@@ -438,14 +456,14 @@
         
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
-                    <label class="col-sm-12 greyTxt">Total CPM</label>
+                    <label class="col-sm-12 greyTxt">Total Percentage Markup</label>
                     <div class="symbol-input pull-left">
-                        <span class="symbol" style="left: initial; right: 10px;">$</span>
+                        <span class="symbol" style="left: initial; right: 10px;">%</span>
                         <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].rate" /> 
                     </div>
                 </div>
                 
-                <div class="pull-left" style="margin-top: 43px;">
+                <div class="pull-left" style="margin-top: 63px;">
                     <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize" />
                     <span class="pull-left" style="margin-left: 5px;">Itemize total markup fees</span>
                 </div>
@@ -459,6 +477,7 @@
                 <div class="col-md-12 zeroPadding centerAlign">
                  <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup will be broken down into the following portions
             in the invoice files:</span>
+            <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].isErrorMessage}}</span>
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
                             <div class="thead">
@@ -480,10 +499,11 @@
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
                                     </div>
-                                    <div class="td col-md-2">
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input itemize_symbol">%</span>     
                                         <input type="text" class="form-control" ng-model="slice.value"  fraction-numbers="fraction-numbers" />
                                     </div>
-                                    <div class="td col-md-1 text-center">
+                                    <div class="td col-md-1 text-center">                                        
                                         <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].slices,$index)"></a>
                                     </div>
                                 </div>                            
@@ -506,7 +526,7 @@
     <!--Variable COGS + CPM Merkup-->
     <div class="billingMethods">
         <div class="col-md-12 zeroPadding">
-            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate > 0"/>
+            <input type="checkbox" class="pull-left" style="margin: 14px 5px 0 0;" ng-checked="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].rate > 0"/>
             <h1 class="pull-left" style="margin: 10px 0;">Variable COGS + CPM Markup</h1>
             <span class="pull-left clearBoth">Specific costs of running media plan (e.g. Ad Serving, buying & execution,
             verification) are passed through to the billable party, with an additional CPM based-markup.</span>
@@ -516,12 +536,12 @@
                     <label class="col-sm-12 greyTxt">Total CPM</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">$</span>
-                        <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate"> 
+                        <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].rate"> 
                     </div>
                 </div>
                 
                 <div class="pull-left" style="margin-top: 43px;">
-                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize" />
+                    <input type="checkbox" class="pull-left" ng-model="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].itemize" />
                     <span class="pull-left" style="margin-left: 5px;">Itemize Total Markup fees</span>
                 </div>
             </div>
@@ -529,10 +549,11 @@
         </div>
         
         <!--Itemize Chart Start-->
-       <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize">
+       <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].itemize">
                 <div class="col-md-12 zeroPadding centerAlign">
                   <span class="pull-left clearBoth" style="margin: 10px 0;">The total markup will be broken down into the following portions
             in the invoice files:</span>
+              <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].isError">{{advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].isErrorMessage}}</span>
                     <div class="table-responsive" id="table_responsive">
                         <div class="vistoTable" id="visto_table">
                             <div class="thead">
@@ -549,16 +570,17 @@
                                 </div>
                             </div>
                             
-                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices" >
+                            <div class="tbody" data-ng-repeat="slice in advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].slices" >
                                 <div class="tr" >
                                     <div class="td col-md-9">
                                         <input type="text" class="form-control" ng-model="slice.label" />
                                     </div>
-                                    <div class="td col-md-2">
+                                    <div class="td col-md-2 symbol-input">
+                                        <span class="symbol symbol-input itemize_symbol">%</span>     
                                         <input type="text" class="form-control" ng-model="slice.value" fraction-numbers="fraction-numbers" />
                                     </div>
-                                    <div class="td col-md-1 text-center">
-                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices,$index)"></a>
+                                    <div class="td col-md-1 text-center">                                       
+                                        <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].slices,$index)"></a>
                                     </div>
                                 </div>                            
                             </div>
@@ -568,12 +590,10 @@
                 <div class="col-md-12 zeroPadding">
                    <a class="pull-left">
                     <a class="icon-plus pull-left"></a>
-                    <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices)">Add Item</a>
+                    <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(advertiserBillingSettings[advertiserBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].slices)">Add Item</a>
                    </a>
                </div>
             </div>  
         <!--Itemize Chart End-->
-        
-        
     </div>
 </div>

@@ -72,6 +72,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                     this.sortDirection = 'desc';
                     this.brandId = vistoconfig.getSelectedBrandId();
                     this.client_id = vistoconfig.getSelectedAccountId();
+                    this.realTimeData = false;
 
                     this.dashboard = {
                         filterTotal: 1,
@@ -681,7 +682,8 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                         setQuickFilter = function (filterToApply) {
                             var kpiStatus = '',
-                                type = '';
+                                type = '',
+                                dataView;
 
                             this.loadMoreCampaigns = false;
                             this.unSelectQuickFilter();
@@ -783,6 +785,15 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                             this.scrollFlag = 1;
                             fetchData.call(this);
 
+                            dataView = localStorageService.mediaPlanView.get() || 'standard';
+                            this.realTimeData = (dataView === 'realtime') ? true : false;
+                            if(this.realTimeData){
+                                $('#realTimeMessage').show();
+                            } else{
+                                $('#realTimeMessage').hide();
+                            }
+                            dataView && $location.search('dataView', dataView);
+
                             if (filterToApply === 'all') {
                                 $location.search('filter', null);
                             } else {
@@ -791,7 +802,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         },
 
                         initializeFilter = function () {
-                            var filterStatus = $location.url().split('filter=')[1],
+                            var filterStatus = $location.search().filter,
                                 $tmpSavedFilter;
 
                             if (filterStatus === undefined) {

@@ -1,11 +1,9 @@
 define(['angularAMD', 'bubble-chart', 'bubble-chart-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('BubbleChartController', ['$scope', '$cookieStore', '$location', 'loginModel', 'loginService',
+    angularAMD.controller('BubbleChartController', ['$scope', '$location', 'loginModel', 'loginService',
         'bubbleChart', 'bubbleChartModel', 'brandsModel', 'constants', 'advertiserModel', 'vistoconfig',
-        function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel,
-                  constants,advertiserModel, vistoconfig) {
-
+        function ($scope, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel, constants,advertiserModel, vistoconfig) {
         var _curCtrl = this;
 
         _curCtrl.defaultFilter = {

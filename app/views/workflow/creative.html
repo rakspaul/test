@@ -83,7 +83,7 @@
                                             <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
-                                            <li ng-repeat="brand in brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
+                                            <li ng-repeat="brand in brands " class="available"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.brandName"></a></li>
                                         </ul>
                                         <input type="hidden" name="brandId" ng-model="creative.brandId" ng-update-hidden />
                                     </div>
@@ -159,7 +159,7 @@
                         </div>
                         <div class="label-txt pull-left" style="margin: 1px 0 0 10px;" data-ng-bind="textConstants.CREATIVE_SSL_COMPATIBLE"></div>
                     </div>
-                    <div ng-if="templateType=='NORMAL'" class="form-group col-md-4" show-errors style="clear: left;">
+                    <div ng-if="templateType=='NORMAL' && creativeFormat.toLowerCase()!=='video'" class="form-group col-md-4" show-errors style="clear: left;">
                         <label for="sel1" class="greyTxt" data-ng-bind="textConstants.CREATIVE_SIZE"></label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">

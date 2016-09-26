@@ -29,27 +29,26 @@
                 <div class="viewability_details_outer_container smallScreenScrollContent"
                      data-ng-show="(!adFormats.videoAds && adFormats.displayAds) || !videoMode">
                     <div class="viewability_header clearfix">
-                        <div class="each_col sec_col viewability_delivered_col">
-                            <span class="icon_text_holder"
-                                  data-ng-bind="textConstants.DELIVERED_IMPS">
+                        <div class="each_col sec_col marginTopTwenty">
+                            <span data-ng-bind="textConstants.DELIVERED_IMPS">
                             </span>
                         </div>
                         <div class="each_col third_col">
-                            <span data-ng-bind="textConstants.MEASURABLE"></span>
-                            <div class="sub_col">
-                                <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
+                            <div class="text-center" data-ng-bind="textConstants.MEASURABLE"></div>
+                            <div class="clearfix sub_col">
+                                <span  data-ng-bind="textConstants.IMP_WITH_DOT">
                                 </span>
-                                <span class="icon_text_holder">
+                                <span >
                                     %
                                 </span>
                             </div>
                         </div>
                         <div class="each_col forth_col">
-                            <span data-ng-bind="textConstants.VIEWABLE"></span>
-                            <div class="sub_col">
-                                <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
+                            <div class="text-center" data-ng-bind="textConstants.VIEWABLE"></div>
+                            <div class="clearfix sub_col">
+                                <span  data-ng-bind="textConstants.IMP_WITH_DOT">
                                 </span>
-                                <span class="tooltip_holder icon_text_holder">
+                                <span class="tooltip_holder">
                                     %<sup>*</sup>
                                     <div class="common_tooltip"
                                          data-ng-bind="textConstants.BASED_ONLY_ON_MEASURABLE_IMPS">
@@ -58,23 +57,19 @@
                             </div>
                         </div>
                         <div class="each_col fifth_col">
-                            <span data-ng-bind="textConstants.VIEWABLE + ' %'"></span>
-                            <div class="sub_col">
-                                <span class="icon_text_holder" data-ng-bind="textConstants.ONE_S">
+                            <div data-ng-bind="textConstants.VIEWABLE + ' %'"></div>
+                            <div class="clearfix sub_col">
+                                <span  data-ng-bind="textConstants.ONE_S">
                                 </span>
-                                <span class="icon_text_holder" data-ng-bind="textConstants.FIVE_S">
+                                <span  data-ng-bind="textConstants.FIVE_S">
                                 </span>
-                                <span class="icon_text_holder"
+                                <span 
                                       data-ng-bind="textConstants.FIFTEEN_S">
                                 </span>
                             </div>
                         </div>
-                        <div class="each_col suspicious_col">
-                            <span class="icon_text_holder"
-                                  data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
-                            </span>
-                            <span  class="icon_text_holder">
-                                (%)
+                        <div class="each_col suspicious_col marginTopTwenty">
+                            <span data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
                             </span>
                         </div>
                     </div>
@@ -94,7 +89,7 @@
                             <div class="strategy_total_container_header clearfix"
                                  data-ng-if="!dataNotFound && strategyFound && viewData.view_metrics">
                                 <div class="each_col sec_col">
-                                    <div class="sub_col">
+                                    <div class="clearfix sub_col">
                                         <span data-ng-bind="((viewData.view_metrics.display_deliverable_imps > 0) ||
                                             (viewData.view_metrics.display_deliverable_imps === 0)) ?
                                             (viewData.view_metrics.display_deliverable_imps | number : 0) : '-'">
@@ -102,7 +97,7 @@
                                     </div>
                                 </div>
                                 <div class="each_col third_col">
-                                    <div class="sub_col">
+                                    <div class="clearfix sub_col">
                                         <span data-ng-bind="((viewData.view_metrics.display_measurable_imps > 0) ||
                                             (viewData.view_metrics.display_measurable_imps === 0)) ?
                                             (viewData.view_metrics.display_measurable_imps | number : 0) : '-'">
@@ -114,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="each_col forth_col">
-                                    <div class="sub_col">
+                                    <div class="clearfix sub_col">
                                         <span data-ng-bind="((viewData.view_metrics.display_viewable_imps > 0) ||
                                             (viewData.view_metrics.display_viewable_imps === 0)) ?
                                             (viewData.view_metrics.display_viewable_imps | number : 0) : '-'">
@@ -126,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="each_col fifth_col">
-                                    <div class="sub_col">
+                                    <div class="clearfix sub_col">
                                         <span data-ng-bind="((viewData.view_metrics.viewable_1s_perc > 0) ||
                                             (viewData.view_metrics.viewable_1s_perc === 0)) ?
                                             ((viewData.view_metrics.viewable_1s_perc | number : 0) + '%') : '-'">
@@ -154,7 +149,7 @@
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col" data-ng-bind="tactic.ad_name"></div>
                                         <div class="each_col sec_col">
-                                            <div class="sub_col">
+                                            <div class="clearfix sub_col">
                                                 <span data-ng-bind="((tactic.display_deliverable_imps > 0) ||
                                                     (tactic.display_deliverable_imps === 0)) ?
                                                     (tactic.display_deliverable_imps | nrFormat) : '-'">
@@ -162,7 +157,7 @@
                                             </div>
                                         </div>
                                         <div class="each_col third_col">
-                                            <div class="sub_col">
+                                            <div class="clearfix sub_col">
                                                 <span data-ng-bind="((tactic.display_measurable_imps > 0) ||
                                                     (tactic.display_measurable_imps === 0)) ?
                                                     (tactic.display_measurable_imps | nrFormat) : '-'">
@@ -174,7 +169,7 @@
                                             </div>
                                         </div>
                                         <div class="each_col forth_col">
-                                            <div class="sub_col">
+                                            <div class="clearfix sub_col">
                                                 <span data-ng-bind="((tactic.display_viewable_imps > 0) ||
                                                     (tactic.display_viewable_imps === 0)) ?
                                                     (tactic.display_viewable_imps | nrFormat) : '-'">
@@ -186,7 +181,7 @@
                                             </div>
                                         </div>
                                         <div class="each_col fifth_col">
-                                            <div class="sub_col">
+                                            <div class="clearfix sub_col">
                                                 <span data-ng-bind="((tactic.viewable_1s_perc > 0) ||
                                                     (tactic.viewable_1s_perc === 0)) ?
                                                     ((tactic.viewable_1s_perc | number : 0) + '%') : '-'">
@@ -217,29 +212,28 @@
         <div class="viewability_video_mode_container">
             <div class="viewability_details_video_mode_outer_container" data-ng-show="adFormats.videoAds && videoMode">
                 <div class="viewability_header clearfix">
-                    <div class="each_col sec_col">
-                        <span class="icon_text_holder"
+                    <div class="each_col sec_col marginTopTwenty">
+                        <span
                               data-ng-bind="textConstants.DELIVERED_IMPS">
                         </span>
                     </div>
                     <div class="each_col third_col">
-                        <span data-ng-bind="textConstants.MEASURABLE"></span>
-                        <div class="sub_col">
-                            <span class="icon_text_holder"
+                        <div class="text-center" data-ng-bind="textConstants.MEASURABLE"></div>
+                        <div class="clearfix sub_col">
+                            <span
                                   data-ng-bind="textConstants.IMP_WITH_DOT">
                             </span>
-                            <span class="icon_text_holder">
+                            <span>
                                 %
                             </span>
                         </div>
                     </div>
                     <div class="each_col ad_col">
-                        <span data-ng-bind="textConstants.VIEWABLE"></span>
-                        <div class="sub_col">
-                            <span class="icon_text_holder"
-                                  data-ng-bind="textConstants.IMP_WITH_DOT">
+                        <div class="text-center" data-ng-bind="textConstants.VIEWABLE"></div>
+                        <div class="clearfix sub_col">
+                            <span data-ng-bind="textConstants.IMP_WITH_DOT">
                             </span>
-                            <span class="tooltip_holder icon_text_holder">
+                            <span class="tooltip_holder">
                                    %<sup>*</sup>
                                 <div class="common_tooltip"
                                      data-ng-bind="textConstants.BASED_ONLY_ON_VIEWABLE_IMPS">
@@ -257,24 +251,23 @@
                                 </span>
                             </span>
                         </div>
-                        <div class="sub_col">
-                            <span class="icon_text_holder">
+                        <div class="clearfix sub_col">
+                            <span>
                                 25%
                             </span>
-                            <span class="icon_text_holder">
+                            <span>
                                 50%
                             </span>
-                            <span class="icon_text_holder">
+                            <span>
                                 75%
                             </span>
-                            <span class="icon_text_holder">
+                            <span>
                                 100%
                             </span>
                         </div>
                     </div>
-                    <div class="each_col suspicious_act_col">
-                        <span class="icon_text_holder"
-                              data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
+                    <div class="each_col suspicious_act_col marginTopTwenty">
+                        <span data-ng-bind="textConstants.SUSPICIOUS_ACTIVITY">
                         </span>
                     </div>
                 </div>
@@ -306,7 +299,7 @@
                                     number : 0) : '-')">
                             </div>
                             <div class="each_col third_col">
-                                <div class="sub_col">
+                                <div class="clearfix sub_col">
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
                                         (((viewData.view_metrics.video_measurable_imps > 0) ||
                                         (viewData.view_metrics.video_measurable_imps === 0)) ?
@@ -328,7 +321,7 @@
                                 </div>
                             </div>
                             <div class="each_col ad_col">
-                                <div class="sub_col">
+                                <div class="clearfix sub_col">
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
                                         (((viewData.view_metrics.video_viewable_imps > 0) ||
                                         (viewData.view_metrics.video_viewable_imps === 0)) ?
@@ -350,7 +343,7 @@
                                 </div>
                             </div>
                             <div class="each_col sub_four_cols">
-                                <div class="sub_col">
+                                <div class="clearfix sub_col">
                                     <span data-ng-bind="(selectedStrategy.id >= 0) ?
                                         (((viewData.view_metrics.video_1q_view_perc > 0) ||
                                         (viewData.view_metrics.video_1q_view_perc === 0)) ?
@@ -387,9 +380,8 @@
                                         | number : 0) + '%') : '-')">
                                     </span>
                                 </div>
-                                <div class="sub_col next_val"></div>
                             </div>
-                            <div class="each_col" data-ng-bind="(selectedStrategy.id >= 0) ?
+                            <div class="each_col suspicious_act_col" data-ng-bind="(selectedStrategy.id >= 0) ?
                                 (((viewData.view_metrics.video_susp_activity_perc > 0) ||
                                 (viewData.view_metrics.video_susp_activity_perc === 0)) ?
                                 ((viewData.view_metrics.video_susp_activity_perc | number : 2) + '%') : '-') :
@@ -411,7 +403,7 @@
                                             (tactic.video_deliverable_imps | number : 0) : '-'">
                                     </div>
                                     <div class="each_col third_col">
-                                        <div class="sub_col">
+                                        <div class="clearfix sub_col">
                                             <span data-ng-bind="((tactic.video_measurable_imps > 0) ||
                                                 (tactic.video_measurable_imps === 0)) ?
                                                 (tactic.video_measurable_imps | number : 0) : '-'">
@@ -423,7 +415,7 @@
                                         </div>
                                     </div>
                                     <div class="each_col ad_col">
-                                        <div class="sub_col">
+                                        <div class="clearfix sub_col">
                                             <span data-ng-bind="((tactic.video_viewable_imps > 0) ||
                                                 (tactic.video_viewable_imps === 0)) ?
                                                 (tactic.video_viewable_imps | number : 0) : '-'">
@@ -435,7 +427,7 @@
                                         </div>
                                     </div>
                                     <div class="each_col sub_four_cols">
-                                        <div class="sub_col">
+                                        <div class="clearfix sub_col">
                                             <span data-ng-bind="((tactic.video_1q_view_perc > 0) ||
                                                 (tactic.video_1q_view_perc === 0)) ?
                                                 ((tactic.video_1q_view_perc | number : 0) + '%') : '-'">
@@ -453,10 +445,8 @@
                                                 ((tactic.video_4q_view_perc | number : 0) + '%') : '-'">
                                             </span>
                                         </div>
-                                        <div class="sub_col next_val">
-                                        </div>
                                     </div>
-                                    <div class="each_col"
+                                    <div class="each_col suspicious_act_col"
                                          data-ng-bind="((tactic.video_susp_activity_perc > 0) ||
                                          (tactic.video_susp_activity_perc === 0)) ?
                                          ((tactic.video_susp_activity_perc | number : 2) + '%') : '-'">

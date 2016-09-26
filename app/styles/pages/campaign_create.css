@@ -1535,6 +1535,20 @@
   text-align: center;
   width: 100%;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder,
+#vendorCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder {
+  width: 285px;
+  margin-right: 12px;
+  margin-top: 12px ;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformSeats,
+#vendorCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformSeats {
+  float: left;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder:last-child,
+#vendorCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder:last-child {
+  visibility: visible;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper .showImpressionCap,
 #vendorCreate .campaignAdCreate .adMainWrapper .showImpressionCap {
   background-color: #DDDDDD;

@@ -1,16 +1,17 @@
-define(['angularAMD', 'collective-report-model', 'url-service', 'campaign-select-model', 'data-store-model',
-    'common-utils', 'collective-delete-report-controller', 'collective-edit-report-controller'], function (angularAMD) {
+define(['angularAMD', 'collective-report-model', 'url-service', 'campaign-select-model', 'data-store-model', 'common-utils', 'collective-delete-report-controller',
+    'collective-edit-report-controller'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CollectiveReportListingController', ['$filter', '$scope', '$rootScope', '$modal', '$location',
-        'collectiveReportModel', 'brandsModel', 'dataService', 'urlService', 'campaignSelectModel', 'constants',
-        'dataStore', 'utils', 'advertiserModel', 'domainReports', 'vistoconfig', 'reportsList', 'urlBuilder',
-
-        function ($filter, $scope, $rootScope, $modal, $location, collectiveReportModel, brandsModel, dataService,
-                  urlService, campaignSelectModel, constants, dataStore, utils, advertiserModel, domainReports,
-                  vistoconfig, reportsList, urlBuilder) {
-
+    angularAMD.controller('CollectiveReportListingController', ['$filter', '$scope', '$rootScope', '$modal', '$location', 'collectiveReportModel', 'brandsModel', 'dataService',
+        'urlService', 'campaignSelectModel', 'constants', 'dataStore', 'utils', 'advertiserModel', 'domainReports', 'vistoconfig', 'reportsList', 'urlBuilder', 'pageLoad',
+        function ($filter, $scope, $rootScope, $modal, $location, collectiveReportModel, brandsModel, dataService, urlService, campaignSelectModel, constants, dataStore, utils,
+                  advertiserModel, domainReports, vistoconfig, reportsList, urlBuilder, pageLoad) {
         var browserInfo = utils.detectBrowserInfo();
+
+        console.log('COLLECTIVE INSIGHTS controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.reportToEdit = {};
         $scope.showEditReport = false;

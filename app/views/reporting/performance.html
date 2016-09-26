@@ -847,10 +847,10 @@
                          style="max-width: 10px;">
                 </span>
                 <span data-ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name"
-                      style="margin-left: 2px">
+                      class="wordWrap" style="margin-left: 2px">
                 </span>
             </strong>
-            <strong class="col-md-2 text-left">{{vendor.nodes.length == 1 ? vendor.category : ''}}</strong>
+            <strong class="col-md-2 text-left wordWrap">{{vendor.nodes.length == 1 ? vendor.category : ''}}</strong>
 
             <!--Column 2-->
             <strong class="col-md-2 zeroPadding text-left"
@@ -871,16 +871,17 @@
              data-ng-if="vendor.nodes.length > 1">
             <div class="col-md-12 zeroPadding discrepancySecLevelRow"
                  data-ng-repeat="node in vendor.nodes | orderBy : -impressions">
-                <span class="pull-left platform_logo_img">
-                    <img data-ng-src="{{performanceIconUrl(node.name)}}"
-                         err-src="/images/platform_favicons/platform_logo.png"
-                         style="max-width: 10px;">
+                 <span class="discrepancySecLevelNameHolder" >
+                    <span class="pull-left platform_logo_img">
+                        <img data-ng-src="{{performanceIconUrl(node.name)}}"
+                             err-src="/images/platform_favicons/platform_logo.png"
+                             style="max-width: 10px;">
+                    </span>
+                    <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
                 </span>
-                <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
-                <span class="pull-left text-left" style="width: 65px;" data-ng-bind="vendor.category"></span>
-                <div class="col-md-2 text-right"
-                     data-ng-bind="node.imps >= 0 ? (node.imps | number : 0) : '-'"
-                     style="padding: 0">
+                <span class="pull-left col-md-2 text-left discrepancySecLevelCategory" data-ng-bind="vendor.category"></span>
+                <div class="col-md-2 zeroPadding text-left" 
+                     data-ng-bind="node.imps >= 0 ? (node.imps | number : 0) : '-'" >
                 </div>
             </div>
         </div>

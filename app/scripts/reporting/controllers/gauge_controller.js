@@ -2,33 +2,21 @@ define(['angularAMD', 'gauge-model'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('GaugeController', ['$scope', '$rootScope', '$window', '$location', 'gauge', 'gaugeModel',
-            'constants', 'accountService', 'subAccountService', 'vistoconfig',
+        angularAMD.controller('GaugeController', ['$scope', '$rootScope', '$window', '$location', '$routeParams', 'gauge', 'gaugeModel',
+            'constants', 'urlBuilder',
 
-            function ($scope, $rootScope, $window, $location, gauge, gaugeModel, constants, accountService, subAccountService, vistoconfig) {
+            function ($scope, $rootScope, $window, $location, $routeParams, gauge, gaugeModel, constants, urlBuilder) {
 
-                var campaigns;
-
-                if (accountService.getSelectedAccount().isLeafNode) {
-                    campaigns = '/a/' + vistoconfig.getMasterClientId() + '/mediaplans';
-                } else {
-                    var firstSubAccount = subAccountService.getSubAccounts()[0].id;
-                    campaigns = '/a/' + vistoconfig.getMasterClientId() + '/sa/' + firstSubAccount + '/mediaplans';
-                }
 
                 gauge.setLeftArcClickHandler(function () {
                     gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
-                    $location.path(campaigns);
-
-                    // TODO: we need to remove this, added because of removing the hashtag
+                    $location.path(urlBuilder.mediaPlansListUrl());
                     $scope.$apply();
                 });
 
                 gauge.setRightArcClickHandler(function () {
                     gaugeModel.dashboard.selectedFilter = constants.ACTIVE_UNDERPERFORMING;
-                    $location.path(campaigns);
-
-                    // TODO: we need to remove this, added because of removing the hashtag
+                    $location.path(urlBuilder.mediaPlansListUrl());
                     $scope.$apply();
                 });
 

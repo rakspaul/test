@@ -102,6 +102,8 @@
             <span class="pull-left clearBoth">CPM rate, calculated from Visto Tracker's impression counts for all Media Plans
             run for this account and all of its child accounts.</span>
             
+            <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].isError">{{clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].isErrorMessage}}</span>
+            
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt">Total CPM</label>
@@ -116,8 +118,6 @@
                     <span class="pull-left" style="margin-left: 5px;">Itemize CPM fees</span>
                 </div>
             </div>
-            
-          
         </div>
         
         <!--Itemize Chart Start-->
@@ -125,6 +125,8 @@
             <div class="col-md-12 zeroPadding centerAlign">
               <span class="pull-left clearBoth" style="margin: 10px 0;">The total CPM fees will be broken down into the following
             portions in the invoice files:</span>
+
+               
                 <div class="table-responsive" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
                         <div class="thead">
@@ -146,8 +148,9 @@
                                 <div class="td col-md-9">
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
-                                <div class="td col-md-2">
-                                    <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
+                                <div class="td col-md-2 symbol-input">
+                                 <span class="symbol symbol-input itemize_symbol">%</span>
+                                 <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_CPM_ID].slices,$index)"></a>
@@ -174,7 +177,9 @@
             <h1 class="pull-left" style="margin: 10px 0;">Total COGS + %</h1>
             <span class="pull-left clearBoth">Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, ad
             serving costs), plus a percentage markup.</span>
-        
+            
+             <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].isError">{{clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].isErrorMessage}}</span>
+
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt">Total Markup</label>
@@ -185,7 +190,7 @@
                 </div>
                 
                 <div class="pull-left" style="margin-top: 43px;">
-                    <input type="checkbox" class="pull-left" ng-model="billingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize"/>
+                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID].itemize"/>
                     <span class="pull-left" style="margin-left: 5px;">Itemize fees</span>
                 </div>
             </div>
@@ -198,6 +203,9 @@
             <div class="col-md-12 zeroPadding centerAlign">
              <span class="pull-left clearBoth" style="margin: 10px 0;">The total COGS will be broken down into the following portions
             in the invoice files:</span>
+
+              
+
                 <div class="table-responsive" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
                         <div class="thead">
@@ -219,7 +227,8 @@
                                 <div class="td col-md-9">
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
-                                <div class="td col-md-2">
+                                <div class="td col-md-2 symbol-input">
+                                     <span class="symbol symbol-input itemize_symbol">%</span>
                                     <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
@@ -243,33 +252,38 @@
     </div>
     
     <!--Total COGS + CPM-->
-    <div class="billingMethods billingMethodSlot totalCogsCpmSlot feeSlot{{clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID}}" style="display: none;">
+    <div class="billingMethods billingMethodSlot totalCogsCpmSlot feeSlot{{clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID}}" style="display: none;">
         <div class="col-md-12 zeroPadding">
             <h1 class="pull-left" style="margin: 10px 0;">Total COGS + CPM</h1>
             <span class="pull-left clearBoth">Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, ad
             serving costs), plus a percentage markup</span>
+
+             <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].isError">{{clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].isErrorMessage}}</span>
+
         
             <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
                     <div class="symbol-input pull-left">
                         <span class="symbol" style="left: initial; right: 10px;">%</span>
-                        <input type="text" class="form-control"  fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].rate"> 
+                        <input type="text" class="form-control"  fraction-numbers="fraction-numbers" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].rate"> 
                     </div>
                 </div>
                 
                 <div class="pull-left" style="margin-top: 43px;">
-                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize"/>
+                    <input type="checkbox" class="pull-left" ng-model="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].itemize"/>
                     <span class="pull-left" style="margin-left: 5px;">Itemize fees</span>
                 </div>
             </div>
         </div>
         
         <!--Itemize Chart Start-->
-        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].itemize">
+        <div class="itemizeChart col-md-12 zeroPadding" style="margin-bottom: 10px;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].itemize">
             <div class="col-md-12 zeroPadding centerAlign">
                   <span class="pull-left clearBoth" style="margin: 10px 0;">The total COGS+CPM will be broken down into the following portions
             in the invoice files:</span>
+
+              
                 <div class="table-responsive" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
                         <div class="thead">
@@ -286,16 +300,17 @@
                             </div>
                         </div>
                         
-                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices" >
+                        <div class="tbody" data-ng-repeat="slice in clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].slices" >
                             <div class="tr" >
                                 <div class="td col-md-9">
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
-                                <div class="td col-md-2">
+                                <div class="td col-md-2 symbol-input">
+                                     <span class="symbol symbol-input itemize_symbol">%</span>
                                     <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
-                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices,$index)"></a>
+                                    <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].slices,$index)"></a>
                                 </div>
                             </div>                            
                         </div>
@@ -305,7 +320,7 @@
             <div class="col-md-12 zeroPadding">
             <a class="pull-left">
                 <a class="icon-plus pull-left"></a>
-                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_ID].slices)">Add Item</a>
+                <a class="pull-left" style="margin-left: 5px;" data-ng-click="addItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID].slices)">Add Item</a>
             </a>
             </div>
         </div>
@@ -320,7 +335,11 @@
             <h1 class="pull-left" style="margin: 10px 0;">% of Gross Revenue</h1>
             <span class="pull-left clearBoth">Visto will change a percentage of Gross Revenue (Sum of Billable Amounts for all Line Item
             run under this Account and its Sub-Accounts).</span>
-        
+            
+
+           <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].isError">{{clientBillingSettings[clientBillingTypes.BILLING_TYPE_GROSS_REVENUE_PERCENTAGE_ID].isErrorMessage}}</span>
+
+
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt">Total Pct. Markup</label>
@@ -344,6 +363,8 @@
             <div class="col-md-12 zeroPadding centerAlign">
              <span class="pull-left clearBoth" style="margin: 10px 0;">The Gross Revenue will be broken down into the following portions
             in the invoice files:</span>
+
+
                 <div class="table-responsive" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
                         <div class="thead">
@@ -365,7 +386,8 @@
                                 <div class="td col-md-9">
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
-                                <div class="td col-md-2">
+                                <div class="td col-md-2 symbol-input">
+                                     <span class="symbol symbol-input itemize_symbol">%</span>
                                     <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
@@ -395,6 +417,10 @@
             <span class="pull-left clearBoth">Visto will charge a percentage of Net Revenue</span>
             <span class="pull-left clearBoth" style="margin-top: 10px;">Net Revenue = (Sum of Line Items' Billable Amounts) - ("Retail" Media Cost + Verification + Ad
             Serving + Data Segment Costs + Misc. Fixed Costs defined for Media Plan)</span>
+
+            
+               <span class="pull-left clearBoth customErrorLabel" style="margin: 10px 0;" ng-show="clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].isError">{{clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].isErrorMessage}}</span>
+
         
             <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                 <div class="form-group col-md-2 zeroMargin" style="padding: 0 15px 0 0;">
@@ -417,6 +443,8 @@
             <div class="col-md-12 zeroPadding centerAlign">
              <span class="pull-left clearBoth" style="margin: 10px 0;">The Net Revenue will be broken down into the following portions
             in the invoice files:</span>
+
+
                 <div class="table-responsive" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
                         <div class="thead">
@@ -438,10 +466,12 @@
                                 <div class="td col-md-9">
                                     <input type="text" class="form-control" ng-model="slice.label" />
                                 </div>
-                                <div class="td col-md-2">
+                                <div class="td col-md-2 symbol-input">                               
+                                    <span class="symbol symbol-input itemize_symbol">%</span>                                   
                                     <input type="text" class="form-control" fraction-numbers="fraction-numbers" ng-model="slice.value" />
                                 </div>
                                 <div class="td col-md-1 text-center">
+
                                     <a class="icon-clear text-center" style="margin: 10px 0 0 15px;" ng-click="deleteItemizationItem(clientBillingSettings[clientBillingTypes.BILLING_TYPE_NET_REVENUE_PERCENTAGE_ID].slices,$index)"></a>
                                 </div>
                             </div>                            

@@ -1,5 +1,6 @@
 app/scripts/ext/
 app/styles/ext/
+app/scripts/populate_template_cache.js
 
 bower_components/
 node_modules/

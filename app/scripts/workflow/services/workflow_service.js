@@ -305,7 +305,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 createAd = function (clientId, data) {
-
                     return dataService.post(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -338,7 +337,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 pauseAd = function (clientId, data) {
-
                     return dataService.put(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -351,7 +349,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 resumeAd = function (clientId, data) {
-
                     return dataService.put(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -363,7 +360,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 deleteCampaign = function (clientId, campaignId) {
-
                     return dataService.deleteRequest(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -574,7 +570,6 @@ define(['angularAMD', 'request-cancel-service'], function (angularAMD) {
                 },
 
                 downloadCreativeTemplate = function (clientId, adServerId, templateId) {
-
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/adserver/' + adServerId +

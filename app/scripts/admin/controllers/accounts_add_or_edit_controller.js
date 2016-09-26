@@ -89,17 +89,25 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             _currCtrl.verifyInput = function () {
+             
                 var ret = true,
                     err = '',
+                    billingErrors = validateBillingData(),
 
                     code = $scope.setSelectedClientCode === 'Others' ?
                         $scope.clientNameData.customClientCode :
                         $scope.setSelectedClientCode;
 
+
                 if (!$scope.clientType || $scope.clientType === '') {
                     err = constants.SELECT_CLIENT_TYPE;
                     ret = false;
-                } else if (!$scope.clientNameData.clientName || $scope.clientNameData.clientName === '') {
+                } else if (billingErrors && billingErrors !== ''){
+                
+                    err = billingErrors;
+                    ret = false;
+                }
+                else if (!$scope.clientNameData.clientName || $scope.clientNameData.clientName === '') {
                     err = constants.SELECT_CLIENT_NAME;
                     ret = false;
                 } else if (!code) {
@@ -179,6 +187,7 @@ define(['angularAMD', 'admin-account-service'],
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.Geography = result.data.data;
+                            $scope.GeographyList = $scope.Geography;
                         }
                     });
             }
@@ -308,7 +317,7 @@ define(['angularAMD', 'admin-account-service'],
 
                 var settingMapIds = {
                 'COGS+%' : 'BILLING_TYPE_COGS_PLUS_PERCENTAGE_ID',
-                'COGS+CPM' : 'BILLING_TYPE_COGS_PLUS_CPM_ID',
+                'COGS+CPM' : 'BILLING_TYPE_COGS_PLUS_CPM_PERCENTAGE_ID',
                 'CPM' : 'BILLING_TYPE_CPM_ID',
                 'CPC' : 'BILLING_TYPE_CPC_ID',
                 'CPCV' : 'BILLING_TYPE_CPCV_ID',
@@ -333,7 +342,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             function initBillingForm() {
-
+              
                 getClientBillingTypes().then(function(res){
 
                     if(res.status === 'OK' || res.status === 'success'){
@@ -408,10 +417,12 @@ define(['angularAMD', 'admin-account-service'],
              function makeDefaultBillingSettings(clientId,billingTypes,settings){
 
              _.each(billingTypes, function(item,index){
+              
                 var rateTypeId = item;
 
                 if(!settings[rateTypeId]){
-                    settings[rateTypeId] = {};
+                    settings[rateTypeId] = {};      
+                     settings[rateTypeId].isPercent = index.indexOf('PERCENTAGE') > -1;              
                     settings[rateTypeId].clientId = clientId;
                     settings[rateTypeId].rateTypeId = item;
                     settings[rateTypeId].slices = [{'label':'', 'value':''}];
@@ -524,17 +535,72 @@ define(['angularAMD', 'admin-account-service'],
                         console.log('Error = ', err);
                     });
 
+  
+
+
             }
 
-            function getBillingDataToSave(billingSettings,clientId){
-                var settingsToSave = [];
+            function validateBillingDataSet(billingSettings){
+                var isValid = true;
 
                 _.each(billingSettings, function(item,index){
 
                     var flatFeeSelected = (typeof item.useFlatFee !== 'undefined');
 
                     if(item && item.rate  || flatFeeSelected){
-                        var tempItem = {};
+                       if(item.rate && item.itemize){
+                            var total = 0;
+                           
+                            for(var i = 0 ; i < item.slices.length; i++){
+                                if(item.slices[i].label && item.slices[i].label != ''){
+                                    total += Number(item.slices[i].value);
+                                }
+                        }
+
+                        item.isErrorMessage = '';
+                        item.isError = false;
+
+                         if(item.isPercent && (item.rate < 0  || item.rate > 100)){
+                              item.isError = true;
+                              item.isErrorMessage = constants.BILLING_SETTING_PERCENT_ERROR;
+                              isValid = false;
+                         }
+
+
+                         var expectedItemizationSum = item.isPercent ? item.rate : 100;
+                         var message = item.isPercent ? constants.BILLING_ITEMIZATION_PERCENT_ERROR : constants.BILLING_ITEMIZATION_SUM_ERROR;
+
+                         if(isValid && expectedItemizationSum != total){
+                              item.isError = true;
+                              item.isErrorMessage = message + ' ' + expectedItemizationSum + ' percent';
+                              isValid = false;
+                            }
+
+                        }                    
+                    }
+                });
+
+                return isValid;
+            }
+
+            function validateBillingData(){
+                var errors = ''; 
+                errors = !validateBillingDataSet($scope.clientBillingSettings) ? $scope.textConstants.CLIENT_BILLING_SETTINGS_ERROR : '';
+                errors += !validateBillingDataSet($scope.advertiserBillingSettings) ?  '<br /> ' + $scope.textConstants.ADVERTISER_BILLING_SETTINGS_ERROR : '';
+
+                return errors;
+            }
+
+            function getBillingDataToSave(billingSettings,clientId){
+                var settingsToSave = [],isError = false;
+               
+                _.each(billingSettings, function(item,index){
+
+                    var flatFeeSelected = (typeof item.useFlatFee !== 'undefined');
+
+
+                    if(item && item.rate  || flatFeeSelected){
+                        var tempItem = {}; 
 
                         if(item.id)
                             tempItem.id = item.id;
@@ -552,15 +618,16 @@ define(['angularAMD', 'admin-account-service'],
                         }
 
 
-                        if(item.rate && item.slices){
+                        if(item.rate && item.itemize && item.slices){
 
                             for(var i = 0 ; i < item.slices.length; i++){
                                 if(item.slices[i].label && item.slices[i].label != ''){
                                     tempItem['slice'+ (i+1) + 'Label'] = item.slices[i].label;
                                     tempItem['slice'+ (i+1) + 'Value'] = item.slices[i].value;
+                                   
                                 }
-
                             }
+
                         }
                         settingsToSave.push(tempItem);
                     }
@@ -618,6 +685,8 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             $scope.clientNameData = {};
+
+            $scope.textConstants = constants;
 
             $scope.showUserModeText = function () {
                 return ($scope.mode === 'create' ? 'Add Account' : 'Edit Account ( ' + $scope.clientObj.name + ' )');
@@ -871,18 +940,38 @@ define(['angularAMD', 'admin-account-service'],
                 return $scope.topCtrlData.pixels;
             }
 
+            $scope.filterCountries = function(){
+               
+                $scope.GeographyList = [];
+
+                var input = $('#accountGeography').val();
+
+                _.each($scope.Geography,function(item,index){
+                  if(item.name.indexOf(input) > -1){
+                      $scope.GeographyList.push(item);
+                  }
+                });
+                $('#geoDropdown').show();
+            };
+
+            $scope.$watch('selectedCountry',function(){
+                     $scope.filterCountries();
+            });
+
             $scope.$on('$locationChangeSuccess', function () {
                 $scope.close();
             });
 
             $scope.selectCurrency = function (curr) {
                 $scope.selectedCurrency = curr.currencyCode;
-                $scope.selectedCurrencyId = curr.id;
+                $scope.selectedCurrencyId = curr.id;               
             };
 
             $scope.selectCountry = function (country) {
                 $scope.selectedCountry = country.name;
                 $scope.selectedCountryId = country.id;
+                $('#accountGeography').val($scope.selectedCountry);
+                $('#geoDropdown').hide();
             };
 
             $scope.selectTimeZone = function (timezone) {

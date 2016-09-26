@@ -1,8 +1,8 @@
 define(['angularAMD'], function (angularAMD) {
     angularAMD.service('accountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'workflowService',
-        'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig', 'pageFinder',
+        'subAccountService', 'RoleBasedService', 'featuresService', 'dataService', 'vistoconfig', 'pageFinder', 'utils',
         function ($rootScope, $location, $q, $route, $timeout, workflowService, subAccountService, RoleBasedService, featuresService, dataService,
-                  vistoconfig, pageFinder) {
+                  vistoconfig, pageFinder, utils) {
             var accountList = [],
                 selectedAccount;
 
@@ -88,6 +88,7 @@ define(['angularAMD'], function (angularAMD) {
 
                     subAccountService.reset();
                     featuresService.reset && featuresService.reset();
+                    utils.cleanSearchParameter();
 
                     var selectedAccount,
                         routePermissionMapper = {

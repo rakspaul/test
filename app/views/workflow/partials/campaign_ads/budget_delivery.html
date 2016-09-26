@@ -23,7 +23,7 @@
             <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend | number : 2}}</span>
             <!-- UNCOMMENT THIS LINE AND SET CORRECT VALUE WHEN WE GET SPENT FROM REPORTING
             <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{workflowData.adGroupData.bookedSpend}}</span>-->
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend) | number : 2}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend) | number : 2}}</span>
         </div>
     </div>
 
@@ -192,7 +192,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+
 
             <!--<div class="btn-group miniToggle" style="display:block;">-->
             <!--    <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>-->

@@ -1,23 +1,19 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
-    'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
-    'strategy-select-directive','strategy-select-controller',
-    'time-period-pick-directive', 'kpi-select-directive'],
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
+    'strategy-select-directive','strategy-select-controller', 'time-period-pick-directive', 'kpi-select-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
-            'strategySelectModel', 'dataService', 'constants',
-            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel',
-            'RoleBasedService', 'advertiserModel', 'brandsModel',
-            'urlService', 'featuresService', 'requestCanceller',
-            'utils', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
-                                                              strategySelectModel, dataService, constants,
-                                                              domainReports, vistoconfig, timePeriodModel, loginModel,
-                                                              RoleBasedService, advertiserModel, brandsModel,
-                                                              urlService, featuresService, requestCanceller,
-                                                              utils) {
+        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService', 'constants',
+            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel', 'RoleBasedService', 'advertiserModel', 'brandsModel', 'urlService', 'featuresService',
+            'requestCanceller', 'utils', 'pageLoad',
+            function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, constants, domainReports, vistoconfig, timePeriodModel,
+                      loginModel, RoleBasedService, advertiserModel, brandsModel, urlService, featuresService, requestCanceller, utils, pageLoad) {
             var _currCtrl = this,
                 extractAdFormats;
+
+            console.log('PLATFORM controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             $scope.textConstants = constants;
 
@@ -291,16 +287,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                             label: 'Platform by Quality',
                             download_config_id: 3
                         }
-                    ],
+                    ];
 
-                    isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                // if agency level cost model is opaque
-                if (!isAgencyCostModelTransparent) {
-                    download_report = _.filter(download_report, function (obj) {
-                        return obj.report_name !== 'by_cost';
-                    });
-                }
 
                 $scope.download_report = download_report;
             };
@@ -354,7 +342,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                 $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-                $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
                 $scope.selectedFilters.kpi_type = 'cpm';
                 $scope.selectedFilters2 = {};
