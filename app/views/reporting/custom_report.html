@@ -216,7 +216,7 @@
                                                                ng-keyup="filterAutoCompletion.fetchFilterAutoSugtn($event,addFilts.key,autoFill[filterIndex].text)">
                                                     </div>
                                                     <ul class="dropdown-menu autofill-dropdown"
-                                                        lr-infinite-scroll="filterAutoCompletion.loadMoreData" scroll-threshold="200"
+                                                        lr-infinite-scroll="filterAutoCompletion.loadMoreData" scroll-threshold="400"
                                                         style="min-width: 200px;display:none;">
                                                         <div class="common-loading-area" ng-if="(!(filtersAutoComplArr.length > 0)&& (!filtersAutoComplArr.dataNotFound))"></div>
                                                         <div class="no_data_found marginBottom" style="margin-top:10px;" ng-if="filtersAutoComplArr.dataNotFound">No Data Found</div>

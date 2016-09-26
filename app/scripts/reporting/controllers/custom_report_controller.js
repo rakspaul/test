@@ -3337,7 +3337,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.filtersAutoComplArr = [];
                     $scope.scrollDimension = undefined;
                     $scope.scrollText = undefined;
-                    $scope.offSet = 100;
+                    $scope.offSet = 0;
 
 
                     $scope.hideVisibleDropdown = function (event) {
@@ -3363,10 +3363,10 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                             }
 
                             if(isLoadMoreData){
-                                $scope.offSet+= 100;
+                                $scope.offSet+= 1;
                             } else {
                                 $scope.filtersAutoComplArr = [];
-                                $scope.offSet = 100;
+                                $scope.offSet = 0;
                             }
 
                             if(dimension) {
