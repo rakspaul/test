@@ -277,10 +277,14 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
         $scope.callBackStrategyChange();
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-            $scope.sortType = 'kpi_metrics.' + args;
-            $scope.sortTypeSubSort ='kpi_metrics.' + args;
-            $scope.sortReverse  = sortorder;
+            $scope.sortType = args;
+            $scope.sortReverse = sortorder;
         });
+
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+        };
 
         $scope.removeKpiActive = function () {
             var dropListLi = $('.drop_list li');
@@ -293,8 +297,8 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
         };
 
         $scope.sortClassFunction = function (a,b,c) {
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 
             return isActive + ' ' + sortDirection;
         };

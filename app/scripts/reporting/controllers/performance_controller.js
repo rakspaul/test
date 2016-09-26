@@ -574,11 +574,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
             $scope.sortTypeScreens = args;
             $scope.sortReverse = sortorder;
             $scope.kpiDropdownActive = true;
-            if (Number($scope.selectedStrategy.id) >= 0) {
-                $scope.groupThem = _.sortBy( $scope.groupThem, function(item) {
-                    return $scope.sortReverse ? -item.perf_metrics[0][args] : item.perf_metrics[0][args];
-                });
-            }
+            $scope.specialSort(args);
         });
 
         $scope.removeKpiActive = function () {
@@ -591,6 +587,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         $scope.specialSort = function (passedSortype) {
             if (Number($scope.selectedStrategy.id) >= 0) {
+                passedSortype = (passedSortype === 'dimension') ? 'ad_name' : passedSortype;
                 $scope.groupThem = _.sortBy( $scope.groupThem, function(item) {
                     return $scope.sortReverse ? -item.perf_metrics[0][passedSortype] : item.perf_metrics[0][passedSortype];
                 });
