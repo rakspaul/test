@@ -1268,6 +1268,49 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.REPORT_BUILDER_METRIC_TOOLTIP = 'Metrics that don\'t apply to the selected Dimension(s) will be disabled.';
         this.WF_UNSPECIFIED = 'Unspecified Size';
 
+                //Admin Page
+        this.ABOUT_THIS_ACCOUNT = 'About this Account';
+        this.ACCOUNT_TYPE = 'Account Type:';
+        this.ACCOUNT_NAME = 'Account Name:';
+        this.ACCOUNT_CODE = 'Account Code:';
+        this.ADMIN_CURRENCY = 'Currency:';
+        this.ADMIN_GEOGRAPHY = 'Geography:';
+        this.ADMIN_TIMEZONE = 'Timezone:';
+        this.AD_CHOICES = 'Ad Choices';
+        this.ENTER_CODE = 'Enter Code:';
+        this.ENABLE_AD_CHOICES = 'Enable Ad Choices:';
+        this.AD_CHOICES_CODE_BLOCK = 'Ad Choices Code Block:';
+        this.BILLING_METHOD = 'Billing Method';
+        this.NON_BILLABLE_ACCOUNT = 'Non-billable Account';
+        this.VISTO_LICENCE_USAGE_FEES = 'VISTO Licence & Usage Fees';
+        this.SELECT_FEE_TYPE = 'Select Fee Type:';
+        this.MONTHLY_FLAT_FEE = 'Monthly Flat Fee:';
+        this.MONTHLY_BASIS = 'This fee is applied on a monthly basis.';
+        this.BILLING_FEE = 'Fee';
+        this.BILLING_START = 'Billing Start';
+        this.BILLING_TOTAL_CPM = 'Total CPM';
+        this.BILLING_TOTAL_CPM_DESCRIPTION = 'CPM rate, calculated from Visto Trackers impression counts for all Media Plans run for this account and all of its child accounts.';
+        this.ITEMIZE_CPM_FEES = 'Itemize CPM fees';
+        this.BILLING_TOTAL_CPM_FEES = 'The total CPM fees will be broken down into the following portions in the invoice files:';
+        this.BILLING_LABEL = 'Label';
+        this.BILLING_PORTION = 'Portion';
+        this.TOTAL_COGS = 'Total COGS + %';
+        this.TOTAL_COGS_DESCRIPTION = 'Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, ad serving costs), plus a percentage markup.';
+        this.TOTAL_MARKUP = 'Total Markup';
+        this.ITEMIZE_FEES = 'Itemize Fees';
+        this.TOTAL_MARKUP = 'The total markup will be broken down into the following portions in the invoice files:';
+        this.TOTAL_COGS_CPM = 'Total COGS + CPM';
+        this.TOTAL_COGS_CPM_DESCRIPTION = 'Visto will pass through all costs incurred while executing Media Plans (e.g. media costs, adserving costs), plus a percentage markup';
+        this.TOTAL_PCT_MARKUP = 'Total Pct. Markup';
+        this.PCT_GROSS_REVENUE = '% of Gross Revenue';
+        this.PCT_GROSS_REVENUE_DESCRIPTION = 'Visto will change a percentage of Gross Revenue (Sum of Billable Amounts for ' +
+            'all Line Item run under this Account and its Sub-Accounts).';
+        this.TOTAL_MARKUP_BROKEN = 'The total markup will be broken down into the following portions in the invoice files:';
+        this.PCT_NET_REVENUE = '% of Net Revenue';
+        this.PCT_NET_REVENUE_DESCRIPTION = 'Visto will charge a percentage of Net Revenue';
+
+
+
         this.NOTHINGSELECTED = 'Nothing is Selected' ;
         this.GEONOTE = 'Selections made in the "Select Access" <br> component will appear in this area' ;
         this.ERROR = 'Unkown Error:';
@@ -1295,5 +1338,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BILLING_SETTING_PERCENT_ERROR = 'The rate should be 0 - 100%';
         this.BILLING_ITEMIZATION_SUM_ERROR = 'Itemization item values must add up to ';
         this.BILLING_ITEMIZATION_PERCENT_ERROR = 'Itemization item values must add up to ';
+
+
     }]);
 });

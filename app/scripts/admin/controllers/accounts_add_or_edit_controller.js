@@ -947,7 +947,7 @@ define(['angularAMD', 'admin-account-service'],
                 var input = $('#accountGeography').val();
 
                 _.each($scope.Geography,function(item,index){
-                  if(item.name.indexOf(input) > -1){
+                  if(item.name.toLowerCase().indexOf(input.toLowerCase()) > -1){
                       $scope.GeographyList.push(item);
                   }
                 });
@@ -993,6 +993,8 @@ define(['angularAMD', 'admin-account-service'],
 
                 setTimeout(function () {
                     $('#geography, .setSelectedClientCode').addClass('disabled');
+                    $('#accountGeography').attr("disabled","disabled"); 
+                    $('#accountGeographyDD').hide();               
                 }, 100);
             }
 

@@ -122,7 +122,7 @@
                         <a data-ng-bind="curr.currencyCode" data-ng-click="selectCurrency(curr)"></a>
                     </li>
                 </ul>
-            </div>
+            </div> 
         </div>
     </div>
 
@@ -134,10 +134,11 @@
                        type="text"
                        class="form-control"
                        data-ng-model="selectedCountry"
+                       data-toggle="dropdown"
                        special-character="special-character"
                        data-ng-keyup="filterCountries($event)"
                        placeholder="Select Geography"/>                           
-                    <span class="icon-arrow-solid-down"  data-toggle="dropdown"></span>              
+                    <span id="accountGeographyDD" class="icon-arrow-solid-down"  data-toggle="dropdown"></span>              
                 <ul id="geoDropdown" class="dropdown-menu" data-toggle="dropdown">
                     <li class="available"
                         value="{{country.id}}"
