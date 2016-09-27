@@ -236,10 +236,7 @@ define(['angularAMD'],
 
                             if ($routeParams.advertiserId > 0) {
                                 url += '/adv/' + $routeParams.advertiserId;
-
-                                if ($routeParams.brandId >= 0) {
-                                    url += '/b/' + $routeParams.brandId;
-                                }
+                                url += '/b/' + ($routeParams.brandId || 0);
                             }
 
                             url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
@@ -254,10 +251,7 @@ define(['angularAMD'],
 
                                 if ($routeParams.advertiserId > 0) {
                                     url += '/adv/' + $routeParams.advertiserId;
-
-                                    if ($routeParams.brandId >= 0) {
-                                        url += '/b/' + $routeParams.brandId;
-                                    }
+                                    url += '/b/' + ($routeParams.brandId || 0);
                                 }
 
                                 url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;
@@ -270,10 +264,7 @@ define(['angularAMD'],
 
                                         if ($routeParams.advertiserId > 0) {
                                             url += '/adv/' + $routeParams.advertiserId;
-
-                                            if ($routeParams.brandId >= 0) {
-                                                url += '/b/' + $routeParams.brandId;
-                                            }
+                                            url += '/b/' + ($routeParams.brandId || 0);
                                         }
 
                                         url += '/mediaplans/' + ($routeParams.campaignId || 'reports') + reportName;

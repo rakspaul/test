@@ -9,7 +9,7 @@ define(['angularAMD'], function (angularAMD) {
                 checkbox_boolean : 'checkbox',
                 textbox_integer : 'number',
                 textbox_double : 'number',
-                textbox_string : 'string',
+                textbox_string : 'text',
                 hidden_integer : 'hidden',
                 hidden_string :  'hidden',
                 placement_widget_string : 'hidden'

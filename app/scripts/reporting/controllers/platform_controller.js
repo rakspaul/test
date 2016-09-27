@@ -110,6 +110,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                     tab,
                     errorHandlerForPerformanceTab,
                     url,
+                    indexOfFirstColumn,
                     canceller,
 
                     param = {
@@ -236,14 +237,17 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                             } else {
                                 $scope.platformData = result.data.data;
 
-                                _.each($scope.platformData, function (item) {
+                                _.each($scope.platformData, function (item, i) {
                                     if(item.platform_name === 'Media Plan Totals') {
                                         item.sepratorCls_platform = 'sepratorCls_platform';
+                                        indexOfFirstColumn = i;
                                     }
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
+
+                                $scope.platformData = utils.swapValuesInArray($scope.platformData, 0, indexOfFirstColumn);
 
                                 $scope['dataNotFoundFor' + tab] = false;
                             }
