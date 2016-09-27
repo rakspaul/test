@@ -186,7 +186,7 @@ define(['angularAMD'], function (angularAMD) {
                                                 .then(function () {
                                                     subAccountId = subAccountService.getSubAccounts()[0].id;
                                                     url += '/sa/' + subAccountId;
-                                                    $location.url(page.buildPage(url));
+                                                    that.goToLandingPage(features, url);
                                                 });
                                         }
                                     }
