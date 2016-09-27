@@ -140,7 +140,7 @@ define(['angularAMD'],
 
                     mediaPlanCreateUrl = function () {
 
-                        var url = this.buildBaseUrl();
+                        var url = this.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, -1, -1);
 
                         url += '/mediaplan/create';
 
