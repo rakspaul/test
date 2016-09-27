@@ -18,7 +18,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.textConstants = constants;
 
             // set the default sort type
-            $scope.sortType = 'impressions';
+            //$scope.sortType = 'impressions';
             $scope.sortReverse = false;
             $scope.sortReverseKpiDropdown = true;
 
@@ -26,13 +26,13 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
             $scope.isStrategyDropDownShow = true;
 
-            if ($scope.selected_tab === 'performance') {
-                $scope.sortType = 'impressions';
-            } else if ($scope.selected_tab === 'viewability') {
-                $scope.sortType = 'other_view_impressions';
-            } else {
-                $scope.sortType = 'impressions';
-            }
+            //if ($scope.selected_tab === 'performance') {
+            //    $scope.sortType = 'impressions';
+            //} else if ($scope.selected_tab === 'viewability') {
+            //    $scope.sortType = 'other_view_impressions';
+            //} else {
+            //    $scope.sortType = 'impressions';
+            //}
 
             $scope.strategyLoading = true;
             $scope.strategyFound = true;
