@@ -19,7 +19,7 @@ module.exports =function(grunt) {
                 removeAttributeQuotes: true,
                 removeComments: true,
                 removeEmptyAttributes: true,
-                removeRedundantAttributes: true,
+                removeRedundantAttributes: false, // don't change this
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true
             }
