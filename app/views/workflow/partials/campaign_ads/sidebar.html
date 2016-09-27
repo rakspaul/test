@@ -62,7 +62,7 @@
                 <div class="statusLabel" data-ng-if="adData.totalAdBudget">
                     <div class="col-md-12">
                         <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                        <span data-ng-bind="adData.totalAdBudget"></span>
+                        <span data-ng-bind="adData.totalAdBudget | number"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.ADBUDGET"></span>
                     </div>
                 </div>
