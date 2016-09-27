@@ -62,13 +62,13 @@
                 <div class="statusLabel" data-ng-if="adData.totalAdBudget">
                     <div class="col-md-12">
                         <span style="margin-right: 1px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                        <span data-ng-bind="adData.totalAdBudget"></span>
+                        <span data-ng-bind="adData.totalAdBudget | number"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.ADBUDGET"></span>
                     </div>
                 </div>
-                <div class="statusLabel" data-ng-if="adData.primaryKpi">
+                <div class="statusLabel" data-ng-if="adData.primaryKpi && adData.targetValue">
                     <div class="col-md-12">
-                        <span style="margin-right: 1px;" data-ng-bind="adData.primaryKpi.toLowerCase().search('impressions')!==-1? '#': locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span style="margin-right: 1px;" data-ng-bind="displayKpiSymbol(adData.primaryKpi)"></span>
                         <span style="margin-right: 3px;" data-ng-bind="adData.targetValue | number"></span>
                         <span data-ng-bind="displayKpiInSideBar(adData.primaryKpi)"></span>
                         <span class="greyTxt" data-ng-bind="textConstants.PRIMARYKPIPAR"></span>

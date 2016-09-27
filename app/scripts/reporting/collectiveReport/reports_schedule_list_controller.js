@@ -25,6 +25,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
         pageLoad.hidePageLoader();
 
         $scope.createCustomReportUrl = urlBuilder.customReportsUrl(true);
+        $scope.textConstants = constants;
 
         _curCtrl.filters = {};
         _curCtrl.isFilterExpanded = false;

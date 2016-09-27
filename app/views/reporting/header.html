@@ -4,12 +4,8 @@
         <div class="icon-hamburger" data-ng-click="mobileMenuShow();"></div>
 
         <!--Logo-->
-        <a data-ng-if="showDashboard" data-ng-click="getDashboardUrl()" class="main_logo" id="logo" style="cursor:pointer;">
+        <a data-ng-click="showDashboard ? getDashboardUrl() : ''" class="main_logo" id="logo" style="{{ (showDashboard ? 'cursor:pointer' : 'cursor:default') }}">
             <img data-ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="VISTO" height="32"/>
-        </a>
-
-        <a data-ng-if="!showDashboard" class="main_logo" id="logo2" style="cursor:pointer;">
-            <img data-ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
         </a>
 
         <!--Mobile Menu-->
