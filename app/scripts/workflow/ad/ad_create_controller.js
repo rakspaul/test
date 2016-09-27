@@ -683,6 +683,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 }
             };
 
+            $scope.displayKpiSymbol=function() {
+                return $('#primaryKpiDiv')
+                    .find('.KPI_symbol')
+                    .html();
+            };
 
             $scope.displayVerificationInSideBar = function (selectedSetting) {
                 if (selectedSetting && selectedSetting === constants.VERIFICATION_DEFAULT) {
