@@ -2006,7 +2006,7 @@ define(['common'], function (angularAMD) {
 
         .config(['$compileProvider', function ($compileProvider) {
             // https://docs.angularjs.org/guide/production
-            $compileProvider.debugInfoEnabled(true);
+            $compileProvider.debugInfoEnabled(false);
         }])
 
         .run(function ($rootScope, $location, loginModel, brandsModel, dataService, workflowService , subAccountService, $window) {

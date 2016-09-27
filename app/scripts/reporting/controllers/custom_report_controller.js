@@ -594,7 +594,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.additionalFilters = [];
             $scope.textConstants = constants;
             $scope.additionalValue = 'Contains keywords ...';
-
             $scope.dataNotFound = false;
             $scope.reportDataBusy = false;
             $scope.loadingBtn = false;
@@ -3328,12 +3327,12 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                             $scope.filtersAutoComplArr = $scope.filtersAutoComplArr.concat(response.data.data);
                                         }
                                     } else {
-                                        if($scope.filtersAutoComplArr.length > 0) {
-                                            $scope.filtersAutoComplArr.noMoreData = true;
-                                            $scope.filtersAutoComplArr.dataNotFound = false;
-                                        } else {
-                                            $scope.filtersAutoComplArr.dataNotFound = true;
-                                        }
+                                            if(isLoadMoreData && $scope.filtersAutoComplArr.length > 0) {
+                                                $scope.filtersAutoComplArr.noMoreData = true;
+                                                $scope.filtersAutoComplArr.dataNotFound = false;
+                                            } else {
+                                                $scope.filtersAutoComplArr.dataNotFound = true;
+                                            }
                                     }
                                 });
                             }
