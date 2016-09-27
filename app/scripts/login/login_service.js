@@ -1,10 +1,14 @@
 define(['angularAMD'],
     function (angularAMD) {
+        
         'use strict';
 
-        angularAMD.factory('loginService', ['dataService','urlService', 'loginModel', function (dataService,urlService, loginModel) {
+        angularAMD.factory('loginService', ['dataService', 'urlService', 'loginModel', function (dataService, urlService, loginModel) {
             var loginAction = function (username, password, callback) {
-                    var data = {login: username, password: password};
+                    var data = {
+                        login: username,
+                        password: password
+                    };
 
                     return dataService
                         .post(urlService.APIloginAction(), data, {'Content-Type': 'application/json'})
@@ -16,7 +20,7 @@ define(['angularAMD'],
                 logoutAction = function (callback) {
                     return dataService
                         .fetch(urlService.APIlogoutAction())
-                        .then(function(response) {
+                        .then(function (response) {
                             callback(response);
                         });
                 },

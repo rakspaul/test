@@ -5,9 +5,21 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
         'campaignSelectModel', 'loginModel', 'subAccountService', 'vistoconfig', 'pageLoad', function ($scope, $rootScope, $routeParams, $location, constants, dashboardModel,
                                                                                                        brandsModel, advertiserModel, campaignSelectModel, loginModel,
                                                                                                        subAccountService, vistoconfig, pageLoad) {
-            var updateTitle = function () {
-                dashboardModel.setTitle();
-            };
+            $('.main_navigation_holder').find('.active_tab').removeClass('active_tab');
+
+            $('.main_navigation')
+                .find('.active')
+                .removeClass('active')
+                .end()
+                .find('#dashboard_nav_link')
+                .addClass('active');
+
+            var localStoredCampaignStatus = localStorage.getItem('dashboardStatusFilter');
+
+            dashboardModel.setSelectedStatus(localStoredCampaignStatus);
+            $scope.data = dashboardModel.getData();
+            $scope.data.advertiserSelected = false;
+            $scope.textConstants = constants;
 
             $scope.statusDropdown = function (status, eventType) {
                     var obj = {
@@ -15,9 +27,10 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
                         event_type: eventType
                     };
 
-                    dashboardModel.getData().selectedStatus = status;
-                    localStorage.setItem('dashboardStatusFilter', JSON.stringify(dashboardModel.getData().selectedStatus));
+                    dashboardModel.setSelectedStatus(status);
+                    localStorage.setItem('dashboardStatusFilter', dashboardModel.getSelectedStatus());
                     $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
+                    $scope.data = dashboardModel.getData();
                 };
 
             $scope.hide_bubble_tooltip = function() {
@@ -39,26 +52,13 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 
-            $('.main_navigation_holder').find('.active_tab').removeClass('active_tab');
 
-            $('.main_navigation')
-                .find('.active')
-                .removeClass('active')
-                .end()
-                .find('#dashboard_nav_link')
-                .addClass('active');
-
-            $scope.data = dashboardModel.getData();
-            $scope.data.advertiserSelected = false;
-            $scope.textConstants = constants;
 
             $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
                 dashboardModel.setSelectedBrand(vistoconfig.getSelectedBrandId());
                 dashboardModel.setSelectedAdvertiser(vistoconfig.getSelectAdvertiserId());
-                updateTitle();
             });
 
-            updateTitle();
         }
     ]);
 });

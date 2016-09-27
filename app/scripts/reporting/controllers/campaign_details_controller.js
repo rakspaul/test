@@ -1057,13 +1057,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 };
 
                 $scope.setGraphData = function (campaign, type) {
-                    var url = '/a/' + $routeParams.accountId;
-
-                    if ($routeParams.subAccountId) {
-                        url += '/sa/' + $routeParams.subAccountId;
-                    }
-                    ($routeParams.advertiserId > 0) && (url += '/adv/' + $routeParams.advertiserId);
-                    ($routeParams.advertiserId > 0 && $routeParams.brandId >= 0) && (url += '/b/' + $routeParams.brandId);
+                    var url = urlBuilder.buildBaseUrl();
                     url += '/mediaplans/' + $routeParams.campaignId;
 
                     if (type === 'cost') {
@@ -1075,7 +1069,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     } else if (type === 'platform') {
                         url += '/platform';
                     } else if (type === 'view_report' || type === 'formats' || type === 'screens' || type === 'adsizes') {
-                        url += '/performance';
+                        url += '/performance?reportType=' + type;
                     } else {
                         url += '/Optimization';
                     }

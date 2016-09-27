@@ -1547,7 +1547,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         .then(function (result) {
                             if (result.data.status_code === 200) {
                                 $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.', 0);
-                                $location.url(urlBuilder.customReportsListUrl('reports/schedules'));
+                                $location.url(urlBuilder.customReportsListUrl());
                             }
                         });
                 }
@@ -2696,7 +2696,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     if (result.data.status_code === 200) {
                                         $rootScope.setErrAlertMessage('Scheduled report updated successfully', 0);
                                         $scope.stopRedirectingPage = false;
-                                        $location.url(urlBuilder.customReportsListUrl('reports/schedules'));
+                                        $location.url(urlBuilder.customReportsListUrl());
                                     }
                                 });
                         }
@@ -2854,7 +2854,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 $scope.resetMetricOptions = function () {
                     if ($scope.buttonResetCancel === 'Cancel') {
-                        $location.url(urlBuilder.customReportsListUrl('reports/schedules',true));
+                        $location.url(urlBuilder.customReportsListUrl());
                     } else if ($scope.buttonResetCancel === 'Clear') {
                         localStorage.removeItem('customReport');
                         $location.url(urlBuilder.customReportsUrl(true));

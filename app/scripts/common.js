@@ -27,6 +27,7 @@ define([
     'showErrors',
     'ng-tag',
     'chosen',
+    'populatetemplatecache',
 
     'local-storage-service',
     'account-service',

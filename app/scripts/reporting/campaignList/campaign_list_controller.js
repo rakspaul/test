@@ -113,8 +113,6 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
             $('html').css('background', '#fff');
 
-            $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
             // Based on gauge click, load the filter and reset data set after gauge click.
             if (gaugeModel.dashboard.selectedFilter !== '') {
                 forceLoadCampaignsFilter = gaugeModel.dashboard.selectedFilter;

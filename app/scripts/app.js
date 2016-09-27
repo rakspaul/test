@@ -9,7 +9,7 @@ define(['common'], function (angularAMD) {
         }]);
 
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload',
-        'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
+        'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput', 'visto.templates']);
 
     app
         .config(function ($routeProvider, $httpProvider) {
@@ -18,7 +18,7 @@ define(['common'], function (angularAMD) {
             $routeProvider
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping Visto',
-                    templateUrl: 'home.html',
+                    templateUrl: assets.html_home,
                     controller: function ($scope, $cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
 
@@ -70,9 +70,10 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .when('/login', angularAMD.route({
-                    templateUrl: assets.html_reports_login,
+                    templateUrl: assets.html_login,
                     title: 'Login',
                     controller: 'loginController',
+                    controllerAs : 'login',
                     showHeader: false,
                     controllerUrl: 'login-controller'
                 }))
@@ -1832,7 +1833,64 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/creative/list', angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/adv/:advertiserId/b/:brandId/creative/list', angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
@@ -1916,7 +1974,7 @@ define(['common'], function (angularAMD) {
                     showHeader: false,
                     controllerUrl: 'audit-controller'
                 }))
-                
+
                 .otherwise({redirectTo: '/'});
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -1952,6 +2010,7 @@ define(['common'], function (angularAMD) {
         }])
 
         .run(function ($rootScope, $location, loginModel, brandsModel, dataService, workflowService , subAccountService, $window) {
+
             var loginCheckFunc = function () {
                     var locationPath = $location.path();
 

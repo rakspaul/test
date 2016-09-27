@@ -1,9 +1,14 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder" data-ng-bind="textConstants.SCREEN">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('dimension')"
+          data-ng-click="clickToSort('dimension')"
+          data-ng-bind="textConstants.SCREEN">
     </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('impressions')"
+          data-ng-click="clickToSort('impressions')">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
               data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'">
@@ -12,7 +17,9 @@
     </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('clicks')"
+          data-ng-click="clickToSort('clicks')">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
               data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'">
@@ -22,7 +29,10 @@
 </div>
 <div class="vid_col" data-ng-show="adFormats.videoAds === true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-bind-html="textConstants.VIDEO + ' <br> ' + textConstants.PLAYS">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('video_played')"
+              data-ng-click="clickToSort('video_played')"
+              ng-bind-html="textConstants.VIDEO + ' <br> ' + textConstants.PLAYS">
         </span>
     </div>
     <div class="vid_data_hdr">
@@ -30,29 +40,39 @@
         <br>
         <div class="vid_sub_col">
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder">
+                <span class="icon_text_holder"
+                      data-ng-class="sortClassFunction('vtc_25')"
+                      data-ng-click="clickToSort('vtc_25')">
                     25%
                 </span>
             </div>
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder">
+                <span class="icon_text_holder"
+                      data-ng-class="sortClassFunction('vtc_50')"
+                      data-ng-click="clickToSort('vtc_50')">
                     50%
                 </span>
             </div>
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder">
+                <span class="icon_text_holder"
+                      data-ng-class="sortClassFunction('vtc_75')"
+                      data-ng-click="clickToSort('vtc_75')">
                     75%
                 </span>
             </div>
             <div class="vid_sub_col_hdr">
-                <span class="icon_text_holder">
+                <span class="icon_text_holder"
+                      data-ng-class="sortClassFunction('vtc_100')"
+                      data-ng-click="clickToSort('vtc_100')">
                     100%
                 </span>
             </div>
         </div>
     </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('vtc_100')"
+              data-ng-click="clickToSort('vtc_100')">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'">
@@ -62,7 +82,9 @@
     </div>
 </div>
 <div class="each_col forth_col">
-    <span class="icon_text_holder">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('ctr')"
+          data-ng-click="clickToSort('ctr')">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
               data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'">
@@ -71,17 +93,21 @@
     </span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder">
+    <span class="icon_text_holder"
+          data-ng-class="sortClassFunction('action_rate')"
+          data-ng-click="clickToSort('action_rate')">
         <span class="default-kpi-header-icon"
               tooltip="Primary KPI"
-              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action rate'">
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action_rate'">
         </span>
         {{textConstants.ACTION_RATE}}
     </span>
 </div>
 <div data-ng-show="adFormats.videoAds === false">
     <div class="each_col sixth_col">
-        <span class="icon_text_holder">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('cpa')"
+              data-ng-click="clickToSort('cpa');">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'">
@@ -90,7 +116,9 @@
         </span>
     </div>
     <div class="each_col seventh_col">
-        <span class="icon_text_holder">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('cpc')"
+              data-ng-click="clickToSort('cpc');">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'">
@@ -99,7 +127,9 @@
         </span>
     </div>
     <div class="each_col eight_col">
-        <span class="icon_text_holder">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('cpm')"
+              data-ng-click="clickToSort('cpm');">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'">
@@ -108,7 +138,9 @@
         </span>
     </div>
     <div class="each_col ninth_col">
-        <span class="icon_text_holder">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('pc_cpa')"
+              data-ng-click="clickToSort('pc_cpa');">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'">
@@ -117,7 +149,9 @@
         </span>
     </div>
     <div class="each_col tenth_col">
-        <span class="icon_text_holder">
+        <span class="icon_text_holder"
+              data-ng-class="sortClassFunction('spend')"
+              data-ng-click="clickToSort('spend');">
             <span class="default-kpi-header-icon"
                   tooltip="Primary KPI"
                   data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'">

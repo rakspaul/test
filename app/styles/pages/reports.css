@@ -535,12 +535,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   margin: 0px auto 80px;
   /*width: 1200px;*/
   min-height: 200px ;
-  /*  .each_cost_col {
-    .first_col.icon_text_holder {
-      width: 33px;
-      min-width: 80px;
-    }
-  }*/
 }
 .reports_main_page_holder .load-more {
   margin: 80px auto 0;
@@ -1414,65 +1408,23 @@ div.strategy_total_container .all_strategies_holder .each_strategy .row_list_hol
 div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-child .linkage_lines {
   height: 50px;
 }
-.viewability_details_outer_container .viewability_header,
-.viewability_details_video_mode_outer_container .viewability_header,
 .custom_report_response_table .viewability_header {
   border: solid 1px #ccd9e3;
 }
-.viewability_details_outer_container .viewability_header .each_col.suspicious_col .sort_order_down.active,
-.viewability_details_video_mode_outer_container .viewability_header .each_col.suspicious_col .sort_order_down.active,
 .custom_report_response_table .viewability_header .each_col.suspicious_col .sort_order_down.active {
   background-position: 52px -64px;
   color: #0978c9;
 }
-.viewability_details_outer_container .viewability_header .each_col.suspicious_col .sort_order_down:hover,
-.viewability_details_video_mode_outer_container .viewability_header .each_col.suspicious_col .sort_order_down:hover,
 .custom_report_response_table .viewability_header .each_col.suspicious_col .sort_order_down:hover {
   background-position: 52px 1px;
 }
-.viewability_details_outer_container .viewability_header .each_col.suspicious_col .sort_order_up.active,
-.viewability_details_video_mode_outer_container .viewability_header .each_col.suspicious_col .sort_order_up.active,
 .custom_report_response_table .viewability_header .each_col.suspicious_col .sort_order_up.active {
   background-position: 52px -64px;
   color: #0978c9;
 }
-.viewability_details_outer_container .viewability_header .each_col.suspicious_col .sort_order_up:hover,
-.viewability_details_video_mode_outer_container .viewability_header .each_col.suspicious_col .sort_order_up:hover,
 .custom_report_response_table .viewability_header .each_col.suspicious_col .sort_order_up:hover {
   background-position: 52px 1px;
 }
-.viewability_details_outer_container .icon_text_holder,
-.viewability_details_video_mode_outer_container .icon_text_holder,
-.custom_report_response_table .icon_text_holder {
-  padding-right: 17px;
-}
-.viewability_details_outer_container .sort_order_up,
-.viewability_details_video_mode_outer_container .sort_order_up,
-.custom_report_response_table .sort_order_up {
-  cursor: pointer;
-  padding-right: 17px;
-}
-.viewability_details_outer_container .sort_order_up:hover,
-.viewability_details_video_mode_outer_container .sort_order_up:hover,
-.custom_report_response_table .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 10px 1px rgba(0, 0, 0, 0);
-}
-.viewability_details_outer_container .sort_order_up.active,
-.viewability_details_video_mode_outer_container .sort_order_up.active,
-.custom_report_response_table .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
-  cursor: pointer;
-  padding-right: 17px;
-  color: #0978c9;
-}
-.viewability_details_outer_container .sort_order_down,
-.viewability_details_video_mode_outer_container .sort_order_down,
-.custom_report_response_table .sort_order_down {
-  cursor: pointer;
-  padding-right: 17px;
-}
-.viewability_details_outer_container div.each_col.seventh_col,
-.viewability_details_video_mode_outer_container div.each_col.seventh_col,
 .custom_report_response_table div.each_col.seventh_col {
   text-align: right;
   float: right;
@@ -1481,29 +1433,11 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0;
   color: #313233;
 }
-.viewability_details_outer_container .strategy_total_container div.each_col.seventh_col,
-.viewability_details_video_mode_outer_container .strategy_total_container div.each_col.seventh_col,
 .custom_report_response_table .strategy_total_container div.each_col.seventh_col {
   font-size: 14px ;
   color: #57606d;
 }
-.viewability_details_outer_container,
-.viewability_details_video_mode_outer_container {
-  margin-top: 15px;
-}
-.viewability_details_outer_container .sort_order_up:hover,
-.viewability_details_video_mode_outer_container .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 0px top 1px rgba(0, 0, 0, 0);
-}
-.viewability_details_outer_container .sort_order_up.active:hover,
-.viewability_details_video_mode_outer_container .sort_order_up.active:hover,
-.viewability_details_outer_container .sort_order_down.active:hover,
-.viewability_details_video_mode_outer_container .sort_order_down.active:hover {
-  background-position: 31px -65px;
-}
-.viewability_details_outer_container .no_data_found,
-#reports_platform_viewability_block .no_data_found,
-.viewability_details_video_mode_outer_container .no_data_found {
+#reports_platform_viewability_block .no_data_found {
   text-align: center;
   background: #fff;
   padding: 100px 0px;
@@ -1511,98 +1445,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border-top: 0px ;
   margin-top: 0px ;
 }
-.viewability_details_outer_container .each_col.fifth_col .sub_col span,
-#reports_platform_viewability_block .each_col.fifth_col .sub_col span,
-.viewability_details_video_mode_outer_container .each_col.fifth_col .sub_col span {
-  background-position: 31px -65px;
-}
-.viewability_details_outer_container .each_col.fifth_col .sub_col span:hover,
-#reports_platform_viewability_block .each_col.fifth_col .sub_col span:hover,
-.viewability_details_video_mode_outer_container .each_col.fifth_col .sub_col span:hover {
-  background-position: 31px 0px;
-}
-.viewability_details_outer_container .strategy_total_container .strategy_total_container_header,
-#reports_platform_viewability_block .strategy_total_container .strategy_total_container_header,
-.viewability_details_video_mode_outer_container .strategy_total_container .strategy_total_container_header {
-  /*border-top: 0px ;*/
-}
-.viewability_details_outer_container .strategy_total_container .each_quality.media_plan_totals,
-#reports_platform_viewability_block .strategy_total_container .each_quality.media_plan_totals,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_quality.media_plan_totals {
-  font-family: "Avenir-bold";
-  margin-left: 40px ;
-  color: #21252b;
-}
-.viewability_details_outer_container .strategy_total_container .each_col.first_col,
-#reports_platform_viewability_block .strategy_total_container .each_col.first_col,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_col.first_col {
-  float: none;
-  width: 100% ;
-  color: #21252b;
-  font-size: 14px;
-  font-family: "Avenir-bold";
-  padding-bottom: 0px ;
-}
-.viewability_details_outer_container .strategy_total_container .strategy_total_container_header,
-#reports_platform_viewability_block .strategy_total_container .strategy_total_container_header,
-.viewability_details_video_mode_outer_container .strategy_total_container .strategy_total_container_header {
-  padding-top: 10px ;
-  padding-bottom: 20px ;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder {
-  border-left: solid 1px #ccd9e3;
-  padding-left: 10px ;
-  position: relative;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder .each_col.sec_col,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .each_col.sec_col,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .each_col.sec_col {
-  width: 116px;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder .platform_name_col,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .platform_name_col,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .platform_name_col {
-  width: 263px ;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder .suspicious_col,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .suspicious_col,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .suspicious_col {
-  text-align: right;
-  padding-right: 15px;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder .each_strategy,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .each_strategy,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .each_strategy {
-  float: none;
-  width: auto;
-  padding-top: 10px ;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder .each_strategy:before,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .each_strategy:before,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .each_strategy:before {
-  content: "";
-  height: 1px;
-  width: 10px;
-  background: #d2dee7;
-  top: 50%;
-  left: 0px;
-  position: absolute;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder:last-child,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder:last-child {
-  height: 60px ;
-}
-.viewability_details_outer_container .strategy_total_container .each_strategy_holder:last-child .each_strategy:before,
-#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child .each_strategy:before,
-.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder:last-child .each_strategy:before {
-  top: 100% ;
-}
-.viewability_details_outer_container .each_col,
-#reports_platform_viewability_block .each_col,
-.viewability_details_video_mode_outer_container .each_col {
+#reports_platform_viewability_block .each_col {
   float: left;
   width: 185px;
   margin: 0 25px;
@@ -1611,300 +1454,195 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   color: #21252b;
   font-size: 14px;
 }
-.viewability_details_outer_container .each_col > span,
-#reports_platform_viewability_block .each_col > span,
-.viewability_details_video_mode_outer_container .each_col > span {
+#reports_platform_viewability_block .each_col.fifth_col .sub_col span {
+  background-position: 31px -65px;
+}
+#reports_platform_viewability_block .each_col.fifth_col .sub_col span:hover {
+  background-position: 31px 0px;
+}
+#reports_platform_viewability_block .each_col > span {
   text-align: center;
   display: block;
 }
-.viewability_details_outer_container .each_col .sub_col span,
-#reports_platform_viewability_block .each_col .sub_col span,
-.viewability_details_video_mode_outer_container .each_col .sub_col span {
+#reports_platform_viewability_block .each_col .sub_col span {
   display: block;
   float: left;
 }
-.viewability_details_outer_container .each_col .sub_col span:last-child,
-#reports_platform_viewability_block .each_col .sub_col span:last-child,
-.viewability_details_video_mode_outer_container .each_col .sub_col span:last-child {
+#reports_platform_viewability_block .each_col .sub_col span:last-child {
   float: right;
 }
-.viewability_details_outer_container .each_col .sub_col:before,
 #reports_platform_viewability_block .each_col .sub_col:before,
-.viewability_details_video_mode_outer_container .each_col .sub_col:before,
-.viewability_details_outer_container .each_col .sub_col:after,
-#reports_platform_viewability_block .each_col .sub_col:after,
-.viewability_details_video_mode_outer_container .each_col .sub_col:after {
+#reports_platform_viewability_block .each_col .sub_col:after {
   display: table;
   line-height: 0;
   content: "";
 }
-.viewability_details_outer_container .each_col .sub_col:after,
-#reports_platform_viewability_block .each_col .sub_col:after,
-.viewability_details_video_mode_outer_container .each_col .sub_col:after {
+#reports_platform_viewability_block .each_col .sub_col:after {
   clear: both;
 }
-.viewability_details_outer_container .each_col.viewability_delivered_col > span,
-#reports_platform_viewability_block .each_col.viewability_delivered_col > span,
-.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span {
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span {
   text-align: right;
 }
-.viewability_details_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active,
-#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active,
-.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active {
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active {
   background-position: right -64px;
 }
-.viewability_details_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active:hover,
-#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active:hover,
-.viewability_details_video_mode_outer_container .each_col.viewability_delivered_col > span.sort_order_up.active:hover {
+#reports_platform_viewability_block .each_col.viewability_delivered_col > span.sort_order_up.active:hover {
   background-position: right -64px;
 }
-.viewability_details_outer_container .first_col,
-#reports_platform_viewability_block .first_col,
-.viewability_details_video_mode_outer_container .first_col {
+#reports_platform_viewability_block .strategy_total_container .each_quality.media_plan_totals {
+  font-family: "Avenir-bold";
+  margin-left: 40px ;
+  color: #21252b;
+}
+#reports_platform_viewability_block .strategy_total_container .each_col.first_col {
+  float: none;
+  width: 100% ;
+  color: #21252b;
+  font-size: 14px;
+  font-family: "Avenir-bold";
+  padding-bottom: 0px ;
+}
+#reports_platform_viewability_block .strategy_total_container .strategy_total_container_header {
+  padding-top: 10px ;
+  padding-bottom: 20px ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder {
+  border-left: solid 1px #ccd9e3;
+  padding-left: 10px ;
+  position: relative;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .each_col.sec_col {
+  width: 116px;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .platform_name_col {
+  width: 263px ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .suspicious_col {
+  text-align: right;
+  padding-right: 15px;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .each_strategy {
+  float: none;
+  width: auto;
+  padding-top: 10px ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder .each_strategy:before {
+  content: "";
+  height: 1px;
+  width: 10px;
+  background: #d2dee7;
+  top: 50%;
+  left: 0px;
+  position: absolute;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child {
+  height: 60px ;
+}
+#reports_platform_viewability_block .strategy_total_container .each_strategy_holder:last-child .each_strategy:before {
+  top: 100% ;
+}
+#reports_platform_viewability_block .first_col {
   width: 160px;
   color: #313233;
   font-size: 14px;
   padding-top: 5px;
   margin-left: 4px ;
 }
-.viewability_details_outer_container .first_col .campaign_spec,
-#reports_platform_viewability_block .first_col .campaign_spec,
-.viewability_details_video_mode_outer_container .first_col .campaign_spec {
-  font-size: 12px;
-  font-family: "Avenir";
-}
-.viewability_details_outer_container div.sec_col,
-#reports_platform_viewability_block div.sec_col,
-.viewability_details_video_mode_outer_container div.sec_col {
+#reports_platform_viewability_block div.sec_col {
   width: 115px;
   padding-top: 15px;
   margin-right: 40px ;
 }
-.viewability_details_outer_container div.sec_col div.sub_col span,
-#reports_platform_viewability_block div.sec_col div.sub_col span,
-.viewability_details_video_mode_outer_container div.sec_col div.sub_col span {
+#reports_platform_viewability_block div.sec_col div.sub_col span {
   float: none !important;
   display: block;
   text-align: center;
 }
-.viewability_details_outer_container div.sec_col .graph_col .full_graph_line,
-#reports_platform_viewability_block div.sec_col .graph_col .full_graph_line,
-.viewability_details_video_mode_outer_container div.sec_col .graph_col .full_graph_line {
-  width: 124px;
-  height: 8px;
-  background: #cceaff;
-  margin: 10px auto;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-}
-.viewability_details_outer_container div.sec_col .graph_col .filled_graph_line,
-#reports_platform_viewability_block div.sec_col .graph_col .filled_graph_line,
-.viewability_details_video_mode_outer_container div.sec_col .graph_col .filled_graph_line {
-  height: 8px;
-  width: 100px;
-  background: #1787d8;
-  border-radius: 2px 0 0 2px;
-  -moz-border-radius: 2px 0 0 2px;
-  -webkit-border-radius: 2px 0 0 2px;
-}
-.viewability_details_outer_container div.sec_col .graph_col .fully_filled,
-#reports_platform_viewability_block div.sec_col .graph_col .fully_filled,
-.viewability_details_video_mode_outer_container div.sec_col .graph_col .fully_filled {
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-}
-.viewability_details_outer_container div.sec_col .graph_col .graph_end_points,
-#reports_platform_viewability_block div.sec_col .graph_col .graph_end_points,
-.viewability_details_video_mode_outer_container div.sec_col .graph_col .graph_end_points {
-  color: #7d8a93;
-  font-size: 12px;
-  font-family: "Avenir";
-}
-.viewability_details_outer_container div.sec_col .graph_col .graph_end_points span,
-#reports_platform_viewability_block div.sec_col .graph_col .graph_end_points span,
-.viewability_details_video_mode_outer_container div.sec_col .graph_col .graph_end_points span {
-  display: block;
-  float: left;
-}
-.viewability_details_outer_container div.sec_col .graph_col .graph_end_points span:last-child,
-#reports_platform_viewability_block div.sec_col .graph_col .graph_end_points span:last-child,
-.viewability_details_video_mode_outer_container div.sec_col .graph_col .graph_end_points span:last-child {
-  float: right;
-}
-.viewability_details_outer_container .fifth_col .sub_col span,
-#reports_platform_viewability_block .fifth_col .sub_col span,
-.viewability_details_video_mode_outer_container .fifth_col .sub_col span {
+#reports_platform_viewability_block .fifth_col .sub_col span {
   width: 33%;
   text-align: center;
 }
-.viewability_details_outer_container .sixth_col,
-#reports_platform_viewability_block .sixth_col,
-.viewability_details_video_mode_outer_container .sixth_col {
+#reports_platform_viewability_block .sixth_col {
   text-align: center;
   width: 110px;
 }
-.viewability_details_outer_container div.each_col.seventh_col,
-#reports_platform_viewability_block div.each_col.seventh_col,
-.viewability_details_video_mode_outer_container div.each_col.seventh_col {
+#reports_platform_viewability_block div.each_col.seventh_col {
   text-align: right;
   float: right;
   width: 115px;
   margin: 0;
 }
-.viewability_details_outer_container .third_col,
-#reports_platform_viewability_block .third_col,
-.viewability_details_video_mode_outer_container .third_col {
+#reports_platform_viewability_block .third_col {
   margin-left: 30px ;
 }
-.viewability_details_outer_container .third_col,
 #reports_platform_viewability_block .third_col,
-.viewability_details_video_mode_outer_container .third_col,
-.viewability_details_outer_container .forth_col,
-#reports_platform_viewability_block .forth_col,
-.viewability_details_video_mode_outer_container .forth_col {
+#reports_platform_viewability_block .forth_col {
   width: 180px ;
 }
-.viewability_details_outer_container .suspicious_col,
-#reports_platform_viewability_block .suspicious_col,
-.viewability_details_video_mode_outer_container .suspicious_col {
+#reports_platform_viewability_block .suspicious_col {
   width: 90px ;
   text-align: center;
 }
-.viewability_details_outer_container .viewability_header,
-#reports_platform_viewability_block .viewability_header,
-.viewability_details_video_mode_outer_container .viewability_header {
+#reports_platform_viewability_block .viewability_header {
   background: #fff;
   padding: 10px 20px;
 }
-.viewability_details_outer_container .viewability_header .each_col,
-#reports_platform_viewability_block .viewability_header .each_col,
-.viewability_details_video_mode_outer_container .viewability_header .each_col {
+#reports_platform_viewability_block .viewability_header .each_col {
   padding-top: 0px;
   color: #21252b;
   font-size: 14px ;
   font-weight: 500 ;
 }
-.viewability_details_outer_container .viewability_header .each_col.active,
-#reports_platform_viewability_block .viewability_header .each_col.active,
-.viewability_details_video_mode_outer_container .viewability_header .each_col.active {
+#reports_platform_viewability_block .viewability_header .each_col.active {
   color: #0978c9;
 }
-.viewability_details_outer_container .viewability_header .sec_col .sub_col span,
-#reports_platform_viewability_block .viewability_header .sec_col .sub_col span,
-.viewability_details_video_mode_outer_container .viewability_header .sec_col .sub_col span {
+#reports_platform_viewability_block .viewability_header .sec_col .sub_col span {
   display: block;
   text-align: center;
   width: 100% ;
 }
-.viewability_details_outer_container .viewability_header .first_col,
-#reports_platform_viewability_block .viewability_header .first_col,
-.viewability_details_video_mode_outer_container .viewability_header .first_col {
+#reports_platform_viewability_block .viewability_header .first_col {
   font-family: "Avenir-bold";
 }
-.viewability_details_outer_container .viewability_header .first_col span,
-#reports_platform_viewability_block .viewability_header .first_col span,
-.viewability_details_video_mode_outer_container .viewability_header .first_col span {
+#reports_platform_viewability_block .viewability_header .first_col span {
   text-transform: capitalize;
   text-align: left;
   font-size: 14px;
 }
-.viewability_details_outer_container .viewability_header .first_col,
 #reports_platform_viewability_block .viewability_header .first_col,
-.viewability_details_video_mode_outer_container .viewability_header .first_col,
-.viewability_details_outer_container .viewability_header .seventh_col,
-#reports_platform_viewability_block .viewability_header .seventh_col,
-.viewability_details_video_mode_outer_container .viewability_header .seventh_col {
+#reports_platform_viewability_block .viewability_header .seventh_col {
   padding-top: 20px;
   /*
       text-transform: uppercase;*/
 }
-.viewability_details_outer_container .viewability_header .seventh_col,
-#reports_platform_viewability_block .viewability_header .seventh_col,
-.viewability_details_video_mode_outer_container .viewability_header .seventh_col {
+#reports_platform_viewability_block .viewability_header .seventh_col {
   margin: 0;
 }
-.viewability_details_outer_container .viewability_header .seventh_col .dropdown_ul,
-#reports_platform_viewability_block .viewability_header .seventh_col .dropdown_ul,
-.viewability_details_video_mode_outer_container .viewability_header .seventh_col .dropdown_ul {
+#reports_platform_viewability_block .viewability_header .seventh_col .dropdown_ul {
   text-align: left;
   min-width: 130px;
   left: -8px;
   font-size: 14px;
 }
-.viewability_details_outer_container .viewability_header .seventh_col .arrrow_img,
-#reports_platform_viewability_block .viewability_header .seventh_col .arrrow_img,
-.viewability_details_video_mode_outer_container .viewability_header .seventh_col .arrrow_img {
+#reports_platform_viewability_block .viewability_header .seventh_col .arrrow_img {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat 0px 0px;
   margin-left: 2px ;
 }
-.viewability_details_outer_container .viewability_header .sub_col,
-#reports_platform_viewability_block .viewability_header .sub_col,
-.viewability_details_video_mode_outer_container .viewability_header .sub_col {
+#reports_platform_viewability_block .viewability_header .sub_col {
   border-top: solid 1px #ccc;
   margin-top: 8px;
   padding-top: 8px;
 }
-.viewability_details_outer_container .each_strategy_holder:last-child .linkage_lines:after,
-#reports_platform_viewability_block .each_strategy_holder:last-child .linkage_lines:after,
-.viewability_details_video_mode_outer_container .each_strategy_holder:last-child .linkage_lines:after {
+#reports_platform_viewability_block .each_strategy_holder:last-child .linkage_lines:after {
   top: 100% ;
 }
-.viewability_details_outer_container .all_strategies_holder .linkage_lines,
-#reports_platform_viewability_block .all_strategies_holder .linkage_lines,
-.viewability_details_video_mode_outer_container .all_strategies_holder .linkage_lines {
+#reports_platform_viewability_block .all_strategies_holder .linkage_lines {
   height: 132px ;
 }
-.viewability_details_outer_container .tooltip_holder .common_tooltip,
-#reports_platform_viewability_block .tooltip_holder .common_tooltip,
-.viewability_details_video_mode_outer_container .tooltip_holder .common_tooltip {
+#reports_platform_viewability_block .tooltip_holder .common_tooltip {
   text-align: left !important;
 }
-.viewability_details_video_mode_outer_container .sort_order_down.active {
-  background-position: right -65px;
-}
-.viewability_details_video_mode_outer_container .sort_order_down.active:hover {
-  background-position: right -65px;
-}
-.viewability_details_video_mode_outer_container .sort_order_up.active {
-  background-position: right -65px;
-}
-.viewability_details_video_mode_outer_container .sort_order_up.active:hover {
-  background-position: right -65px;
-}
-.viewability_details_outer_container .strategy_total_container_header .each_col.sec_col {
-  margin-left: 35px ;
-}
-.viewability_details_outer_container .suspicious_col .strategy_total_container .each_strategy_holder {
-  width: 225px ;
-  text-align: center;
-}
-.viewability_details_outer_container .media_plan_totals {
-  font-family: "Avenir-bold";
-  margin-left: 50px ;
-  color: #21252b;
-}
-.viewability_details_outer_container .sort_order_down.active:hover {
-  background-position: right -65px;
-}
-.viewability_details_outer_container .sort_order_up.active:hover {
-  background-position: right -65px;
-}
-.viewability_details_outer_container .each_col.fifth_col .sub_col span.active:hover {
-  background-position: 31px -65px;
-}
-.viewability_details_outer_container .each_col.forth_col .sub_col span.active:hover {
-  background-position: right -65px;
-}
-.viewability_details_outer_container .each_col.third_col .sub_col span.active:hover {
-  background-position: right -64px;
-}
-.viewability_details_outer_container .each_col.second_col .icon_text_holder.sort_order_up.active:hover {
-  background-position: right -64px !important;
-}
 .viewability_video_mode_container .each_strategy .first_col,
-.viewability_details_outer_container .each_strategy .first_col,
 #reports_platform_performance_block .each_strategy .first_col,
 #reports_platform_viewability_block .each_strategy .first_col {
   padding-left: 10px ;
@@ -1927,29 +1665,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-right: 0;
   padding-right: 10px;
 }
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder.sort_order_up {
-  background-image: url("/images/cdesk/sorting_arrows_up.png");
-  background-repeat: no-repeat;
-}
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder.sort_order_up.active {
-  background-image: url("/images/cdesk/sorting_arrows_down.png");
-}
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder.sort_order_down {
-  background-image: url("/images/cdesk/sorting_arrows_down.png");
-  background-repeat: no-repeat;
-}
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder.sort_order_down.active {
-  background-image: url("/images/cdesk/sorting_arrows_up.png");
-}
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder.active {
-  background-position: 68px -64px;
-}
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder.active:hover {
-  background-position: 68px -64px;
-}
-#reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col .tooltip_holder:hover {
-  background-position: 68px 1px;
-}
 #reports_platform_viewability_block.reports_video_mode_viewability_container .each_col.forth_col span {
   text-align: center;
 }
@@ -1967,9 +1682,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .viewability_header .measurable_col .icon_text_holder,
 #reports_platform_viewability_block .viewability_header .forth_col .icon_text_holder {
   padding-right: 17px ;
-}
-#reports_platform_viewability_block .viewability_header .suspicious_col .icon_text_holder:hover {
-  background-position: 110px 1px;
 }
 #reports_platform_viewability_block .strategy_total_container {
   border-top: none ;
@@ -2007,19 +1719,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 140px;
   margin: 0 5px;
 }
-#reports_platform_viewability_block .suspicious_col .icon_text_holder {
-  background-position: 110px -65px;
-}
-#reports_platform_viewability_block .suspicious_col .icon_text_holder:hover {
-  background-position: 74px 1px;
-}
-#reports_platform_viewability_block .suspicious_col .icon_text_holder.active:hover {
-  background-position: 110px -65px;
-}
 #reports_platform_viewability_block .each_col {
   padding-top: 0px ;
   padding-bottom: 0px ;
-  /*margin-bottom: 10px;*/
 }
 #reports_platform_viewability_block .platform_name_col {
   text-align: left;
@@ -2109,13 +1811,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_margin_block.reports_video_mode_viewability_container .each_col.forth_col span {
   text-align: center;
-}
-.viewability_details_video_mode_outer_container .viewability_header .each_col > span {
-  text-transform: none;
-  font-size: 14px;
-}
-.viewability_details_video_mode_outer_container .viewability_header .each_col .pull-left {
-  font-size: 14px;
 }
 .view_mode_switch_container {
   float: none ;
@@ -2213,114 +1908,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .viewed_ad .specific_ad_icon {
   background: url("/images/cdesk/viewed.png") no-repeat center center;
-}
-.next_val {
-  margin: 10px 0 ;
-}
-.viewability_details_video_mode_outer_container .viewability_header .sec_col,
-.viewability_details_video_mode_outer_container .viewability_header .ad_col,
-.viewability_details_video_mode_outer_container .viewability_header .suspicious_act_col {
-  /* margin-top: 6px;*/
-}
-.viewability_details_video_mode_outer_container .viewability_header .suspicious_act_col {
-  width: 160px ;
-  margin-top: 20px ;
-}
-.viewability_details_video_mode_outer_container .viewability_header .sec_col {
-  margin-top: 20px ;
-}
-.viewability_details_video_mode_outer_container .viewability_header .vtc_col {
-  margin-top: 16px ;
-}
-.viewability_details_video_mode_outer_container .viewability_header .vtc_col .tooltip_holder {
-  margin-left: 4px ;
-}
-.viewability_details_video_mode_outer_container .viewability_header .vtc_col .common_tooltip {
-  width: 200px;
-  left: -90px;
-}
-.viewability_details_video_mode_outer_container .viewability_header .vtc_col .common_tooltip:after {
-  left: 88px;
-}
-.viewability_details_video_mode_outer_container .title_tooltip {
-  margin-left: 150px ;
-}
-.viewability_details_video_mode_outer_container .title_tooltip .tooltip_holder {
-  margin-left: 5px ;
-}
-.viewability_details_video_mode_outer_container .tooltip_show_icon {
-  width: 15px;
-}
-.viewability_details_video_mode_outer_container .viewability_table_body .each_col {
-  text-align: right;
-  padding-right: 17px;
-}
-.viewability_details_video_mode_outer_container .viewability_table_body .sub_four_cols {
-  padding-right: 0px ;
-}
-.viewability_details_video_mode_outer_container .viewability_table_body .first_col {
-  text-align: left;
-}
-.viewability_details_video_mode_outer_container .viewability_table_body .third_col {
-  margin-left: 50px ;
-}
-.viewability_details_video_mode_outer_container .viewability_table_body .common-load-icon_viewability {
-  border: solid 1px #ccd9e3;
-  border-top: 0;
-  width: 100%;
-  margin: 0;
-  padding: 100px 0;
-}
-.viewability_details_video_mode_outer_container .each_col > span.icon_text_holder {
-  text-align: right;
-  text-transform: none;
-}
-.viewability_details_video_mode_outer_container .each_col {
-  width: 150px ;
-  margin-right: 0px ;
-  text-align: right;
-}
-.viewability_details_video_mode_outer_container .first_col {
-  margin-left: 0px ;
-}
-.viewability_details_video_mode_outer_container .third_col {
-  width: 160px ;
-}
-.viewability_details_video_mode_outer_container div.sec_col {
-  width: 130px ;
-  margin-left: 0px ;
-}
-.viewability_details_video_mode_outer_container .ad_col {
-  width: 155px ;
-}
-.viewability_details_video_mode_outer_container .ad_col .tooltip_for_txt {
-  width: 73% ;
-  margin-right: 6px ;
-}
-.viewability_details_video_mode_outer_container .ad_col .ad_val {
-  float: right;
-}
-.viewability_details_video_mode_outer_container .ad_col .common_tooltip {
-  width: 140px;
-  left: -55px;
-}
-.viewability_details_video_mode_outer_container .ad_col .common_tooltip:after {
-  left: 52px ;
-}
-.viewability_details_video_mode_outer_container .sub_four_cols {
-  width: 385px ;
-}
-.viewability_details_video_mode_outer_container .sub_four_cols .common_tooltip {
-  width: 200px;
-  left: -95px;
-}
-.viewability_details_video_mode_outer_container .sub_four_cols .common_tooltip:after {
-  left: 93px;
-}
-.viewability_details_video_mode_outer_container .sub_four_cols .sub_col span {
-  width: 25% ;
-  text-align: right;
-  padding-right: 17px;
 }
 /****************** Maring Block  ************/
 #reports_platform_margin_block .no_data_found {
@@ -4059,6 +3646,18 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .cost_container .reports_main_page_holder .direction_arrows div {
   height: 25px;
 }
+#reports_platform_cost_block .drop_list,
+.cost_container .drop_list {
+  width: 80% !important;
+}
+#reports_platform_cost_block .direction_arrows,
+.cost_container .direction_arrows {
+  margin-top: 10px !important;
+}
+#reports_platform_cost_block .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li,
+.cost_container .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li {
+  padding: 7px 15px !important;
+}
 .kpi-dd-holder,
 #kpi_dropdown {
   padding-right: 13px;
@@ -4188,11 +3787,24 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .vtc_col .icon_text_holder {
   padding-right: 10px ;
 }
-#reports_platform_viewability_block.reports_video_mode_viewability_container .row_list_holder .sub_col span {
+#reports_platform_viewability_block.reports_video_mode_viewability_container .row_list_holder .sub_four_cols span {
   padding-right: 25px ;
 }
 #reports_platform_viewability_block.reports_video_mode_viewability_container .row_list_holder .third_col {
   margin-left: 12px ;
+}
+#reports_platform_viewability_block.reports_display_mode_viewability_container .viewability_header {
+  padding-left: 0px ;
+}
+#reports_platform_viewability_block.reports_display_mode_viewability_container .viewability_header .platform_name_col {
+  padding-left: 15px ;
+}
+#reports_platform_viewability_block.reports_display_mode_viewability_container .viewability_header .suspicious_col {
+  margin-top: 15px ;
+}
+#reports_platform_viewability_block.reports_display_mode_viewability_container .measurable_col,
+#reports_platform_viewability_block.reports_display_mode_viewability_container .forth_col {
+  width: 200px;
 }
 .report_generator_and_response {
   background: #fff ;
@@ -5306,3 +4918,233 @@ body.custom_report_page .bodyWrap {
 .quality_page_holder .smallScreenScrollContainer {
   margin-top: 30px ;
 }
+/* Quality Report Page - Display And Video both */
+.viewability_details_outer_container,
+.viewability_details_video_mode_outer_container {
+  margin-top: 15px;
+}
+.viewability_details_outer_container .no_data_found,
+.viewability_details_video_mode_outer_container .no_data_found {
+  text-align: center;
+  background: #fff;
+  padding: 100px 0px;
+  border: solid 1px #d2dee7;
+  border-top: 0px ;
+  margin-top: 0px ;
+}
+.viewability_details_outer_container .media_plan_totals,
+.viewability_details_video_mode_outer_container .media_plan_totals,
+.viewability_details_outer_container .first_col,
+.viewability_details_video_mode_outer_container .first_col {
+  font-family: "Avenir-bold";
+}
+.viewability_details_outer_container .common_tooltip,
+.viewability_details_video_mode_outer_container .common_tooltip {
+  text-align: left;
+}
+.viewability_details_outer_container .each_col,
+.viewability_details_video_mode_outer_container .each_col {
+  float: left;
+  padding-top: 15px;
+  padding-bottom: 10px ;
+  text-align: right;
+  color: #21252b;
+  font-size: 14px;
+}
+.viewability_details_outer_container .each_col .sub_col span,
+.viewability_details_video_mode_outer_container .each_col .sub_col span {
+  display: block;
+  float: left;
+}
+.viewability_details_outer_container .each_col .sub_col span:last-child,
+.viewability_details_video_mode_outer_container .each_col .sub_col span:last-child {
+  float: right;
+}
+.viewability_details_outer_container div.each_col.first_col,
+.viewability_details_video_mode_outer_container div.each_col.first_col {
+  float: none;
+  width: 100%;
+  text-align: left;
+}
+.viewability_details_outer_container .viewability_header,
+.viewability_details_video_mode_outer_container .viewability_header {
+  border: solid 1px #ccd9e3;
+}
+.viewability_details_outer_container .viewability_header .each_col,
+.viewability_details_video_mode_outer_container .viewability_header .each_col {
+  padding-top: 0px;
+}
+.viewability_details_outer_container .all_strategies_holder .linkage_lines,
+.viewability_details_video_mode_outer_container .all_strategies_holder .linkage_lines {
+  height: 132px ;
+}
+.viewability_details_outer_container .strategy_total_container .strategy_total_container_header,
+.viewability_details_video_mode_outer_container .strategy_total_container .strategy_total_container_header {
+  padding: 10px 0 20px 10px ;
+}
+.viewability_details_outer_container .strategy_total_container .each_strategy_holder,
+.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder {
+  border-left: solid 1px #ccd9e3;
+  padding-left: 10px ;
+  position: relative;
+}
+.viewability_details_outer_container .strategy_total_container .each_strategy_holder .each_strategy,
+.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .each_strategy {
+  float: none;
+  width: auto;
+  padding-top: 10px ;
+}
+.viewability_details_outer_container .strategy_total_container .each_strategy_holder .each_strategy:before,
+.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder .each_strategy:before {
+  content: "";
+  height: 1px;
+  width: 10px;
+  background: #d2dee7;
+  top: 50%;
+  left: 0px;
+  position: absolute;
+}
+.viewability_details_outer_container .strategy_total_container .each_strategy_holder:last-child .each_strategy:before,
+.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder:last-child .each_strategy:before {
+  top: 100% ;
+}
+/* End of Quality Report Page - Display And Video both */
+/* Quality Report Page - Display selected */
+.viewability_details_outer_container .viewability_header {
+  padding: 10px ;
+}
+.viewability_details_outer_container .viewability_header .sec_col .sub_col span {
+  display: block;
+  text-align: center;
+  width: 100% ;
+}
+.viewability_details_outer_container .viewability_header .sub_col {
+  border-top: solid 1px #ccc;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.viewability_details_outer_container .each_col {
+  width: 185px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.viewability_details_outer_container .each_col .sub_col span:last-child {
+  margin-right: 0px ;
+}
+.viewability_details_outer_container .each_col.first_col {
+  padding: 5px 0 0px 22px;
+  margin-left: 4px;
+}
+.viewability_details_outer_container .each_col.sec_col {
+  width: 115px;
+}
+.viewability_details_outer_container .each_col.third_col,
+.viewability_details_outer_container .each_col.forth_col {
+  width: 180px ;
+}
+.viewability_details_outer_container .each_col.fifth_col {
+  width: 165px ;
+  text-align: center;
+}
+.viewability_details_outer_container .each_col.fifth_col .sub_col span {
+  width: 31%;
+  margin-right: 3%;
+}
+.viewability_details_outer_container .each_col.fifth_col .sub_col span:first-child {
+  text-align: left;
+}
+.viewability_details_outer_container .each_col.fifth_col .sub_col span:last-child {
+  text-align: right;
+  margin-right: 0px ;
+}
+.viewability_details_outer_container .each_col.suspicious_col {
+  width: 135px ;
+}
+.viewability_details_outer_container .media_plan_totals {
+  margin-left: 20px ;
+}
+.viewability_details_outer_container .each_strategy_holder:last-child .linkage_lines:after {
+  top: 100% ;
+}
+.viewability_details_outer_container .tooltip_holder .common_tooltip {
+  width: 165px ;
+}
+/* End of Quality Report Page - Display selected */
+/*Quality Report Page - Video selected */
+.viewability_details_video_mode_outer_container .viewability_header {
+  padding: 10px 0px 10px 10px ;
+}
+.viewability_details_video_mode_outer_container .viewability_header .sub_col {
+  border-top: solid 1px #ccc;
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.viewability_details_video_mode_outer_container .each_col {
+  width: 150px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+.viewability_details_video_mode_outer_container .each_col.first_col {
+  padding: 5px 0 0px 10px ;
+}
+.viewability_details_video_mode_outer_container .each_col.sec_col {
+  width: 130px;
+}
+.viewability_details_video_mode_outer_container .each_col.third_col,
+.viewability_details_video_mode_outer_container .each_col.forth_col {
+  width: 180px ;
+}
+.viewability_details_video_mode_outer_container .each_col.suspicious_act_col {
+  width: 150px ;
+}
+.viewability_details_video_mode_outer_container .each_col.ad_col {
+  width: 155px ;
+}
+.viewability_details_video_mode_outer_container .each_col.ad_col .common_tooltip {
+  width: 155px;
+  left: -72px;
+}
+.viewability_details_video_mode_outer_container .each_col.ad_col .common_tooltip:after {
+  left: 68px ;
+}
+.viewability_details_video_mode_outer_container .each_col.sub_four_cols {
+  width: 300px ;
+}
+.viewability_details_video_mode_outer_container .each_col.sub_four_cols .sub_col span {
+  width: 21% ;
+  margin-right: 3%;
+}
+.viewability_details_video_mode_outer_container .each_col.sub_four_cols .sub_col span:last-child {
+  text-align: right;
+  margin-right: 7%;
+}
+.viewability_details_video_mode_outer_container .media_plan_totals {
+  margin-left: 40px ;
+}
+.viewability_details_video_mode_outer_container .strategy_total_container .each_strategy_holder:last-child {
+  height: 60px ;
+}
+.viewability_details_video_mode_outer_container .title_tooltip {
+  margin-left: 92px ;
+}
+.viewability_details_video_mode_outer_container .title_tooltip .tooltip_holder {
+  margin-left: 5px ;
+}
+.viewability_details_video_mode_outer_container .title_tooltip .common_tooltip {
+  width: 200px;
+  left: -95px;
+}
+.viewability_details_video_mode_outer_container .title_tooltip .common_tooltip:after {
+  left: 93px;
+}
+.viewability_details_video_mode_outer_container .tooltip_show_icon {
+  width: 15px;
+}
+.viewability_details_video_mode_outer_container .viewability_table_body .common-load-icon_viewability {
+  border: solid 1px #ccd9e3;
+  border-top: 0;
+  width: 100%;
+  margin: 0;
+  padding: 100px 0;
+}
+/* End of Quality Report Page - Video selected */

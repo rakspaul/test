@@ -5,6 +5,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         'workflowService', 'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder', 'pageLoad',
         function ($scope, $rootScope, $routeParams, $route, $timeout, $location, $window, constants, domainReports, workflowService,
                   momentService, loginModel, vistoconfig,accountService, urlBuilder, pageLoad) {
+            
             var creativeDataArr,
                 winHeight = $(window).height(),
                 isSearch = false,
@@ -70,7 +71,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                     onScrollFetchCreatives :  function () {
                         if ($(window).scrollTop() + $(window).height() === $(document).height() && !$scope.creativeLastPage) {
                             $scope.loadCreativeData = true;
-                            $scope.pageNo += 1;
+                            $scope.pageNo = $scope.pageNo ? ($scope.pageNo + 1) : 1;
                             creativeParams.pageNo = $scope.pageNo;
 
                             if (window.location.href.indexOf('creative/list') > -1) {
