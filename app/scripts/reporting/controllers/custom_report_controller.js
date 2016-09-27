@@ -267,12 +267,15 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 return params;
             };
 
-          /*  _customctrl.createRequestParams = function (filterText, offset, isPrimary, rowIndex_2D, dataFormat) {
-                var params,
+            _customctrl.createRequestParams = function(firstDimId,firstDimValue, offset, isPrimary, rowIndex_2D,dataFormat){
+                var
                     dimensionDataKey = isPrimary ? 'primary' : 'secondary',
                     filterDataKey = isPrimary ? 'secondary' : 'primary',
-                    str = $scope.reports.reportDefinition.dimensions[dimensionDataKey].dimension,
-                    pos;
+                    requestStr = 'dimension=',
+                    nameFilter='',
+                    idFilter='',
+                    nameFilterExactMatch=''
+                    ;
 
                 if (isPrimary) {
                     $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
@@ -280,203 +283,113 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 $scope.isReportForMultiDimension = false;
 
-                if ($scope.reports.reportDefinition.dimensions[dimensionDataKey].value) {
-                    str += ':' + $scope.reports.reportDefinition.dimensions[dimensionDataKey].value;
-                }
-
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
                     $scope.isReportForMultiDimension = true;
 
                     if (isPrimary) {
                         $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
                     }
-
-                    if (dataFormat && dataFormat === 'csv') {
-                        str += '&second_dim=';
-                    } else if (isPrimary) {
-                        str += '&filter=';
-                    } else {
-                        str += '&first_dim_filter=';
-                    }
-
-                    str += $scope.reports.reportDefinition.dimensions[filterDataKey].dimension;
-
-                    if ($scope.reports.reportDefinition.dimensions[filterDataKey].value && isPrimary) {
-                        str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
-                    }
-
-                    if (typeof filterText !== 'undefined' &&
-                        filterText !== null &&
-                        filterText !== '' &&
-                        str.search(filterText.trim()) === -1) {
-                        str += ':' + filterText;
-                    }
                 }
 
+
+                //attach primary and secondary key(if selected)
+                if(isPrimary){
+                    //for Primary level attach only primary key though secondary key is also selected.
+                    requestStr+= $scope.reports.reportDefinition.dimensions.primary.dimension;
+                } else {
+                    //for Secondary level attach only secondary key though primary key is also selected.
+                    requestStr+= $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                }
+
+                //attach key for download
+                if((dataFormat && dataFormat === 'csv') && (isPrimary)){
+                    requestStr+= ','+ $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                }
+
+                //if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
+                  //  requestStr+=','+$scope.reports.reportDefinition.dimensions.secondary.dimension;
+               // }
+
+                //make primary and secondary value(if selected)
+                if($scope.reports.reportDefinition.dimensions.primary.value) {
+                    nameFilter = 'name_filter='+
+                        $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
+                }
+                if($scope.reports.reportDefinition.dimensions.secondary.value) {
+                    nameFilter+= '~'+ $scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                }
+
+                //additional filter
                 if ($scope.additionalFilters.length > 0) {
-                    if (str.search('&filter') === -1) {
-                        str += '&filter=';
-                    } else {
-                        str += '~';
-                    }
-
                     _.each($scope.additionalFilters, function (eachObj) {
-                        str += eachObj.key;
 
-                        if (eachObj.value) {
-                            str += ':' + eachObj.value;
+                        // if id and value pair
+                        if(eachObj.id) {
+                            if(idFilter) {
+                                idFilter += '~'+eachObj.key+':'+eachObj.id;
+                            } else {
+                                idFilter ='id_filter='+eachObj.key+':'+eachObj.id;
+                            }
+                        } else if (eachObj.id === 0) {
+                            //comes here when there is no id but only name bascially for ad_kPI,..etc there are no id:name pair
+                            if(nameFilterExactMatch && eachObj.value){
+                                nameFilterExactMatch += '~'+eachObj.key+':'+eachObj.value;
+                            } else if(eachObj.value){
+                                nameFilterExactMatch = 'name_filter_exact_match='+eachObj.key+':'+eachObj.value;
+                            }
+                        } else {
+                            //comes here when filter is not selected from the auto suggestion dropdown
+                            if(nameFilter){
+                                if(eachObj.value) {
+                                    nameFilter += '~'+eachObj.key+':'+eachObj.value;
+                                } /*else if($scope.autoFill[index].text){
+                                    nameFilter += '~'+eachObj.key+':'+$scope.autoFill[index].text;
+                                }*/
+                            } else {
+                                if(eachObj.value) {
+                                    nameFilter = 'name_filter='+eachObj.key+':'+eachObj.value;
+                                }/* else if($scope.autoFill[index] && $scope.autoFill[index].text){
+                                    nameFilter = 'name_filter='+eachObj.key+':'+$scope.autoFill[index].text;
+                                }*/
+                            }
                         }
+                    }); // each
+                }// end of if
 
-                        str += '~';
-                    });
+                //attach idFilter
+                requestStr += (idFilter)?'&'+idFilter:'';
 
-                    pos = str.lastIndexOf('~');
-                    str = str.substring(0, pos);
-                }
+                //attach name filter
+                requestStr += (nameFilter)?'&'+nameFilter:'';
 
-                if (!isPrimary) {
-                    str += '&exact_match=true';
-                }
+                //attach nameFilterExactMatch
+                requestStr += (nameFilterExactMatch)?'&'+nameFilterExactMatch:'';
 
-                if ($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource) {
-                    str += '&data_source='+$scope.reports.reportDefinition.dataSource;
-                }
+                //attach datasource
+                requestStr += ($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource)?'&data_source='+$scope.reports.reportDefinition.dataSource:'';
 
                 // timeframe
-                str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' +
-                    $scope.reports.reportDefinition.timeframe.end_date;
+                requestStr += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' + $scope.reports.reportDefinition.timeframe.end_date;
 
-                params = 'dimension=' + str + '&page_num=' + (isPrimary ? _customctrl.reportPageNum_1D :
-                        _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
+                //Page no
+                requestStr += '&page_num=' + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
 
-                params = _customctrl.createMetricRequestParams(params);
-
-                return params;
-            }; */
-
-                _customctrl.createRequestParams = function(firstDimId,firstDimValue, offset, isPrimary, rowIndex_2D,dataFormat){
-                    var
-                        dimensionDataKey = isPrimary ? 'primary' : 'secondary',
-                        filterDataKey = isPrimary ? 'secondary' : 'primary',
-                        requestStr = 'dimension=',
-                        nameFilter='',
-                        idFilter='',
-                        nameFilterExactMatch=''
-                        ;
-
-                    if (isPrimary) {
-                        $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
-                    }
-
-                    $scope.isReportForMultiDimension = false;
-
-                    if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
-                        $scope.isReportForMultiDimension = true;
-
-                        if (isPrimary) {
-                            $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
-                        }
-                    }
-
-
-                    //attach primary and secondary key(if selected)
-                    if(isPrimary){
-                        //for Primary level attach only primary key though secondary key is also selected.
-                        requestStr+= $scope.reports.reportDefinition.dimensions.primary.dimension;
+                //attach first_dim_id_filter or first_dim_name_filter if it's second level dimension (after generation the report click on icon to the left of each row)
+                if(!isPrimary) {
+                    if(firstDimId > 0) {
+                        requestStr += '&first_dim_id_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+ firstDimId;
                     } else {
-                        //for Secondary level attach only secondary key though primary key is also selected.
-                        requestStr+= $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                        requestStr += '&first_dim_name_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+firstDimValue;
                     }
+                }
 
-                    //attach key for download
-                    if((dataFormat && dataFormat === 'csv') && (isPrimary)){
-                        requestStr+= ','+ $scope.reports.reportDefinition.dimensions.secondary.dimension;
-                    }
-
-                    //if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
-                      //  requestStr+=','+$scope.reports.reportDefinition.dimensions.secondary.dimension;
-                   // }
-
-                    //make primary and secondary value(if selected)
-                    if($scope.reports.reportDefinition.dimensions.primary.value) {
-                        nameFilter = 'name_filter='+
-                            $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
-                    }
-                    if($scope.reports.reportDefinition.dimensions.secondary.value) {
-                        nameFilter+= '~'+ $scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.value;
-                    }
-
-                    //additional filter
-                    if ($scope.additionalFilters.length > 0) {
-                        _.each($scope.additionalFilters, function (eachObj,index) {
-
-                            // if id and value pair
-                            if(eachObj.id) {
-                                if(idFilter) {
-                                    idFilter += '~'+eachObj.key+':'+eachObj.id;
-                                } else {
-                                    idFilter ='id_filter='+eachObj.key+':'+eachObj.id;
-                                }
-                            } else if (eachObj.id === 0) {
-                                //comes here when there is no id but only name bascially for ad_kPI,..etc there are no id:name pair
-                                if(nameFilterExactMatch && eachObj.value){
-                                    nameFilterExactMatch += '~'+eachObj.key+':'+eachObj.value;
-                                } else if(eachObj.value){
-                                    nameFilterExactMatch = 'name_filter_exact_match='+eachObj.key+':'+eachObj.value;
-                                }
-                            } else {
-                                //comes here when filter is not selected from the auto suggestion dropdown
-                                if(nameFilter){
-                                    if(eachObj.value) {
-                                        nameFilter += '~'+eachObj.key+':'+eachObj.value;
-                                    } /*else if($scope.autoFill[index].text){
-                                        nameFilter += '~'+eachObj.key+':'+$scope.autoFill[index].text;
-                                    }*/
-                                } else {
-                                    if(eachObj.value) {
-                                        nameFilter = 'name_filter='+eachObj.key+':'+eachObj.value;
-                                    }/* else if($scope.autoFill[index] && $scope.autoFill[index].text){
-                                        nameFilter = 'name_filter='+eachObj.key+':'+$scope.autoFill[index].text;
-                                    }*/
-                                }
-                            }
-                        }); // each
-                    }// end of if
-
-                    //attach idFilter
-                    requestStr += (idFilter)?'&'+idFilter:'';
-
-                    //attach name filter
-                    requestStr += (nameFilter)?'&'+nameFilter:'';
-
-                    //attach nameFilterExactMatch
-                    requestStr += (nameFilterExactMatch)?'&'+nameFilterExactMatch:'';
-
-                    //attach datasource
-                    requestStr += ($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource)?'&data_source='+$scope.reports.reportDefinition.dataSource:'';
-
-                    // timeframe
-                    requestStr += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' + $scope.reports.reportDefinition.timeframe.end_date;
-
-                    //Page no
-                    requestStr += '&page_num=' + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
-
-                    //attach first_dim_id_filter or first_dim_name_filter if it's second level dimension (after generation the report click on icon to the left of each row)
-                    if(!isPrimary) {
-                        if(firstDimId > 0) {
-                            requestStr += '&first_dim_id_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+ firstDimId;
-                        } else {
-                            requestStr += '&first_dim_name_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+firstDimValue;
-                        }
-                    }
-
-                    // metrics attach string
-                    requestStr = _customctrl.createMetricRequestParams(requestStr);
+                // metrics attach string
+                requestStr = _customctrl.createMetricRequestParams(requestStr);
 
 
 
-                    return requestStr;
-                };
+                return requestStr;
+            };
 
             _customctrl.errorHandler = function () {
                 $scope.reportDataLoading = false;
@@ -1505,7 +1418,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 }
 
                 //additional filters don't add to request if the value is not there
-                _.each($scope.additionalFilters, function (eachObj,index) {
+                _.each($scope.additionalFilters, function (eachObj) {
                   //  console.log('intermediate',index,$scope.autoFill[index].text);
                    if(isIntermediateSave) {
                        var eachObjValue = '';
@@ -2703,12 +2616,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.additionalFilters[index].name = $scope.displayName[key];
                     $scope.additionalFilters[index].value = '';
                     $scope.additionalFilters[index].id = '';
-
-                    //clear the value box
-                   /* if($scope.autoFill && $scope.autoFill[index]){
-                        $scope.autoFill[index].text = '';
-                    }*/
-
                 };
 
                 $scope.onChoosingAditFltValue = function (event, index, autoFiltObj,scrollDim,scrollText) {
@@ -2717,13 +2624,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.filterAutoCompletion.onSelectingDropdown(scrollDim,scrollText);
                     $scope.additionalFilters[index].hide = false;
                     $scope.additionalFilters[index].id = autoFiltObj.id;
-                    $scope.additionalFilters[index].value = autoFiltObj.name;
+                    $scope.additionalFilters[index].value = (autoFiltObj.id)?autoFiltObj.name+' ('+autoFiltObj.id+')':autoFiltObj.name;
                     $scope.additionalFilters[index].isAutoSelected = true;
-                    /*if(autoFiltObj.id > 0) {
-                        $scope.autoFill[index].text = autoFiltObj.name+'('+autoFiltObj.id+')';
-                    } else {
-                        $scope.autoFill[index].text = autoFiltObj.name;
-                    }*/
                 };
 
 
@@ -3373,13 +3275,13 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     return {
 
                         // If a person copy paste in filter input box then it should make an API call to check if that in auto suggestion
-                            checkForAutoFltrMatch: function(filterIndex) {
-                                $timeout(function() {
-                                    if ($scope.additionalFilters[filterIndex] && !$scope.additionalFilters[filterIndex].isAutoSelected && $scope.additionalFilters[filterIndex].value) {
-                                        $scope.filterAutoCompletion.fetchFilterAutoSugtn(null, $scope.additionalFilters[filterIndex].key, $scope.additionalFilters[filterIndex].value);
-                                    }
-                                },100);
-                            },
+                        checkForAutoFltrMatch: function(filterIndex) {
+                            $timeout(function() {
+                                if ($scope.additionalFilters[filterIndex] && !$scope.additionalFilters[filterIndex].isAutoSelected && $scope.additionalFilters[filterIndex].value) {
+                                    $scope.filterAutoCompletion.fetchFilterAutoSugtn(null, $scope.additionalFilters[filterIndex].key, $scope.additionalFilters[filterIndex].value);
+                                }
+                            },100);
+                        },
 
                         fetchFilterAutoSugtn : function(event,dimension,searchKey,isLoadMoreData,index) {
                             $scope.filterAutoCompletion.onSelectingDropdown(dimension,searchKey);
