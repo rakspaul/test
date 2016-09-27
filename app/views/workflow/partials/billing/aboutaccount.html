@@ -122,7 +122,7 @@
                         <a data-ng-bind="curr.currencyCode" data-ng-click="selectCurrency(curr)"></a>
                     </li>
                 </ul>
-            </div>
+            </div> 
         </div>
     </div>
 
@@ -130,19 +130,19 @@
         <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ADMIN_GEOGRAPHY"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button id="geography"
-                        class="btn btn-default dropdown-toggle"
-                        type="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="true">
-                    <span class="text" data-ng-bind="selectedCountry ? selectedCountry : 'Select Geography'"></span>
-                    <span class="icon-arrow-solid-down"></span>
-                </button>
-                <ul class="dropdown-menu" data-toggle="dropdown">
+                <input id="accountGeography"
+                       type="text"
+                       class="form-control"
+                       data-ng-model="selectedCountry"
+                       data-toggle="dropdown"
+                       special-character="special-character"
+                       data-ng-keyup="filterCountries($event)"
+                       placeholder="Select Geography"/>                           
+                    <span id="accountGeographyDD" class="icon-arrow-solid-down"  data-toggle="dropdown"></span>              
+                <ul id="geoDropdown" class="dropdown-menu" data-toggle="dropdown">
                     <li class="available"
                         value="{{country.id}}"
-                        data-ng-repeat="country in Geography"
+                        data-ng-repeat="country in GeographyList"
                         data-ng-selected="{{country.id == selectedCountry}}">
                         <a data-ng-bind="country.name" data-ng-click="selectCountry(country)"></a>
                     </li>
