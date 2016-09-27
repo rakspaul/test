@@ -253,18 +253,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $('.viewability_header .sec_col .icon_text_holder').addClass('active');
         };
 
-        $scope.sortClassFunction = function (a, b, c) {
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
-
-            if ($('.kpi-dd-holder').hasClass('active')) {
-                $('.each_cost_col').removeClass('active');
-                return sortDirection;
-            } else{
-                return isActive + ' ' + sortDirection;
-            }
-        };
-
         $scope.removeKpiActive = function () {
             var kpiArrowSort = $('.kpi_arrow_sort'),
                 dropListLi = $('.drop_list li');

@@ -32,7 +32,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         domainReports.highlightHeaderMenu();
         //domainReports.highlightSubHeaderMenu();
 
-        $scope.sortType             = 'impressions';
+     //   $scope.sortType = 'impressions';
 
         // set the default sort order
         $scope.sortReverse  = false;
