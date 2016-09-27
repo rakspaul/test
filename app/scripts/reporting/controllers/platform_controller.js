@@ -18,7 +18,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.textConstants = constants;
 
             // set the default sort type
-            $scope.sortType = 'impressions';
+            //$scope.sortType = 'impressions';
             $scope.sortReverse = false;
             $scope.sortReverseKpiDropdown = true;
 
@@ -26,13 +26,13 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
             $scope.isStrategyDropDownShow = true;
 
-            if ($scope.selected_tab === 'performance') {
-                $scope.sortType = 'impressions';
-            } else if ($scope.selected_tab === 'viewability') {
-                $scope.sortType = 'other_view_impressions';
-            } else {
-                $scope.sortType = 'impressions';
-            }
+            //if ($scope.selected_tab === 'performance') {
+            //    $scope.sortType = 'impressions';
+            //} else if ($scope.selected_tab === 'viewability') {
+            //    $scope.sortType = 'other_view_impressions';
+            //} else {
+            //    $scope.sortType = 'impressions';
+            //}
 
             $scope.strategyLoading = true;
             $scope.strategyFound = true;
@@ -94,6 +94,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                     return isActive + ' ' + sortDirection;
                 }
             };
+
 
             $scope.specialSort = function(passedSortype){
                 if (Number($scope.selectedStrategy.id) >= 0) {
@@ -197,6 +198,12 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     return (item.ad_id === -1 && item.ad_group_name === '');
                                 });
 
+                                indexOfFirstColumn = _.findIndex($scope.platformData, function(item){
+                                    return (item.platform_name === 'Line Item Totals');
+                                });
+
+                                $scope.platformData = utils.swapValuesInArray($scope.platformData, 0, indexOfFirstColumn);
+
                                 _.each($scope.platformData, function (item) {
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
@@ -231,6 +238,13 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                         }
                                         tacticPlatformData.push(tempArr);
                                     }
+                                });
+
+                                tacticPlatformData = _.each(tacticPlatformData, function(data){
+                                    indexOfFirstColumn = _.findIndex(data, function(item){
+                                        return (item.platform_name === 'Ad Totals');
+                                    });
+                                    data = utils.swapValuesInArray(data, 0, indexOfFirstColumn);
                                 });
 
                                 $scope.tacticPlatformData = tacticPlatformData;
