@@ -67,14 +67,14 @@
                                  data-ng-hide="performanceBusy">
                                 <performance-header></performance-header>
                             </div>
-                            <div class="strategy_total_container">
+                            <div class="strategy_total_container" >
                                 <div class="strategy_total_container_header clearfix">
                                     <!-- <div class="each_col first_col"
                                          data-ng-hide="performanceBusy"
                                          data-ng-bind="strategyHeading">
                                     </div> -->
-                                    <div class="row_list_holder" >
-                                        <div class="common-load-icon" data-ng-show="performanceBusy"></div>
+                                    <div class="common-load-icon" data-ng-show="performanceBusy"></div>
+                                    <div class="row_list_holder" data-ng-show="!performanceBusy" >
                                         <!--<div class="clearfix each_row_list expandRow {{platform.sepratorCls_platform}}"-->
                                              <!--data-ng-show="!performanceBusy && platform.sepratorCls_platform == 'sepratorCls_platform'"-->
                                              <!--data-ng-repeat="platform in platformData |-->
