@@ -689,7 +689,9 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
                     },
                     symbol =constants.currencySymbol,
-                    primaryKpiType = (type?type:$scope.adData.primaryKpi).toUpperCase();
+                    primaryKpiType = type || $scope.adData.primaryKpi;
+
+                primaryKpiType = primaryKpiType? primaryKpiType.toUpperCase():undefined;
 
                 for (var j in kpiTypeSymbolMap) {
                     if ($.inArray(primaryKpiType, kpiTypeSymbolMap[j]) !== -1) {
