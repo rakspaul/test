@@ -1,4 +1,5 @@
-define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model', 'common-utils', 'request-cancel-service', 'time-period-model'],
+define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-select-model',
+        'common-utils', 'request-cancel-service', 'time-period-model','lrInfiniteScroll'],
     function (angularAMD) {
         'use strict';
 
@@ -266,12 +267,15 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 return params;
             };
 
-            _customctrl.createRequestParams = function (filterText, offset, isPrimary, rowIndex_2D, dataFormat) {
-                var params,
+            _customctrl.createRequestParams = function(firstDimId,firstDimValue, offset, isPrimary, rowIndex_2D,dataFormat){
+                var
                     dimensionDataKey = isPrimary ? 'primary' : 'secondary',
                     filterDataKey = isPrimary ? 'secondary' : 'primary',
-                    str = $scope.reports.reportDefinition.dimensions[dimensionDataKey].dimension,
-                    pos;
+                    requestStr = 'dimension=',
+                    nameFilter='',
+                    idFilter='',
+                    nameFilterExactMatch=''
+                    ;
 
                 if (isPrimary) {
                     $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
@@ -279,78 +283,112 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 $scope.isReportForMultiDimension = false;
 
-                if ($scope.reports.reportDefinition.dimensions[dimensionDataKey].value) {
-                    str += ':' + $scope.reports.reportDefinition.dimensions[dimensionDataKey].value;
-                }
-
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
                     $scope.isReportForMultiDimension = true;
 
                     if (isPrimary) {
                         $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
                     }
-
-                    if (dataFormat && dataFormat === 'csv') {
-                        str += '&second_dim=';
-                    } else if (isPrimary) {
-                        str += '&filter=';
-                    } else {
-                        str += '&first_dim_filter=';
-                    }
-
-                    str += $scope.reports.reportDefinition.dimensions[filterDataKey].dimension;
-
-                    if ($scope.reports.reportDefinition.dimensions[filterDataKey].value && isPrimary) {
-                        str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
-                    }
-
-                    if (typeof filterText !== 'undefined' &&
-                        filterText !== null &&
-                        filterText !== '' &&
-                        str.search(filterText.trim()) === -1) {
-                        str += ':' + filterText;
-                    }
                 }
 
+
+                //attach primary and secondary key(if selected)
+                if(isPrimary){
+                    //for Primary level attach only primary key though secondary key is also selected.
+                    requestStr+= $scope.reports.reportDefinition.dimensions.primary.dimension;
+                } else {
+                    //for Secondary level attach only secondary key though primary key is also selected.
+                    requestStr+= $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                }
+
+                //attach key for download
+                if((dataFormat && dataFormat === 'csv') && (isPrimary)){
+                    requestStr+= ','+ $scope.reports.reportDefinition.dimensions.secondary.dimension;
+                }
+
+                //if($scope.reports.reportDefinition.dimensions.secondary.dimension) {
+                  //  requestStr+=','+$scope.reports.reportDefinition.dimensions.secondary.dimension;
+               // }
+
+                //make primary and secondary value(if selected)
+                if($scope.reports.reportDefinition.dimensions.primary.value) {
+                    nameFilter = 'name_filter='+
+                        $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
+                }
+                if($scope.reports.reportDefinition.dimensions.secondary.value) {
+                    nameFilter+= '~'+ $scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                }
+
+                //additional filter
                 if ($scope.additionalFilters.length > 0) {
-                    if (str.search('&filter') === -1) {
-                        str += '&filter=';
-                    } else {
-                        str += '~';
-                    }
-
                     _.each($scope.additionalFilters, function (eachObj) {
-                        str += eachObj.key;
 
-                        if (eachObj.value) {
-                            str += ':' + eachObj.value;
+                        // if id and value pair
+                        if(eachObj.id) {
+                            if(idFilter) {
+                                idFilter += '~'+eachObj.key+':'+eachObj.id;
+                            } else {
+                                idFilter ='id_filter='+eachObj.key+':'+eachObj.id;
+                            }
+                        } else if (eachObj.id === 0) {
+                            //comes here when there is no id but only name bascially for ad_kPI,..etc there are no id:name pair
+                            if(nameFilterExactMatch && eachObj.value){
+                                nameFilterExactMatch += '~'+eachObj.key+':'+eachObj.value;
+                            } else if(eachObj.value){
+                                nameFilterExactMatch = 'name_filter_exact_match='+eachObj.key+':'+eachObj.value;
+                            }
+                        } else {
+                            //comes here when filter is not selected from the auto suggestion dropdown
+                            if(nameFilter){
+                                if(eachObj.value) {
+                                    nameFilter += '~'+eachObj.key+':'+eachObj.value;
+                                } /*else if($scope.autoFill[index].text){
+                                    nameFilter += '~'+eachObj.key+':'+$scope.autoFill[index].text;
+                                }*/
+                            } else {
+                                if(eachObj.value) {
+                                    nameFilter = 'name_filter='+eachObj.key+':'+eachObj.value;
+                                }/* else if($scope.autoFill[index] && $scope.autoFill[index].text){
+                                    nameFilter = 'name_filter='+eachObj.key+':'+$scope.autoFill[index].text;
+                                }*/
+                            }
                         }
+                    }); // each
+                }// end of if
 
-                        str += '~';
-                    });
+                //attach idFilter
+                requestStr += (idFilter)?'&'+idFilter:'';
 
-                    pos = str.lastIndexOf('~');
-                    str = str.substring(0, pos);
-                }
+                //attach name filter
+                requestStr += (nameFilter)?'&'+nameFilter:'';
 
-                if (!isPrimary) {
-                    str += '&exact_match=true';
-                }
+                //attach nameFilterExactMatch
+                requestStr += (nameFilterExactMatch)?'&'+nameFilterExactMatch:'';
 
-                if ($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource) {
-                    str += '&data_source='+$scope.reports.reportDefinition.dataSource;
-                }
+                //attach datasource
+                requestStr += ($scope.reports.reportDefinition.dataSource && $scope.dataSource.showDataSource)?'&data_source='+$scope.reports.reportDefinition.dataSource:'';
 
                 // timeframe
-                str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' +
-                    $scope.reports.reportDefinition.timeframe.end_date;
+                requestStr += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + '&end_date=' + $scope.reports.reportDefinition.timeframe.end_date;
 
-                params = 'dimension=' + str + '&page_num=' + (isPrimary ? _customctrl.reportPageNum_1D :
-                        _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
+                //Page no
+                requestStr += '&page_num=' + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
 
-                params = _customctrl.createMetricRequestParams(params);
+                //attach first_dim_id_filter or first_dim_name_filter if it's second level dimension (after generation the report click on icon to the left of each row)
+                if(!isPrimary) {
+                    if(firstDimId > 0) {
+                        requestStr += '&first_dim_id_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+ firstDimId;
+                    } else {
+                        requestStr += '&first_dim_name_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+firstDimValue;
+                    }
+                }
 
-                return params;
+                // metrics attach string
+                requestStr = _customctrl.createMetricRequestParams(requestStr);
+
+
+
+                return requestStr;
             };
 
             _customctrl.errorHandler = function () {
@@ -381,7 +419,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             };
 
             _customctrl.getCustomReportData = function () {
-                var paramsObj = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1);
+                var paramsObj = _customctrl.createRequestParams(null,null, $scope.firstDimensionoffset, 1);
 
                 _customctrl
                     .fetchCustomReportData($scope.selectedMetricsList, paramsObj, null, function (respData) {
@@ -541,7 +579,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 $scope.secondDimensionOffset = 0;
             };
 
-            console.log('CUSTOM REPORTS controller is loaded!');
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 
@@ -557,7 +594,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.additionalFilters = [];
             $scope.textConstants = constants;
             $scope.additionalValue = 'Contains keywords ...';
-
             $scope.dataNotFound = false;
             $scope.reportDataBusy = false;
             $scope.loadingBtn = false;
@@ -575,6 +611,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.reports.schedule = {};
             $scope.reports.reportDefinition.timeframe = {};
             $scope.reports.reportDefinition.dataSource = '';
+
+           // $scope.autoFill = {};
 
             $scope.reports.reportDefinition.timeframe.start_date = moment()
                 .subtract(1, 'day')
@@ -1378,21 +1416,40 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     });
                 }
 
+                //additional filters don't add to request if the value is not there
                 _.each($scope.additionalFilters, function (eachObj) {
-                    if (eachObj.value) {
-                        requestData.reportDefinition.filters.push({
-                            dimension: eachObj.key,
-                            type: 'Additional',
-                            values: eachObj.value
-                        });
-                    } else if (isIntermediateSave) {
-                        // if a filter key is selected then show it with the input box
-                        requestData.reportDefinition.filters.push({
-                            dimension: eachObj.key,
-                            type: 'Additional'
-                        });
-                    }
+                  //  console.log('intermediate',index,$scope.autoFill[index].text);
+                   if(isIntermediateSave) {
+                       var eachObjValue = '';
+                       var eachObjId = '';
+
+                       if(eachObj.value) {
+                           eachObjValue = eachObj.value;
+                           if(eachObj.id) {
+                               eachObjId = eachObj.id;
+                           }
+                       }
+                       requestData.reportDefinition.filters.push({
+                           dimension: eachObj.key,
+                           type: 'Additional',
+                           value: eachObjValue,
+                           id: eachObjId,
+                         //  autoFillIndex:index
+                       });
+                   } else {
+                       if (eachObj.value) {
+                           requestData.reportDefinition.filters.push({
+                               dimension: eachObj.key,
+                               type: 'Additional',
+                               value: eachObj.value,
+                               id:eachObj.id?eachObj.id:''
+                           });
+                       }
+                   }
                 });
+
+
+
 
                 if ($scope.reportTypeSelect === 'Schedule As') {
                     if (!$scope.reports.schedule.customOccuranceDate) {
@@ -1577,7 +1634,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.downloadCreateRepBuilder = function (parentIndex, instanceIndex) {
                 var dropdownElem = $('#reportBuilderForm'),
                     reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
-                    params = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1, 0, 'csv');
+                    params = _customctrl.createRequestParams(null,null, $scope.firstDimensionoffset, 1, 0, 'csv');
 
                 $scope.reportDownloadBusy = true;
 
@@ -1768,7 +1825,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 };
             })();
 
-            $scope.showDataForClikedDimension = function (ev, value, rowIndex, loadMore) {
+            $scope.showDataForClikedDimension = function (ev, id,value, rowIndex, loadMore) {
                 var currFirstDimensionElem = $(ev.target).parents('.reportData'),
                     currSecondDimensionElem = currFirstDimensionElem.find('.second_dimension_row_holder'),
                     currentRowIndex = Number(currFirstDimensionElem.attr('data-result-row')),
@@ -1817,7 +1874,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = false;
 
-                    paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset, 0, currentRowIndex);
+                    paramsObj = _customctrl.createRequestParams(id,value, $scope.secondDimensionOffset, 0, currentRowIndex);
 
                     _customctrl.fetchCustomReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function (respData, currentRowIndex) {
                         var resultLen;
@@ -2411,7 +2468,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                             .then(function (response) {
                                                 if (response.status === 'success') {
                                                     $scope.reportData = response.data.data;
-                                                    prefillData(response.data.data);
+                                                    prefillData($scope.reportData);
                                                     $('#toggle').prop('disabled', true);
 
                                                     $('.img_table_txt').html('Please select dimensions, timeframe and ' +
@@ -2556,10 +2613,26 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.additionalFilters[index].hide = false;
                     $scope.additionalFilters[index].key = key;
                     $scope.additionalFilters[index].name = $scope.displayName[key];
+                    $scope.additionalFilters[index].value = '';
+                    $scope.additionalFilters[index].id = '';
                 };
+
+                $scope.onChoosingAditFltValue = function (event, index, autoFiltObj,scrollDim,scrollText) {
+                    var elem = $(event.currentTarget);
+                    elem.closest('.dropdown').find('.autofill-dropdown').hide();
+                    $scope.filterAutoCompletion.onSelectingDropdown(scrollDim,scrollText);
+                    $scope.additionalFilters[index].hide = false;
+                    $scope.additionalFilters[index].id = autoFiltObj.id;
+                    $scope.additionalFilters[index].value = (autoFiltObj.id)?autoFiltObj.name+' ('+autoFiltObj.id+')':autoFiltObj.name;
+                    $scope.additionalFilters[index].isAutoSelected = true;
+                };
+
 
                 $scope.delAditFlt = function (index) {
                     $scope.additionalFilters.splice(index, 1);
+                    /*if($scope.autoFill[index]) {
+                        $scope.autoFill[index].text = '';
+                    }*/
                 };
 
                 $scope.addAdditionalFilters = function () {
@@ -2567,6 +2640,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         key: '',
                         name: '',
                         value: '',
+                        id: '',
                         hide: true
                     });
                 };
@@ -2949,10 +3023,13 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     }
 
                     // returns name of the breakdown/filter key passed
-                    var getFilterBreakdownName = function (key) {
+                    var getFilterBreakdownName = function (key,isFilters) {
+
                         var dimensionObj = $scope.customeDimensionData[0].dimensions,
                             name;
-
+                        if(isFilters) {
+                            dimensionObj = $scope.customeDimensionData[0].filters;
+                        }
                         _.each(dimensionObj, function (item) {
                             if (key.trim() === item.trim()) {
                                 name = $scope.displayName[item].trim();
@@ -3036,7 +3113,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     // set breakdown filter values if exist
                     angular.forEach(responseData.reportDefinition.filters,
                         function (eachObj) {
-                            eachObj.name = getFilterBreakdownName(eachObj.dimension);
+                            eachObj.name = getFilterBreakdownName(eachObj.dimension,true);
 
                             if ((eachObj.type === 'Primary')) {
                                 setPrimaryDimension(eachObj, true);
@@ -3046,9 +3123,12 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                 $scope.additionalFilters.push({
                                     key: eachObj.dimension,
                                     name: eachObj.name,
-                                    value: eachObj.values,
-                                    hide: false
+                                    value: eachObj.value,
+                                    hide: false,
+                                    id:eachObj.id?eachObj.id:''
                                 });
+                                //prefill to additional filter text box
+                              //  $scope.autoFill[eachObj.autoFillIndex]={'text':eachObj.value}
                             }
                         });
 
@@ -3175,6 +3255,99 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         },
                     };
                 })();
+
+
+
+                $scope.filterAutoCompletion = (function(){
+                    $scope.filtersAutoComplArr = [];
+                    $scope.scrollDimension = undefined;
+                    $scope.scrollText = undefined;
+                    $scope.offSet = 0;
+
+
+                    $scope.hideVisibleDropdown = function (event) {
+                        event.stopPropagation();
+                        if ( $('.autofill-dropdown').is(':visible')) {
+                            $('.autofill-dropdown').hide();
+                        }
+                    };
+                    return {
+
+                        // If a person copy paste in filter input box then it should make an API call to check if that in auto suggestion
+                        checkForAutoFltrMatch: function(filterIndex) {
+                            $timeout(function() {
+                                if ($scope.additionalFilters[filterIndex] && !$scope.additionalFilters[filterIndex].isAutoSelected && $scope.additionalFilters[filterIndex].value) {
+                                    $scope.filterAutoCompletion.fetchFilterAutoSugtn(null, $scope.additionalFilters[filterIndex].key, $scope.additionalFilters[filterIndex].value);
+                                }
+                            },100);
+                        },
+
+                        fetchFilterAutoSugtn : function(event,dimension,searchKey,isLoadMoreData,index) {
+                            $scope.filterAutoCompletion.onSelectingDropdown(dimension,searchKey);
+                            if(event) {
+                                var elem = $(event.currentTarget);
+                                if (elem.val() !== '') {
+                                    elem.closest('.dropdown').find('.autofill-dropdown').show();
+                                } else {
+                                    elem.closest('.dropdown').find('.autofill-dropdown').hide();
+                                }
+                            }
+
+                            if(!searchKey) {
+                                $scope.searchKey = '';
+                                //clear additional filter data when input box empty
+                                if(index && $scope.additionalFilters[index]) {
+                                    $scope.additionalFilters[index].isAutoSelected = false;
+                                    $scope.additionalFilters[index].id = '';
+                                }
+
+                            }
+
+                            if(isLoadMoreData){
+                                $scope.offSet+= 1;
+                            } else {
+                                $scope.filtersAutoComplArr = [];
+                                $scope.offSet = 0;
+                            }
+
+                            if(dimension) {
+                                var urlParamas = {
+                                    'clientId':$routeParams.accountId,
+                                    'dimension':dimension,
+                                    'offset': $scope.offSet,
+                                    'searchKey': searchKey
+                                };
+                                var url = urlService.customRptFilterAutoSugg(urlParamas);
+
+                                dataService.fetch(url).then(function (response) {
+                                    if(response && response.data && response.data.data.length > 0){
+                                        if(!$scope.filtersAutoComplArr || $scope.filtersAutoComplArr.length === 0) {
+                                            $scope.filtersAutoComplArr = response.data.data;
+                                        } else if($scope.filtersAutoComplArr.length >= 100) {
+                                            $scope.filtersAutoComplArr = $scope.filtersAutoComplArr.concat(response.data.data);
+                                        }
+                                    } else {
+                                            if(isLoadMoreData && $scope.filtersAutoComplArr.length > 0) {
+                                                $scope.filtersAutoComplArr.noMoreData = true;
+                                                $scope.filtersAutoComplArr.dataNotFound = false;
+                                            } else {
+                                                $scope.filtersAutoComplArr.dataNotFound = true;
+                                            }
+                                    }
+                                });
+                            }
+                        },
+                        onSelectingDropdown: function(scrollDimension,scrollText) {
+                            $scope.scrollDimension = scrollDimension;
+                            $scope.scrollText = scrollText;
+                        },
+                        loadMoreData: function() {
+                            $scope.filterAutoCompletion.fetchFilterAutoSugtn(null,$scope.scrollDimension,$scope.scrollText,true);
+                        }
+                    };
+                })();
+                //$scope.filterAutoCompletion.fetchFilterAutoSugtn('ad_format');
+
 
                 _customctrl.showCost_permission();
 
