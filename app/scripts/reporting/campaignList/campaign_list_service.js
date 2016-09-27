@@ -75,7 +75,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                 chart: false,
                                 momentInNetworkTZ: momentInNetworkTZ,
                                 is_tracking: tactic.is_tracking,
-                                spend:tactic.spend
+                                spend:tactic.spend,
+                                is_archived : tactic.is_archived
                             };
 
 
