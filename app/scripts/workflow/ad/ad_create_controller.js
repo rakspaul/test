@@ -688,17 +688,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
                     '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
                     },
-                    symbol ='';
+                    symbol =constants.currencySymbol,
+                    primaryKpiType = (type?type:$scope.adData.primaryKpi).toUpperCase();
 
                 for (var j in kpiTypeSymbolMap) {
-                    if ($.inArray(type, kpiTypeSymbolMap[j]) !== -1) {
+                    if ($.inArray(primaryKpiType, kpiTypeSymbolMap[j]) !== -1) {
                         symbol = j;
                         break;
                     }
-                }
-
-                if (symbol === '') {
-                    symbol = constants.currencySymbol;
                 }
                 return symbol;
             };
