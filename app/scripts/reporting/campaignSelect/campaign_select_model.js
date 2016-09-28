@@ -6,7 +6,8 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
                 var campaign = {
                     selectedCampaign: {},
                     selectedCampaignOriginal: {}
-                };
+                },
+                reportWidget;
 
                 campaign.setSelectedCampaign = function (_campaign) {
                     if (!$.isEmptyObject(_campaign)) {
@@ -136,6 +137,15 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
 
                 campaign.removeSelectedCampaign = function () {
                     return localStorageService.selectedCampaign.remove();
+                };
+
+                campaign.setReportWidget = function(reportName) {
+                    reportWidget  = reportName;
+
+                };
+
+                campaign.getReportWidget = function() {
+                    return reportWidget;
                 };
 
                 return campaign;

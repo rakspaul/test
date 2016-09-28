@@ -1059,7 +1059,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 $scope.setGraphData = function (campaign, type) {
                     var url = urlBuilder.buildBaseUrl();
                     url += '/mediaplans/' + $routeParams.campaignId;
-
+                    campaignSelectModel.setReportWidget(type); //setting the clicked widget name.
                     if (type === 'cost') {
                         url += '/cost';
                     } else if (type === 'quality' || type === 'videoViewability') {
@@ -1069,7 +1069,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     } else if (type === 'platform') {
                         url += '/platform';
                     } else if (type === 'view_report' || type === 'formats' || type === 'screens' || type === 'adsizes') {
-                        url += '/performance?reportType=' + type;
+                        url += '/performance';
                     } else {
                         url += '/Optimization';
                     }

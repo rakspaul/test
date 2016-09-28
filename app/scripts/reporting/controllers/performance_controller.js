@@ -71,20 +71,25 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
         // We should not keep selected tab in $scope.selectedFilters object because it is altered by
         // directive_controller in callBackCampaingSuccess and then tab info is not set
-        if ($scope.redirectWidget && $scope.redirectWidget === 'adsizes') {
+         var reportWidgetName = campaignSelectModel.getReportWidget();
+            console.log("reportWidgetName", reportWidgetName);
+
+        if (reportWidgetName && reportWidgetName === 'adsizes') {
             $scope.sortByColumn = 'dimension';
             $scope.activeAdSizeClass = 'active';
             $scope.defaultDisplayAdSize = 'display: block';
             $scope.defaultDisplayFormat = 'display: none';
             $scope.defaultDisplayScreen = 'display: none';
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
-        } else if ($scope.redirectWidget === 'formats') {
+
+            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
+        } else if (reportWidgetName === 'formats') {
             $scope.sortByColumn = 'dimension';
             $scope.activeFormatClass = 'active';
             $scope.defaultDisplayFormat = 'display: block';
             $scope.defaultDisplayAdSize = 'display: none';
             $scope.defaultDisplayScreen = 'display: none';
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
+
+            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
         } else {
             $scope.selected_tab = 'byscreens';
             $scope.sortByColumn = 'name';
