@@ -6,7 +6,6 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
         function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule, loginModel, utils, localStorageService, vistoconfig,
                   accountService, subAccountService, advertiserModel, urlBuilder, pageLoad) {
         var postCrDataObj = {},
-            urlInfo = {},
 
             processEditCreative = function (clientId) {
                 workflowService
@@ -249,14 +248,6 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
         $scope.IncorrectClickThru=false;
         $scope.creativeId = $routeParams.creativeId;
         localStorage.setItem('isOnchangeOfCreativeFeild', 0);
-
-        if($routeParams.accountId){
-            urlInfo.clientId = $routeParams.accountId;
-        }
-
-        if($routeParams.subAccountId){
-            urlInfo.subAccountId = $routeParams.subAccountId;
-        }
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -604,7 +595,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
             var accountData = accountService.getSelectedAccount(),
                 selectedSubAccount =  subAccountService.getSelectedSubAccount(),
-                clientId = accountData.id;
+                clientId = accountData.id,
+                selectedAdvertiser;
 
             if (!accountData.isLeafNode) {
                 $scope.showSubAccount = true;
@@ -616,7 +608,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
 
             if ($scope.adPage) {
-                var selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
                 $scope.advertiserName = selectedAdvertiser.name;
                 $scope.creative.advertiserId = selectedAdvertiser.id;
                 creatives.fetchBrands(clientId, selectedAdvertiser.id);
@@ -631,14 +623,21 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 $scope.$broadcast('adFormatChanged', 'DISPLAY');
             }
 
-
             if (!$scope.adPage) {
-                creatives.fetchAdvertisers(clientId);
-                reset.advertiser();
-                reset.brand();
-                getAdServersInLibraryPage(clientId);
+                if($routeParams.advertiserId) {
+                    selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                    $scope.advertiserName = selectedAdvertiser.name;
+                    $scope.creative.advertiserId = selectedAdvertiser.id;
+                    $scope.advertisers = advertiserModel.getAdvertiserList();
+                    creatives.fetchBrands(clientId, selectedAdvertiser.id);
+                } else {
+                    creatives.fetchAdvertisers(clientId);
+                    reset.advertiser();
+                    reset.brand();
+                }
             }
 
+            getAdServersInLibraryPage(clientId);
         };
 
         $scope.init();
@@ -848,7 +847,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                url = urlBuilder.goToCreativeList(urlInfo) + '/creative/list';
+                url = urlBuilder.buildBaseUrl() + '/creative/list';
                 $location.url(url);
 
             } else {
