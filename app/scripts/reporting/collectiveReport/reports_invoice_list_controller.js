@@ -14,6 +14,8 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','
             // Hide page loader when the page is loaded
             pageLoad.hidePageLoader();
 
+            $scope.textConstants = constants;
+
             $scope.invoiceReports = {
                 clientId: vistoconfig.getSelectedAccountId(),
 
