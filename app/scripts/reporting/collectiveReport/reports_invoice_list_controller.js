@@ -117,9 +117,11 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service','
                             if (responseData.length) {
                                 $scope.noDataFound = false;
                                 _currCtrl.preProcessMediaPlanData(responseData);
+
                                 if(isLoadMore){
                                     responseData = $scope.mediaPlanList.concat(responseData);
-                                };
+                                }
+
                                 $scope.mediaPlanList = responseData;
                                 _currCtrl.resMediaPanList = angular.copy(responseData);
                                 _currCtrl.postProcessMediaPlanData();

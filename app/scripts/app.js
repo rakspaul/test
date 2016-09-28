@@ -1777,7 +1777,35 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+                .when('/a/:accountId/adv/:advertiserId/creative/add', angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Add Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'creative-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/sa/:subAccountId/creative/add', angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Add Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'creative-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/add', angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
@@ -1805,7 +1833,36 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
+
+                .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/edit', angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Edit Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'creative-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
                 .when('/a/:accountId/sa/:subAccountId/creative/:creativeId/edit', angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Edit Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'creative-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
+                        }
+                    }
+                }))
+
+                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/edit', angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
