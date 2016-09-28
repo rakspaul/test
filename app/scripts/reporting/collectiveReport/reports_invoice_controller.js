@@ -13,7 +13,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
                 console.log('REPORTS INVOICE controller is loaded!');
                 // Hide page loader when the page is loaded
                 pageLoad.hidePageLoader();
-
+                $scope.textConstants = constants;
                 _curCtrl.invoiceId = $routeParams.invoiceId;
                 _curCtrl.clientId = vistoconfig.getSelectedAccountId();
 
