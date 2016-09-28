@@ -221,12 +221,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
 
-                                totalValIndex = _.findIndex($scope['strategyPerfDataBy' + tab], function(item){
-                                    return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
-                                    ' Totals' || item.dimension === 'Ad Totals');
-                                });
-                                $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
-
                                 $scope['strategyPerfDataByTactic' + tab]  =
 
                                     _.filter(result.data.data, function (item) {
@@ -250,15 +244,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     })
                                     .value();
 
-                                _.each($scope.groupThem, function(data){
-                                    data = data.perf_metrics;
-                                    totalValIndex = _.findIndex(data, function(item){
-                                        return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
-                                        ' Totals' || item.dimension === 'Ad Totals');
-                                    });
-                                    data = utils.swapValuesInArray(data, 0, totalValIndex);
-                                });
-
                             } else {
                                 // Media Plan total
                                 $scope.showPerfMetrix = false;
@@ -275,7 +260,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
 
-                                $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
                             }
 
                             if (param.tab === 'bydiscrepancy') {
@@ -302,6 +286,28 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                         $scope.selectedCategoryType = item.category;
                                     }
                                 });
+                            }else{
+
+                                if (Number($scope.selectedStrategy.id) >= 0) {
+                                    totalValIndex = _.findIndex($scope['strategyPerfDataBy' + tab], function(item){
+                                        return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                        ' Totals' || item.dimension === 'Ad Totals');
+                                    });
+                                    $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+
+                                    _.each($scope.groupThem, function(data){
+                                        data = data.perf_metrics;
+                                        totalValIndex = _.findIndex(data, function(item){
+                                            return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                            ' Totals' || item.dimension === 'Ad Totals');
+                                        });
+                                        data = utils.swapValuesInArray(data, 0, totalValIndex);
+                                    });
+
+                                } else {
+                                        $scope['strategyPerfDataBy' + tab] =
+                                         utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+                                }
                             }
                         }
                     } else {
