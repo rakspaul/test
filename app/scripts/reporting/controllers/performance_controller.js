@@ -72,7 +72,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         // We should not keep selected tab in $scope.selectedFilters object because it is altered by
         // directive_controller in callBackCampaingSuccess and then tab info is not set
          var reportWidgetName = campaignSelectModel.getReportWidget();
-            console.log("reportWidgetName", reportWidgetName);
 
         if (reportWidgetName && reportWidgetName === 'adsizes') {
             $scope.sortByColumn = 'dimension';
