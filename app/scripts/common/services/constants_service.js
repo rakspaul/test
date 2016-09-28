@@ -1345,7 +1345,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.SIGN_IN_LABEL = 'Sign In';
         this.USERNAME_PLACEHOLDER = 'Username';
-        this.PASSWORD_LABEl = 'Password';
+        this.PASSWORD_LABEL = 'Password';
         this.INVOICE_ACCOUNT = 'Account:';
         this.INVOICE_ADVERTISER = 'Advertiser:';
         this.INVOICE_ID = 'Invoice ID:';
