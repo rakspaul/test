@@ -1343,6 +1343,16 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BILLING_ITEMIZATION_SUM_ERROR = 'Itemization item values must add up to ';
         this.BILLING_ITEMIZATION_PERCENT_ERROR = 'Itemization item values must add up to ';
 
+        this.SIGN_IN_LABEL = 'Sign In';
+        this.USERNAME_PLACEHOLDER = 'Username';
+        this.PASSWORD_LABEl = 'Password';
+        this.INVOICE_ACCOUNT = 'Account:';
+        this.INVOICE_ADVERTISER = 'Advertiser:';
+        this.INVOICE_ID = 'Invoice ID:';
+        this.INVOICE_MONTH = 'Invoice Month:';
+        this.INVOICE_MEDIA_PLAN = 'Media Plan';
+        this.INVOICE_REPORT = 'Invoice Reports';
+        this.INVOICE_NOTES = 'Notes:';
 
     }]);
 });
