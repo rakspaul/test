@@ -575,8 +575,8 @@
             <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
         </div>
         <div class="each_col third_col impressions_col"
-             data-ng-bind="((platform.other_view_impressions > 0) || (platform.other_view_impressions === 0)) ?
-                (platform.other_view_impressions | number : 0) : '-'">
+             data-ng-bind="((platform.impressions > 0) || (platform.impressions === 0)) ?
+                (platform.impressions | number : 0) : '-'">
         </div>
         <div class="each_col third_col measurable_col">
             <div class="sub_col">
