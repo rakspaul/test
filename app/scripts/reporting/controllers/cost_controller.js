@@ -296,13 +296,6 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             $('.direction_arrows div.kpi_arrow_sort').removeClass('active');
         };
 
-        $scope.sortClassFunction = function (a) {
-            var isActive = (a === $scope.sortType) ?  'active' : '',
-                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
-
-            return isActive + ' ' + sortDirection;
-        };
-
         $scope.$on(constants.EVENT_KPI_CHANGED, function() {
             $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
         });

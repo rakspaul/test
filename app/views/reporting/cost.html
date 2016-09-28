@@ -16,8 +16,7 @@
                  data-ng-show="strategyLoading && selectedCampaign.id !== -1">
             </div>
             <div class="cost_container smallScreenScrollContainer"
-                 data-ng-hide="strategyLoading && selectedCampaign.id !== -1"
-                 style="margin-top: 20px;">
+                 data-ng-hide="strategyLoading && selectedCampaign.id !== -1">
                 <div class="no_data_found"
                      data-ng-if="!strategyFound"
                      style="width: 1200px;"
@@ -29,81 +28,109 @@
                     <div class="reports_cost_header_holder smallScreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="col-md-1 zeroPadding"
-                                 data-ng-class="sortClassFunction('impressions')"
-                                 data-ng-click="clickToSort('impressions')">
+                            <div class="eachCol">
                                 <span class="pull-left default-kpi-header-icon"
                                       tooltip="Primary KPI"
                                       data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() ===
                                         'impressions'">
                                 </span>
-                                <div class="col-md-1 zeroPadding text-center">Imps.</div>
+                                 <div class="pull-left sortingHolder" 
+                                 data-ng-class="sortClassFunction('impressions')"
+                                 data-ng-click="clickToSort('impressions')">
+                                    <div class="pull-left sortingTxt">Imps.</div>
+                                    <div class="pull-left sortingIcon"></div>
+                                </div>
                             </div>
-                            <div class="col-md-1 zeroPadding">
+                            <div class="eachCol">
                                 <div class="dropdown kpi-dd-holder  col-md-12 zeroPadding" id="kpi_dropdown">
                                     <kpi-drop-down type="selectedFilters.kpi_type.toLowerCase()" changedrpval="yes"></kpi-drop-down>
                                 </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('inventory_cost')"
-                                 data-ng-click="clickToSort('inventory_cost')"
-                                 data-ng-bind="textConstants.INVENTORY">
+                            <div class="eachCol " >
+                                 <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('inventory_cost')"
+                                 data-ng-click="clickToSort('inventory_cost')" >
+                                     <div class="pull-left sortingTxt" data-ng-bind="textConstants.INVENTORY"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('data_cost')"
-                                 data-ng-click="clickToSort('data_cost')"
-                                 data-ng-bind="textConstants.DATA">
+                            <div class="eachCol">
+                                 <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('data_cost')"
+                                 data-ng-click="clickToSort('data_cost')">
+                                     <div class="pull-left sortingTxt" data-ng-bind="textConstants.DATA"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('serving_cost')"
-                                 data-ng-click="clickToSort('serving_cost')"
-                                 data-ng-bind="textConstants.AD_SERVING"
-                                 >
+                            <div class="eachCol" >
+                                <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('serving_cost')"
+                                 data-ng-click="clickToSort('serving_cost')">
+                                     <div class="pull-left sortingTxt" data-ng-bind="textConstants.AD_SERVING"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('verification_cost')"
-                                 data-ng-click="clickToSort('verification_cost')"
-                                 data-ng-bind="textConstants.AD_VERIFICATION"
-                                 >
+                            <div class="eachCol">
+                                 <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('verification_cost')"
+                                 data-ng-click="clickToSort('verification_cost')">
+                                     <div class="pull-left sortingTxt" data-ng-bind="textConstants.AD_VERIFICATION"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('creative_cost')"
-                                 data-ng-click="clickToSort('creative_cost')"
-                                 data-ng-bind="textConstants.CREATIVE"></div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('research_cost')"
-                                 data-ng-click="clickToSort('research_cost')"
-                                 data-ng-bind="textConstants.RESEARCH"></div>
-                            <div class="col-md-2"
-                                 style="margin-top: -12px;">
+                            <div class="eachCol">
+                                 <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('creative_cost')"
+                                 data-ng-click="clickToSort('creative_cost')">
+                                     <div class="pull-left sortingTxt" data-ng-bind="textConstants.CREATIVE"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
+                             </div>
+                            <div class="eachCol">
+                                 <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('research_cost')"
+                                 data-ng-click="clickToSort('research_cost')">
+                                     <div class="pull-left sortingTxt" data-ng-bind="textConstants.RESEARCH"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
+                             </div>
+                            <div class="eachCol eachColHavingSubCells">
                                 <span class="col-md-12 zeroPadding text-center"
                                       style="border-bottom: 1px solid #000; margin: 0 0 5px;">
                                     Platform Fees
                                 </span>
                                 <div class="col-md-12 zeroPadding">
-                                    <span class="icon_text_holder col-md-4 zeroPadding"
-                                          data-ng-class="sortClassFunction('tech_fees')"
-                                          data-ng-click="clickToSort('tech_fees')"
-                                          data-ng-bind="textConstants.TECH_FEES"></span>
-                                    <span class="icon_text_holder col-md-4 zeroPadding text-center"
-                                          data-ng-class="sortClassFunction('service_fees')"
-                                          data-ng-click="clickToSort('service_fees')"
-                                          data-ng-bind="'Service'"></span>
-                                    <span class="icon_text_holder col-md-4 zeroPadding text-right"
-                                          data-ng-class="sortClassFunction('tech_service_fees_total')"
-                                          data-ng-click="clickToSort('tech_service_fees_total')"
-                                          data-ng-bind="'Total'"></span>
+                                    <span class="icon_text_holder subCells">
+                                        <div class="pull-left sortingHolder" data-ng-class="sortClassFunction('tech_fees')"
+                                          data-ng-click="clickToSort('tech_fees')">
+                                          <div class="pull-left sortingTxt" data-ng-bind="textConstants.TECH_FEES"></div>
+                                          <div class="pull-left sortingIcon"></div>
+                                      </div>
+                                    </span>
+                                    <span class="icon_text_holder subCells text-right">
+                                        <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('service_fees')"
+                                          data-ng-click="clickToSort('service_fees')">
+                                          <div class="pull-left sortingTxt" data-ng-bind="'Service'"></div>
+                                          <div class="pull-left sortingIcon"></div>
+                                      </div>
+                                    </span>
+                                    <span class="icon_text_holder subCells text-right">
+                                        <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('tech_service_fees_total')"
+                                          data-ng-click="clickToSort('tech_service_fees_total')">
+                                          <div class="pull-left sortingTxt" data-ng-bind="'Total'"></div>
+                                          <div class="pull-left sortingIcon"></div>
+                                      </div>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('gross_rev')"
-                                 data-ng-click="clickToSort('gross_rev')"
-                                 data-ng-bind="textConstants.TOTAL_SPEND">
+                            <div class="eachCol" >
+                                <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('gross_rev')"
+                                 data-ng-click="clickToSort('gross_rev')">
+                                 <div class="pull-left sortingTxt"  data-ng-bind="textConstants.TOTAL_SPEND"></div>
+                                 <div class="pull-left sortingIcon"></div>
+                             </div>
                             </div>
-                            <div class="col-md-1 zeroPadding text-center"
-                                 data-ng-class="sortClassFunction('margin')"
-                                 data-ng-click="clickToSort('margin')"
-                                 data-ng-bind="'Margin %'"></div>
+                            <div class="eachCol" >
+                                <div class="pull-right sortingHolder" data-ng-class="sortClassFunction('margin')"
+                                 data-ng-click="clickToSort('margin')">
+                                     <div class="pull-left sortingTxt" data-ng-bind="'Margin %'"></div>
+                                     <div class="pull-left sortingIcon"></div>
+                                 </div>
+                             </div>
                         </div>
                         <!--cost  filter ends-->
 
@@ -123,12 +150,12 @@
                                     <div class="clearfix cost_col_container cost_cols_holder"
                                          data-ng-repeat="strategy in strategyCostData track by $index"
                                          data-ng-if="!dataNotFound">
-                                        <div class="col-md-1 zeroPadding
+                                        <div class="eachCol
                                                 {{strategy.kpi_type.toUpperCase === 'IMPRESSIONS' ? 'bold' : ''}}"
                                              data-ng-bind="strategy.impressions != null ? (strategy.impressions |
                                                 nrFormat : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding textRight
+                                        <div class="eachCol textRight
                                                 {{strategy.kpi_type === selectedFilters.kpi_type.toUpperCase() ?
                                                 'bold' : ''}}"
                                              tooltip="{{selectedFilters.kpi_type.toLowerCase() === 'action_rate'?(strategy[selectedFilters.kpi_type.toLowerCase()] | actionRateToolTip ):null}}"
@@ -136,50 +163,50 @@
                                                 ? 'vtc_100': selectedFilters.kpi_type.toLowerCase()] | appendDollar :
                                                 selectedFilters.kpi_type.toLowerCase())">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.inventory_cost != null ?
                                                 (strategy.inventory_cost |currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.data_cost != null ?
                                                 (strategy.data_cost | currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.serving_cost != null ?
                                                 (strategy.serving_cost | currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.verification_cost != null ?
                                                 (strategy.verification_cost | currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.creative_cost != null ?
                                                 (strategy.creative_cost | currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.research_cost != null ?
                                                 (strategy.research_cost | currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-2 text-center">
-                                            <span class="col-md-4 zeroPadding text-left"
+                                        <div class="eachColHavingSubCells">
+                                            <span class="subCells text-left"
                                                   data-ng-bind="strategy.tech_fees !== null ?
                                                     (strategy.tech_fees | currency : undefined : 0) : '-'">
                                             </span>
-                                            <span class="col-md-4 zeroPadding text-center"
+                                            <span class="subCells text-right"
                                                   data-ng-bind="strategy.service_fees !== null ?
                                                     (strategy.service_fees | currency : undefined : 0) : '-'">
                                             </span>
-                                            <span class="col-md-4 zeroPadding text-right"
+                                            <span class="subCells text-right "
                                                   data-ng-bind="strategy.tech_service_fees_total !== null ?
                                                     (strategy.tech_service_fees_total |
                                                     currency : undefined : 0) : '-'">
                                             </span>
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center bold"
+                                        <div class="eachCol text-right  bold"
                                              data-ng-bind="strategy.gross_rev !== null ?
                                                 (strategy.gross_rev | currency : undefined : 0) : '-'">
                                         </div>
-                                        <div class="col-md-1 zeroPadding text-center"
+                                        <div class="eachCol text-right "
                                              data-ng-bind="strategy.margin !== null ?
                                                 (strategy.margin | number : 0)  :  '-'">
                                         </div>
@@ -196,61 +223,61 @@
                                             <div class="each_cost_heading" data-ng-bind="tactic.name"></div>
                                             <div class="clearfix cost_col_container cost_cols_holder">
 
-                                                <div class="col-md-1 zeroPadding {{tactic.kpi_type === 'IMPRESSIONS' ?
+                                                <div class="eachCol {{tactic.kpi_type === 'IMPRESSIONS' ?
                                                         'bold' : ''}}"
                                                      data-ng-bind="tactic.impressions != null ?
                                                         (tactic.impressions | nrFormat : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding textRight {{tactic.kpi_type ===
+                                                <div class="eachCol textRight {{tactic.kpi_type ===
                                                         selectedFilters.kpi_type.toUpperCase() ? 'bold' : ''}}"
                                                      data-ng-bind="(tactic[(selectedFilters.kpi_type.toLowerCase() ===
                                                         'vtc') ? 'vtc_100': selectedFilters.kpi_type.toLowerCase()] |
                                                         appendDollar : selectedFilters.kpi_type.toLowerCase())">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.inventory_cost != null ?
                                                         (tactic.inventory_cost | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.data_cost != null ?
                                                         (tactic.data_cost | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.serving_cost != null ?
                                                         (tactic.serving_cost | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.verification_cost != null ?
                                                         (tactic.verification_cost | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.creative_cost != null ?
                                                         (tactic.creative_cost | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.research_cost != null ?
                                                         (tactic.research_cost | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-2 text-center">
-                                                    <span class="pull-left col-md-4 zeroPadding text-left"
+                                                <div class="eachColHavingSubCells">
+                                                    <span class="pull-left subCells text-left"
                                                           data-ng-bind="tactic.tech_fees !== null ?
                                                             (tactic.tech_fees | currency : undefined : 0) : '-'">
                                                     </span>
-                                                    <span class="pull-left col-md-4 zeroPadding text-center"
+                                                    <span class="pull-left subCells text-right"
                                                           data-ng-bind="tactic.service_fees !== null ?
                                                             (tactic.service_fees | currency : undefined : 0) : '-'">
                                                     </span>
-                                                    <span class="pull-left col-md-4 zeroPadding text-right"
+                                                    <span class="pull-left subCells text-right "
                                                           data-ng-bind="tactic.tech_service_fees_total !== null ?
                                                             (tactic.tech_service_fees_total |
                                                             currency : undefined : 0) : '-'">
                                                     </span>
                                                 </div>
-                                                <div class="col-md-1 zeroPadding bold text-center"
+                                                <div class="eachCol bold text-right "
                                                      data-ng-bind="tactic.gross_rev !== null ?
                                                         (tactic.gross_rev | currency : undefined : 0) : '-'">
                                                 </div>
-                                                <div class="col-md-1 zeroPadding text-center"
+                                                <div class="eachCol text-right "
                                                      data-ng-bind="tactic.margin !== null ?
                                                         (tactic.margin | number : 0) : '-'">
                                                 </div>

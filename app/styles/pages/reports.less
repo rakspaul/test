@@ -598,43 +598,56 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     margin: 0px auto 80px;
     /*width: 1200px;*/
     min-height: 200px ;
+    .sortingHolder {
+        position: relative;
+        cursor: pointer;
+        .sortingIcon {
+            position: absolute;
+            right: -20px;
+            top: 0;
+            display: none;
+            height: 20px ;
+            width: 20px ;
+        }
+        &:hover {
+            .sortingIcon {
+                display: block;
+            }
+        }
+    }
+    .sort_order_down {
+        .sortingIcon {
+            background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll center 1px;
+        }
+        &.active {
+            cursor: pointer;
+            color: @visto-blue;
+            .sortingIcon {
+                display: block;
+                background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll center -65px;
+            }
+        }
+    }
+    .sort_order_up  {
+        .sortingIcon {
+            background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll center 1px;
+        }
+        &.active {
+            cursor: pointer;
+            color: @visto-blue;
+            .sortingIcon {
+                display: block;
+                background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll center -65px;
+            }
+        }
+    }
+
     .load-more {
         margin: 80px auto 0;
         display: block;
         width: 30px;
         background: url("/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
     }
-    .sort_order_up {
-        cursor: pointer;
-        padding-right: 17px;
-        &:hover {
-            background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
-        }
-        &.active{
-            background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
-            cursor: pointer;
-            padding-right: 17px;
-            color: @visto-blue;
-        }
-    }
-
-    .sort_order_down {
-        cursor: pointer;
-        padding-right: 17px;
-        &:hover {
-            background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
-        }
-        &.active {
-            background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px;
-            cursor: pointer;
-            padding-right: 17px;
-            color: @visto-blue;
-        }
-    }
-
-
-
-
     .no-chart {
         margin: 80px auto 0;
         display: block;
@@ -3106,38 +3119,28 @@ div.strategy_total_container {
 
 .reports_cost_header_holder {
     width: 1600px;
-    .cost_header_holder {
-        .each_cost_col{
-            &.first_col{
-                background-position-x: 50px;
-            }
-            &.sev_col{
-                background-position: 64px -64px;
-                &.active{
-                    &:hover{
-                        background-position: 64px -64px;
-                    }
-                }
-                &:hover{
-                    background-position: 64px 1px;
-                }
-            }
-            &.six_col{
-                background-position: 64px -64px;
-                &.active{
-                    &:hover{
-                        background-position: 64px -64px;
-                    }
-                }
-                &:hover{
-                    background-position: 64px 1px;
-                }
-            }
+    .eachCol {
+        float: left;
+        width: 100px;
+        margin-left: 20px;
+        &:first-child {
+            margin-left : 0px ;
         }
     }
-    .cost_header_holder{
+    .eachColHavingSubCells {
+        float: left;
+        margin-left: 50px ;
+        width: 300px ;
+    }
+    .subCells {
+        float: left;
+        display: block;
+        width: 29% ;
+        margin-right: 3% ;
+    }
+    .cost_header_holder {
         background: #fff ;
-        padding: 20px 0 0 20px ;
+        padding: 20px 20px 0 20px ;
         .dropdown_ul {
             li {
                 text-align: left;
@@ -3161,9 +3164,11 @@ div.strategy_total_container {
             }
         }
     }
-
-
-
+    .cost_header_holder {
+        .eachColHavingSubCells {
+             margin-top: -12px;
+        }
+    }
 }
 .reports_cost_header_holder , #reports_platform_cost_block {
     color: #313233 ;
@@ -3175,25 +3180,6 @@ div.strategy_total_container {
         background: url("/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
         margin: 20px auto 0 ;
         display: block;
-    }
-    .four_col.sort_order_up {
-        /*    &:hover {
-      background-position: 52px 1px;
-    }*/
-        &.active{
-            /*background-position: 52px -64px;*/
-            color: @visto-blue;
-        }
-    }
-
-    .four_col.sort_order_down {
-        /*    &:hover {
-      background-position: 52px 1px;
-    }*/
-        &.active {
-            /*background-position: 52px -64px;*/
-            color: @visto-blue;
-        }
     }
     .platform_aggregation_row {
         .each_cost_col {
@@ -3239,7 +3225,7 @@ div.strategy_total_container {
     }
     .each_cost_row_holder {
         .each_cost_row {
-            padding: 15px 0 15px 20px  ;
+            padding: 15px 20px 15px 20px  ;
             border: solid 1px #d2dee7;
             border-top: 0;
             .total_cost {
@@ -3793,8 +3779,16 @@ div.strategy_total_container {
     }
 }
 .cost_container{
-    .reports_main_page_holder .direction_arrows div {
-        height: 25px;
+    margin-top: 20px;
+    .reports_main_page_holder .direction_arrows  {
+        margin-top : 5px !important;
+        div {
+            height: 31px;
+            padding: 4px 0px 3px !important;
+        }
+    }
+    .dropdown-menu.kpi_indicator_ul li {
+        cursor: default;
     }
 
 }
@@ -5263,12 +5257,18 @@ body.custom_report_page {
         text-align: right;
         .ReportDataFontColor() ;
         .sub_col {
-            span {
+            .sub_col_two_cells {
                 display: block;
                 float: left;
-            }
-            span:last-child {
-                float: right;
+                width: 48% ;
+                margin-right: 2% ;
+                &:first-child {
+                    text-align : left;
+                }
+                &:last-child {
+                    text-align: right ;
+                    margin-right: 0;
+                }
             }
         }
     }
@@ -5281,6 +5281,9 @@ body.custom_report_page {
         border: solid 1px @reportBorder ;
         .each_col {
             padding-top: 0px;
+        }
+        .sec_col , .suspicious_act_col , .suspicious_col {
+            margin-top: 18px ;
         }
     }
     .all_strategies_holder {
@@ -5340,6 +5343,7 @@ body.custom_report_page {
             margin-top: 8px;
             padding-top: 8px;
         }
+
     }
 
     .each_col{
@@ -5350,6 +5354,7 @@ body.custom_report_page {
             span:last-child {
                 margin-right: 0px ;
             }
+
         }
         &.first_col {
             padding: 5px 0 0px 22px;
@@ -5365,14 +5370,12 @@ body.custom_report_page {
              width: 165px ;
              text-align: center;
             .sub_col {
-                span {
+                .sub_col_three_cells {
                     width: 31%;
                     margin-right: 3%;
-                    &:first-child {
-                        text-align: left;
-                    }
+                    display: block;
+                    float: left;
                     &:last-child {
-                        text-align: right;
                         margin-right: 0px ;
                     }
                 }
@@ -5417,10 +5420,11 @@ body.custom_report_page {
         margin-left: 25px;
         margin-right: 25px;
         &.first_col {
-            padding: 5px 0 0px 10px ;
+            padding: 5px 0 0px 0px ;
         }
         &.sec_col {
             width: 130px;
+            text-align: left;
         }
         &.third_col , &.forth_col {
             width: 180px ;
@@ -5444,6 +5448,8 @@ body.custom_report_page {
                 span {
                     width: 21% ;
                     margin-right: 3%;
+                    display: block;
+                    float: left;
                     &:last-child {
                         text-align: right;
                         margin-right: 7%;
@@ -5453,7 +5459,7 @@ body.custom_report_page {
         }
     }
     .media_plan_totals {
-        margin-left: 40px ;
+        margin-left: 25px ;
     }
     .strategy_total_container {
         .each_strategy_holder {
@@ -5477,6 +5483,7 @@ body.custom_report_page {
     }
     .tooltip_show_icon {
         width: 15px;
+        height: 14px;
     }
     .viewability_table_body {
         .common-load-icon_viewability {
