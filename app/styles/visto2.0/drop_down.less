@@ -272,6 +272,30 @@
             text-decoration: none;
             background-color: @hover-light-blue;
         }
+        
+        &.multiSelect {
+            li {
+                label {
+                    min-height: 32px;
+                    width: 100%;
+                    float: left;
+                    padding: 8px 0 8px 15px;
+                    margin: 0;
+                    cursor: pointer;
+                    &:hover {
+                        background: @hover-light-blue;
+                    }
+                    input[type=radio], input[type=checkbox] {
+                        margin-top: 3px;
+                    }
+                    span {
+                        margin-left: 10px;
+                        width: auto;
+                        padding: 0;
+                    }
+                }
+            }
+        }
     }
 
     .dropdown-menu {
