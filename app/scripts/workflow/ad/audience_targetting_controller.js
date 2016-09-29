@@ -5,9 +5,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         'workflowService', 'constants', 'vistoconfig', function ($scope, audienceService,
                                                                     workflowService, constants, vistoconfig) {
 
-        var vm =this,
-
-            editOneTimeFlag = false,
+        var editOneTimeFlag = false,
 
             _audienceTargetting = {
                 processAudienceEdit: function () {
