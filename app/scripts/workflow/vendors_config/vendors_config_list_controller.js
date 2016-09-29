@@ -1,8 +1,8 @@
 define(['angularAMD', 'vendors-list-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('VendorsListController', ['$scope', '$modal', 'vendorsService', 'pageLoad', function ($scope, $modal, vendorsService, pageLoad) {
-        console.log('VENDORS LIST controller is loaded!');
+    angularAMD.controller('VendorsConfigListController', ['$scope', '$modal', 'vendorsService', 'pageLoad', function ($scope, $modal, vendorsService, pageLoad) {
+        console.log('VENDORS CONFIG LIST controller is loaded!');
         // Hide page loader when the page is loaded
         pageLoad.hidePageLoader();
 
