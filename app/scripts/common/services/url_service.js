@@ -405,6 +405,7 @@ define(['angularAMD'], function (angularAMD) {
                         if(params.offset) {
                             url+='&offset='+params.offset;
                         }
+                        url+='&limit='+100;
                         return url;
                 },
 
