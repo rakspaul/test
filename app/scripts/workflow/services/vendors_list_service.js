@@ -6,7 +6,7 @@ define(['angularAMD'], function (angularAMD) {
                 url,
 
                 fetchVendors = function () {
-                    clientId = 77;// vistoconfig.getMasterClientId();
+                    clientId =  vistoconfig.getMasterClientId;
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/clientVendorConfigs';
 
                     return dataService.fetch(url, {cache: false});
