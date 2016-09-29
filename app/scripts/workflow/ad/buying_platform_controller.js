@@ -289,7 +289,11 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                 });
 
                 if(!value) {
-                    customInpChildrenData = _.filter($scope.adData.customInpNameSpaceList, function(obj) { return obj.hasChildren; });
+                    customInpChildrenData = _.filter($scope.adData.customInpNameSpaceList, function(obj) {
+                        return !((obj.displayName === 'Deal' || obj.displayName === 'Direct')  &&
+                            $scope.adData.budgetType.toLowerCase() === 'cost') &&
+                            obj.hasChildren;
+                    });
                     if(customInpChildrenData && customInpChildrenData.length > 0) {
                         value = customInpChildrenData[0].name;
                     }
@@ -309,25 +313,29 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             _buyingPlatform._selectPlatform(event, platform, seat);
         };
 
+       var _selectTrackingIntegrations = function(trackingIntegration) {
+
+           trackingIntegration = $scope.trackingIntegration || trackingIntegration;
+
+           $scope.$parent.TrackingIntegrationsSelected = true;
+           $scope.selectedPlatform = {};
+           $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
+
+           // To populate the newly selected Platform in sideBar
+           $scope.adData.platform = trackingIntegration.displayName;
+           $scope.adData.platformId = trackingIntegration.id;
+           $scope.adData.platformName = trackingIntegration.name;
+           workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
+
+       };
+
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             $('.buying-platform-popup').hide();
             $scope.$parent.postPlatformDataObj = [];
-
-            trackingIntegration = $scope.trackingIntegration || trackingIntegration;
-
-            $scope.$parent.TrackingIntegrationsSelected = true;
-            $scope.selectedPlatform = {};
-            $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
-
-            // To populate the newly selected Platform in sideBar
-            $scope.adData.platform = trackingIntegration.displayName;
-            $scope.adData.platformId = trackingIntegration.id;
-            $scope.adData.platformName = trackingIntegration.name;
-
-            workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
+            _selectTrackingIntegrations(trackingIntegration);
         };
 
-        $scope.platformCustomInputs = function () {
+        $scope.platformCustomInputs = function (trackingIntegration,  callback) {
             var platformWrap = $('.platWrap'),
                 tabName = 'buying_strategy',
                 clientId = vistoconfig.getSelectedAccountId();
@@ -335,7 +343,14 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             platformWrap.html('');
             $scope.adData.customInpNameSpaceList = [];
             $scope.adData.customPlatformLoader = true;
-            _buyingPlatform.showCustomFieldBox();
+
+            if(!trackingIntegration) {
+
+                _buyingPlatform.showCustomFieldBox();
+
+            }
+
+            $('.eachBuyingSection.staticMarkup').hide();
 
             workflowService
                 .getPlatformCustomInputs(clientId, $scope.adData.platformId)
@@ -353,7 +368,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         if (result.data.data.customInputJson !== '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
 
-                            if (platformCustomeJson.platformCustomInputNamespaceList && platformCustomeJson.platformCustomInputNamespaceList.length > 2) {
+                            if (platformCustomeJson && platformCustomeJson.uiTabLayout === 'TRUE') {
                                 $scope.adData.customInpNameSpaceList = _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder');
 
                                 _.each($scope.adData.customInpNameSpaceList, function (obj, idx) {
@@ -373,26 +388,36 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                                 tabName = getplatformCustomNameSpace($scope.$parent.postPlatformDataObj);
                                 platformCustomeModule.init(platformCustomeJson, platformWrap, $scope.$parent.postPlatformDataObj);
 
-                                if (tabName) {
-                                    $timeout(function () {
-                                        if($('#' + tabName).attr('disabled') !== 'disabled') { //Abhimanyu TODO
-                                            $('#' + tabName).trigger('click');
-                                        }
-                                    }, 500);
-                                }
-
                             } else {
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     // maintain state of building platform strategy when user selects it
                                     // navigates to other places
-                                    oldPlatformName = workflowService.getPlatform().displayName;
+                                    oldPlatformName = workflowService.getPlatform() && workflowService.getPlatform().displayName;
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
                                 } else if (!$scope.$parent.postPlatformDataObj ||
                                     $scope.$parent.postPlatformDataObj.length === 0) {
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
                                 }
+                                tabName = getplatformCustomNameSpace($scope.adData.customInpNameSpaceList);
+                            }
+
+                            if (tabName) {
+                                $timeout(function () {
+                                    if($('#' + tabName).attr('disabled') !== 'disabled') { //Abhimanyu TODO
+                                        $('#' + tabName).trigger('click');
+                                    }
+                                }, 500);
                             }
                         }
+
+                        if(trackingIntegration) {
+                            if(result.data.data.customInputJson)  {
+                                _buyingPlatform.showCustomFieldBox();
+                            }
+                            callback && callback(result.data.data.customInputJson);
+                        }
+
+
                     }
                 });
         };
@@ -413,22 +438,38 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
         };
 
         $scope.showTrackingSetupInfoPopUp = function (event, trackingIntegration) {
-            var relativeX = $(event.target)
-                                .closest('.offeringWrap')
-                                .offset().left - $(event.target)
-                                .closest('.carousel-inner')
-                                .offset()
-                                .left + 50;
 
-            $scope.trackingIntegration = trackingIntegration;
+            var currentTarget = $(event.currentTarget);
+            $scope.adData.platform = trackingIntegration.displayName;
+            $scope.adData.platformId = trackingIntegration.id;
+            $scope.adData.platformName = trackingIntegration.name;
+            $scope.$parent.TrackingIntegrationsSelected = true;
+            $scope.selectedPlatform ={};
 
-            setTimeout(function(){
-                $('.buyingPlatformHolder .popUpCue').css({
-                    top: '-10px',
-                    left: relativeX + 'px'
-                });
-            }, 5);
-            $('.buying-platform-popup').show();
+            $scope.platformCustomInputs(trackingIntegration, function(data) {
+
+                if(!data) {
+                    var relativeX = currentTarget
+                            .closest('.offeringWrap')
+                            .offset().left - currentTarget
+                            .closest('.carousel-inner')
+                            .offset()
+                            .left + 50;
+
+                    $scope.trackingIntegration = trackingIntegration;
+
+                    setTimeout(function () {
+                        $('.buyingPlatformHolder .popUpCue').css({
+                            top: '-10px',
+                            left: relativeX + 'px'
+                        });
+                    }, 5);
+                    $('.buying-platform-popup').show();
+                }
+
+                $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
+                workflowService.setVendorExecutionType(trackingIntegration.executionVendorType);
+            });
         };
 
         $scope.hideTrackingSetupInfoPopUp = function () {
@@ -459,8 +500,10 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
             $('.' + type + '_div').show();
 
             platformName = $scope.adData.platform.toLowerCase();
+            if(platformName) {
+                platformName = platformName.replace(/\./g, '_').replace(/\s/g, '_');
+            }
             customInpArr = ['buying_strategy_div' , platformName +'_deal_div', platformName + '_direct_div'];
-
 
             _.each(customInpArr, function(id) {
                     if (id === (type + '_div')) {

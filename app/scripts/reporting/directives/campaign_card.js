@@ -1,10 +1,10 @@
 define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angularAMD) {
     'use strict';
 
-    angularAMD.directive('campaignCard', ['$rootScope', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
-        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService', 'subAccountService',
-        function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,
-                  campaignSelectModel, vistoconfig, urlBuilder, accountService, subAccountService) {
+    angularAMD.directive('campaignCard', ['$rootScope', '$routeParams', '$location', 'utils', 'constants', 'momentService', 'featuresService', '$sce',
+        'campaignSelectModel', 'vistoconfig', 'urlBuilder', 'accountService',
+        function ($rootScope, $routeParams, $location, utils, constants, momentService, featuresService, $sce,
+                  campaignSelectModel, vistoconfig, urlBuilder, accountService) {
             return {
                 restrict: 'EAC',
 
@@ -95,17 +95,17 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                         return tempText.indexOf(phrase) >= 0;
                     };
 
-                    $scope.redirectToOverViewPage = function(mediaplanId) {
+                    $scope.redirectToOverViewPage = function(campaign) {
                         var url = '',
                             accountData = accountService.getSelectedAccount();
 
                         url = '/a/'+ accountData.id;
 
-                        if(!accountData.isLeafNode && subAccountService.getSelectedSubAccount()) {
-                            url += '/sa/' + subAccountService.getSelectedSubAccount().id;
+                        if(!accountData.isLeafNode &&  campaign.client_id) {
+                            url += '/sa/' + campaign.client_id;
                         }
 
-                        url += '/mediaplan/' + mediaplanId + '/overview';
+                        url += '/mediaplan/' + campaign.orderId + '/overview';
 
                         return url;
                     };
@@ -118,7 +118,8 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                     // NOTE: The params have been modified. To utilize the new feature,
                     // pass $event as the 3rd actual param when calling this method.
                     $scope.redirectTo = function (showManageButton, campaign, filterType, event) {
-                        var url = '';
+                        var url = '',
+                            subAccountId;
 
                         campaignSelectModel.setSelectedCampaign({
                             id: campaign.id,
@@ -128,11 +129,13 @@ define(['angularAMD', 'common-utils', 'campaign-select-model'], function (angula
                             kpi: campaign.kpiType
                         });
 
+                        subAccountId = $routeParams.subAccountId && campaign.client_id;
+
                         if (showManageButton) {
                             if (campaign.is_archived) {
                                 url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id + '/overview';
                             } else {
-                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id);
+                                url = urlBuilder.mediaPlanOverviewUrl(campaign.id, $routeParams.accountId, subAccountId);
                             }
                         } else {
                             url = urlBuilder.buildBaseUrl() + '/mediaplans/' + campaign.id +'/overview';

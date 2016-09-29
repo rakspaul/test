@@ -1,9 +1,9 @@
 define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$location', '$window', 'constants', 'domainReports', 'workflowService',
-        'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder',
-        function ($scope, $rootScope, $routeParams, $route, $location, $window, constants, domainReports, workflowService,
+    angularAMD.controller('CreativeListController', ['$scope', '$rootScope', '$routeParams', '$route', '$timeout', '$location', '$window', 'constants', 'domainReports',
+        'workflowService', 'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder',
+        function ($scope, $rootScope, $routeParams, $route, $timeout, $location, $window, constants, domainReports, workflowService,
                                                               momentService, loginModel, vistoconfig,accountService, urlBuilder) {
         var creativeDataArr,
             winHeight = $(window).height(),
@@ -19,6 +19,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
                             $scope.creativeListLoading = false;
                             $scope.creativesNotFound = false;
+                            $scope.loadCreativeData = false;
 
                             if (response.length > 0) {
                                 if (!$scope.creativeData.creatives || $scope.creativeData.creatives.length === 0) {
@@ -67,8 +68,10 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                 },
 
                 onScrollFetchCreatives :  function () {
-                    if ($(window).scrollTop() + $(window).height() === $(document).height() && !isSearch && !$scope.creativeLastPage) {
-                        creativeParams.pageNo = $scope.pageNo + 1;
+                    if ($(window).scrollTop() + $(window).height() === $(document).height() && !$scope.creativeLastPage) {
+                        $scope.loadCreativeData = true;
+                        $scope.pageNo += 1;
+                        creativeParams.pageNo = $scope.pageNo;
 
                         if (window.location.href.indexOf('creative/list') > -1) {
                             creativeList.getCreativesList(creativeParams);
@@ -213,12 +216,13 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         };
 
         $scope.creativeSearchFunc = function (e) {
-            if (e && e.keyCode === 13) {
+            if (!e || e.keyCode === 13) {
                 isSearch = true;
                 creativeParams.query = $scope.creativeSearch;
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
                 $scope.isCreativeSearched = true;
+                $scope.pageNo = creativeParams.pageNo = 1;
                 creativeList.getCreativesList(creativeParams);
             }
         };
@@ -226,10 +230,16 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         // broadcasted from filter directive once it fetches subaccounts
         $rootScope.$on('filterChanged',function (event, args) {
             creativeParams = args;
+            $timeout(function() {
+                $('.searchInputForm input').val('').trigger('blur');
+            }, 10);
+
+            isSearch = false;
+            $scope.isCreativeSearched = false;
             $scope.creativeListLoading = true;
             $scope.creativeLastPage = false;
             $scope.creativeData.creatives = [];
-            args.pageNo = $scope.pageNo;
+            args.pageNo = 1;
             args.pageSize = $scope.pageSize;
             creativeList.getCreativesList(args);
         });
@@ -362,15 +372,13 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
         $scope.getPreviewUrl = function (creativeData, campaignId, adId) {
 
-            var previewUrl,
-                isLeafNode;
+            var previewUrl;
 
 
             previewUrl = '/a/' + $routeParams.accountId;
-            isLeafNode = accountService.getSelectedAccount().isLeafNode;
 
-            if (!isLeafNode) {
-                previewUrl += '/sa/' + $routeParams.subAccountId;
+            if ($routeParams.subAccountId) {
+                previewUrl += '/sa/' + creativeData.client.id;
             }
 
             previewUrl +=  '/adv/' + creativeData.advertiserId;
@@ -485,7 +493,8 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
                 $scope.creativeData.creatives = [];
                 $scope.creativeListLoading = true;
                 creativeParams.query = '';
-                creativeParams.pageNo = 1;
+                creativeParams.pageNo = $scope.pageNo = 1;
+                $scope.isCreativeSearched = false;
                 creativeList.getCreativesList(creativeParams);
             }
         };

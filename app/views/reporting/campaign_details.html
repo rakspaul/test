@@ -556,7 +556,7 @@
 
                             <div class="pull-left" style="margin-left: 20px;" data-ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
                                 <div class="pull-left greyTxt" data-ng-bind="textConstants.ACTION_RATE"></div>
-                                <div class="pull-left clearLeft"
+                                <div class="pull-left clearLeft" tooltip="{{(campaigns.cdbDataMap[campaign.orderId].action_rate | actionRateToolTip )}}"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].action_rate > 0) ||
                                         (campaigns.cdbDataMap[campaign.orderId].action_rate === 0)) ?
                                         ((campaigns.cdbDataMap[campaign.orderId].action_rate | number : 3) + '%') :
@@ -570,7 +570,7 @@
                                 <div class="pull-left clearLeft"
                                      data-ng-bind="((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0)
                                         || (campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0)) ?
-                                        ((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 3) +
+                                        ((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 2) +
                                         '%') : '-'">
                                 </div>
                             </div>

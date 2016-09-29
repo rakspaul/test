@@ -1,0 +1,68 @@
+<header class="navbar navbar-static-top" id="top" role="banner">
+    <div class="container">
+        <div class="page-header" style="margin: 0">
+            <h1>Entity Audit DashBoard</h1>
+        </div>
+    </div>
+</header>
+<div class="container">
+
+    <div style="padding-top: 15px">Select the type of entity you would be searching for with a proper id to get the
+        details
+    </div>
+    <div style="padding-top: 30px">
+        <div style="padding: 0px 0px 20px 30px">
+            <h4>Get Details for entityId {{entityId}} of type {{entityType}}</h4></div>
+        <form class="form-horizontal" role="form" method="post" action="#">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Entity Type</label>
+
+                <div class="col-md-3">
+                    <select ng-model="entityType">
+                        <option value="AD">AD</option>
+                        <option value="CAMPAIGN">CAMPAIGN</option>
+                        <option value="CREATIVE">CREATIVE</option>
+                        <option value="ADVERTISER">ADVERTISER</option>
+                        <option value="ADCREATIVE">ADCREATIVE</option>
+                    </select>
+                </div>
+                <label class="col-md-1 control-label">Entity Id</label>
+
+                <div class="col-md-2">
+                    <input type="number" class="form-control" name="entityId"
+                           ng-model="entityId">
+                </div>
+
+                <input type="button" name="search" value="search" ng-model="search"
+                       ng-click="searchEntity()"/>
+            </div>
+        </form>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Entity Details</h3>
+        </div>
+        <div class="panel-body">
+            <table border="1">
+                <tr>
+                    <th>Entity Id</th>
+                    <th>Entity Type</th>
+                    <th>Session UserName</th>
+                    <th>Request UserName</th>
+                    <th>Request TimeStamp</th>
+                    <th>Request Type</th>
+                    <th>Response</th>
+                </tr>
+                <tr ng-repeat="auditObj in auditObjs">
+                    <td>{{ auditObj.entityId }}</td>
+                    <td>{{ auditObj.entityType }}</td>
+                    <td>{{ auditObj.sessionUsername }}</td>
+                    <td>{{ auditObj.requestUsername }}</td>
+                    <td>{{ auditObj.requestTimeStamp }}</td>
+                    <td>{{ auditObj.requestType }}</td>
+                    <td><pre>{{ prettyPrint(auditObj.response) }}</pre></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -305,6 +305,9 @@ select {
   color: #21252b;
   opacity: .25;
 }
+.dynamicChkBox {
+  width: 65px;
+}
 .cmn-toggle {
   position: absolute;
   margin-left: -9999px;
@@ -320,7 +323,7 @@ select {
 }
 input.cmn-toggle-round + label {
   padding: 2px;
-  width: 72px;
+  width: 65px;
   height: 36px;
   background-color: #bfc9d7;
   border-radius: 2px;
@@ -341,21 +344,26 @@ input.cmn-toggle-round + label:before {
 }
 input.cmn-toggle-round + label:after {
   width: 20px;
-  background-color: #dce6f1;
+  background-color: #fff;
   border-radius: 2px;
   transition: margin 0.4s;
   height: 32px;
   margin: 1px 0 0 1px;
 }
+input.cmn-toggle-round + label:before {
+  content: "Off";
+  padding: 8px 0 0 32px;
+  background-color: #dce6f1;
+  color: #939eae;
+}
 input.cmn-toggle-round:checked + label:before {
-  background-color: #0978c9;
-  background-image: url(/images/workflow/checkMark.svg);
-  background-repeat: no-repeat;
-  background-position-x: 15px;
-  background-position-y: 11px;
+  background-color: #004d86;
+  color: #FFFFFF;
+  content: "On";
+  padding: 8px 0 0 12px;
 }
 input.cmn-toggle-round:checked + label:after {
-  margin-left: 49px;
+  margin-left: 42px;
 }
 .screenChkSelection .btn-default {
   float: left;

@@ -13,6 +13,15 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                             urlService, line,  vistoconfig) {
                 var listCampaign = '',
                     selectedLineItemId = '',
+                    realTimeData = false,
+
+                    setIsRealTimeData = function(val){
+                        realTimeData = val;
+                    },
+
+                    getIsRealTimeData = function(){
+                        return realTimeData;
+                    },
 
                     setListCampaign = function (campaign) {
                         listCampaign = campaign;
@@ -310,9 +319,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
 
                     getStrategyCdbLineChart = function (clientId, campaign, strategy, timePeriod, kpiType, kpiValue) {
                         selectedLineItemId = strategy.id;
-
                         dataService
-                            .getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id)
+                            .getCdbChartData(clientId, campaign, timePeriod, 'lineitems', strategy.id, realTimeData)
                             .then(function (result) {
                                 var kpiTypeLower,
                                     maxDays,
@@ -491,7 +499,7 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
 
                     getCdbLineChart = function (clientId, campaignObject, timePeriod, callback) {
                         dataService
-                            .getCdbChartData(clientId, campaignObject, timePeriod, 'campaigns', null)
+                            .getCdbChartData(clientId, campaignObject, timePeriod, 'campaigns', null, realTimeData)
                             .then(function (result) {
                                 var cdData,
                                     kpiType,
@@ -673,6 +681,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                     };
 
                 return {
+                    setIsRealTimeData: setIsRealTimeData,
+                    getIsRealTimeData: getIsRealTimeData,
                     getCampaigns: getCampaigns,
                     getDashboardData: getDashboardData,
                     setListCampaign: setListCampaign,

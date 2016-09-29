@@ -6,9 +6,10 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
 
     angularAMD.controller('CampaignListController', ['$scope', '$rootScope', '$routeParams', '$location', 'kpiSelectModel',
         'campaignListModel', 'campaignSelectModel', 'strategySelectModel', 'utils', 'constants', 'vistoconfig',
-        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService',
+        'brandsModel', 'loginModel', 'gaugeModel', 'RoleBasedService', 'urlBuilder', 'featuresService', 'campaignListService', 'localStorageService',
         function ($scope, $rootScope, $routeParams, $location, kpiSelectModel, campaignListModel, campaignSelectModel,
-                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService, urlBuilder, featuresService) {
+                  strategySelectModel, utils, constants, vistoconfig, brandsModel, loginModel, gaugeModel, RoleBasedService,
+                  urlBuilder, featuresService, campaignListService, localStorageService) {
 
             var fParams = featuresService.getFeatureParams(),
                 forceLoadCampaignsFilter,
@@ -38,6 +39,7 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             enableFeaturePermission();
 
             if(vistoconfig.getNoMediaPlanFoundMsg()) {
+                utils.cleanSearchParameter();
                 $rootScope.setErrAlertMessage(vistoconfig.getNoMediaPlanFoundMsg());
                 vistoconfig.setNoMediaPlanFoundMsg(null);
             }
@@ -59,6 +61,35 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
             $scope.campaigns.searchTerm = '';
 
             $scope.campaigns.loadMoreCampaigns = false;
+
+            $scope.$watch('campaigns.realTimeData', function(val){
+                campaignListService.setIsRealTimeData(val);
+                var scopeCampaigns = $scope.campaigns;
+                scopeCampaigns.noData = false;
+                scopeCampaigns.resetSortingField('start_date');
+                scopeCampaigns.resetFilters();
+                scopeCampaigns.fetchData();
+            });
+
+
+            $scope.selectCardView = function (event, type) {
+                var elem = $(event.currentTarget);
+
+                type = type && type.toLowerCase();
+
+                if ( !elem.hasClass('active')) {
+                    $scope.campaigns.realTimeData = !$scope.campaigns.realTimeData;
+                    $('#realTimeToggleBtn').find('.active').removeClass('active');
+                    elem.addClass('active');
+                    if(type==='realtime') {
+                        $('#realTimeMessage').show();
+                    } else {
+                        $('#realTimeMessage').hide();
+                    }
+                    localStorageService.mediaPlanView.set(type);
+                    $location.search('dataView', type);
+                }
+            };
 
             $scope.campaignSearchFunc = function (e) {
                 // Perform search if enter key is pressed, or search button is clicked & user has entered something.
@@ -175,18 +206,15 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                 }
             };
 
-            // Lazy Loader
-            $(window).scroll(function () {
+            var fetchDataOnScroll = function() {
                 // Don't attempt to scroll if:
                 // - there's no data, or
                 // - last page is already loaded.
                 if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 || (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
                     $scope.campaigns.dashboard.quickFilterSelectedCount)) {
                     $scope.campaigns.loadMoreCampaigns = false;
-
                     return;
                 }
-
                 if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
                     $scope.campaigns.loadMoreCampaigns = true;
 
@@ -196,7 +224,12 @@ define(['angularAMD', 'kpi-select-model', 'campaign-list-model', 'campaign-selec
                         $scope.campaigns.fetchData();
                     }
                 }
-            });
+
+            };
+
+            //the function will be called after it stops being called for N milliseconds.
+            $(window).on('scroll', _.debounce(fetchDataOnScroll, 200));
+
 
             $scope.navigateToMediaPlanCreatePage = function() {
                 $location.url(urlBuilder.mediaPlanCreateUrl());

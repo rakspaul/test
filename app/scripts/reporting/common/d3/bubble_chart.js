@@ -480,6 +480,7 @@ define(['angularAMD'], function (angularAMD) {
                     tooltip.style('display', 'none');
                     d3.select('#advertisers_svg').empty();
                     d3.select('#campaigns_svg').empty();
+
                     var url = '/a/' + $routeParams.accountId;
 
                     if ($routeParams.subAccountId) {
@@ -489,10 +490,11 @@ define(['angularAMD'], function (angularAMD) {
                     }
 
                     url += '/adv/' + obj.advertiserId;
-                    if(obj.brandId) {
-                        url += '/b/' + obj.brandId;
-                    }
+
+                    url += '/b/' + (obj.brandId || 0);
+
                     url += '/dashboard';
+
                     $location.url(url);
                 }
             });

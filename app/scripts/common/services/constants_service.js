@@ -16,6 +16,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GANTT_CHART_CANCELLER = 6;
         this.GANTT_CHART_BRAND_CANCELLER = 7;
         this.NEW_REPORT_RESULT_CANCELLER = 3;
+        this.CLIENT_BILLING_SLICE_LIMIT = 4;
+
         this.PERIOD_LIFE_TIME = 'life_time';
         this.SORT_DESC = 'desc';
         this.ACTIVE_UNDERPERFORMING = 'underperforming';//has to be this way as per database
@@ -288,7 +290,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.BUDGET_WITH_COLON = 'Budget:';
         this.CUMULATIVE_VALUE = 'Cumulative Value';
         this.ACTION_RATE_R_CAPS = 'Action Rate';
-        this.TOTAL_AD_BUDGET = 'Total Ad Budget';
+        this.TOTAL_AD_BUDGET = 'Ad Budget';
         this.ESTIMATED_IMPRESSIONS = 'Estimated Impressions';
         this.KPI_NOTSATISFIED_ERROR = 'Values provided for Budget and Unit Cost<br>may not meet the KPI Target.';
 
@@ -474,9 +476,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_GOAL = 'Goal';
         this.SELECT_GOAL = 'Select Goal';
         this.START_DATE = 'Start Date';
-        this.FLIGHT_START_DATE = 'Flight Start Date';
+        this.FLIGHT_START_DATE = 'Start Date';
         this.END_DATE = 'End Date';
-        this.FLIGHT_END_DATE = 'Flight End Date';
+        this.FLIGHT_END_DATE = 'End Date';
         this.SELECT_TIME = 'Select Time';
         this.UNTITLED_CAMPAIGN = 'Untitled Media Plan';
         this.SAVE_CAMPAIGN = 'Save Media Plan';
@@ -599,7 +601,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.WF_CLONE = 'Clone';
         this.WF_PAUSE = 'Pause';
         this.WF_RESUME = 'Resume';
-        this.WF_MOVE_TO = 'Move to';
+        this.WF_MOVE_TO = 'Move to...';
         this.WF_ARCHIVE = 'Archive';
         this.WF_ARCHIVED = 'Archived';
         this.WF_NOT_SET = 'Not Set';
@@ -653,7 +655,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MP_PRIGOAL = 'Primary Goal';
         this.MP_SELGOAL = 'Please Select Goal';
         this.MP_PLEASEKPITYPE = 'Please select the KPI type.';
-
+        this.WF_TARGET_IMPRESSIONS_MANDATORY = 'Target Impressions is mandatory';
         this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =
             'You must enter media cost value less than the budget value specified for the media plan.';
         this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD =
@@ -673,7 +675,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
 
         this.IMPRESSION_PER_USER_MESSAGE =
-            'you must enter impression per user less than or equal to total ad impression';
+            'You must enter Impression per user less than or equal to Booked Impressions';
+
+        this.CARD_VIEW_REALTIME = 'Real-time Card View';
+        this.CARD_VIEW_STANDARD = 'Standard Card View';
+        this.CARD_VIEW_REALTIME_MESSAGE = 'The real-time view of Media Plans uses the most recent Visto Tracker<sup>TM</sup> data available. <br/> ' +
+            'Real-time data provides preliminary numbers. Values may change after data audit.';
+
 
         //Ad Create: Header
         this.OBJECTIVES = 'Objectives';
@@ -682,10 +690,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         //Ad Create: Sidebar
         this.ADSETUP = 'Ad Setup';
-        this.ADTYPESIDE = '1. Ad Type';
+        this.ADTYPESIDE = '1. About this Ad';
         this.NOTSET = 'Not Set';
         this.FORMATPAR = '(Format)';
+        this.ADBUDGET = '(Ad Budget)';
         this.PRIMARYKPIPAR = '(Primary KPI)';
+        this.BOOKEDIMPS = '(Booked)';
+        this.FREQCAPSIDEBAR = 'Imps. Per User';
         this.SCREENPAR = '(Screen)';
         this.BUDGETDELIVERYSIDE = '2. Budget & Delivery';
         this.FLIGHTPAR = '(Flight)';
@@ -696,12 +707,16 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.AUDIENCE = 'Audience';
         this.INVENTORYSIDE = '5. Inventory Filters';
         this.CREATIVESIDE = '6. Creative';
+        this.SELECTEDFREQCAP = '(Freq. Cap)';
+        this.SELECTEDVERIFICATIONVENDOR = '(Verification)';
+
 
         //Ad Create: 1 Ad Type
-        this.SELECTADTYPE = 'Select Ad Type';
+        this.SELECTADTYPE = 'About this Ad';
         this.LEARNADTYPES = 'Learn more about Ad Types';
-        this.NAMEOFAD = 'What is the name of your Ad?';
-        this.LABEL = 'Add labels';
+        this.NAMEOFAD = 'Tell us about your Ad';
+        this.LABEL = 'Labels (Optional)';
+        this.ADNAME = 'Ad Name';
 
         //Ad Create: 2 Budget & Delivery
         this.SETBUDGET = 'Budget & Delivery';
@@ -712,11 +727,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADGROUP_FLIGHTPASSED_NO_NEW_ADS = 'Extend the Ad Group flight dates to create Ads';
         this.BUDGET_EXCEEDED = 'Cannot create Ad Group as the Media Plan does not have sufficient budget',
         this.MEDIAPLAN_FLIGHTPASSED_NO_NEW_ADS = 'Cannot create Ad Group as Media Plan has ended',
-        this.SETUPBUDGET = 'How do you want to budget your Ad?';
-        this.MEASUREBUDGET = 'How will you measure success for your Ad?';
+        this.SETUPBUDGET = 'How would you like to this Ad to book and deliver?';
+        this.MEASUREBUDGET = 'How would you like to measure this Ad?';
+        this.HOWMUCHSPEND = 'How much would you like to spend?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
-        this.BUDGETCAL = 'Select your Booking Method';
+        this.BUDGETCAL = 'Booking Method';
         this.COST = 'Cost';
         this.FREQCAP = 'Frequency Cap';
         this.IMPPERUSER = 'Impressions per user';
@@ -726,9 +742,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.PACING = 'Pacing';
         this.PACEEVENLY = 'Pace Evenly';
         this.SENDFAST = 'Spend as fast as possible';
-        this.SELECTPRIMARYKPI = 'Select Primary KPI';
+        this.SELECTPRIMARYKPI = 'Primary KPI';
         this.TARGETVALUE = 'Target Value';
         this.RATE = 'Rate';
+        this.VERIFICATION_TITLE = 'Which system will validate delivery and measure viewability for this Ad?';
+        this.VERIFICATION_VENDOR = 'Verification Vendor' ;
+        this.VERIFICATION_DEFAULT = 'None (Disable Verification Tracking)' ;
+        this.VERIFICATION_DEFAULT_SMALL = 'None' ;
 
         //Ad Create: 3 Buying Platform
         this.SELECTBUYPLAT = 'Select Buying Platform';
@@ -805,6 +825,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.DOWNLOAD = 'Download';
         this.CHOOSE_FILTER = 'Choose filter';
         this.SELECT = 'Select';
+        this.ACCOUNT_UPDATED_SUCCESSFULLY = 'Account updated successfully';
+        this.ACCOUNT_CREATED_SUCCESSFULLY = 'Account created successfully';
 
         //User Creation
         this.super_admin = '1';
@@ -819,6 +841,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CLIENT_CODE_EXIST = 'Already exists. Please choose a different Client Code.';
         this.ADVERTISER_CODE_EXIST = 'Please choose a different Advertiser Code.';
         this.CODE_VERIFICATION = 'Please enter valid 5 alphanumeric characters';
+        this.AD_CREATION_INFO = 'will now be created on all the associated buying platforms';
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
@@ -1070,6 +1093,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.EMPTY_BRAND_SELECTION = 'Please select the brand';
         this.EMPTY_LOOKBACK_IMPRESSION = 'Please add some value for impression look back field';
         this.EMPTY_LOOKBACK_CLICK = 'Please add some value for click look back field';
+        this.PIXEL_TYPE_PAGE_VIEW = 'Action - Page View';
+        this.PIXEL_TYPE_AUDIENCE_CREATION = 'Audience Creation Pixel';
+        this.PIXEL_TYPE_RETARGETING = 'Retargeting Pixel';
         this.EMPTY_PIXEL_FIELD = 'Please add pixel name';
         this.EMPTY_PIXEL_TYPE = 'Please select the pixel type';
         this.EMPTY_PIXEL_EXPIREAT = 'Please select the pixel expiration date';
@@ -1264,5 +1290,6 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ADVERTISER = 'There are no Media Plans for the selected Advertiser';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND = 'There are no Media Plans for the selected Brand';
         this.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT = 'There are no Media Plans for the selected account';
+        this.LARGE_ZIP_CODE_LENGTH = 'Request zip code length is to large';
     }]);
 });

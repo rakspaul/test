@@ -1,5 +1,5 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('routeResolvers', function () {
+    angularAMD.service('routeResolvers', ['$rootScope', '$timeout', 'utils', function ($rootScope, $timeout, utils) {
         var accountDataWithReportList = function (args, deferred) {
                 args
                     .accountService
@@ -263,9 +263,9 @@ define(['angularAMD'], function (angularAMD) {
                         if (args.accountService.allowedAccount(args.$route.current.params.accountId)) {
                             args
                                 .subAccountService
-                                .fetchDashboardSubAccountList(args.$route.current.params.accountId)
+                                .fetchSubAccountList(args.$route.current.params.accountId)
                                 .then(function () {
-                                    if (args.subAccountService.allowedDashboardSubAccount(args.$route.current.params.subAccountId)) {
+                                    if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
                                         args
                                             .accountService
                                             .fetchAccountData(params.accountId)
@@ -356,11 +356,13 @@ define(['angularAMD'], function (angularAMD) {
                                     } else {
 
                                         if (params.advertiserId) {
+                                            utils.cleanSearchParameter();
                                             args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_BRAND);
                                             (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
                                             (params.advertiserId > 0) && (url += '/b/0');
                                             url += '/mediaplans/reports' + currentPath.substr(currentPath.lastIndexOf('/'), currentPath.length);
                                         } else {
+                                            utils.cleanSearchParameter();
                                             args.vistoconfig.setNoMediaPlanFoundMsg(args.constants.MEDIAPLAN_NOT_FOUND_FOR_SELECTED_ACCOUNT);
                                             url += '/mediaplans';
                                         }
@@ -388,7 +390,9 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand(args);
+                            $timeout(function() {
+                                fetchAdvertiserAndBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -409,7 +413,9 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            fetchAdvertiserAndBrand(args);
+                            $timeout(function() {
+                                fetchAdvertiserAndBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -431,6 +437,7 @@ define(['angularAMD'], function (angularAMD) {
                             advertiser = args.advertiserModel.getSelectedAdvertiser();
                             $('#advertiser_name_selected').text(advertiser.name);
                             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
+                            $rootScope.$broadcast('advertiser:set', advertiser);
                             if (args.$location.path().endsWith('/dashboard')) {
                                 $('#advertiserButton').hide();
                                 args.dashboardModel.setSelectedAdvertiser(advertiser);
@@ -459,10 +466,10 @@ define(['angularAMD'], function (angularAMD) {
                         var brand;
 
                         if (args.brandsModel.allowedBrand(params.brandId)) {
-                            //brand = args.vistoconfig ? args.vistoconfig.getSelectedBrandId() : {};
                             brand = args.brandsModel.getSelectedBrand();
                             $('#brand_name_selected').text(brand.name);
                             $('#brandsDropdown').attr('placeholder', brand.name).val('');
+                            $rootScope.$broadcast('brand:set', brand);
                         } else {
                             console.log('brand not allowed');
                             args.$location.url('/tmp');
@@ -523,11 +530,12 @@ define(['angularAMD'], function (angularAMD) {
                             if (!isLeafNode) {
                                 args
                                     .subAccountService
-                                    .fetchSubAccountList(args.$route.current.params.accountId)
+                                    .fetchMediaplanCreateSubAccountList(args.$route.current.params.accountId)
                                     .then(function () {
-                                        if (args.subAccountService.allowedSubAccount(args.$route.current.params.subAccountId)) {
-                                            fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
+                                        if(!args.subAccountService.allowedMediaplanCreateSubAccount(args.$route.current.params.subAccountId)) {
+                                            args.subAccountService.allowedMediaplanCreateSubAccount(args.subAccountService.getMediaplanCreateSubAccounts()[0].id);
                                         }
+                                        fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
                                     });
                             } else {
                                 fetchAccountDataSetWSInfo(args, deferred, redirect, args.constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, mode);
@@ -650,8 +658,11 @@ define(['angularAMD'], function (angularAMD) {
                     .then(function () {
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser(args);
-                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            $timeout(function() {
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            }, 100);
+
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -672,8 +683,10 @@ define(['angularAMD'], function (angularAMD) {
 
                         if (resolvedOtherDeferrer) {
                             deferred.resolve();
-                            params.advertiserId && fetchCurrentAdvertiser(args);
-                            params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            $timeout(function() {
+                                params.advertiserId && fetchCurrentAdvertiser(args);
+                                params.advertiserId && params.brandId && fetchCurrentBrand(args);
+                            }, 100);
                         } else {
                             resolvedOtherDeferrer = true;
                         }
@@ -809,7 +822,7 @@ define(['angularAMD'], function (angularAMD) {
                                                 url = '/a/' + params.accountId;
 
                                                 if (campaign) {
-                                                    url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
+                                                    //url += '/adv/' + campaign.advertiser_id + '/b/' + (campaign.brand_id || 0);
                                                     url += '/mediaplans/' + campaign.campaign_id + '/' + params.reportName;
                                                 } else {
                                                     (params.advertiserId > 0) && (url += '/adv/' + params.advertiserId);
@@ -1020,5 +1033,5 @@ define(['angularAMD'], function (angularAMD) {
             uploadReportsHeaderResolver: uploadReportsHeaderResolver,
             uploadReportsHeaderResolver2: uploadReportsHeaderResolver2
         };
-    });
+    }]);
 });

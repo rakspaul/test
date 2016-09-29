@@ -103,13 +103,16 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                         data.label = labelObj[rateType];
                         data.cost = data.totalBudget;
 
-                        if (rateType === 'cpm') {
+                        /*if (rateType === 'cpm') {
                             data.calculatedValue = (data.totalBudget / data.rateValue) * 1000;
                         }
 
                         if (rateType === 'cpc' || rateType === 'cpa') {
                             data.calculatedValue = data.totalBudget / data.rateValue;
-                        }
+                        }*/
+
+                        data.calculatedValue = (data.targetImpressions && data.targetImpressions >=0)?
+                            ((data.totalBudget * 1000)/data.targetImpressions):0;
                     });
 
                     return adsData;

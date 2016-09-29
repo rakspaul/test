@@ -32,6 +32,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         {display: 'Flight Dates', key: 'start_date', className: 'active'}
                     ];
 
+
                     this.cdbDataMap = {};
                     this.campaignList = [];
                     this.costBreakdownList = [];
@@ -71,6 +72,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                     this.sortDirection = 'desc';
                     this.brandId = vistoconfig.getSelectedBrandId();
                     this.client_id = vistoconfig.getSelectedAccountId();
+                    this.realTimeData = false;
 
                     this.dashboard = {
                         filterTotal: 1,
@@ -121,6 +123,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                     this.resetFilters = function (type) {
                         this.campaignList = [];
+                        this.cdbDataMap = {};
                         this.timePeriod = 'life_time';
 
                         if (!this.noData) {
@@ -149,6 +152,12 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                 Campaigns.prototype = function () {
                     var reloadGraphs = function () {
                             campaignListService.loadGraphs(this.campaignList, timePeriodApiMapping(this.selectedTimePeriod.key));
+                        },
+
+                        resetSortingField = function(fieldName) {
+                            this.sortFieldList.forEach(function (field) {
+                                field.className = (fieldName === field.key) ? 'active' : '';
+                            });
                         },
 
                         resetCostBreakdown = function () {
@@ -211,7 +220,8 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                 url,
                                 clientId,
                                 advertiserId,
-                                brandId;
+                                brandId,
+                                isRealTimeData = campaignListService.getIsRealTimeData();
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
@@ -265,7 +275,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                                         angular.forEach(campaignData, function (campaign) {
                                             var queryObj = {
-                                                    queryId: 14,
+                                                    queryId: (isRealTimeData ? 53 : 14),
                                                     clientId: clientId,
                                                     advertiserId: advertiserId,
                                                     brandId: brandId,
@@ -295,7 +305,6 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                                                             campaign.kpi_type = 'CTR';
                                                             campaign.kpi_value = 0;
                                                         }
-
                                                         campaignListService.getCdbLineChart(clientId, campaign, self.timePeriod, function (cdbData) {
                                                             if (cdbData) {
                                                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
@@ -673,7 +682,8 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
 
                         setQuickFilter = function (filterToApply) {
                             var kpiStatus = '',
-                                type = '';
+                                type = '',
+                                dataView;
 
                             this.loadMoreCampaigns = false;
                             this.unSelectQuickFilter();
@@ -775,6 +785,15 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                             this.scrollFlag = 1;
                             fetchData.call(this);
 
+                            dataView = localStorageService.mediaPlanView.get() || 'standard';
+                            this.realTimeData = (dataView === 'realtime') ? true : false;
+                            if(this.realTimeData){
+                                $('#realTimeMessage').show();
+                            } else{
+                                $('#realTimeMessage').hide();
+                            }
+                            dataView && $location.search('dataView', dataView);
+
                             if (filterToApply === 'all') {
                                 $location.search('filter', null);
                             } else {
@@ -783,7 +802,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         },
 
                         initializeFilter = function () {
-                            var filterStatus = $location.url().split('filter=')[1],
+                            var filterStatus = $location.search().filter,
                                 $tmpSavedFilter;
 
                             if (filterStatus === undefined) {
@@ -883,6 +902,7 @@ define(['angularAMD', 'campaign-list-service', 'transformer-service', 'campaign-
                         };
 
                     return {
+                        resetSortingField: resetSortingField,
                         reloadGraphs: reloadGraphs,
                         fetchCampaigns: fetchCampaigns,
                         compareCostDates: compareCostDates,

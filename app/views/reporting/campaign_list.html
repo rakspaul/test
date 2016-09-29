@@ -2,7 +2,6 @@
            data-ng-controller="popUpMsgCtr"
            data-ng-init="init('alertMessage')">
 </popup-msg>
-
 <div id="detailedPage" class="dashboard_outer_container yo" data-ng-controller="CampaignListController">
     <!-- header-->
     <div class="clearfix page_header_container campaign_list_header">
@@ -15,6 +14,24 @@
         <filters-header></filters-header>
     </div>
     <!-- header ends-->
+    <div id="realTimeToggleBtn">
+        <div class="pull-right btn-group">
+            <div class="goalBtnGroup zeroPadding firstBtnGroup realTimeButton" >
+                <label class="btn btn-primary" ng-class="{active : campaigns.realTimeData}" tooltip="{{textConstants.CARD_VIEW_REALTIME}}" ng-click="selectCardView($event,'RealTime')"   >
+                        <div class="icon-activity"></div>
+                </label>
+            </div>
+            <div class="goalBtnGroup zeroPadding lastBtnGroup">
+                <label class="btn btn-primary"  ng-class="{active : !campaigns.realTimeData}" tooltip="{{textConstants.CARD_VIEW_STANDARD}}" ng-click="selectCardView($event,'Standard')"  >
+                        <div class="icon-card-view"></div>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+
+
 
     <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
         <!--Create Media Plan Btn-->
@@ -24,6 +41,15 @@
                 <span data-ng-bind="textConstants.CREATE"></span>
             </a>
         </div>
+        <!-- <div class="video_switch_mediaplans">
+            <div class="pull-left view_mode_switch_container">
+                <span ng-class="realTimeData ? '' : 'active'" data-ng-bind="'Daily'"></span>
+                <span class="video_btn">
+                    <switch data-ng-model="realTimeData" ></switch>
+                </span>
+                <span ng-class="realTimeData ? 'active' : ''" data-ng-bind="'Real Time'"></span>
+            </div>
+        </div> -->
 
         <!--Quick Filters-->
         <div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>
@@ -57,6 +83,13 @@
                 campaigns.dashboard.quickFilterSelectedCount + ' Media Plans'"
               style="font-size: 12px; margin: 10px 10px 0 0;">
         </span>
+
+    </div>
+    <div class="col-md-12 zeroPadding messageInsideContainer" id="realTimeMessage" style="display:none;">
+        <span class="msg_box">
+              <span class="msg_icon"><span class="icon-activity"></span></span>
+              <span class="msg_txt" data-ng-bind-html="textConstants.CARD_VIEW_REALTIME_MESSAGE"></span>
+      </span>
     </div>
 
     <div class="fixed_line"></div>

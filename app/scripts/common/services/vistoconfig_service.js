@@ -7,6 +7,7 @@ define(['angularAMD'], function (angularAMD) {
             WORKFLOW_API_URL: workflowCreate_api
         },
             clientTimeZone,
+            selectedAccountData,
             noMediaPlanFoundMsg;
 
         this.supportedBrowser = [
@@ -83,9 +84,9 @@ define(['angularAMD'], function (angularAMD) {
             {kpiType: 'CTR',                        displayName: 'CTR'},
             {kpiType: 'IMPRESSIONS',                displayName: 'Impressions'},
             {kpiType: 'POST CLICK CPA',             displayName: 'Post Click CPA'},
-            //{kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
+            {kpiType: 'SUSPICIOUS ACTIVITY RATE',   displayName: 'Suspicious Activity %'},
             {kpiType: 'SPEND',                      displayName: 'Spend'},
-            //{kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
+            {kpiType: 'VIEWABLE IMPRESSIONS',       displayName: 'Viewable Impressions'},
             //{kpiType: 'VIEWABLE RATE',              displayName: 'Viewable Rate'},
             {kpiType: 'VTC',                        displayName: 'VTC'}
         ];
@@ -196,6 +197,14 @@ define(['angularAMD'], function (angularAMD) {
 
         this.getNoMediaPlanFoundMsg = function() {
            return noMediaPlanFoundMsg;
+        };
+
+        this.setCurrentSelectedAccount = function(accountData) {
+            selectedAccountData = accountData;
+        };
+
+        this.getCurrentSelectedAccount = function() {
+            return selectedAccountData;
         };
 
     }]);

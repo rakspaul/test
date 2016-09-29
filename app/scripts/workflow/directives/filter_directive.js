@@ -66,7 +66,7 @@ define(['angularAMD', 'filter-service'], function (angularAMD) {
 
                          args = {
                              from: $scope.from,
-                             clientId: advertiser.clientId,
+                             clientId: advertiser.clientId ? advertiser.clientId : vistoconfig.getSelectedAccountId(),
                              advertiserId: advertiser.id
                          };
                          $rootScope.$broadcast('filterChanged', args);

@@ -237,6 +237,7 @@ require.config({
         'ad-create-controller' : 'workflow/ad/ad_create_controller',
         'creative-preview-controller' : 'workflow/creative/creative_preview_controller',
         'creative-bulk-controller': 'workflow/creative/creative_bulk_controller',
+        'audit-controller': 'admin/controllers/entity_audit_controller',
 
         /*register Controllers - Start*/
 

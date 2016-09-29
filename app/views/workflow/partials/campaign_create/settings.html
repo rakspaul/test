@@ -53,7 +53,7 @@
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
-                    <li ng-repeat="brand in workflowData.brands track by brand.id" class="available" title="{{brand.name}}"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.name"></a></li>
+                    <li ng-repeat="brand in workflowData.brands " class="available" title="{{brand.brandName}}"><a ng-click="selectHandler('brand', brand)" data-ng-bind="brand.brandName"></a></li>
                 </ul>
                 <input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
             </div>
@@ -143,7 +143,7 @@
     <div class="col-md-12 zeroPadding" style="margin-bottom:30px;">
         <div class="col-md-3 zeroPadding kpiTable">
             <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
+                <div class="dropdown" id="selectKPIDropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text">{{kpiName}}</span>
                         <span class="icon-arrow-solid-down" ></span>
@@ -160,8 +160,8 @@
         </div>
         <div class="col-md-2 zeroPadding kpiTable symbol-input">
             <span class="symbol" ng-bind="checkKpiType(kpiName)"></span>
-            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" ng-value='selectedCampaign.kpiValue' ng-keyup="percentageValueCheck(selectedCampaign.kpiValue)"  field="kpiValue" fraction-numbers name="kpiValue" required ng-if="kpiName !== 'Impressions'" autocomplete="off"/>
-            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" field="kpiValue" whole-number-only name="kpiValue" required ng-if="kpiName === 'Impressions'" autocomplete="off"/>
+            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" ng-value='selectedCampaign.kpiValue' ng-keyup="percentageValueCheck(selectedCampaign.kpiValue);"  field="kpiValue" fraction-numbers name="kpiValue" required ng-if="(kpiName.toLowerCase() !== 'impressions') && (kpiName.toLowerCase() !== 'viewable impressions')" autocomplete="off" />
+            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" field="kpiValue" fcsa-number="{  }" name="kpiValue" required ng-if="(kpiName.toLowerCase() === 'impressions')||(kpiName.toLowerCase() === 'viewable impressions')" autocomplete="off" round-converter whole-number-only="whole-number-only"/>
             <label ng-if="selectedCampaign.kpiValue==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
         </div>
 

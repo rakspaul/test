@@ -1188,14 +1188,14 @@
         <script type="text/ng-template" id="deliveryTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, $index);
+                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-            <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
+            <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, customReportData.idx);
                     $event.stopPropagation();"
                   data-ng-if="customReportData.value"
                   data-ng-bind="customReportData.value"
@@ -1250,14 +1250,14 @@
         <script type="text/ng-template" id="costTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, $index);
+                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' :' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, customReportData.idx);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"
@@ -1362,14 +1362,14 @@
         <script type="text/ng-template" id="videoTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, $index);
+                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, customReportData.idx);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"
@@ -1436,14 +1436,15 @@
         <script type="text/ng-template" id="qualityTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, $index);
+                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
+
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, customReportData.idx);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"
@@ -1494,22 +1495,22 @@
             <div class="each_col"
                  data-ng-if="customReportData.viewable_25 >= -1"
                  data-ng-bind="customReportData.viewable_25 === -1 ? 'NA' :
-                    ((customReportData.viewable_25 | number : 0)+'%')">
+                    ((customReportData.viewable_25 | number : 0))">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_50 >= -1"
                  data-ng-bind="customReportData.viewable_50 === -1 ? 'NA' :
-                    ((customReportData.viewable_50 | number : 0)+'%')">
+                    ((customReportData.viewable_50 | number : 0))">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_75 >= -1"
                  data-ng-bind="customReportData.viewable_75 === -1 ? 'NA' :
-                    ((customReportData.viewable_75 | number : 0)+'%')">
+                    ((customReportData.viewable_75 | number : 0))">
             </div>
             <div class="each_col"
                  data-ng-if="customReportData.viewable_100 >= -1"
                  data-ng-bind="customReportData.viewable_100 === -1 ? 'NA' :
-                    ((customReportData.viewable_100 | number : 0)+'%')">
+                    ((customReportData.viewable_100 | number : 0))">
             </div>
         </script>
 
@@ -1517,14 +1518,14 @@
         <script type="text/ng-template" id="pacingTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, $index);
+                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
             <!---- Dimension report data ------------------------>
             <div class="each_col tree_dimension_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_col' : ' '}}">
-                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, $index);
+                <span data-ng-click="deepLinking.routeToLink($event, customReportData.level, customReportData.idx);
                         $event.stopPropagation();"
                       data-ng-if="customReportData.value"
                       data-ng-bind="customReportData.value"

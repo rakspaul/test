@@ -52,20 +52,17 @@
   width: 284px;
 }
 /* Generic Class */
+.wordWrap {
+  word-wrap: break-word;
+}
 .overflowAuto {
   overflow: auto;
 }
-.reports_details_outer_container.overflowAuto {
-  /*    border-left: solid 1px #ccd9e3 ;
-    border-right: solid 1px #ccd9e3 ;
-    .reports_performance_header {
-        border-left: 0px !important ;
-        border-right : 0px !important;
-    }
-    div.strategy_total_container_header {
-        border-left: 0px ;
-        border-right : 0px ;
-    }*/
+.overflowWidth .each_row_list {
+  padding-bottom: 10px ;
+}
+.overflowWidth .sepratorLineCls {
+  padding-bottom: 10px !important;
 }
 .reports_tabs_content_container #reports_byadsizes_block .reports_details_outer_container.overflowAuto .each_col {
   width: 128px;
@@ -691,7 +688,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -829,7 +826,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -1344,8 +1341,15 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .platform_logo_img {
   margin-left: 25px;
 }
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelNameHolder {
+  width: 250px;
+}
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
-  width: 225px;
+  width: 207px;
+  word-wrap: break-word;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelCategory {
+  word-wrap: break-word;
 }
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
@@ -1543,7 +1547,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .strategy_total_container .strategy_total_container_header,
 .viewability_details_video_mode_outer_container .strategy_total_container .strategy_total_container_header {
   padding-top: 10px ;
-  padding-bottom: 4px ;
+  padding-bottom: 20px ;
 }
 .viewability_details_outer_container .strategy_total_container .each_strategy_holder,
 #reports_platform_viewability_block .strategy_total_container .each_strategy_holder,
@@ -1912,6 +1916,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: right;
   padding-right: 15px ;
 }
+#reports_platform_viewability_block .sepratorCls_platform {
+  margin-bottom: 10px ;
+  padding-bottom: 10px ;
+}
 #reports_platform_viewability_block.reports_video_mode_viewability_container .viewability_header .suspicious_col {
   width: 80px;
 }
@@ -2257,7 +2265,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .each_col {
   padding-top: 0px ;
   padding-bottom: 0px ;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
 }
 #reports_platform_viewability_block .platform_name_col {
   text-align: left;
@@ -2673,6 +2681,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-family: "Avenir";
   color: #313233 ;
 }
+.reports_tabs_content_container .reports_block#reports_platform_performance_block .each_strategy {
+  padding-bottom: 10px;
+}
 .reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .reports_platform_header .each_col {
   padding-top: 10px;
 }
@@ -2701,7 +2712,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: left;
   width: 132px;
   text-align: right;
-  margin: 5px 0 10px 15px ;
+  margin: 5px 0 0px 15px ;
 }
 .reports_tabs_content_container .reports_block .all_strategies_holder .linkage_lines {
   height: 172px ;
@@ -2737,16 +2748,18 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container .reports_block .row_list_holder .each_row_list {
   color: #21252b;
   font-size: 14px;
-  /* padding:6px 20px 0px 20px;*/
+  /*padding:20px 0px 0px 0px;*/
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorCls {
   border-bottom: 1px solid #ccd9e3;
   position: absolute;
-  top: 0px;
+  top: -2px;
   left: 0px;
   z-index: 10;
   padding-left: 20px;
   width: 100% ;
+  padding-top: 8px;
+  /*padding-bottom:20px;*/
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorCls .sec_col {
   font-family: "Avenir-bold";
@@ -2755,13 +2768,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorLineCls {
   border-bottom: 1px solid #ccd9e3;
-  margin-bottom: 10px ;
+  margin-bottom: 5px ;
+  padding-bottom: 0px;
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorLineCls .sec_col {
   font-family: "Avenir-bold";
 }
 .reports_tabs_content_container .reports_block .row_list_holder .sepratorCls_platform {
   border-bottom: 1px solid #ccd9e3;
+  padding: 15px 2px 20px 0px;
   /*position: absolute;
                 top: 0px;
                 left: -15px;
@@ -2847,7 +2862,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col {
   /*width: 90px !important;*/
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 .reports_tabs_content_container .performancePlatformHeader .seventh_col .arrrow_img {
   margin-left: 5px ;
@@ -3171,6 +3186,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 14px;
   text-transform: capitalize;
 }
+.reports_tabs_content_container #reports_platform_performance_block .sepratorLineCls {
+  padding-bottom: 10px ;
+}
+.reports_tabs_content_container #reports_platform_performance_block .strategy_total_container_header {
+  padding-bottom: 15px ;
+}
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container .vid_data_hdr {
   width: 306px;
   border: 1px none #FF6600;
@@ -3208,6 +3229,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.each_col {
   width: 97px ;
+}
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.vid_none_hdr.sev_col_CPA {
+  width: 120px;
+}
+.reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.vid_none_hdr.sev_col_spend {
+  width: 113px;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col {
   min-width: 70px ;
@@ -3608,9 +3635,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_details_outer_container .reports_platform_header .each_cost_col.sec_col.active {
   color: #0978c9;
 }
-#reports_platform_cost_block .platform_row,
-#reports_platform_viewability_block .platform_row {
-  padding: 5px 0 ;
+#reports_platform_cost_block .sepratorCls_platform {
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+#reports_platform_cost_block .first_col {
+  margin-left: 4px ;
+  margin-bottom: 15px;
 }
 #reports_platform_cost_block {
   overflow-y: auto;
@@ -4393,7 +4424,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;

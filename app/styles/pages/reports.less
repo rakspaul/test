@@ -43,21 +43,19 @@
 
 
 /* Generic Class */
-
+.wordWrap {
+    word-wrap:break-word;
+}
 .overflowAuto{
     overflow: auto;
 }
-.reports_details_outer_container.overflowAuto {
-/*    border-left: solid 1px #ccd9e3 ;
-    border-right: solid 1px #ccd9e3 ;
-    .reports_performance_header {
-        border-left: 0px !important ;
-        border-right : 0px !important;
+.overflowWidth {
+    .each_row_list  {
+        padding-bottom: 10px ;
     }
-    div.strategy_total_container_header {
-        border-left: 0px ;
-        border-right : 0px ;
-    }*/
+    .sepratorLineCls {
+        padding-bottom: 10px !important;
+    }
 }
 
 .reports_tabs_content_container {
@@ -1282,8 +1280,15 @@ div.strategy_total_container {
             .platform_logo_img {
                 margin-left:25px;
             }
+            .discrepancySecLevelNameHolder {
+                width:250px;
+            }
             .discrepancySecLevelName {
-                width: 225px;
+                width: 207px;
+                word-wrap: break-word;
+            }
+            .discrepancySecLevelCategory {
+                word-wrap: break-word;
             }
         }
         .rowHasSubRow {
@@ -1474,7 +1479,7 @@ div.strategy_total_container {
         }
         .strategy_total_container_header {
             padding-top : 10px ;
-            padding-bottom: 4px ;
+            padding-bottom: 20px ;
         }
         .each_strategy_holder {
             border-left: solid 1px @reportBorder ;
@@ -1813,6 +1818,10 @@ div.strategy_total_container {
             text-align: right;
             padding-right: 15px ;
         }
+    }
+    .sepratorCls_platform {
+        margin-bottom: 10px ;
+        padding-bottom: 10px ;
     }
     &.reports_video_mode_viewability_container{
         .viewability_header{
@@ -2237,7 +2246,7 @@ div.strategy_total_container {
     .each_col {
         padding-top: 0px ;
         padding-bottom: 0px ;
-        margin-bottom: 10px;
+        /*margin-bottom: 10px;*/
     }
     .platform_name_col {
         text-align: left;
@@ -2725,6 +2734,9 @@ div.strategy_total_container {
     }
     .reports_block {
         &#reports_platform_performance_block {
+            .each_strategy {
+                padding-bottom: 10px;
+            }
             &.quartile_data_platform {
                 .reports_platform_header {
                     .each_col {
@@ -2770,7 +2782,7 @@ div.strategy_total_container {
             float: left;
             width: 132px;
             text-align: right;
-            margin: 5px 0 10px 15px ;
+            margin: 5px 0 0px 15px ;
         }
         .all_strategies_holder  {
             .linkage_lines{
@@ -2810,16 +2822,18 @@ div.strategy_total_container {
         .row_list_holder {
             .each_row_list {
                 .ReportDataFontColor() ;
-                 /* padding:6px 20px 0px 20px;*/
+                /*padding:20px 0px 0px 0px;*/
             }
             .sepratorCls {
                 border-bottom: 1px solid #ccd9e3;
                 position:absolute;
-                top:0px;
+                top:-2px;
                 left:0px;
                 z-index:10;
                 padding-left:20px;
                 width: 100% ;
+                padding-top:8px;
+                /*padding-bottom:20px;*/
                 .sec_col
                    {
                     font-family: "Avenir-bold";
@@ -2829,13 +2843,15 @@ div.strategy_total_container {
             }
             .sepratorLineCls {
                 border-bottom: 1px solid #ccd9e3;
-                margin-bottom: 10px ;
+                margin-bottom: 5px ;
+                padding-bottom:0px;
                 .sec_col {
                     font-family: "Avenir-bold" ;
                 }
             }
             .sepratorCls_platform {
                 border-bottom: 1px solid #ccd9e3;
+                padding: 15px 2px 20px 0px;
                 /*position: absolute;
                 top: 0px;
                 left: -15px;
@@ -2908,6 +2924,7 @@ div.strategy_total_container {
                     margin-left: 0px ;
                 }
             }
+
         }
     }
 
@@ -2933,10 +2950,11 @@ div.strategy_total_container {
     .performancePlatformHeader {
         .seventh_col {
             /*width: 90px !important;*/
-            cursor: pointer;
+            /*cursor: pointer;*/
             .arrrow_img {
                 margin-left: 5px ;
             }
+
             .kpi_indicator_ul {
                 top: 20px ;
                 padding: 0;
@@ -2957,6 +2975,7 @@ div.strategy_total_container {
                 }
             }
         }
+
     }
     /*end of hot fix for the KPI drpdown of platform header so that nothing else will break*/
 
@@ -3020,7 +3039,7 @@ div.strategy_total_container {
         }
         .platform_row {
             clear: both;
-            margin: 6px 0 ;
+             margin: 6px 0 ; 
         }
         .platform_aggregation_row{
             font-size:15px;
@@ -3276,6 +3295,12 @@ div.strategy_total_container {
         }
     }
     #reports_platform_performance_block{
+        .sepratorLineCls {
+            padding-bottom: 10px ;
+        }
+        .strategy_total_container_header {
+            padding-bottom: 15px ;
+        }
         div.reports_details_outer_container {
 
             .vid_data_hdr {
@@ -3320,6 +3345,12 @@ div.strategy_total_container {
 
             div.each_col {
                 width : 97px ;
+            }
+             div.vid_none_hdr.sev_col_CPA {
+                width:120px;
+            }
+            div.vid_none_hdr.sev_col_spend {
+                width:113px;
             }
             div.sec_col {
                 min-width: 70px ;
@@ -3681,12 +3712,16 @@ div.strategy_total_container {
     color:@visto-blue;
 }
 
-#reports_platform_cost_block , #reports_platform_viewability_block {
-    .platform_row {
-        padding: 5px 0 ;
+#reports_platform_cost_block{
+    .sepratorCls_platform {
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    .first_col {
+        margin-left: 4px ;
+        margin-bottom: 15px;
     }
 }
-
 
 #reports_platform_cost_block {
     overflow-y: auto;
@@ -5689,3 +5724,4 @@ body.custom_report_page {
 .disabled_txt {
     color : #aaa ;
 }
+

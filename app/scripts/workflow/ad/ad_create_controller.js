@@ -57,80 +57,51 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 clientId = responseData.clientId;
                                 advertiserId = responseData.advertiserId;
 
+                                workflowService
+                                    .getAdGroup(clientId, $scope.campaignId, $scope.adGroupId)
+                                    .then(function (result) {
+                                        var responseData,
+                                            adGroupData = {};
+
+                                        if (result.status === 'OK' || result.status === 'success') {
+                                            responseData = result.data.data;
+                                            adGroupData = responseData;
+                                            adGroupData.startDate =
+                                                momentService
+                                                    .utcToLocalTime(
+                                                    responseData.startTime
+                                                );
+                                            adGroupData.endDate =
+                                                momentService
+                                                    .utcToLocalTime(
+                                                    responseData.endTime
+                                                );
+
+                                            adGroupData.clientCurrency = accountService.currencySymbol;
+                                            $scope.workflowData.adGroupData = adGroupData;
+                                        } else {
+                                            campaignOverView.errorHandler(result);
+                                        }
+                                    }, campaignOverView.errorHandler);
+
                                 if ($scope.mode === 'edit') {
-                                    if (!$scope.adGroupId) {
-                                        workflowService
-                                            .getAd({
-                                                clientId : clientId,
-                                                campaignId: $scope.campaignId,
-                                                adId: $scope.adId
-                                            })
-                                            .then(function (result) {
-                                                $scope.getAd_result = result.data.data;
+                                    // to get all ads with in ad group
+                                    workflowService
+                                        .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
+                                        $scope.adGroupId, $scope.adId)
+                                        .then(function (result) {
+                                            $scope.getAd_result = result.data.data;
 
-                                                // redirect user to campaingn overview screen if ad is archived
-                                                if ($scope.getAd_result.isArchived){
-                                                    $scope.isMediaPlanArchive = true;
-                                                    $scope.archivedAdFlag = true;
-                                                }
+                                            // redirect user to campaingn overview screen
+                                            // if ad is archived
+                                            if ($scope.getAd_result.isArchived) {
+                                                $scope.isMediaPlanArchive = true;
+                                                $scope.archivedAdFlag = true;
+                                            }
 
-                                                disablePauseEnableResume($scope.getAd_result);
-                                                processEditMode(result, clientId, advertiserId);
-                                            });
-                                    } else {
-                                        workflowService
-                                            .getAdgroups(clientId, $scope.campaignId)
-                                            .then(function (result) {
-                                                var responseData,
-                                                    adGroupData = {},
-                                                    n,
-                                                    i;
-
-                                                if (result.status === 'OK' || result.status === 'success') {
-                                                    responseData = result.data.data.ad_groups;
-                                                    $scope.workflowData.campaignGetAdGroupsData = responseData;
-                                                    n = responseData.length;
-
-                                                    for (i = 0; i < n; i++) {
-                                                        if (responseData[i].adGroup.id ===
-                                                            parseInt($scope.adGroupId)) {
-                                                            adGroupData.startDate =
-                                                                momentService
-                                                                    .utcToLocalTime(
-                                                                        responseData[i].adGroup.startTime
-                                                                    );
-                                                            adGroupData.endDate =
-                                                                momentService
-                                                                    .utcToLocalTime(
-                                                                        responseData[i].adGroup.endTime
-                                                                    );
-                                                        }
-                                                    }
-
-                                                    $scope.workflowData.adGroupData = adGroupData;
-
-                                                    // to get all ads with in ad group
-                                                    workflowService
-                                                        .getDetailedAdsInAdGroup(clientId, $scope.campaignId,
-                                                            $scope.adGroupId, $scope.adId)
-                                                        .then(function (result) {
-                                                            $scope.getAd_result = result.data.data;
-
-                                                            // redirect user to campaingn overview screen
-                                                            // if ad is archived
-                                                            if ($scope.getAd_result.isArchived) {
-                                                                $scope.isMediaPlanArchive = true;
-                                                                $scope.archivedAdFlag = true;
-                                                            }
-
-                                                            disablePauseEnableResume($scope.getAd_result);
-                                                            processEditMode(result, clientId, advertiserId);
-                                                        });
-                                                } else {
-                                                    campaignOverView.errorHandler(result);
-                                                }
-                                            }, campaignOverView.errorHandler);
-                                    }
+                                            disablePauseEnableResume($scope.getAd_result);
+                                            processEditMode(result, clientId, advertiserId);
+                                        });
                                 } else {
                                     $scope.$broadcast('getDominList', [{
                                         clientId: clientId,
@@ -231,6 +202,19 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.unitType = $scope.workflowData.unitTypes[0];
                 },
 
+                fetchVerificationSettings: function () {
+                    //fetch verification settings
+                    workflowService.getVerificationSettings().then(function(result){
+
+                        if (result.status === 'OK' || result.status === 'success') {
+                            $scope.adData.verificationSettings = result.data.data;
+                            var defaultObj = {name: constants.VERIFICATION_DEFAULT, id: -1};
+                            $scope.adData.verificationSettings.unshift(defaultObj);
+                        }
+
+                    });
+                },
+
                 saveAds: function (postDataObj) {
                     var promiseObj,
                         clientId = vistoconfig.getSelectedAccountId();
@@ -257,6 +241,10 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         postDataObj.adId = $scope.adId;
                         postDataObj.updatedAt = $scope.updatedAt;
                         postDataObj.state = $scope.state;
+                    }
+
+                    if($scope.adData.selectedSetting.id !== -1){
+                        postDataObj.verificationVendorConfigId = $scope.adData.selectedSetting.id;
                     }
 
                     promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
@@ -358,6 +346,18 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 $scope.adData.primaryKpi = responseData.goal;
             }
 
+            if (responseData.verificationVendorConfigId) {
+                var verificationVendorConfigIndex = _.findIndex($scope.adData.verificationSettings ,function(setting) {
+                    return setting.id === responseData.verificationVendorConfigId;
+                });
+
+                if(verificationVendorConfigIndex !== -1) {
+                    $scope.adData.selectedSetting.name = $scope.adData.verificationSettings[verificationVendorConfigIndex].name;
+                    $scope.adData.selectedSetting.id = $scope.adData.verificationSettings[verificationVendorConfigIndex].id;
+                }
+
+            }
+
             if (responseData.screens) {
                 for (i = 0; i < responseData.screens.length; i++) {
                     index = _.findIndex($scope.workflowData.screenTypes, findFunc);
@@ -375,7 +375,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
                     $scope.adData.budgetTypeLabel = $scope.adData.budgetType;
                 }
-
                 if ($scope.adData.budgetType) {
                     budgetElem = $('.budget_' + $scope.adData.budgetType.toLowerCase());
                 }
@@ -418,9 +417,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
             if (responseData.totalBudget >= 0) {
                 $scope.adData.totalAdBudget=responseData.totalBudget;
-                $('#targetUnitCost_squaredFour').prop('checked',responseData.enabledBudgetCalculation);
-
-                $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
+                $scope.adData.existingAdBudget = responseData.totalBudget;
+                /*$('#targetUnitCost_squaredFour').prop('checked',responseData.enabledBudgetCalculation);
 
                 // disabled checkBox if its primary!=Impression && UnitCost!=CPM
                 if ((responseData.kpiType && responseData.kpiType.toUpperCase() !== 'IMPRESSIONS') ||
@@ -428,35 +426,107 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                 } else {
                     $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
-                }
+                }*/
 
-                if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
+                /*if (((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
                     ((responseData.rateType) && (responseData.rateType).toUpperCase() === 'CPM')) {
                     $('.external_chkbox').show();
                 } else {
                     $('.external_chkbox').hide();
+                }*/
+            }
+
+            function selectKpi(type,isAutoComputeSet) {
+                var kpiTypeSymbolMap = {
+                        '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
+                        '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
+                    },
+                    autoComputeKpiTypeMap = {
+                        '.targetActions':['CPA', 'POST CLICK CPA'],
+                        '.targetImpressions':['CPM'],
+                        '.targetClicks':['CPC', 'CTR']
+                    };
+
+
+                var symbol = '';
+
+                for (var i in kpiTypeSymbolMap) {
+                    if ($.inArray(type, kpiTypeSymbolMap[i]) !== -1) {
+                        symbol = i;
+                        break;
+                    }
                 }
+
+                if (symbol === '') {
+                    symbol = constants.currencySymbol;
+                }
+
+                $('#primaryKpiDiv').find('.KPI_symbol').html(symbol);
+
+                var flag = false;
+                $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                for (var j in autoComputeKpiTypeMap) {
+                    if ($.inArray(type, autoComputeKpiTypeMap[j]) !== -1) {
+                        var autoCompute = $('#autoComputeDiv');
+                        autoCompute.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                        autoCompute.detach();
+                        var kpiFieldsDiv = $('#kpiFieldsDiv').find(j);
+                        if(isAutoComputeSet){
+                            kpiFieldsDiv.find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                        }
+                        kpiFieldsDiv.after(autoCompute);
+                        autoCompute.show();
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if(!flag) {
+                    var autoComputeOld = $('#autoComputeDiv');
+                    autoComputeOld.closest('.targetInputHolder').find('.targetInputs').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                    autoComputeOld.hide();
+                    if(type.toLowerCase() === 'impressions') {
+                        $('#kpiFieldsDiv').find('.targetInputHolder').find('.targetImpressions').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    }
+                }
+
             }
 
             if (responseData.kpiType){
-                $scope.adData.primaryKpi=responseData.kpiType;
+                $scope.adData.primaryKpi= vistoconfig.kpiList.find(function(obj) {
+                    return obj.kpiType === responseData.kpiType;
+                }).displayName;
                 $scope.adData.targetValue=Number(responseData.kpiValue);
-
-                if (((responseData.kpiType).toUpperCase() === 'CPM') ||
-                    ((responseData.kpiType).toUpperCase() === 'CPA') ||
-                    ((responseData.kpiType).toUpperCase() === 'CPC')) {
-                    $('.KPI_symbol').html('$');
-                } else if (((responseData.kpiType).toUpperCase() === 'VTC') ||
-                    ((responseData.kpiType).toUpperCase() === 'CTR') ||
-                    ((responseData.kpiType).toUpperCase() === 'ACTION RATE')) {
-                    $('.KPI_symbol').html('%');
-                } else {
-                    $('.KPI_symbol').html('#');
-                }
+                selectKpi(responseData.kpiType,responseData.autoCompute);
             }
 
             if (responseData.budgetValue >= 0) {
                 $scope.adData.budgetAmount = Number(responseData.budgetValue);
+            }
+
+            if (responseData.targetImpressions && responseData.targetImpressions >=0) {
+                $scope.adData.targetImpressions = Number(responseData.targetImpressions);
+            }
+
+            if (responseData.targetClicks && responseData.targetClicks >=0) {
+                $scope.adData.targetClicks = Number(responseData.targetClicks);
+            }
+
+            if (responseData.targetActions && responseData.targetActions >=0) {
+                $scope.adData.targetActions = Number(responseData.targetActions);
+            }
+
+            if (responseData.autoCompute) {
+                $scope.adData.autoCompute = responseData.autoCompute;
+            } else {
+                $scope.adData.autoCompute = false;
+            }
+
+            if (responseData.fetchValue) {
+                $scope.adData.fetchValue = responseData.fetchValue;
+                $('#budgetHolder').find('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+            } else {
+                $scope.adData.fetchValue = false;
             }
 
             if (responseData.rateType) {
@@ -487,12 +557,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             }
 
             if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
+                $scope.adData.setCap = true;
+                $scope.enableFreqCap = true;
                 angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                     var freqType;
-
-                    $scope.adData.setCap = true;
-                    $('.cap_yes').addClass('active');
-                    $('.cap_no').removeClass('active');
+                    $('.dynamicChkBox').addClass('after');
                     $('.cap_yes input').attr('checked', 'checked');
                     $scope.adData.quantity = frequencyCap.quantity;
                     $scope.capsPeriod = frequencyCap.frequencyType;
@@ -587,7 +656,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 selectedFreqObj;
 
             isSetCap = formData.setCap ? true : false;
-
             if (isSetCap && formData.quantity) {
                 selectedFreqObj = {};
                 selectedFreqObj.frequencyType = formData.frequencyType.toUpperCase();
@@ -631,6 +699,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 });
             }
         };
+
+
+            $scope.displayVerificationInSideBar = function (selectedSetting) {
+                if (selectedSetting && selectedSetting === constants.VERIFICATION_DEFAULT) {
+                    return constants.VERIFICATION_DEFAULT_SMALL;
+                } else {
+                    return selectedSetting;
+                }
+            };
 
         $scope.redirectUser = function (isAdArchived) {
             var url;
@@ -929,6 +1006,199 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             return moment(date).utc().valueOf();
         };
 
+        //Date Conf Start
+        $scope.checkForPastDate = function (startDate, endDate) {
+            endDate = moment(endDate).format(constants.DATE_US_FORMAT);
+
+            return moment().isAfter(endDate, 'day');
+        };
+
+        $scope.handleEndFlightDate = function (data) {
+            var endDateElem = $('#endDateInput'),
+                endDate = data.endTime,
+                adsDate = JSON.parse(localStorage.getItem('adsDates')),
+                changeDate;
+
+            // if End Date is in Past
+            if (!endDate && adsDate) {
+                endDate = adsDate.adEndDate;
+                changeDate = endDate;
+                $scope.adData.endTime = changeDate;
+
+                if (moment().isAfter(endDate)) {
+                    endDateElem.datepicker('setStartDate',
+                        moment().format(constants.DATE_US_FORMAT));
+                }
+            }
+        };
+
+        $scope.handleStartFlightDate = function (data) {
+            var endDateElem = $('#endDateInput'),
+                startDate = data.startTime,
+                endDate = data.endTime,
+                campaignEndTime,
+                changeDate,
+                adsDate;
+
+            if (!$scope.workflowData.campaignData) {
+                return;
+            }
+
+            campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
+
+            if ($scope.mode !== 'edit') {
+                endDateElem
+                    .attr('disabled', 'disabled')
+                    .css({'background': '#eee'});
+
+                if (startDate) {
+                    endDateElem
+                        .removeAttr('disabled')
+                        .css({'background': 'transparent'});
+
+                    changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
+                    endDateElem.datepicker('setStartDate', changeDate);
+
+                    if (location.href.indexOf('adGroup') > -1) {
+                        endDateElem.datepicker('setEndDate',
+                            momentService.utcToLocalTime(localStorage.getItem('edTime')));
+                    } else {
+                        endDateElem.datepicker('setEndDate', campaignEndTime);
+                    }
+
+                    endDateElem.datepicker('update', changeDate);
+                }
+            } else {
+                changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
+                adsDate = JSON.parse(localStorage.getItem('adsDates'));
+
+                // if start Date is in Past
+                if (!startDate && adsDate) {
+                    changeDate = startDate = adsDate.adStartDate;
+                    $scope.adData.startTime = changeDate;
+
+                    if (moment().isAfter(endDate, 'day')) {
+                        endDateElem
+                            .datepicker('setStartDate',
+                            moment().format(constants.DATE_US_FORMAT));
+                    }
+                } else {
+                    endDateElem.datepicker('setStartDate', changeDate);
+                }
+
+                if (moment(startDate).isAfter(endDate, 'day')) {
+                    endDateElem.datepicker('update', changeDate);
+                }
+            }
+        };
+
+        $scope.setDateInEditMode = function (campaignStartTime, campaignEndTime) {
+            var endDateElem = $('#endDateInput'),
+                startDateElem = $('#startDateInput'),
+                adsDate = JSON.parse(localStorage.getItem('adsDates')),
+                startDate,
+                endDate,
+                currentDate;
+
+            if (adsDate) {
+                startDate = adsDate.adStartDate;
+                endDate = adsDate.adEndDate;
+            }
+
+            // ads start Date in Past
+            if (campaignStartTime > startDate) {
+                startDateElem.datepicker('setStartDate', campaignStartTime);
+            }
+
+            if (startDate > campaignStartTime) {
+                startDateElem.datepicker('update', startDate);
+            }
+
+            if (campaignEndTime >= endDate) {
+                startDateElem.datepicker('setEndDate', campaignEndTime);
+            }
+
+            // ads start Date in Past
+            if (moment(endDate).isAfter(campaignEndTime, 'day')) {
+                endDateElem.datepicker('setEndDate', endDate);
+                endDateElem.datepicker('setStartDate', endDate);
+                endDateElem.datepicker('update', endDate);
+            } else {
+                endDateElem.datepicker('setStartDate', startDate);
+                endDateElem.datepicker('setEndDate', campaignEndTime);
+                endDateElem.datepicker('update', endDate);
+            }
+
+            // this is to disable the enddate before today
+            currentDate = moment().format(constants.DATE_US_FORMAT);
+
+            if (startDate < currentDate) {
+                endDateElem.datepicker('setStartDate', currentDate);
+            }
+        };
+
+        $scope.$parent.initiateDatePicker = function () {
+            var endDateElem = $('#endDateInput'),
+                startDateElem = $('#startDateInput'),
+                campaignData = $scope.workflowData.campaignData,
+                campaignStartTime = momentService.utcToLocalTime(campaignData.startTime),
+                campaignEndTime = momentService.utcToLocalTime(campaignData.endTime),
+                adGroupStartDate,
+                adGroupEndDate,
+                currentDate = moment().format(constants.DATE_US_FORMAT);
+
+            if (moment().isAfter(campaignStartTime, 'day')) {
+                campaignStartTime = moment().format(constants.DATE_US_FORMAT);
+            }
+
+            $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
+
+            // If we are handling an ad of an Adgroup
+            if (location.href.indexOf('adGroup') > -1) {
+                if ($scope.mode === 'edit') {
+                    if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
+                        adGroupStartDate = currentDate;
+                    } else {
+                        adGroupStartDate = $scope.workflowData.adGroupData.startDate;
+                    }
+
+                    adGroupEndDate = $scope.workflowData.adGroupData.endDate;
+                    startDateElem.datepicker('setStartDate', adGroupStartDate);
+                    startDateElem.datepicker('setEndDate', adGroupEndDate);
+                    $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+                } else {
+                    // When creating a new Adgroup ad, if Adgroup start date is:
+                    // 1) before currrent date (in the past), default start & end dates will be current date
+                    // 2) else (in the future)m default current date will be Adgroup start date.
+                    adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
+                    adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
+
+                    if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
+                        startDateElem.datepicker('setStartDate', currentDate);
+                        startDateElem.datepicker('update', currentDate);
+                    } else {
+                        startDateElem.datepicker('setStartDate', adGroupStartDate);
+                        startDateElem.datepicker('update', adGroupStartDate);
+                    }
+
+                    startDateElem.datepicker('setEndDate', adGroupEndDate);
+                    endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate);
+                }
+            } else {
+                // Normal ad (non-Adgroup)
+                startDateElem.datepicker('setStartDate', campaignStartTime);
+                endDateElem.datepicker('setEndDate', campaignEndTime);
+
+                if ($scope.mode === 'edit') {
+                    $scope.setDateInEditMode(campaignStartTime, campaignEndTime);
+                } else {
+                    startDateElem.datepicker('setEndDate', campaignEndTime);
+                    startDateElem.datepicker('update', campaignStartTime);
+                }
+            }
+        };
+        //Date Conf End
+
         $scope.screenTypeSelection = function (screenTypeObj) {
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
                     return obj.name === screenTypeObj.name;
@@ -1169,8 +1439,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 ($scope.budgetErrorObj.mediaCostValidator ||
                 $scope.budgetErrorObj.availableRevenueValidator ||
                 $scope.budgetErrorObj.impressionPerUserValidator ||
-                $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
+                $scope.budgetErrorObj.availableMaximumAdRevenueValidator) ||
+                !formData.targetImpressions) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
+                if(!formData.targetImpressions) {
+                    $scope.budgetErrorObj.targetImpressionValidator = true;
+                }
                 return false;
             }
 
@@ -1237,8 +1511,28 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                     if (formData.totalAdBudget){
                         postAdDataObj.totalBudget = utils.stripCommaFromNumber(formData.totalAdBudget);
-                        postAdDataObj.enabledBudgetCalculation =
-                            ($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true;
+                        postAdDataObj.enabledBudgetCalculation = false;
+                            //($('#targetUnitCost_squaredFour').prop('checked') === false) ? false : true; this wouldn't be required anymore as total budget is a normal value now
+                    }
+
+                    if (formData.targetImpressions){
+                        postAdDataObj.targetImpressions = formData.targetImpressions;
+                    }
+
+                    if (formData.targetClicks){
+                        postAdDataObj.targetClicks = formData.targetClicks;
+                    }
+
+                    if (formData.targetActions){
+                        postAdDataObj.targetActions = formData.targetActions;
+                    }
+
+                    if (formData.autoCompute) {
+                        postAdDataObj.autoCompute = formData.autoCompute;
+                    }
+
+                    if (formData.fetchValue){
+                        postAdDataObj.fetchValue = formData.fetchValue;
                     }
 
                     if (getfreqCapParams(formData).length > 0) {
@@ -1262,15 +1556,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if ($scope.TrackingIntegrationsSelected) {
                             postAdDataObj.isTracking = true;
-                        } else {
-                            // custom field section.
-                            if ($.isEmptyObject($scope.postPlatformDataObj)) {
-                                $scope.saveCustomeFieldForPlatform(1);
-                            }
-
-                            postAdDataObj.adPlatformCustomInputs =
-                                wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
                         }
+                        // custom field section.
+                        if ($.isEmptyObject($scope.postPlatformDataObj)) {
+                            $scope.saveCustomeFieldForPlatform(1);
+                        }
+
+                        postAdDataObj.adPlatformCustomInputs =
+                            wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
+
                     }
 
                     if (creativesData && creativesData.creatives) {
@@ -1631,6 +1925,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.enableSaveBtn = true;
         $scope.isAddCreativePopup = false;
         $scope.enableOnlyCreativeTab=false;
+        $scope.selectedFreq = 'Daily';
 
         // To show hide view tag in creatives listing
         $scope.IsVisible = false;
@@ -1650,7 +1945,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.editedAdSourceId = null;
         $scope.dayPartData = {};
         $scope.adData.budgetTypeLabel = 'Impressions';
-        $scope.adData.budgetType = 'Cost';
+        $scope.adData.budgetType = 'Impressions';
 
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
@@ -1666,6 +1961,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
         $scope.mediaPlanName = null;
         $scope.adGroupName = null;
         $scope.adData.platformSeatId = null;
+        campaignOverView.fetchVerificationSettings();
 
         $scope.adData.domainEnable = false;
         $scope.adData.appEnable = false;

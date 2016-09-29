@@ -2146,7 +2146,7 @@ button, i, input[type="submit"] {
   .profile-photo-tab.selected:after {
     display: none;
   }
-  
+
   .help-link-tab {
     margin-right: 20px;
     margin-top: 13px;
@@ -2318,19 +2318,19 @@ button, i, input[type="submit"] {
 
             /* Safari */
             -webkit-transform: rotate(-90deg);
-            
+
             /* Firefox */
             -moz-transform: rotate(-90deg);
-            
+
             /* IE */
             -ms-transform: rotate(-90deg);
-            
+
             /* Opera */
             -o-transform: rotate(-90deg);
-            
+
             /* Internet Explorer */
             filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-            
+
             }
             &:hover {
                 span {
@@ -3121,7 +3121,7 @@ button, i, input[type="submit"] {
     z-index: 3;
     cursor: pointer;
     padding-right: 20px ;
-    max-width: 113px;
+    max-width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -3456,5 +3456,38 @@ button, i, input[type="submit"] {
     .common-load-more {
       margin: 150px auto 110px ;
     }
+  }
+}
+.video_switch_mediaplans {
+    float:left;
+    position: relative;
+    width:200px;
+    margin-left : 50px ;
+    .view_mode_switch_container {
+        left:0;
+        right:0px;
+        margin:10px ;
+        top:0;
+    }
+    .active {
+        color: #0078cc;
+    }
+}
+#realTimeToggleBtn {
+  position: relative;
+  .btn-group {
+    position: absolute;
+    right: 0;
+    top: -31px;
+  }
+  .tooltip {
+    width: 150px !important;
+  }
+
+  .btn-group.create .btn [class^="icon-"], .btn-group.create .btn [class*=" icon-"] {
+    margin-right: 0;
+  }
+  .active {
+    cursor: default;
   }
 }

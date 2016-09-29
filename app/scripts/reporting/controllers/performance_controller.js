@@ -33,7 +33,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         $scope.sortType             = 'impressions';
         $scope.sortTypebyformats    = '-impressions';
         $scope.sortTypebyplatforms  = '-impressions';
-        $scope.sortTypebydaysofweek = '-impressions';
+        $scope.sortTypebydaysofweek = 'dimension1';
         $scope.sortTypeByCreatives  = '-impressions';
         $scope.sortTypeByAdSizes    = '-impressions';
         $scope.sortTypeScreens      = '-impressions';
@@ -86,7 +86,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         $scope.apiReturnCode = 200;
         $scope.redirectWidget = $scope.selectedCampaign && $scope.selectedCampaign.redirectWidget;
 
-        $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ?
+        $scope.strategyHeading = $scope.selectedStrategy && Number($scope.selectedStrategy.id) >= 0 ?
             constants.LINE_ITME_TOTAL : constants.MEDIA_PLAN_TOTAL;
 
         $scope.getMessageForDataNotAvailable = function (campaign) {
@@ -425,7 +425,12 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         $scope.$watchCollection('[adFormats.videoAds, selected_tab, selectedStrategy.id]', function (arr) {
             var width = (arr[0] || arr[1] === 'bydiscrepancy') ? '100%' : '1550px';
+            var overflowWidth = (arr[0] || arr[1] === 'bydiscrepancy') ? '' : 'overflowWidth';
+
             $('.reports_performance_header, .strategy_total_container').css('width', width);
+            $('.reports_performance_header, .strategy_total_container').addClass(overflowWidth);
+
+
         });
 
         extractAdFormats =  function () {
