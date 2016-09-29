@@ -36,7 +36,7 @@
                 <div class="listToBeSelected">
                     <div class="segmentHeader">
                         <!--Search-->
-                        <div class="col-md-4 pull-left providers-dropdown">
+                        <div class="col-md-4 pull-left providers-dropdown zeroPadding">
 
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
@@ -45,7 +45,7 @@
                                         <span class="icon-arrow-solid-down"></span>
                                     </button>
 
-                                    <ul class="dropdown-menu dropdown-menu-with-search" >
+                                    <ul class="dropdown-menu dropdown-menu-with-search multiSelect">
                                         <div  class="search-inside-dropdown">
                                             <input type="text" ng-model="providerSearchText" class="dropdown-toggle " />
                                             <span class="sort-image-inactive brands_dd_filter_arrow" ></span>
@@ -53,19 +53,18 @@
 
                                         <div ng-if="providerLoader" class="common-loading-area" ></div>
 
-                                        <li  class="available" ng-if="!providerLoader && segmentProviders.length >0" ng-repeat="provider in segmentProviders | filter : providerSearchText">
-                                            <a href="javascript:void(0);">
-                                                <label class="col-md-12 zeroPadding">
-                                                    <input class="pull-left"  ng-click="filterAudienceData(provider)" type="checkbox">
-                                                    <div class="pull-left marginLeft">{{provider}}</div>
-                                                </label>
-                                            </a>
+                                        <li class="available" ng-if="!providerLoader && segmentProviders.length >0" ng-repeat="provider in segmentProviders | filter : providerSearchText">
+                                            <label>
+                                                <input class="pull-left"  ng-click="filterAudienceData(provider)" type="checkbox">
+                                                <span class="pull-left">{{provider}}</span>
+                                            </label>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
                         </div>
+
                         <div class="btn-group pull-right">
                             <div class="searchInput col-md-12 zeroPadding">
                                 <a class="btn btn-default searchInputBtnInline" data-ng-click="selectKeyword(keywordText)">
@@ -88,12 +87,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 zeroPadding">
+                        <!--Temp Hide?-->
+                        <div class="col-md-6 zeroPadding" style="display: none;">
                             <input type="text" id="amount" class="col-md-12 greyTxt sliderAmount" readonly>
                             <div class="col-md-12 zeroPadding" id="slider-range"></div>
                         </div>
                     </div>
-					<div class="col-md-12 segHeaderTable" style="margin-top: -15px;">
+					<div class="col-md-12 segHeaderTable">
 						<div class="columnOne">
 							<div class="checkbox">
 								<input type="checkbox" data-ng-click="selectAllAudience($event)" data-ng-checked="selectAllChecked">

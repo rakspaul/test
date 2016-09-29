@@ -5,9 +5,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         'workflowService', 'constants', 'vistoconfig', function ($scope, audienceService,
                                                                     workflowService, constants, vistoconfig) {
 
-        var vm =this,
-
-            editOneTimeFlag = false,
+        var editOneTimeFlag = false,
 
             _audienceTargetting = {
                 processAudienceEdit: function () {
@@ -142,6 +140,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 updateProvidersText: function () {
                     if($scope.selectedProviders.length === 0 ){
                         $scope.providerLabel = 'All';
+
                     } else {
                         if ($scope.selectedProviders.length === 1) {
                             $scope.providerLabel = $scope.selectedProviders[0];

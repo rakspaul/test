@@ -37,7 +37,7 @@ module.exports =function(grunt) {
                     '{,*/}*.html',
                     '!*.master.html',
                     'fonts/{,*/}*.*',
-                    //'views/**',
+                    'views/workflow/partials/overview_partials/overview_createAdgroups.html',
                     'conf/{,*/}*.*',
                     'scripts/**'
 

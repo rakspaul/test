@@ -2495,12 +2495,23 @@ tags-input .autocomplete {
 		border-bottom: solid 1px #ccc;
 		margin-bottom: 5px ;
 		input {
-			border: 0px;
+			border: 1px solid #bfc9d7;
 			padding-right: 30px;
 			background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
-			height: 30px;
+			height: 36px;
 			width: 100%;
 			padding-left: 15px;
+            border-radius: 0 !important;
+            &:hover {
+                background: transparent !important;
+                background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+                border: 1px solid @label-gray !important;
+            }
+            &:focus {
+                background: transparent !important;
+                background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+                border: 1px solid @visto-blue !important;
+            }
 		}
 	}
 }
