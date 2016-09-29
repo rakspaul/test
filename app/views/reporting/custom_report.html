@@ -203,15 +203,42 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--   Auto suggestion filter text box start -->
                                     <div class="pull-left filter_input_txtbox">
-                                        <input type="text"
-                                               name="filter"
-                                               class="reportFilter"
-                                               data-ng-model="addFilts.value"
-                                               data-ng-hide="addFilts.hide"
-                                               autofocus
-                                               placeholder="Contains keywords...">
+                                        <div class="filter_input_dropdown" data-ng-hide="addFilts.hide" >
+                                            <div class="common_dropdown">
+                                                <div class="dropdown">
+                                                    <div class="dropdown_autoselect_box">
+                                                        <input data-ng-click="hideVisibleDropdown($event);
+                                                                              filterAutoCompletion.onSelectingDropdown(addFilts.key,additionalFilters[filterIndex].value)
+                                                                             "
+                                                               type="text" data-ng-model="additionalFilters[filterIndex].value"
+                                                               class="autofillInputElem" ng-blur="filterAutoCompletion.checkForAutoFltrMatch(filterIndex)"
+                                                               ng-keyup="filterAutoCompletion.fetchFilterAutoSugtn($event,addFilts.key,additionalFilters[filterIndex].value,false,filterIndex)"
+                                                               placeholder="Type here..."
+                                                        >
+                                                    </div>
+                                                    <ul class="dropdown-menu autofill-dropdown"
+                                                        lr-infinite-scroll="filterAutoCompletion.loadMoreData" scroll-threshold="400"
+                                                        style="min-width: 200px;display:none;">
+                                                        <div class="common-loading-area" ng-if="(!(filtersAutoComplArr.length > 0)&& (!filtersAutoComplArr.dataNotFound))"></div>
+                                                        <div class="no_data_found marginBottom" style="margin-top:10px;" ng-if="filtersAutoComplArr.dataNotFound">No Data Found</div>
+
+                                                        <li data-ng-repeat="filterAutoSug in filtersAutoComplArr | filter : additionalFilters[filterIndex].value"
+                                                            id="{{filterAutoSug}}"
+                                                            data-ng-click="onChoosingAditFltValue( $event, filterIndex, filterAutoSug, addFilts.key, additionalFilters[filterIndex].value)"
+                                                            data-ng-model="addFilts.key"
+                                                            data-ng-bind-html="filterAutoSug.id?(filterAutoSug.name)+' ('+filterAutoSug.id+')':filterAutoSug.name"
+                                                            data-toggle="dropdown">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <!--   Auto suggestion filter text box end -->
+
                                     <div class="pull-left delete_row" data-ng-click="delAditFlt($index);"></div>
                                 </div>
                                 <!-- sapna -->
@@ -1188,7 +1215,7 @@
         <script type="text/ng-template" id="deliveryTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
+                 data-ng-click="showDataForClikedDimension($event,customReportData.id, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
@@ -1250,7 +1277,7 @@
         <script type="text/ng-template" id="costTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
+                 data-ng-click="showDataForClikedDimension($event,customReportData.id, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
@@ -1362,7 +1389,7 @@
         <script type="text/ng-template" id="videoTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
+                 data-ng-click="showDataForClikedDimension($event,customReportData.id, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
@@ -1436,7 +1463,7 @@
         <script type="text/ng-template" id="qualityTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
+                 data-ng-click="showDataForClikedDimension($event,customReportData.id, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 
@@ -1518,7 +1545,7 @@
         <script type="text/ng-template" id="pacingTpl">
             <div class="each_col {{customReportData.level === 'first_dimension' ?
                     'more_dimension_arrow icon-toggleclose' : 'tree_string'}}"
-                 data-ng-click="showDataForClikedDimension($event, customReportData.value, customReportData.idx);
+                 data-ng-click="showDataForClikedDimension($event,customReportData.id, customReportData.value, customReportData.idx);
                     $event.stopPropagation();">
             </div>
 

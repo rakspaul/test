@@ -140,7 +140,7 @@ define(['angularAMD'],
 
                     mediaPlanCreateUrl = function () {
 
-                        var url = this.buildBaseUrl();
+                        var url = this.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, -1, -1);
 
                         url += '/mediaplan/create';
 
@@ -339,23 +339,9 @@ define(['angularAMD'],
 
                     gotoCreativeUrl = function () {
 
-                        var url,
-                            leafSubAccount;
+                        var url;
 
-                        url = '/a/' + $routeParams.accountId;
-
-                        if ($routeParams.subAccountId) {
-                            leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
-                                return Number(a.id) === Number($routeParams.subAccountId);
-                            });
-
-                            if (leafSubAccount) {
-                                url += '/sa/' + $routeParams.subAccountId;
-                            } else {
-                                console.log('$routeParams.accountId = ', $routeParams.accountId);
-                                url += '/sa/' + subAccountService.getSubAccounts()[0].id;
-                            }
-                        }
+                        url = this.buildBaseUrl();
 
                         url += '/creative/add';
                         $location.url(url);

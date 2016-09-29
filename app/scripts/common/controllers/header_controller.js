@@ -219,7 +219,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
 
                 setTimeout(function () {
                     if (!(mainMenuHolder.is(':hover') ||
-                        //$('#help-menu').is(':hover') ||
+                            //$('#help-menu').is(':hover') ||
                         $('#user-menu').is(':hover') ||
                         $('#reports-menu').is(':hover') ||
                         $('#admin-menu').is(':hover')) ||
@@ -271,12 +271,17 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                         dropdownWithSearch = $('.clone-ad-popup .dropdown-search'),
                         geoTooltipClose = $('.targetting-tab-header').find('.common_tooltip'),
                         childTier = $('.childTier'),
+                        reportBuilderAutoFill = $('.autofill-dropdown'),
                         quickFilterId,
                         regionTooltipId;
 
 
                     if (platform_popup.is(':visible') && ($(event.target).closest('div').hasClass('select-btn') === false)) {
                         platform_popup.hide();
+                    }
+
+                    if (reportBuilderAutoFill.is(':visible')  ) {
+                        reportBuilderAutoFill.hide();
                     }
 
                     if (cdbDropdownId.is(':visible') && ($(event.target).hasClass('durationMenuText') === false)) {

@@ -396,6 +396,18 @@ define(['angularAMD'], function (angularAMD) {
                     return url + '/clients/' + clientId + '/invoices/' + invoiceId + '/upload';
                 },
 
+                customRptFilterAutoSugg = function(params) {
+                        var url =  vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                        url+= '/clients/'+params.clientId+'/reports/custom/dimension/meta?dimension='+params.dimension;
+                        if(params.searchKey) {
+                            url+='&search_term='+params.searchKey;
+                        }
+                        if(params.offset) {
+                            url+='&offset='+params.offset;
+                        }
+                        return url;
+                },
+
                 getCampaignSpend = function (queryObj) {
                     var params = this.buildParams(queryObj);
 
@@ -444,7 +456,8 @@ define(['angularAMD'], function (angularAMD) {
                     downloadTemplateWithCampaignId : downloadTemplateWithCampaignId,
                     downloadInvoiceWithId : downloadInvoiceWithId,
                     uploadInvoiceData : uploadInvoiceData,
-                    getCampaignSpend : getCampaignSpend
+                    getCampaignSpend : getCampaignSpend,
+                    customRptFilterAutoSugg:customRptFilterAutoSugg
                 };
             }
         ]);

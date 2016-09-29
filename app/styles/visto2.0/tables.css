@@ -151,6 +151,12 @@
 .table-responsive .vistoTable .tbody .tr .td a:hover {
   cursor: pointer;
 }
+.table-responsive .vistoTable .tbody .tr .td .itemize_symbol {
+  top: 21px;
+  left: inherit;
+  width: 10px;
+  right: 18px;
+}
 .table-responsive .vistoTable .tbody .tr .td .icon-toggleclose {
   float: left;
   font-size: 16px;

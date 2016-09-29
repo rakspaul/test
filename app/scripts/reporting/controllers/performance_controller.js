@@ -32,7 +32,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         domainReports.highlightHeaderMenu();
         //domainReports.highlightSubHeaderMenu();
 
-        $scope.sortType             = 'impressions';
+     //   $scope.sortType = 'impressions';
 
         // set the default sort order
         $scope.sortReverse  = false;
@@ -71,20 +71,24 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
         // We should not keep selected tab in $scope.selectedFilters object because it is altered by
         // directive_controller in callBackCampaingSuccess and then tab info is not set
-        if ($scope.redirectWidget && $scope.redirectWidget === 'adsizes') {
+         var reportWidgetName = campaignSelectModel.getReportWidget();
+
+        if (reportWidgetName && reportWidgetName === 'adsizes') {
             $scope.sortByColumn = 'dimension';
             $scope.activeAdSizeClass = 'active';
             $scope.defaultDisplayAdSize = 'display: block';
             $scope.defaultDisplayFormat = 'display: none';
             $scope.defaultDisplayScreen = 'display: none';
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
-        } else if ($scope.redirectWidget === 'formats') {
+
+            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
+        } else if (reportWidgetName === 'formats') {
             $scope.sortByColumn = 'dimension';
             $scope.activeFormatClass = 'active';
             $scope.defaultDisplayFormat = 'display: block';
             $scope.defaultDisplayAdSize = 'display: none';
             $scope.defaultDisplayScreen = 'display: none';
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
+
+            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
         } else {
             $scope.selected_tab = 'byscreens';
             $scope.sortByColumn = 'name';
@@ -216,12 +220,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
 
-                                totalValIndex = _.findIndex($scope['strategyPerfDataBy' + tab], function(item){
-                                    return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
-                                    ' Totals' || item.dimension === 'Ad Totals');
-                                });
-                                $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
-
                                 $scope['strategyPerfDataByTactic' + tab]  =
 
                                     _.filter(result.data.data, function (item) {
@@ -245,15 +243,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     })
                                     .value();
 
-                                _.each($scope.groupThem, function(data){
-                                    data = data.perf_metrics;
-                                    totalValIndex = _.findIndex(data, function(item){
-                                        return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
-                                        ' Totals' || item.dimension === 'Ad Totals');
-                                    });
-                                    data = utils.swapValuesInArray(data, 0, totalValIndex);
-                                });
-
                             } else {
                                 // Media Plan total
                                 $scope.showPerfMetrix = false;
@@ -270,7 +259,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
 
-                                $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
                             }
 
                             if (param.tab === 'bydiscrepancy') {
@@ -297,6 +285,28 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                         $scope.selectedCategoryType = item.category;
                                     }
                                 });
+                            }else{
+
+                                if (Number($scope.selectedStrategy.id) >= 0) {
+                                    totalValIndex = _.findIndex($scope['strategyPerfDataBy' + tab], function(item){
+                                        return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                        ' Totals' || item.dimension === 'Ad Totals');
+                                    });
+                                    $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+
+                                    _.each($scope.groupThem, function(data){
+                                        data = data.perf_metrics;
+                                        totalValIndex = _.findIndex(data, function(item){
+                                            return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                            ' Totals' || item.dimension === 'Ad Totals');
+                                        });
+                                        data = utils.swapValuesInArray(data, 0, totalValIndex);
+                                    });
+
+                                } else {
+                                        $scope['strategyPerfDataBy' + tab] =
+                                         utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+                                }
                             }
                         }
                     } else {

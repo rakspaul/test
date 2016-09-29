@@ -5,7 +5,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
         'workflowService', 'momentService', 'loginModel', 'vistoconfig', 'accountService', 'urlBuilder', 'pageLoad',
         function ($scope, $rootScope, $routeParams, $route, $timeout, $location, $window, constants, domainReports, workflowService,
                   momentService, loginModel, vistoconfig,accountService, urlBuilder, pageLoad) {
-            
+
             var creativeDataArr,
                 winHeight = $(window).height(),
                 isSearch = false,
@@ -355,21 +355,17 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
             $scope.ShowHideCreativeWin = function (obj) {
                 var url,
-                    isLeafNode;
+                    subAccountId = $routeParams.subAccountId;
 
                 workflowService.setCreativeEditMode('edit');
                 workflowService.setCreativeEditData(obj);
                 $scope.$parent.isAddCreativePopup = true;
 
-                url = '/a/' + $routeParams.accountId;
-                isLeafNode = accountService.getSelectedAccount().isLeafNode;
-                console.log('isLeafNode', isLeafNode);
+                subAccountId = subAccountId && creativeParams.clientId;
 
-                if (!isLeafNode) {
-                    url += '/sa/' + creativeParams.clientId;
-                }
-
+                url = urlBuilder.buildBaseUrl($routeParams.accountId, subAccountId, $routeParams.advertiserId, -1)
                 url += '/creative/' + obj.id + '/edit';
+
                 console.log('url', url);
                 $location.url(url);
             };

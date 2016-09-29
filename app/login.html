@@ -45,7 +45,7 @@
                             <div class="login_txtbox pass_login_txtbox" ng-class="{'validation_error' : login.showLoginError()}">
                                 <!-- validation_error -->
                                 <input type="password" class="login_txt_input" ng-model="login.password"
-                                       placeHolder="{{login.textConstants.PASSWORD_LABEl}}"
+                                       placeHolder="{{login.textConstants.PASSWORD_LABEL}}"
                                        ng-disabled="disabledFormFields">
                             </div>
 
@@ -59,7 +59,7 @@
                             </div>
 
                             <input ng-disabled="form.$invalid || login.dataLoading || login.disabledFormFields" type="submit"
-                                   class="login_btn {{getLoadingClass()}} {{getSigninClass()}}" value="{{login.textConstants.SIGN_IN_LABEL}}">
+                                   class="login_btn {{login.getLoadingClass()}} {{login.getSigninClass()}}" value="{{login.textConstants.SIGN_IN_LABEL}}">
                         </div>
                     </form>
                 </div>

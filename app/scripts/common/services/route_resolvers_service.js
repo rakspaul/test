@@ -309,6 +309,10 @@ define(['angularAMD'], function (angularAMD) {
                     .accountService
                     .fetchAccountData(args.$route.current.params.accountId)
                     .then(function () {
+
+
+                        args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
+
                         deferred.resolve();
 
                         if (mode) {
@@ -319,13 +323,12 @@ define(['angularAMD'], function (angularAMD) {
                             args.workflowService.setIsAdGroup(true);
                         }
 
-                        args.$route.current.params.advertiserId && fetchCurrentAdvertiser(args);
-
                         args.workflowService.setModuleInfo({
                             moduleName: 'WORKFLOW',
                             warningMsg: warningMsg,
                             redirect: redirect
                         });
+
                     });
             },
 

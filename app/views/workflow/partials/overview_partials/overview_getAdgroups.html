@@ -236,7 +236,7 @@
                                   data-ng-bind="adsData.label ? (adsData.label | toPascalCase) : textConstants.WF_IMPS">
                             </span>
                             <span class="col-md-12 text-center zeroPadding"
-                                  data-ng-bind="adsData.targetImpressions ? (adsData.targetImpressions | nrFormat) :
+                                  data-ng-bind="adsData.targetImpressions ? (adsData.targetImpressions | nrFormat : 0) :
                                                 textConstants.WF_NOT_SET">
                             </span>
                         </div>
