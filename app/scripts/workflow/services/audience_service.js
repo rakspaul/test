@@ -59,7 +59,7 @@ define(['angularAMD'],
                         url += '&query=';
 
                         for (i = 0; i < keywords.length; i++) {
-                            if(/^[a-zA-Z0-9- ]*/.test(keywords[i]) === false) {
+                            if(/^[a-zA-Z0-9- ]*$/.test(keywords[i]) === false) {
                                 url += encodeURIComponent(keywords[i]);
                             } else {
                                 url += keywords[i];
