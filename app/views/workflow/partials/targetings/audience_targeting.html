@@ -54,12 +54,12 @@
                                         <div ng-if="providerLoader" class="common-loading-area" ></div>
 
                                         <li  class="available" ng-if="!providerLoader && segmentProviders.length >0" ng-repeat="provider in segmentProviders | filter : providerSearchText">
-                                            <a href="javascript:void(0);">
+                                            <!--<a href="javascript:void(0);">-->
                                                 <label class="col-md-12 zeroPadding">
                                                     <input class="pull-left"  ng-click="filterAudienceData(provider)" type="checkbox">
                                                     <div class="pull-left marginLeft">{{provider}}</div>
                                                 </label>
-                                            </a>
+                                            <!--</a>-->
                                         </li>
                                     </ul>
                                 </div>

@@ -142,6 +142,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 updateProvidersText: function () {
                     if($scope.selectedProviders.length === 0 ){
                         $scope.providerLabel = 'All';
+
                     } else {
                         if ($scope.selectedProviders.length === 1) {
                             $scope.providerLabel = $scope.selectedProviders[0];
