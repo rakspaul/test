@@ -5,7 +5,9 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         'workflowService', 'constants', 'vistoconfig', function ($scope, audienceService,
                                                                     workflowService, constants, vistoconfig) {
 
-        var editOneTimeFlag = false,
+        var vm =this,
+
+            editOneTimeFlag = false,
 
             _audienceTargetting = {
                 processAudienceEdit: function () {
@@ -33,31 +35,6 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     audienceService.setAndOr($scope.andOr);
                 },
 
-                updateCategoryText: function () {
-                    var limit = 10;
-
-                    if ($scope.selectedCategory.length === 0) {
-                        $scope.categoryText = 'All';
-                    } else if ($scope.selectedCategory.length === 1) {
-                        if ($scope.selectedCategory[0].category.length < limit) {
-                            $scope.categoryText = $scope.selectedCategory[0].category;
-                        } else {
-                            $scope.categoryText = $scope.selectedCategory[0].category.slice(0, limit) + '...';
-                        }
-                    } else {
-                        $scope.categoryText = $scope.selectedCategory.length + ' Selected';
-                    }
-                },
-
-                updateSourceText: function () {
-                    if ($scope.selectedSource.length === 0) {
-                        $scope.sourceText = 'All';
-                    } else if ($scope.selectedSource.length === 1) {
-                        $scope.sourceText = $scope.selectedSource[0].name;
-                    } else {
-                        $scope.sourceText = $scope.selectedSource.length + ' Selected';
-                    }
-                },
 
                 resetAudience: function () {
                     var i;
@@ -93,8 +70,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                         pageNumber: $scope.pageNumber || 1,
                         pageSize: $scope.pageSize || 50,
                         selectedKeywords: $scope.selectedKeywords,
-                        selectedSource: $scope.selectedSource,
-                        selectedCategory: $scope.selectedCategory,
+                        selectedProviders: $scope.selectedProviders,
                         seatId: $scope.adData.platformSeatId,
                         platformId: $scope.adData.platformId,
                         advertiserId: vistoconfig.getSelectAdvertiserId()
@@ -138,8 +114,41 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                         });
                 },
 
+                fetchProviders : function() {
+                    var params = {
+                        advertiserId: vistoconfig.getSelectAdvertiserId(),
+                        clientId :  vistoconfig.getSelectedAccountId(),
+                        seatId: $scope.adData.platformSeatId,
+                        platformId: $scope.adData.platformId
+                    };
+
+                    $scope.providerLoader = true;
+
+                    audienceService
+                        .fetchProviders(params)
+                        .then(function(result) {
+                            if (result.status === 'OK' || result.status === 'success') {
+                                $scope.segmentProviders = result.data.data;
+                                $scope.providerLoader = false;
+
+                            }
+                        });
+                },
+
                 setSortOrder: function (order) {
                     $scope.sortOrder = order || 'asc';
+                },
+
+                updateProvidersText: function () {
+                    if($scope.selectedProviders.length === 0 ){
+                        $scope.providerLabel = 'All';
+                    } else {
+                        if ($scope.selectedProviders.length === 1) {
+                            $scope.providerLabel = $scope.selectedProviders[0];
+                        } else {
+                            $scope.providerLabel = $scope.selectedProviders.length + ' Selected';
+                        }
+                    }
                 },
 
                 setSortColumn: function (col) {
@@ -155,8 +164,8 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     $scope.pageNumber = 1;
                     $scope.selectedKeywords = [];
                     $scope.selectedCategory = [];
-                    $scope.selectedSource = [];
                     $scope.selectedAudience = [];
+                    $scope.selectedProviders = [];
                 },
 
                 hideAudienceTargetingBox: function () {
@@ -189,17 +198,17 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         $scope.audienceKeywords = [];
         $scope.selectedKeywords = [];
         $scope.selectedCategory = [];
-        $scope.selectedSource = [];
         $scope.selectedAudience = [];
         $scope.keywordText = '';
         $scope.audienceCategories = [];
+        $scope.selectedProviders = [];
         $scope.selectAllChecked = false;
         $scope.pageNumber = 1;
         $scope.pageSize = 50;
         $scope.andOr = constants.DEFAULTANDORSTATUS;
         $scope.audienceFetching = false;
         $scope.categoryText = 'All';
-        $scope.sourceText = 'All';
+        $scope.providerLabel = 'All';
 
         $scope.dropdownCss = {
             display: 'none',
@@ -287,35 +296,6 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             _audienceTargetting.fetchAllAudience();
         };
 
-        $scope.selectSource = function (sourceObj) {
-            var index = _.findIndex($scope.selectedSource, function (item) {
-                return item.id === sourceObj.id;
-            });
-
-            if (index === -1) {
-                $scope.selectedSource.push(sourceObj);
-                sourceObj.isChecked = true;
-            } else {
-                $scope.selectedSource.splice(index, 1);
-                sourceObj.isChecked = false;
-            }
-
-            _audienceTargetting.updateSourceText();
-        };
-
-        $scope.clearAllSelectedSource = function () {
-            var i;
-
-            for (i = 0; i < $scope.selectedSource.length; i++) {
-                $scope.selectedSource[i].isChecked = false;
-            }
-
-            $scope.selectedSource = [];
-            $scope.pageNumber = 1;
-            _audienceTargetting.fetchAllAudience();
-            _audienceTargetting.updateSourceText();
-        };
-
         // category
         $scope.selectCategories = function (categoryObj, type, parentObj) {
             var index,
@@ -375,9 +355,6 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     parentObj.isChecked = false;
                 }
             }
-
-            // selected text change
-            _audienceTargetting.updateCategoryText();
         };
 
         $scope.showSubCategory = function (event) {
@@ -390,24 +367,6 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             }
 
             elem.toggleClass('active');
-        };
-
-        $scope.clearAllSelectedCategory = function () {
-            var i,
-                j;
-
-            for (i = 0; i < $scope.audienceCategories.length; i++) {
-                $scope.audienceCategories[i].isChecked = false;
-
-                for (j = 0; j < $scope.audienceCategories[i].subCategories.length; j++) {
-                    $scope.audienceCategories[i].subCategories[j].isChecked = false;
-                }
-            }
-
-            $scope.selectedCategory = [];
-            $scope.pageNumber = 1;
-            _audienceTargetting.fetchAllAudience();
-            _audienceTargetting.updateCategoryText();
         };
 
         // select or unselect indiviual audience
@@ -525,6 +484,25 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             }
         };
 
+
+
+        $scope.filterAudienceData = function(provider) {
+            var index;
+
+            index = _.findIndex($scope.selectedProviders, function (item) {
+                return item === provider;
+            });
+
+            if (index === -1) {
+                $scope.selectedProviders.push(provider);
+            } else {
+                $scope.selectedProviders.splice(index, 1);
+            }
+
+            _audienceTargetting.fetchAllAudience();
+            _audienceTargetting.updateProvidersText();
+        };
+
         $scope.loadMoreAudience = function () {
             if ($scope.audienceList) {
                 $scope.audienceFetching = true;
@@ -546,7 +524,12 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             _audienceTargetting.showAudienceTargetingBox();
             _audienceTargetting.initAudienceTargeting();
             _audienceTargetting.fetchAllAudience();
+            _audienceTargetting.fetchProviders();
+
         });
+            $scope.showHideDropdownWithSearch = function(event) {
+                $(event.target).closest('.dropdown').find('.dropdown-menu-with-search').toggle() ;
+            };
 
         $(document).on('click', '.dropdown-menu', function (event) {
             event.stopPropagation();

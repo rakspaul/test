@@ -29,15 +29,13 @@ define(['angularAMD'],
                         pageNo = params.pageNumber,
                         pageSize = params.pageSize,
                         keywords = params.selectedKeywords,
-                        source = params.selectedSource,
-                        classification = params.selectedCategory,
+                        providers = params.selectedProviders,
                         clientId =  vistoconfig.getSelectedAccountId(),
                         advertiserId=params.advertiserId,
                         platformId=params.platformId,
                         seatId=params.seatId,
                         url,
-                        i,
-                        j;
+                        i;
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
@@ -67,30 +65,13 @@ define(['angularAMD'],
                         }
                     }
 
-                    if (source && source.length > 0) {
-                        url += '&sources=';
+                    if (providers && providers.length > 0) {
+                        url += '&providers=';
 
-                        for (i = 0; i < source.length; i++) {
-                            url += source[i].id;
+                        for (i = 0; i < providers.length; i++) {
+                            url += providers[i];
 
-                            if (i + 1 < source.length) {
-                                url += ',';
-                            }
-                        }
-                    }
-
-                    if (classification && classification.length > 0) {
-                        url += '&classifiers=';
-
-                        for (i = 0; i < classification.length; i++) {
-                            for (j = 0; j < classification[i].subCategories.length; j++) {
-                                url += classification[i].subCategories[j].id;
-                                if (j + 1 < classification[i].subCategories.length) {
-                                    url += ',';
-                                }
-                            }
-
-                            if (i + 1 < classification.length) {
+                            if (i + 1 < providers.length) {
                                 url += ',';
                             }
                         }
@@ -183,6 +164,17 @@ define(['angularAMD'],
 
                 getDayTimeArr = function () {
                     return dayArr;
+                },
+
+                fetchProviders = function(params) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + params.clientId +
+                        '/advertisers/'+ params.advertiserId+
+                        '/vendors/'+ params.platformId+
+                        '/seats/'+ params.seatId+
+                        '/segments/providers';
+
+                    return dataService.fetch(url, {cache: false});
                 };
 
             return {
@@ -207,7 +199,8 @@ define(['angularAMD'],
                 getDaytimeObj : getDaytimeObj,
                 getDayTimeSelectedObj : getDayTimeSelectedObj,
                 setDayTimeArr : setDayTimeArr,
-                getDayTimeArr : getDayTimeArr
+                getDayTimeArr : getDayTimeArr,
+                fetchProviders : fetchProviders
             };
         }]);
     }
