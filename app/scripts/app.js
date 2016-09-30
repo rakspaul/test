@@ -13,9 +13,10 @@ define(['common'], function (angularAMD) {
 
     app
         .config(function ($routeProvider, $httpProvider) {
-            $routeProvider.caseInsensitiveMatch = true;
+            var rp = $routeProvider;
+            rp.caseInsensitiveMatch = true;
 
-            $routeProvider
+            rp
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping Visto',
                     templateUrl: assets.html_home,
@@ -226,7 +227,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/dashboard',
                 '/a/:accountId/adv/:advertiserId/dashboard'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
                     controllerUrl: 'dashboard-controller',
@@ -239,14 +240,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.dashboardHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/sa/:subAccountId/dashboard',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/dashboard'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
                     controllerUrl: 'dashboard-controller',
@@ -259,7 +260,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.dashboardHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -267,7 +268,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/adv/:advertiserId/mediaplans/reports/:reportName',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
@@ -279,7 +280,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -287,7 +288,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans/reports/:reportName',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_reports,
                     title: 'Reports Overview',
                     controller: 'CampaignReportsController',
@@ -299,14 +300,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/overview',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
@@ -318,7 +319,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -327,7 +328,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/overview',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_details,
                     title: 'Reports Overview',
                     controller: 'CampaignDetailsController',
@@ -339,7 +340,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -348,7 +349,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/performance',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/performance'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
@@ -360,7 +361,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -369,7 +370,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/performance',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/performance'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_performance,
                     title: 'Reports - Performance',
                     controller: 'PerformanceController',
@@ -381,7 +382,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -389,7 +390,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/cost',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/cost'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
@@ -401,7 +402,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -410,7 +411,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/cost',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/cost'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_cost,
                     title: 'Reports - Cost',
                     controller: 'CostController',
@@ -422,7 +423,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -430,7 +431,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/platform',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/platform'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
@@ -442,7 +443,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -451,7 +452,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/platform',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/platform'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_platform,
                     title: 'Reports - Platform',
                     controller: 'PlatformController',
@@ -463,7 +464,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -471,7 +472,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/inventory',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/inventory'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
@@ -483,7 +484,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -492,7 +493,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/inventory',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/inventory'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_inventory,
                     title: 'Reports - Inventory',
                     controller: 'InventoryController',
@@ -504,7 +505,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -512,7 +513,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/quality',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/quality'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
@@ -524,7 +525,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -533,7 +534,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/quality',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/quality'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_viewability,
                     title: 'Reports - Quality',
                     controller: 'ViewabilityController',
@@ -545,14 +546,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/optimization',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
@@ -564,7 +565,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -575,7 +576,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/optimization',
                 '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/optimization'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_optimization,
                     title: 'Reports - Optimization Impact',
                     controller: 'OptimizationController',
@@ -587,7 +588,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.reportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -595,7 +596,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/adv/:advertiserId/mediaplans',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
@@ -606,7 +607,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -614,7 +615,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_list,
                     title: 'Media Plan List',
                     reloadOnSearch : false,
@@ -624,13 +625,13 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/reports/schedules'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_reports_schedule_list,
                     title: 'Scheduled Reports',
                     controller: 'ReportsScheduleListController',
@@ -643,13 +644,13 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/customreport'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_custom_report,
                     title: 'Report Builder',
                     controller: 'CustomReportController',
@@ -662,13 +663,13 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/customreport/edit/:reportId'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_custom_report,
                     title: 'Report Builder',
                     controller: 'CustomReportController',
@@ -681,13 +682,13 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/reports/upload'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
@@ -700,13 +701,13 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/adv/:advertiserId/reports/upload'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
@@ -719,7 +720,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -727,7 +728,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/upload',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/upload'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_custom_report_upload,
                     title: 'Upload Custom Reports',
                     controller: 'CustomReportUploadController',
@@ -740,7 +741,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -749,7 +750,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/adv/:advertiserId/b/:brandId/reports/list',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
@@ -762,7 +763,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -771,7 +772,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/list',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_collective_report_listing,
                     title: 'Collective Insights',
                     controller: 'CollectiveReportListingController',
@@ -784,7 +785,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -793,7 +794,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/v1sto/invoices',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_reports_invoice_list,
                     title: 'Invoices Reports',
                     controller: 'ReportsInvoiceListController',
@@ -806,7 +807,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -815,7 +816,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/v1sto/invoices/:invoiceId',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_reports_invoice,
                     title: 'Media Plan - Overview',
                     controller: 'reportsInvoiceController',
@@ -828,27 +829,27 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/vendor/create',
                 '/vendors/list'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_vendor_create,
                     title: 'Create - Vendor',
                     controller: 'CreateVendorController',
                     controllerUrl: 'vendor-create-controller',
                     showHeader: true
-                });
+                }));
             });
 
             [
                 '/a/:accountId/admin/accounts',
                 '/a/:accountId/sa/:subAccountId/admin/accounts'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
@@ -859,14 +860,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/admin/users',
                 '/a/:accountId/sa/:subAccountId/admin/users'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
@@ -878,14 +879,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/admin/brands',
                 '/a/:accountId/sa/:subAccountId/admin/brands'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_brands,
                     title: 'AdminBrands',
                     controller: 'AdminAdvertisersController',
@@ -897,14 +898,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/admin/advertisers',
                 '/a/:accountId/sa/:subAccountId/admin/advertisers'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_advertisers,
                     title: 'AdminAdvertisers',
                     controller: 'AdminUsersController',
@@ -916,14 +917,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/mediaplan/create',
                 '/a/:accountId/sa/:subAccountId/mediaplan/create'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_create,
                     title: 'Create - Media Plan',
                     controller: 'CreateCampaignController',
@@ -935,14 +936,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/edit',
                 '/a/:accountId/mediaplan/:campaignId/edit'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
                     controller: 'CreateCampaignController',
@@ -954,7 +955,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'edit');
                         }
                     }
-                });
+                }));
             });
 
 
@@ -962,7 +963,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/mediaplan/:campaignId/overview',
                 '/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/overview'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_create_ad,
                     title: 'Media Plan - Overview',
                     controller: 'CampaignOverViewController',
@@ -973,14 +974,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.mediaPlanOverviewResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
@@ -993,14 +994,14 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.adsResolver(routeResolversParams, 'create');
                         }
                     }
-                });
+                }));
             });
 
             [
                 '/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
@@ -1012,7 +1013,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.adsResolver(routeResolversParams, 'edit');
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -1021,7 +1022,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/creative/add',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/add'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Add Creative',
                     controller: 'CreativeController',
@@ -1033,7 +1034,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -1042,7 +1043,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/creative/:creativeId/edit',
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/edit'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_creative,
                     title: 'Edit Creative',
                     controller: 'CreativeController',
@@ -1054,7 +1055,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.creativeResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -1065,7 +1066,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/adv/:advertiserId/creative/list',
                 '/a/:accountId/adv/:advertiserId/b/:brandId/creative/list'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_creative_list,
                     title: 'Creative List',
                     controller: 'CreativeListController',
@@ -1077,7 +1078,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.creativeListResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             [
@@ -1086,7 +1087,7 @@ define(['common'], function (angularAMD) {
                 '/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview',
                 '/a/:accountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview'
             ].forEach(function(path) {
-                $routeProvider.when(path, {
+                rp.when(path, angularAMD.route({
                     templateUrl: assets.html_creative_preview,
                     title: 'Preview Creative',
                     controller: 'CreativePreviewController',
@@ -1098,7 +1099,7 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.creativePreviewResolver(routeResolversParams);
                         }
                     }
-                });
+                }));
             });
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
