@@ -2411,6 +2411,9 @@ div.strategy_total_container {
         float:left;
         text-align:right;
         padding-right:5px;
+        &.text-left {
+            text-align: left;
+        }
     }
     .vid_sub_col_hide {
         clear:both;
@@ -3499,7 +3502,7 @@ only screen and (min-device-pixel-ratio: 2) {
         height: 14px ;
     }
     .each_col {
-        margin: 0px 22px 0 0  ;
+        margin: 0px 30px 0 0  ;
     }
     .platform_name_col {
         width :  260px ;
@@ -3521,12 +3524,11 @@ only screen and (min-device-pixel-ratio: 2) {
         }
     }
     .sub_four_cols {
-        width: 300px ;
+        width: 250px ;
         .sub_col {
-            margin-top: 7px;
             span {
-                width: 25% ;
-                padding-right: 17px ;
+                width: 23% ;
+                margin-right: 2% ;
             }
         }
         .title_tooltip {
@@ -3552,13 +3554,10 @@ only screen and (min-device-pixel-ratio: 2) {
         .vtc_col {
             padding-right: 0px ;
         }
-    }
-    .row_list_holder {
-        .sub_four_cols {
-            span {
-                padding-right: 25px ;
-            }
-        }
+        .sub_four_cols .sub_col{
+            margin-top: 7px;
+
+         }
     }
 }
 #reports_platform_viewability_block.reports_display_mode_viewability_container {
@@ -5156,6 +5155,11 @@ body.custom_report_page {
      .vid_none_hdr {
         .each_col {
             width: 100px ;
+        }
+        .each_strategy {
+            .first_col {
+                width: 100% ;
+            }
         }
         .sec_col {
             width: 200px ;
