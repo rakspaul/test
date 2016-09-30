@@ -1674,9 +1674,9 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 }
             };
 
-            $scope.fetchMoreSecondDimensionData = function (ev, value, rowIndex, loadMore) {
+            $scope.fetchMoreSecondDimensionData = function (ev, id, value, rowIndex, loadMore) {
                 _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex] += 1;
-                $scope.showDataForClikedDimension(ev, value, rowIndex, loadMore);
+                $scope.showDataForClikedDimension(ev, id, value, rowIndex, loadMore);
             };
 
             $scope.deepLinking = (function () {
