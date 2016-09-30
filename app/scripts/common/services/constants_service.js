@@ -1354,6 +1354,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INVOICE_MEDIA_PLAN = 'Media Plan';
         this.INVOICE_REPORT = 'Invoice Reports';
         this.INVOICE_NOTES = 'Notes:';
+        this.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD = 'Video Viewability at various quartiles of the Ad' ;
 
     }]);
 });

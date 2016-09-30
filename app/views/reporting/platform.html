@@ -355,7 +355,7 @@
             </div>
             <div class="each_col eachColFourCells">
                 <div>
-                    <div class="sub_col"
+                    <div class="sub_col text-left"
                          data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
                             (platform.vtc_25 | nrFormat : 2) : '-'">
                     </div>
@@ -436,7 +436,7 @@
 <script type="text/ng-template" id="videoViewabilityPartialTpl">
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
+            <span class="text-left" data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
                     ((platform.vtc_25 | number : 0) + '%') : '-'">
             </span>
             <span data-ng-bind="((platform.vtc_50 > 0) || (platform.vtc_50 === 0)) ?
