@@ -1209,6 +1209,10 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                     });
             };
 
+            $scope.checkForSourceId = function(sourceId) {
+                return sourceId && sourceId.toLowerCase().indexOf('srid:') < 0;
+            };
+
             $(document).on('changeDate', '.adGrpStartDateInput', function (ev) {
                 var formElem = $(ev.target).closest('form'),
                     startTime = $(ev.target).val();
