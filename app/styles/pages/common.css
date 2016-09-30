@@ -726,6 +726,10 @@
   width: 20px;
   display: inline-block;
   background: url("/images/cdesk/info_icon.png") no-repeat center left;
+  color: #939EAE ;
+}
+.tooltip_holder .tooltip_show_icon.icon-info {
+  background: none ;
 }
 .tooltip_holder:hover .common_tooltip {
   display: block;
