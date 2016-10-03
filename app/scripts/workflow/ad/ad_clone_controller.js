@@ -104,11 +104,11 @@ define(['angularAMD'], function (angularAMD) {
                                     }
 
                                     if (responseData.lineitemId) {
-                                        params.lineItem = responseData.lineitemId;
+                                        params.lineItemId  = responseData.lineitemId;
                                     }
 
                                     if (responseData.adGroupId) {
-                                        params.adGroup = responseData.adGroupId;
+                                        params.adGroupId = responseData.adGroupId;
                                     }
 
                                     if (responseData.id) {
