@@ -797,6 +797,10 @@
 		width: 20px;
 		display: inline-block;
 		background: url("/images/cdesk/info_icon.png") no-repeat center left;
+		color: #939EAE ;
+		&.icon-info {
+			background: none ;
+		}
 	}
 	&:hover {
 		.common_tooltip {
@@ -2495,12 +2499,23 @@ tags-input .autocomplete {
 		border-bottom: solid 1px #ccc;
 		margin-bottom: 5px ;
 		input {
-			border: 0px;
+			border: 1px solid #bfc9d7;
 			padding-right: 30px;
 			background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
-			height: 30px;
+			height: 36px;
 			width: 100%;
 			padding-left: 15px;
+            border-radius: 0 !important;
+            &:hover {
+                background: transparent !important;
+                background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+                border: 1px solid @label-gray !important;
+            }
+            &:focus {
+                background: transparent !important;
+                background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+                border: 1px solid @visto-blue !important;
+            }
 		}
 	}
 }
@@ -2852,5 +2867,20 @@ tags-input .autocomplete {
 		left: 48% !important;
 	}
 }
-
+input.btn.fileUploadTxt, input.btn.fileUploadTxt:hover , input.btn.fileUploadTxt:active, input.btn.fileUploadTxt:focus {
+	padding: 0;
+    border: 0 !important;
+    color: #428bca;
+    margin: 3px 0 0 5px ;
+    background: #fff !important;
+    outline: none;
+}
+input.btn.fileUploadTxt:hover {
+	color : #2a6496 ;
+}
+#formCreativeCreate .fileUploadTxt {
+	font-size: 20px;
+    text-decoration: underline;
+    margin-left: 8px;
+}
 

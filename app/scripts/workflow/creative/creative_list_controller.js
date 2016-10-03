@@ -363,7 +363,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
                 subAccountId = subAccountId && creativeParams.clientId;
 
-                url = urlBuilder.buildBaseUrl($routeParams.accountId, subAccountId, $routeParams.advertiserId, -1)
+                url = urlBuilder.buildBaseUrl($routeParams.accountId, subAccountId, $routeParams.advertiserId, -1);
                 url += '/creative/' + obj.id + '/edit';
 
                 console.log('url', url);

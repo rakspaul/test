@@ -11,7 +11,7 @@ define(['angularAMD'],
                         accountId = accountId || $routeParams.accountId;
                         subAccountId = subAccountId || $routeParams.subAccountId;
                         advertiserId = advertiserId || $routeParams.advertiserId;
-                        brandId = brandId >= 0 ? brandId : $routeParams.brandId;
+                        brandId = brandId >= -1 ? brandId : $routeParams.brandId;
 
                         url = '/a/' + accountId;
 
@@ -299,8 +299,8 @@ define(['angularAMD'],
 
                     },
 
-                    creativeListUrl = function (accountId, subAccountId, advertiserId, brandId) {
-                        $location.url(this.buildBaseUrl(accountId, subAccountId, advertiserId, brandId) + '/creative/list');
+                    creativeListUrl = function (accountId, subAccountId, advertiserId) {
+                        $location.url(this.buildBaseUrl(accountId, subAccountId, advertiserId, -1) + '/creative/list');
                     },
 
                     adminUrl = function () {

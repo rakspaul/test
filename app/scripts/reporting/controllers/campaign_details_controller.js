@@ -229,7 +229,7 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                             .sortBy('name')
                             .sortBy($scope.details.sortParam).value();
 
-                    $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'asc') ?
+                    $scope.campaign.campaignStrategies = ($scope.details.sortDirection === 'desc') ?
                         campaignStrategiesData : campaignStrategiesData.reverse();
                 };
 

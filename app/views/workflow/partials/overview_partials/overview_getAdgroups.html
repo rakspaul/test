@@ -190,8 +190,7 @@
                         </span>
                         <span class="pull-right greyTxt adDisplay"
                               title="ID: {{adsData.sourceId}}"
-                              data-ng-show="(adsData.sourceId && (adsData.pushStatus !== 'FAILED' &&
-                                adsData.pushStatus !== 'IN_PROGRESS' && adsData.pushStatus !== 'UNPUSHED'))"
+                              data-ng-show="checkForSourceId(adsData.sourceId)"
                               data-ng-bind="'ID:' + adsData.sourceId | formatUrl:8">
                         </span>
                     </div>

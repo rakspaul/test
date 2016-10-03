@@ -168,7 +168,7 @@
                               data-ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS">
                         </span>
                         <div class="additional_filters_holder">
-                            <div id="filter_breakdown_row"
+                            <div id="filter_breakdown_row" class="filter_row"
                                  data-ng-repeat="addFilts in additionalFilters track by $index"
                                  data-ng-init="filterIndex=$index">
                                 <!-- sapna -->
@@ -220,18 +220,19 @@
                                                         >
                                                     </div>
                                                     <ul class="dropdown-menu autofill-dropdown"
-                                                        lr-infinite-scroll="filterAutoCompletion.loadMoreData" scroll-threshold="400"
+                                                        lr-infinite-scroll="filterAutoCompletion.loadMoreData"
                                                         style="min-width: 200px;display:none;">
                                                         <div class="common-loading-area" ng-if="(!(filtersAutoComplArr.length > 0)&& (!filtersAutoComplArr.dataNotFound))"></div>
                                                         <div class="no_data_found marginBottom" style="margin-top:10px;" ng-if="filtersAutoComplArr.dataNotFound">No Data Found</div>
 
-                                                        <li data-ng-repeat="filterAutoSug in filtersAutoComplArr | filter : additionalFilters[filterIndex].value"
+                                                        <li data-ng-repeat="filterAutoSug in filtersAutoComplArr"
                                                             id="{{filterAutoSug}}"
                                                             data-ng-click="onChoosingAditFltValue( $event, filterIndex, filterAutoSug, addFilts.key, additionalFilters[filterIndex].value)"
                                                             data-ng-model="addFilts.key"
                                                             data-ng-bind-html="filterAutoSug.id?(filterAutoSug.name)+' ('+filterAutoSug.id+')':filterAutoSug.name"
                                                             data-toggle="dropdown">
                                                         </li>
+                                                        <li class="common-loading-area" data-ng-show="(filtersAutoComplArr.length) && (filtersAutoComplArr.length > 100)"></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -883,7 +884,7 @@
 
                                             <!-- load more for second dimension -->
                                             <span class="sec_dimension_load_more"
-                                                  data-ng-click="fetchMoreSecondDimensionData($event, metricValues
+                                                  data-ng-click="fetchMoreSecondDimensionData($event, customReportData.idx, metricValues
                                                     .first_dimension.delivery_metrics[customReportData.idx].value,
                                                     customReportData.idx, 1)"
                                                   data-ng-show=
@@ -956,7 +957,7 @@
                                                  data-ng-include="'costTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
-                                                  data-ng-click="fetchMoreSecondDimensionData($event, metricValues
+                                                  data-ng-click="fetchMoreSecondDimensionData($event, customReportData.idx, metricValues
                                                     .first_dimension.cost_metrics[customReportData.idx].value,
                                                     customReportData.idx, 1)"
                                                   data-ng-show="secDimensionLoadMore
@@ -1029,7 +1030,7 @@
                                                  data-ng-include="'videoTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
-                                                  data-ng-click="fetchMoreSecondDimensionData($event, metricValues
+                                                  data-ng-click="fetchMoreSecondDimensionData($event, customReportData.idx, metricValues
                                                     .first_dimension.video_metrics[customReportData.idx].value,
                                                     customReportData.idx, 1)"
                                                   data-ng-show="secDimensionLoadMore
@@ -1105,7 +1106,7 @@
                                                  data-ng-include="'qualityTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
-                                                  data-ng-click="fetchMoreSecondDimensionData($event, metricValues
+                                                  data-ng-click="fetchMoreSecondDimensionData($event, customReportData.idx, metricValues
                                                     .first_dimension.quality_metrics[customReportData.idx].value,
                                                     customReportData.idx, 1)"
                                                   data-ng-show="secDimensionLoadMore
@@ -1181,7 +1182,7 @@
                                                  data-ng-include="'pacingTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
-                                                  data-ng-click="fetchMoreSecondDimensionData($event, metricValues
+                                                  data-ng-click="fetchMoreSecondDimensionData($event, customReportData.idx, metricValues
                                                     .first_dimension.pacing_metrics[customReportData.idx].value,
                                                     customReportData.idx, 1)"
                                                   data-ng-show="secDimensionLoadMore

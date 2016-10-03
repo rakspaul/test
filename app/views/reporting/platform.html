@@ -88,7 +88,7 @@
                                              <!--data-ng-include="'performanceTpl'">-->
                                         <!--</div>-->
 
-                                        <div class="">
+                                        <div class="totalRowsRow">
                                             <div class="clearfix each_row_list sepratorLineCls"
                                                  data-ng-show="!screenBusy"
                                                  data-ng-repeat="platform in platformData | limitTo:1"
@@ -336,7 +336,7 @@
 </div>
 
 <script type="text/ng-template" id="performanceTpl">
-    <div class="platform_row">
+    <div class="clearfix platform_row">
         <div class="each_col sec_col platform_logo"
              data-ng-class="{vid_none_hdr: adFormats.videoAds === false, vid_show: adFormats.videoAds === true}">
             <span class="platform_logo_img" ng-if="(platform.platform_name != 'Media Plan Totals') && (platform.platform_name != 'Ad Totals') && (platform.platform_name != 'Line Item Totals')" >
@@ -353,21 +353,21 @@
                  data-ng-bind="((platform.video_played > 0) || (platform.video_played === 0)) ?
                     (platform.video_played | number : 0) : '-'">
             </div>
-            <div class="vid_data_hdr">
+            <div class="each_col eachColFourCells">
                 <div>
-                    <div class="vid_quartile_data"
+                    <div class="sub_col text-left"
                          data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
                             (platform.vtc_25 | nrFormat : 2) : '-'">
                     </div>
-                    <div class="vid_quartile_data"
+                    <div class="sub_col"
                          data-ng-bind="((platform.vtc_50 > 0) || (platform.vtc_50 === 0)) ?
                             (platform.vtc_50 | nrFormat : 2) : '-'">
                     </div>
-                    <div class="vid_quartile_data"
+                    <div class="sub_col"
                          data-ng-bind="((platform.vtc_75 > 0) || (platform.vtc_75 === 0)) ?
                             (platform.vtc_75 | nrFormat : 2) : '-'">
                     </div>
-                    <div class="vid_quartile_data"
+                    <div class="sub_col"
                          data-ng-bind="((platform.vtc_100 > 0) || (platform.vtc_100 === 0)) ?
                           (platform.vtc_100 | nrFormat : 2) : '-'">
                     </div>
@@ -436,7 +436,7 @@
 <script type="text/ng-template" id="videoViewabilityPartialTpl">
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
+            <span class="text-left" data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
                     ((platform.vtc_25 | number : 0) + '%') : '-'">
             </span>
             <span data-ng-bind="((platform.vtc_50 > 0) || (platform.vtc_50 === 0)) ?
@@ -545,7 +545,7 @@
                       data-ng-bind="(platform.tech_fees >= 0) ?
                         (platform.tech_fees | currency : undefined : 0) : '-'">
                 </span>
-                <span class="pull-left col-md-4 zeroPadding text-center"
+                <span class="pull-left col-md-4 zeroPadding text-right"
                       data-ng-bind="(platform.service_fees >= 0) ?
                         (platform.service_fees | currency : undefined : 0) : '-'">
                 </span>
