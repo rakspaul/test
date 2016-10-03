@@ -4,6 +4,7 @@ define(['angularAMD'], function (angularAMD) {
     angularAMD.controller('SellerTargettingController', ['$scope', function ($scope) {
 
         var sellerCtrl = this,
+            pageNo = 1,
             _sellerTargetting = {
                 showSellerTargetingBox: function () {
                     $('#sellerTargeting')
@@ -43,18 +44,18 @@ define(['angularAMD'], function (angularAMD) {
                         }
                     ];
 
-                    //set saved data to the array(the one where we store user selected sellers and set is Checked)
+                    //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
                     if(!_.isEmpty($scope.adData.sellersTargetting)){
-                        // sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
+                        sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
 
-                        // var userSelArr = _.intersection(sellerCtrl.sellers.userSelectedSeller, sellerCtrl.sellers.sellersList);
                         //TODO find a better way
-                        _.each($scope.adData.sellersTargetting,function(item) {
-                            sellerCtrl.selectSellers(item)
-                        })
-
-                        console.log("sellerCtrl.sellers.sellersList",sellerCtrl.sellers.sellersList)
-
+                        var sellersIds = _.pluck($scope.adData.sellersTargetting,'id');
+                        _.each(sellersIds,function(id) {
+                            var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {
+                                return seller.id === id;
+                            });
+                            sellerCtrl.sellers.sellersList[index].isChecked = true;
+                        });
                     }
                 },
                 closeSellersTargetting: function() {
