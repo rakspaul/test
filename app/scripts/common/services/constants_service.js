@@ -1358,5 +1358,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INVOICE_NOTES = 'Notes:';
         this.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD = 'Video Viewability at various quartiles of the Ad' ;
 
+        //Seller Targeting
+         this.SELLERNAME = 'Seller Name';
+         this.SELLERID = ' Seller ID';
+         this.PREFERRED = 'Preferred';
+         this.SELLERS = 'Sellers';
+         this.SELLERS_TARGETING = 'Include or exclude specific 3rd party inventory sellers from your Open Exchange buy.';
+         this.SAVESELLER ='Save Seller';
+
     }]);
 });

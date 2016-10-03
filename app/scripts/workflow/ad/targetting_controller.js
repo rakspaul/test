@@ -307,6 +307,14 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             _targeting.setTargetingForPreview('Geography');
         };
 
+            $scope.selectSellerTarget = function () {
+                 colResize();
+                 $scope.$broadcast('triggerSeller');
+                 // show targeting in side bar
+                     _targeting.setTargetingForPreview('Seller');
+            };
+
+
         $scope.deleteGeoTargetting = function () {
             var adData;
 
@@ -392,6 +400,10 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
 
                     case 'Video' :
                         _targeting.showVideoTargetingInfo(adData);
+                        break;
+
+                    case 'Seller':
+
                         break;
                 }
             }

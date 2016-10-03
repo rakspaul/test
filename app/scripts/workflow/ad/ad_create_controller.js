@@ -1,6 +1,6 @@
 define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budget-delivery-controller', 'buying-platform-controller', 'targetting-controller',
     'geo-targetting-controller', 'audience-targetting-controller', 'daypart-create-controller', 'video-targetting-controller', 'inventory-filters-controller',
-    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller'],
+    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller', 'seller-targetting-controller'],
     function (angularAMD) {
 
     angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams', '$locale', '$location', '$filter', '$timeout', 'constants',
@@ -300,6 +300,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     idx,
                     i,
                     videoTargetsData,
+                    sellerTargetting,
                     pacingType,
 
                     findFunc = function (item) {
@@ -1419,6 +1420,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     adData,
                     videoTargetsData,
                     inventoryLists,
+                    sellerTargetting,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) {
@@ -1736,6 +1738,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if (inventoryLists.appList.length > 0){
                             appListsIds = inventoryLists.appList;
+                        }
+
+                        // seller targetting
+                        sellerTargetting = $scope.adData.sellersTargetting;
+                        if (sellerTargetting) {
+
                         }
 
                         // domains save

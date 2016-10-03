@@ -240,6 +240,7 @@ require.config({
         'creative-preview-controller': 'workflow/creative/creative_preview_controller',
         'creative-bulk-controller': 'workflow/creative/creative_bulk_controller',
         'audit-controller': 'admin/controllers/entity_audit_controller',
+        'seller-targetting-controller' : 'workflow/ad/seller_targetting_controller',
 
         /*register Controllers - Start*/
 

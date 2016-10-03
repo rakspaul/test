@@ -196,6 +196,51 @@
     </div>
     <!--END : Daypart Targeting Card-->
 
+    <!--START : Sellers Targeting Card-->
+    <div class="col-md-6 cardSelectHolder"
+         data-ng-if="!isPlatformSelected || (isPlatformSelected && isGeoTargetEnabled)"
+         data-ng-class="{true: 'active'}[selectedTargeting['sellers']]">
+
+        <div class="icon-browser"></div>
+        <p style="margin: 6px 0 6px;">Sellers</p>
+        <div class="cardTxtWrap" data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude">
+            <span data-ng-bind="textConstants.SELLERS_TARGETING" style="margin: 5px 0 10px;"></span>
+            <p style="margin: 0;">
+                <span>All Sellers (default)</span>
+            </p>
+        </div>
+        <div class="cardTxtWrap targetDataSaved"
+             data-ng-if="geoPreviewData.include || geoPreviewData.exclude">
+            <div class="targetDataSavedTop" data-ng-if="geoPreviewData.include.count > 0">
+                <div class="icon-target"></div>
+                <span data-ng-bind="textConstants.INCLUDED"></span>
+                <div class="badge" data-ng-bind="geoPreviewData.include.count"></div>
+            </div>
+            <span class="targetListItem" data-ng-bind="geoPreviewData.include.label"></span>
+            <div class="targetDataSavedTop"
+                 style="padding-top: 20px;"
+                 data-ng-if="geoPreviewData.exclude.count > 0">
+                <div class="icon-exclude"></div>
+                <span data-ng-bind="textConstants.EXCLUDED"></span>
+                <div class="badge" data-ng-bind="geoPreviewData.exclude.count"></div>
+            </div>
+            <span class="targetListItem" data-ng-if="geoPreviewData.exclude.count" data-ng-bind="geoPreviewData.exclude.label">
+            </span>
+        </div>
+        <span data-ng-if="$parent.isPlatformSelected"
+              class="onSelectBtn active"
+              data-ng-click="selectSellerTarget()">
+        </span>
+        <input data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude"
+               type="button"
+               name="platform"
+               value="Create"
+               data-ng-disabled="!$parent.isPlatformSelected"
+               class="btn btn-default"
+               data-ng-click="selectSellerTarget()">
+    </div>
+    <!--END : Sellers  Targeting Card-->
+
     <!--START : Video Targeting Card-->
     <div class="col-md-6 cardSelectHolder active clearLeft" data-ng-if="adData.adFormat === 'Video'">
         <span class="icon-trash"
@@ -274,6 +319,11 @@
      id="audienceTargeting"
      data-ng-include="'/views/workflow/partials/targetings/audience_targeting.html'"
      data-ng-controller="AudienceTargettingController">
+</div>
+<div class="col-md-12 targetingSlide"
+     id="sellerTargeting"
+     data-ng-include="'/views/workflow/partials/targetings/seller_targeting.html'"
+     data-ng-controller="SellerTargettingController as sellersCtrl">
 </div>
 <div class="col-md-12 targetingSlide"
      id="geographyTargeting"
