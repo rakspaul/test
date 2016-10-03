@@ -277,7 +277,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     nameFilterExactMatch=''
                     ;
 
-                if (isPrimary) {
+                if (isPrimary && (dataFormat !== 'csv')) {
                     $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
                 }
 
@@ -286,7 +286,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
                     $scope.isReportForMultiDimension = true;
 
-                    if (isPrimary) {
+                    if ((isPrimary) && (dataFormat !== 'csv')) {
                         $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
                     }
                 }
