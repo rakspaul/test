@@ -191,12 +191,12 @@
                                                                data-ng-model="dimensionQuery"
                                                                placeHolder="Search">
                                                     </div>
-                                                    <li data-ng-repeat="filters in filterList | filter : dimensionQuery"
+                                                    <li data-ng-repeat="filters in filterList | filter:{'name':dimensionQuery}"
                                                         id="{{filters}}"
-                                                        data-ng-click="onChoosingAditFlts(filterIndex, filters);"
+                                                        data-ng-click="onChoosingAditFlts(filterIndex, filters.key);"
                                                         data-ng-model="addFilts.key"
-                                                        data-ng-bind-html="displayName[filters]"
-                                                        data-ng-if="checkDimension(filters)"
+                                                        data-ng-bind-html="filters.name"
+                                                        data-ng-if="checkDimension(filters.key)"
                                                         data-toggle="dropdown">
                                                     </li>
                                                 </ul>

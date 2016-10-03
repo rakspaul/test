@@ -429,7 +429,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 _customctrl
                     .fetchCustomReportData($scope.selectedMetricsList, paramsObj, null, function (respData) {
-                        $scope.fetching = false;
+                      //  $scope.fetching = false;
                         $scope.generateBtnDisabled = false;
                         _customctrl.isReportLastPage_1D = respData.last_page;
                         respData = respData.report_data;
@@ -1384,7 +1384,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     if (!$scope.reports.schedule) {
                         $scope.reports.schedule = {};
                     }
-
                     $scope.reports.schedule.occurance = '';
                 } else {
                     requestData.schedule.occurance = $scope.reports.schedule.occurance;
@@ -2068,9 +2067,10 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                 return item !== 'conversion_pixel_name';
                             });
 
-                        $scope.filterList = specificFilter.hasOwnProperty(dimension) ?
+                        var newfilterList = specificFilter.hasOwnProperty(dimension) ?
                             angular.copy(specificFilter[dimension]) :
                             angular.copy($scope.customeDimensionData[0].filters);
+                        $scope.filterAutoCompletion.createFilterKeyObj(newfilterList);
 
                         if (!$scope.reports.reportDefinition.dimensions.primary.name) {
                             $scope.showAddBreakdownButton = true;
@@ -2438,7 +2438,10 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     $scope.metrics.initializeMetricData(result.data.data[0]);
                                     $scope.dataSource.setDataSource(result.data.data[0].data_source);
                                     $scope.displayName = result.data.data[0].display_name;
-                                    $scope.filterList = result.data.data[0].filters;
+
+                                    //create filter key object
+                                    $scope.filterAutoCompletion.createFilterKeyObj(result.data.data[0].filters);
+
                                     $scope.metrics.initializeMetrics(result.data.data[0]);
                                     _customctrl.resetMetricsPopUp();
                                     $scope.customeDimensionData = result.data.data;
@@ -3000,13 +3003,11 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                     if ($scope.reports.schedule) {
                         if ($scope.reports.schedule.startDate) {
-                            $scope.reports.schedule.startDate =
-                                momentService.newMoment($scope.reports.schedule.startDate).format('YYYY-MM-DD');
+                            $scope.reports.schedule.startDate = momentService.newMoment($scope.reports.schedule.startDate).format('YYYY-MM-DD');
                         }
 
                         if ($scope.reports.schedule.endDate) {
-                            $scope.reports.schedule.endDate =
-                                momentService.newMoment($scope.reports.schedule.endDate).format('YYYY-MM-DD');
+                            $scope.reports.schedule.endDate = momentService.newMoment($scope.reports.schedule.endDate).format('YYYY-MM-DD');
                         }
                     }
 
@@ -3269,7 +3270,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.scrollDimension = undefined;
                     $scope.scrollText = undefined;
                     $scope.offSet = 0;
-                    $scope.fetching = false;
+                 //   $scope.fetching = false;
 
                     $scope.hideVisibleDropdown = function (event) {
                         event.stopPropagation();
@@ -3278,6 +3279,13 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         }
                     };
                     return {
+
+                        createFilterKeyObj: function(filterData) {
+                            $scope.filterList = [];
+                            _.each(filterData,function(eachObj){
+                                $scope.filterList.push({'key':eachObj,'name':$scope.displayName[eachObj]});
+                            });
+                        },
 
                         // If a person copy paste in filter input box then it should make an API call to check if that in auto suggestion
                         checkForAutoFltrMatch: function(filterIndex) {
@@ -3290,7 +3298,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         },
 
                         fetchFilterAutoSugtn : function(event,dimension,searchKey,isLoadMoreData,index) {
-                            $scope.fetching = true;
+                            //$scope.fetching = true;
                             $scope.filterAutoCompletion.onSelectingDropdown(dimension,searchKey);
                             if(event) {
                                 var elem = $(event.currentTarget);
@@ -3343,7 +3351,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                                 $scope.filtersAutoComplArr.dataNotFound = true;
                                             }
                                     }
-                                    $scope.fetching = false;
+                                   // $scope.fetching = false;
                                 });
                             }
                         },
