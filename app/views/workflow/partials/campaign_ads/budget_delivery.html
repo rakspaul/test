@@ -335,7 +335,7 @@
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VERIFICATION_VENDOR"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle" data-ng-disabled="workflowData.adsData.pushStatus === 'PUSHED'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span class="text">{{((adData.selectedSetting.name).toLowerCase()!= textConstants.VERIFICATION_DEFAULT_SMALL)?(adData.selectedSetting.name):textConstants.VERIFICATION_DEFAULT}}</span>
                         <span class="icon-arrow-solid-down"></span>
                     </button>
