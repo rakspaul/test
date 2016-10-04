@@ -205,7 +205,7 @@
             <div class="no_data_found" style="display:none;"
                  data-ng-bind="textConstants.DATANOTAVAILABLE">
             </div>
-            <div class="row" data-ng-repeat="vendor in vendorList">
+            <div class="row" data-ng-repeat="vendor in vendorList track by $index">
                 <div class="clearfix rowHover">
 
                     <!--Column 1-->

@@ -181,8 +181,10 @@ require.config({
         'collective-report-listing-controller': 'reporting/collectiveReport/collective_report_listing_controller',
         'campaign-create-controller': 'workflow/campaign/campaign_create_controller',
         'line-item-controller': 'workflow/campaign/line_item_controller',
-        'vendors-list-controller': 'workflow/vendors/vendors_list_controller',
-        'vendor-create-controller': 'workflow/vendors/vendor_create_controller',
+
+        'vendors-config-list-controller': 'workflow/vendors_config/vendors_config_list_controller',
+        'vendor-config-controller': 'workflow/vendors_config/vendor_config_controller',
+
         'campaign-service': 'workflow/campaign/campaign_service',
         'pixels-controller': 'workflow/campaign/pixels_controller',
         'budget-controller': 'workflow/campaign/budget_controller',

@@ -92,7 +92,7 @@
                 <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control mediaplanEndTime" readonly name="endTime" ng-init="selectedCampaign.endTime" ng-model="selectedCampaign.endTime" value="selectedCampaign.endTime" required/>
             </div>
 
-            <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.STARTDATE_REQUIRED">.</label>
+            <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="vendor.constants.STARTDATE_REQUIRED">.</label>
         </div>
         <span class="col-md-12 input-group-addon">
             <div class="calenderIcon">
@@ -105,7 +105,7 @@
 </div>
 <div class="col-md-12 zeroPadding marginBottomTwenty" >
           <div class="pull-left">
-              <input type="checkbox" 
+              <input type="checkbox"
                data-ng-model="scheduleReportActive"
                checked
                data-toggle="toggle"
@@ -117,7 +117,7 @@
 </div>
 <div class="col-md-12 zeroPadding marginBottomTwenty" >
           <div class="pull-left">
-              <input type="checkbox" 
+              <input type="checkbox"
                data-ng-model="scheduleReportActive"
                checked
                data-toggle="toggle"
@@ -129,7 +129,7 @@
 </div>
 <div class="col-md-12 zeroPadding marginBottomTwenty" >
           <div class="pull-left">
-              <input type="checkbox" 
+              <input type="checkbox"
                data-ng-model="scheduleReportActive"
                checked
                data-toggle="toggle"
@@ -141,7 +141,7 @@
 </div>
 <!--=== Next Step Panel ===-->
 <a  data-toggle="tab" data-target="#pixels" role="tab" class="nextWrapper leftNavLink budget">
-    <span class="btn btn-default" ng-click="highlightLeftNav(1)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
+    <span class="btn btn-default" ng-click="highlightLeftNav(1)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE + 'PATEAAAA'"></span>
 </a>
 
 <script>
@@ -153,6 +153,5 @@
             todayHighlight: true
         });
         $('.toggle').bootstrapToggle('on');
-
     })
 </script>
