@@ -948,19 +948,6 @@
   display: inline-block;
   height: 18px;
 }
-.nav_filters .each_filter #advertisersDropdown,
-.nav_filters .each_filter #subAccountDropdown {
-  font-family: "Avenir";
-  font-size: 14px;
-  min-width: 50px;
-  text-overflow: ellipsis;
-  width: 100%;
-  border: medium none;
-  cursor: pointer;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  font-size: 11pt;
-  height: 30px;
-}
 .nav_filters .each_filter #advertisersDropDownList {
   width: 280px;
   left: -1px;
@@ -1147,21 +1134,6 @@
   height: 10px;
   font-size: 10px;
   color: #939eae;
-}
-.nav_filters .brandsDropdownSearch {
-  position: relative;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv {
-  width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0px 10px;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input {
-  font-family: "Avenir";
-  padding-right: 20px;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
 }
 .nav_filters #strategy_dropdown {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;

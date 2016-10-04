@@ -3063,22 +3063,12 @@ input[type="submit"] {
   font-size: 10px;
   color: #939eae;
 }
-.nav_filters .brandsDropdownSearch {
-  position: relative;
-}
 .nav_filters .brandsDropdownSearch #brandsDropdownDiv,
 .nav_filters .brandsDropdownSearch #subAccountDropdownDiv,
 .nav_filters .brandsDropdownSearch .advertisersList_ul {
   width: 100%;
   border-bottom: solid 1px #bfc9d7;
   float: left;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input,
-.nav_filters .brandsDropdownSearch .advertisersList_ul input {
-  font-family: "Avenir";
-  padding-right: 20px;
-  background: url("/images/cdesk/search_input.png") #fff no-repeat right center !important;
 }
 .nav_filters .brandsDropdownSearch #brandsDropdownDiv li,
 .nav_filters .brandsDropdownSearch #subAccountDropdownDiv li,
