@@ -1,7 +1,7 @@
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD','sellers-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('SellerTargettingController', ['$scope', function ($scope) {
+    angularAMD.controller('SellerTargettingController', ['$scope','sellersService', function ($scope,sellersService) {
 
         var sellerCtrl = this,
             pageNo = 1,
@@ -24,6 +24,7 @@ define(['angularAMD'], function (angularAMD) {
 
                 },
                 fetchAllSellers: function() {
+                     // sellersService.fetchAllSellers(pageNo);
                     sellerCtrl.sellers.sellersList = [{"id": 1,
                         "name": "Seller 1",
                         "vendor_id": 1,
