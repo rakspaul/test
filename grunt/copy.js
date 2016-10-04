@@ -38,6 +38,7 @@ module.exports =function(grunt) {
                     '!*.master.html',
                     'fonts/{,*/}*.*',
                     'views/workflow/partials/overview_partials/overview_createAdgroups.html',
+                    'views/workflow/vast-video-preview.html',
                     'conf/{,*/}*.*',
                     'scripts/**'
 
