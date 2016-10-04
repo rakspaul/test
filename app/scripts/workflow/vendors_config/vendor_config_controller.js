@@ -1,10 +1,14 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('VendorConfigController', function (pageLoad) {
+    angularAMD.controller('VendorConfigController', ['pageLoad', 'constants', function (pageLoad, constants) {
+        var vm = this;
+
         console.log('VENDOR CONFIG controller is loaded!');
         // Hide page loader when the page is loaded
         pageLoad.hidePageLoader();
+
+        vm.constants = constants;
 
         // initial initialization
         $(function () {
@@ -18,5 +22,5 @@ define(['angularAMD'], function (angularAMD) {
                 $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
             });
         });
-    });
+    }]);
 });

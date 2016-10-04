@@ -5,8 +5,7 @@
 
 <!--Pixel Option List-->
 <div class="col-md-12 zeroPadding" style="padding: 0 10px 0 0;">
-    <label for="nameTitleCampaign"
-           class="col-sm-12 labelQuestTxt"
+    <label class="col-sm-12 labelQuestTxt"
            style="margin-bottom: 5px;">
            Select Offerings
     </label>
@@ -14,17 +13,17 @@
     <div>
         <div>
             <div class="col-md-12 head-table">
-                    <div class="col-md-2" data-ng-bind="textConstants.ENABLE"></div>
-                    <div class="col-md-4" data-ng-bind="textConstants.OFFERING"></div>
-                    <div class="col-md-3" data-ng-bind="textConstants.CATEGORY"></div>
-                    <div class="col-md-3" data-ng-bind="textConstants.BASE_RATE_TYPE"></div>
+                    <div class="col-md-2" data-ng-bind="vendor.constants.ENABLE"></div>
+                    <div class="col-md-4" data-ng-bind="vendor.constants.OFFERING"></div>
+                    <div class="col-md-3" data-ng-bind="vendor.constants.CATEGORY"></div>
+                    <div class="col-md-3" data-ng-bind="vendor.constants.BASE_RATE_TYPE"></div>
             </div>
             <div class="col-md-12 zeroPadding body-table">
                 <div class="clearfix each-tr">
                     <div class="col-md-2 zeroPadding">
                         <div class="col-md-12 zeroPadding marginBottomTwenty" >
                                   <div class="pull-left">
-                                      <input type="checkbox" 
+                                      <input type="checkbox"
                                        data-ng-model="scheduleReportActive"
                                        checked
                                        data-toggle="toggle"
@@ -71,9 +70,9 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </div>
 </div>
 </div>
@@ -81,7 +80,7 @@
 <a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
     <span class="btn btn-default"
           data-ng-click="highlightLeftNav(2)"
-          data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
+          data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE">
     </span>
 </a>
 <script>

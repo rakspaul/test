@@ -1502,7 +1502,14 @@ define(['common'], function (angularAMD) {
                     title: 'Create - Vendor Configuration',
                     controller: 'VendorConfigController',
                     controllerUrl: 'vendor-config-controller',
-                    showHeader: true
+                    controllerAs: 'vendor',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
                 }))
 
                 .when('/a/:accountId/sa/:subAccountId/vendors/list', angularAMD.route({
@@ -1520,6 +1527,7 @@ define(['common'], function (angularAMD) {
                     controller: 'AccountsController',
                     controllerUrl: 'accounts-controller',
                     showHeader: true,
+
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
                             return routeResolvers.adminHeaderResolver(routeResolversParams);
