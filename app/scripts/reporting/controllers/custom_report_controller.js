@@ -429,7 +429,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 _customctrl
                     .fetchCustomReportData($scope.selectedMetricsList, paramsObj, null, function (respData) {
-                      //  $scope.fetching = false;
+                        $scope.fetching = false;
                         $scope.generateBtnDisabled = false;
                         _customctrl.isReportLastPage_1D = respData.last_page;
                         respData = respData.report_data;
@@ -3270,7 +3270,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     $scope.scrollDimension = undefined;
                     $scope.scrollText = undefined;
                     $scope.offSet = 0;
-                 //   $scope.fetching = false;
+                   // $scope.fetching = false;
 
                     $scope.hideVisibleDropdown = function (event) {
                         event.stopPropagation();
@@ -3298,7 +3298,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         },
 
                         fetchFilterAutoSugtn : function(event,dimension,searchKey,isLoadMoreData,index) {
-                            //$scope.fetching = true;
+                           // $scope.fetching = true;
                             $scope.filterAutoCompletion.onSelectingDropdown(dimension,searchKey);
                             if(event) {
                                 var elem = $(event.currentTarget);
@@ -3333,26 +3333,28 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                                     'offset': $scope.offSet,
                                     'searchKey': searchKey
                                 };
-                                var url = urlService.customRptFilterAutoSugg(urlParamas);
+                                var url = urlService.customRptFilterAutoSugg(urlParamas),
+                                    canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
-                                dataService.fetch(url).then(function (response) {
-                                    if(response && response.data && response.data.data.length > 0){
-                                        if(!$scope.filtersAutoComplArr || $scope.filtersAutoComplArr.length === 0) {
-                                            $scope.filtersAutoComplArr = response.data.data;
-                                        } else if($scope.filtersAutoComplArr.length >= 100) {
-                                            $scope.filtersAutoComplArr = $scope.filtersAutoComplArr.concat(response.data.data);
-                                        }
-                                    } else {
-                                            if(isLoadMoreData && $scope.filtersAutoComplArr.length > 0) {
+                                dataService.fetchCancelable(url, canceller, function (response) {
+                                        if(response && response.data && response.data.data.length > 0){
+                                            if(!$scope.filtersAutoComplArr || $scope.filtersAutoComplArr.length === 0) {
+                                                $scope.filtersAutoComplArr = response.data.data;
+                                            } else if($scope.filtersAutoComplArr.length >= 100) {
+                                                $scope.filtersAutoComplArr = $scope.filtersAutoComplArr.concat(response.data.data);
+                                            }
+                                        } else {
+                                            if (isLoadMoreData && $scope.filtersAutoComplArr.length > 0) {
                                                 $scope.filtersAutoComplArr.noMoreData = true;
                                                 $scope.filtersAutoComplArr.dataNotFound = false;
                                             } else {
                                                 $scope.filtersAutoComplArr = [];
                                                 $scope.filtersAutoComplArr.dataNotFound = true;
                                             }
-                                    }
-                                   // $scope.fetching = false;
-                                });
+                                        }
+                                    }, function(response) {
+                                        console.log('Error response:', response);
+                                    });
                             }
                         },
                         onSelectingDropdown: function(scrollDimension,scrollText) {
