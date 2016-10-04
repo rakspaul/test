@@ -35,7 +35,9 @@
                         <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
                         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                     </div>
-                    <li ng-repeat="advertiser in workflowData.advertisers | filter : selectedAdvertiser.name" class="available" title="{{advertiser.name}}"><a ng-click="selectHandler('advertiser', advertiser);showHideDropdownWithSearch($event);">{{advertiser.name}}</a></li>
+                    <li ng-repeat="advertiser in workflowData.advertisers | filter : selectedAdvertiser.name" class="available" title="{{advertiser.name}}">
+                        <a ng-click="selectHandler('advertiser', advertiser);showHideDropdownWithSearch($event);">{{advertiser.name}}</a>
+                    </li>
                 </ul>
                 <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
             </div>

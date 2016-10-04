@@ -14,7 +14,7 @@
                         <input class="dropdown-toggle "
                                id="subAccountDropdown"
                                data-ng-model="selectedSubAccount.name"
-                               placeHolder="{{(filterData.subAccSelectedName ? filterData.subAccSelectedName : 'Select Sub-Account')}}">
+                               placeHolder="Search Sub-Accounts...">
                         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                     </div>
                     <div  class="subAccountList_ul clientsList_ul"  id="clientsList_ul">
@@ -41,8 +41,7 @@
             <div class="brandsDropdownSearch dropdown-workflow" data-ng-class="filterData.advertiserList.length > 0 ? '' : 'loadedDropdownData'">
                 <ul class="dropdown-menu advertisersDropDownCreative dropdown-menu-with-search" role="menu" id="advertisersDropDownList">
                     <div class="search-inside-dropdown" id="brandsDropdownDiv">
-                        <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" data-ng-model="selectedAdvertiser.name" placeHolder="{{(filterData.advertiserSelectedName ?
-                        filterData.advertiserSelectedName : 'Select Advertiser')}}" />
+                        <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" data-ng-model="selectedAdvertiser.name" placeHolder="Search Advertisers..." />
                         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                     </div>
                     <div class="advertisersList_ul" id="advertisersList_ul">

@@ -2288,21 +2288,21 @@ tags-input .autocomplete {
 }
 .dropdown-menu-with-search .search-inside-dropdown input {
   border: 1px solid #bfc9d7;
-  padding-right: 30px;
-  background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+  padding-right: 15px;
+  background: url("/images/cdesk/search_input.png") no-repeat left 15px center;
   height: 36px;
   width: 100%;
-  padding-left: 15px;
+  padding-left: 40px;
   border-radius: 0 !important;
 }
 .dropdown-menu-with-search .search-inside-dropdown input:hover {
   background: transparent !important;
-  background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+  background: url("/images/cdesk/search_input.png") no-repeat left 15px center !important;
   border: 1px solid #939eae !important;
 }
 .dropdown-menu-with-search .search-inside-dropdown input:focus {
   background: transparent !important;
-  background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+  background: url("/images/cdesk/search_input.png") no-repeat left 15px center !important;
   border: 1px solid #0978c9 !important;
 }
 /*End of Dropdown which has search input box*/
