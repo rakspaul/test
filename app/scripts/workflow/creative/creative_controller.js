@@ -54,12 +54,13 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
                                 $scope.creative.clientId = $scope.creativeEditData.client.id;
                                 //tracker
+
                                 if($scope.creativeEditData.thirdPartyTracker){
                                     $scope.toggleCodeField = true;
                                     $scope.adData.thirdPartyTracker =  $scope.creativeEditData.thirdPartyTracker;
                                 }
 
-                                creatives.fetchAdvertisers($scope.creativeEditData.client.id);
+                                $scope.advertisers = advertiserModel.getAdvertiserList();
 
                                 creatives.fetchBrands($scope.creativeEditData.client.id,
                                     $scope.creativeEditData.advertiser.id);
@@ -847,7 +848,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                url = urlBuilder.buildBaseUrl() + '/creative/list';
+                url = urlBuilder.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiserId, -1) + '/creative/list';
                 $location.url(url);
 
             } else {

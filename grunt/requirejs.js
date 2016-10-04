@@ -25,7 +25,10 @@ module.exports =function(grunt) {
                 modules: [
                     { name: 'app' }
 
-                ]
+                ],
+                paths: {
+                    populatetemplatecache: 'empty:'
+                }
             }
         }
     };
