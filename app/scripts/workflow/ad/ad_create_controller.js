@@ -503,9 +503,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 if (responseData.fetchValue) {
                     $scope.adData.fetchValue = responseData.fetchValue;
-                    $('#budgetHolder').find('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    $('#budgetHolder').find('.budgetFields').find('#budgetAmount').attr('disabled', true).addClass('disabled-field');
                 } else {
                     $scope.adData.fetchValue = false;
+                }
+
+                if (responseData.overbook) {
+                    $scope.adData.isOverbooked = responseData.overbook;
+                    $scope.adData.overbookPercent = responseData.overbookPercentage;
                 }
 
                 if (responseData.rateType) {
@@ -1538,6 +1543,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if (getfreqCapParams(formData).length > 0) {
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
+                        }
+
+                        alert(formData.isOverbooked);
+                        if (formData.isOverbooked){
+                            postAdDataObj.overbook = formData.isOverbooked;
+                            postAdDataObj.overbookPercentage = formData.overbookPercent;
                         }
 
                         postAdDataObj.pacingType = formData.pacingType;

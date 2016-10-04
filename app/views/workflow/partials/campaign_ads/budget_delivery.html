@@ -66,8 +66,8 @@
             <div class="col-md-2">
                 <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
                 <span class="KPI_symbol currencySymWLabel" style="left: 25px;">{{textConstants.currencySymbol}}</span>
-                <input ng-if="((adData.primaryKpi).toLowerCase()=='impressions')||((adData.primaryKpi).toLowerCase()=='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fcsa-number="{  }" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" round-converter whole-number-only="whole-number-only" autocomplete="off">
-                <input ng-if="((adData.primaryKpi).toLowerCase()!='impressions')&&((adData.primaryKpi).toLowerCase()!='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off"  fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();" autocomplete="off">
+                <input ng-if="((adData.primaryKpi).toLowerCase()=='impressions')||((adData.primaryKpi).toLowerCase()=='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fcsa-number="{  }" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();percentageValueCheck($event,adData.primaryKpi);" round-converter whole-number-only="whole-number-only" autocomplete="off">
+                <input ng-if="((adData.primaryKpi).toLowerCase()!='impressions')&&((adData.primaryKpi).toLowerCase()!='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off"  fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();percentageValueCheck($event,adData.primaryKpi)" autocomplete="off">
             </div>
         </div>
 
@@ -209,21 +209,40 @@
 
         <div class="col-md-6 zeroPadding" style="margin-left: 10px;" id="budgetHolder">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
-            <div class="clearfix budgetFields">
-                <span class="currencySymWLabel">{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                <input id="adBudgetInput" ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
-                <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" round-converter autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text"  whole-number-only="whole-number-only" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
-                <input type="hidden" name="budgetAmount" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount">
-                <div class="col-md-5 control-label marginLeft zeroPadding">
-                    <div class="col-md-12 zeroPadding checkbox_holder">
-                        <div class="external_chkbox zeroPadding" style="width: 100%;margin-top:0px;">
-                            <div class="pull-left squaredFour" style="margin-top: 8px;">
-                                <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
-                                <input type="checkbox" id="fetchTarget_squaredFour" class="squaredFourChkbox" ng-click="fetch_existing_target_value($event);checkBudgetExceed() " name="fetchValue" ng-value="adData.fetchValue" ng-checked="adData.fetchValue">
-                                <label for="fetchTarget_squaredFour"></label>
-                            </div>
+            <div class="col-sm-12 zeroPadding budgetFields">
+                <div class="col-sm-12 zeroPadding" >
+                    <span class="currencySymWLabel" style="top: 12px !important;">{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
+                    <input id="adBudgetInput" ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
+                    <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" round-converter autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text"  whole-number-only="whole-number-only" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
+                    <input type="hidden" name="budgetAmount" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount">
+                    <div class="col-md-5 control-label marginLeft zeroPadding">
+                        <div class="col-md-12 zeroPadding checkbox_holder">
+                            <div class="external_chkbox zeroPadding" style="width: 100%;margin-top:0px;">
+                                <div class="pull-left squaredFour" style="margin-top: 8px;">
+                                    <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
+                                    <input type="checkbox" id="fetchTarget_squaredFour" class="squaredFourChkbox" ng-click="fetch_existing_target_value($event);checkBudgetExceed() " name="fetchValue" ng-value="adData.fetchValue" ng-checked="adData.fetchValue">
+                                    <label for="fetchTarget_squaredFour"></label>
+                                </div>
 
-                            <span class="pull-left greyTxt">{{adData.budgetType.toLowerCase() === 'cost' ? 'Use Ad Budget' : 'Use Target Impressions'}}</span>
+                                <span class="pull-left greyTxt">{{adData.budgetType.toLowerCase() === 'cost' ? 'Use Ad Budget' : 'Use Target Impressions'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="(adData.budgetType.toLowerCase() !== 'cost' && adData.fetchValue) ? true : false" class="col-sm-12 zeroPadding marginTop">
+                    <span class="currencySymWLabel" style="top: 12px !important;">%</span>
+                    <input id="overbookPercent" name="overbookPercent" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-disabled="!adData.isOverbooked"
+                           ng-model="adData.overbookPercent" fcsa-number="{  }" ng-value="adData.overbookPercent" id="overbookPercent" placeholder="Enter Value" autocomplete="off" ng-keyup="percentageValueCheck($event,'OVERBOOK')">
+                    <div class="col-md-5 control-label marginLeft zeroPadding">
+                        <div class="col-md-12 zeroPadding checkbox_holder">
+                            <div class="external_chkbox zeroPadding" style="width: 100%;margin-top:0px;">
+                                <div class="pull-left squaredFour" style="margin-top: 8px;">
+                                    <input type="checkbox" id="overbook_squaredFour" name="isOverbooked" class="squaredFourChkbox" ng-checked="adData.isOverbooked" ng-change="adData.overbookPercent=adData.isOverbooked?adData.overbookPercent:''"  ng-model="adData.isOverbooked" ng-value="adData.isOverbooked">
+                                    <label for="overbook_squaredFour"></label>
+                                </div>
+
+                                <span class="pull-left greyTxt">Overbook</span>
+                            </div>
                         </div>
                     </div>
                 </div>

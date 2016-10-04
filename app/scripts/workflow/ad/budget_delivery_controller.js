@@ -24,6 +24,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         $scope.adData.autoCompute = true;
         $scope.adData.fetchValue = false;
         $scope.adData.budgetType = 'Impressions';
+        $scope.adData.isOverbooked = true;
         // Kpi Types in an array of objects, sorted alphabetically
         $scope.adData.primaryKpiList = vistoconfig.kpiList;
 
@@ -270,6 +271,8 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             $scope.adData.budgetExceeded = false;
             $scope.adData.budgetType = budgetType;
             $scope.adData.fetchValue = false;
+            $scope.adData.overbookPercent = '';
+            $scope.adData.isOverbooked = false;
             $scope.budgetErrorObj.mediaCostValidator = '';
             $scope.budgetErrorObj.availableRevenueValidator = '';
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
@@ -279,7 +282,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             var elem = $(event.target);
             if (elem.is(':checked')) {
                 $scope.adData.fetchValue = true;
-                elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                elem.closest('.budgetFields').find('#budgetAmount').attr('disabled', true).addClass('disabled-field');
                 if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
                     $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
                 } else {
@@ -287,7 +290,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 }
             } else {
                 $scope.adData.fetchValue = false;
-                elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                elem.closest('.budgetFields').find('#budgetAmount').attr('disabled', false).removeClass('disabled-field');
                 $scope.adData.budgetAmount = '';
             }
         };
@@ -302,6 +305,20 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 $('#autoComputeDiv').prev().find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
             }
         };
+
+            $scope.percentageValueCheck = function (event,type) {
+                var elem = $(event.target);
+                var value = elem.val();
+                if ((type.toUpperCase() === 'CTR' ||
+                    type.toUpperCase() === 'VTC' ||
+                    type.toUpperCase() === 'ACTION RATE' ||
+                    type.toUpperCase() === 'SUSPICIOUS ACTIVITY RATE' ||
+                    type.toUpperCase() === 'VIEWABLE RATE' ||
+                    type.toUpperCase() === 'OVERBOOK') &&
+                    Number(value) > 100) {
+                    elem.val(100);
+                }
+            };
 
             $scope.computeTargetValue = function() {
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
