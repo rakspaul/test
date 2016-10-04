@@ -1878,7 +1878,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     }
 
                     $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = false;
-console.log("sapna: ",id,value);
+
                     paramsObj = _customctrl.createRequestParams(id,value, $scope.secondDimensionOffset, 0, currentRowIndex);
 
                     _customctrl.fetchCustomReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function (respData, currentRowIndex) {
@@ -3353,7 +3353,7 @@ console.log("sapna: ",id,value);
                                             }
                                         }
                                     }, function(response) {
-                                        console.log("response", response);
+                                        console.log('Error response:', response);
                                     });
                             }
                         },
