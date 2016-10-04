@@ -1,11 +1,8 @@
 <div class="clearfix nav_filters creative_filter_dropdowns">
-    <div class="pull-left each_filter advertisers_filter" ng-if="filterData.subAccountList.length > 0">
+    <div class="pull-left each_filter advertisers_filter dropdown" ng-if="filterData.subAccountList.length > 0">
         <div class="greyTxt">{{constants.SUB_ACCOUNT}}</div>
-
         <div class="col-md-12 zeroPadding">
-            <div class="brand_name_selected dropdown_name_selected"
-                 id="sub_account_name_selected"
-                 data-ng-click="showSubAccountDropDown()"
+            <div class="brand_name_selected dropdown_name_selected" id="sub_account_name_selected" data-ng-click="showSubAccountDropDown()"
                  data-toggle="dropdown" title="{{filterData.subAccSelectedName}}" ng-bind="filterData.subAccSelectedName ? filterData.subAccSelectedName : 'Loading..'" > 
             </div>
             <span class="icon-arrow-solid-down"></span>
@@ -30,34 +27,34 @@
                 </ul>
             </div>
         </div>
-
     </div>
-    <div class="pull-left each_filter advertisers_filter">
+    
+    <div class="pull-left each_filter advertisers_filter dropdown">
         <div class="greyTxt">{{constants.ADVERTISER}}</div>
-        <div class="dropdown">
-            <div class="dropdown_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" data-toggle="dropdown" title="{{filterData.advertiserSelectedName}}">
-                <p>{{filterData.advertiserSelectedName ? filterData.advertiserSelectedName : 'Loading...'}}</p>
-                <span class="icon-arrow-solid-down"></span>
+        <div class="col-md-12 zeroPadding">
+            <div class="dropdown_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" data-toggle="dropdown"
+                 title="{{filterData.advertiserSelectedName}}" ng-bind="filterData.advertiserSelectedName ? filterData.advertiserSelectedName : 'Loading...'">
             </div>
-            <div class="clearfix">
-                <div class="brandsDropdownSearch dropdown-workflow" data-ng-class="filterData.advertiserList.length > 0 ? '' : 'loadedDropdownData'">
-                    <ul class="dropdown-menu advertisersDropDownCreative dropdown-menu-with-search" role="menu" id="advertisersDropDownList">
-                        <div class="search-inside-dropdown" id="brandsDropdownDiv">
-                            <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" data-ng-model="selectedAdvertiser.name" placeHolder="{{(filterData.advertiserSelectedName ?
-                            filterData.advertiserSelectedName : 'Select Advertiser')}}" />
-                            <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
-                        </div>
-                        <div class="advertisersList_ul" id="advertisersList_ul">
-                            <li ng-repeat="advertiser in filterData.advertiserList | filter : selectedAdvertiser.name"
-                                title="{{advertiser.name}}"
-                                ng-class="{'active' : advertiser.id === filterData.advertiserSelectedId}">
-                                <a data-ng-click="selectAdvertisers(advertiser)">
-                                    <span class="menuItemText">{{advertiser.name}}</span>
-                                </a>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
+            <span class="icon-arrow-solid-down"></span>
+        </div>
+        <div class="clearfix">
+            <div class="brandsDropdownSearch dropdown-workflow" data-ng-class="filterData.advertiserList.length > 0 ? '' : 'loadedDropdownData'">
+                <ul class="dropdown-menu advertisersDropDownCreative dropdown-menu-with-search" role="menu" id="advertisersDropDownList">
+                    <div class="search-inside-dropdown" id="brandsDropdownDiv">
+                        <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" data-ng-model="selectedAdvertiser.name" placeHolder="{{(filterData.advertiserSelectedName ?
+                        filterData.advertiserSelectedName : 'Select Advertiser')}}" />
+                        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                    </div>
+                    <div class="advertisersList_ul" id="advertisersList_ul">
+                        <li ng-repeat="advertiser in filterData.advertiserList | filter : selectedAdvertiser.name"
+                            title="{{advertiser.name}}"
+                            ng-class="{'active' : advertiser.id === filterData.advertiserSelectedId}">
+                            <a data-ng-click="selectAdvertisers(advertiser)">
+                                <span class="menuItemText">{{advertiser.name}}</span>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
             </div>
         </div>
     </div>

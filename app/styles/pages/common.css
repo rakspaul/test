@@ -901,7 +901,6 @@
 }
 .nav_filters .dropdown .dropdown_name_selected {
   padding-right: 20px;
-  cursor: default;
   margin: 0;
   position: relative;
 }
@@ -1139,26 +1138,8 @@
   background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
   padding-right: 20px;
 }
-.nav_filters #campaignsDropdownDiv {
-  width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0 10px;
-}
 .nav_filters #campaignsDropdownDiv .campaign_name_length {
   display: none;
-}
-.nav_filters #campaignsDropdownDiv input {
-  float: none;
-  width: 100%;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
-  padding-right: 20px;
-  max-width: 660px;
-  overflow: hidden;
-  display: inline-block;
-  height: 32px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border: 0;
 }
 .main_navigation_holder #reports_nav_link.selected:after {
   content: "";
