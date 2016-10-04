@@ -436,17 +436,17 @@
 <script type="text/ng-template" id="videoViewabilityPartialTpl">
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span class="text-left" data-ng-bind="((platform.vtc_25 > 0) || (platform.vtc_25 === 0)) ?
-                    ((platform.vtc_25 | number : 0) + '%') : '-'">
+            <span class="text-left" data-ng-bind="((platform.video_1q_view_perc > 0) || (platform.video_1q_view_perc === 0)) ?
+                    ((platform.video_1q_view_perc | number : 0) + '%') : '-'">
             </span>
-            <span data-ng-bind="((platform.vtc_50 > 0) || (platform.vtc_50 === 0)) ?
-                    ((platform.vtc_50 | number : 0) + '%') : '-'">
+            <span data-ng-bind="((platform.video_2q_view_perc > 0) || (platform.video_2q_view_perc === 0)) ?
+                    ((platform.video_2q_view_perc | number : 0) + '%') : '-'">
             </span>
-            <span data-ng-bind="((platform.vtc_75 > 0) || (platform.vtc_75 === 0)) ?
+            <span data-ng-bind="((platform.video_3q_view_perc > 0) || (platform.video_3q_view_perc === 0)) ?
                     ((platform.vtc_75 | number : 0) + '%') : '-'">
             </span>
-            <span data-ng-bind="((platform.vtc_100 > 0) || (platform.vtc_100 === 0)) ?
-                ((platform.vtc_100 | number : 0) + '%') : '-'">
+            <span data-ng-bind="((platform.video_4q_view_perc > 0) || (platform.video_4q_view_perc === 0)) ?
+                ((platform.video_4q_view_perc | number : 0) + '%') : '-'">
             </span>
         </div>
     </div>
@@ -575,8 +575,8 @@
             <span class="plat_name" title="{{platform.platform_name}}" data-ng-bind="platform.platform_name"></span>
         </div>
         <div class="each_col third_col impressions_col"
-             data-ng-bind="((platform.impressions > 0) || (platform.impressions === 0)) ?
-                (platform.impressions | number : 0) : '-'">
+             data-ng-bind="((platform.other_view_impressions > 0) || (platform.other_view_impressions === 0)) ?
+                (platform.other_view_impressions | number : 0) : '-'">
         </div>
         <div class="each_col third_col measurable_col">
             <div class="sub_col">
