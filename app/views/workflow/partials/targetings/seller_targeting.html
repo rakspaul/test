@@ -41,7 +41,8 @@
                             <div class="clearfix targetting-tab-header">
                                 <div class="pull-left marginTop marginBottom">
                                     <div class="btn-group pull-right" role="group" aria-label="...">
-                                        <button type="button" class="btn btn-default pull-right" ng-click="preferedFilterFlag.isPrefered = '';">
+
+                                        <button type="button" class="btn btn-default pull-right selected" ng-click="preferedFilterFlag.isPrefered = '';">
                                             <span>Show All</span>
                                         </button>
                                         <button type="button" class="btn btn-default pull-right" ng-click="preferedFilterFlag.isPrefered = true;">
@@ -100,10 +101,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="selectedAtRight">
+                    <div class="selectedAtRight options-selected-section">
                         <span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS"></span>
                         <a class="pull-right"  data-ng-bind="textConstants.CLEARALL"></a>
-                        <div class="selectedItems">includeAllSellersFlag === {{sellersCtrl.includeAllSellersFlag + 'asdf'}}
+                        <div class="selectedItems ">
+                            <div class="default-selected-section" >
+                                <span class="icon-browser"></span>
+                                <div data-ng-bind="textConstants.NOSELLERSELECTED"></div>
+                                <div class="smallText" ng-bind-html="textConstants.SELLERNOTE"></div>
+                            </div>
                             <div class="segWrap" ng-repeat="seller in sellersCtrl.sellers.userSelectedSeller">
                                 <div class=" pull-left " ng-class="sellersCtrl.includeAllSellersFlag? 'icon-success':'icon-exclude'"></div>
                                 <div class="pull-left marginLeft">{{seller.name}}</div>

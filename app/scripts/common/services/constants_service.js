@@ -1365,6 +1365,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
          this.SELLERS = 'Sellers';
          this.SELLERS_TARGETING = 'Include or exclude specific 3rd party inventory sellers from your Open Exchange buy.';
          this.SAVESELLER ='Save Seller';
+         this.NOSELLERSELECTED ='No Sellers Selected';
+         this.SELLERNOTE ='Check the checkbox next to the desired Seller name to target.';
+
 
     }]);
 });
