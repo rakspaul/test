@@ -1544,8 +1544,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (getfreqCapParams(formData).length > 0) {
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
                         }
-
-                        alert(formData.isOverbooked);
+                        
                         if (formData.isOverbooked){
                             postAdDataObj.overbook = formData.isOverbooked;
                             postAdDataObj.overbookPercentage = formData.overbookPercent;
