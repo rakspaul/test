@@ -44,7 +44,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                  "updated_at": "",
                                  "isPrefered": false
                              },
-                             {"id": 2,
+                             {"id": 12,
                                  "name": "Seller 3",
                                  "vendor_id": 2,
                                  "vendor_seat_id" : 2,
@@ -53,7 +53,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                  "updated_at": "",
                                  "isPrefered": false
                              },
-                             {"id": 2,
+                             {"id": 22,
                                  "name": "Seller 4",
                                  "vendor_id": 2,
                                  "vendor_seat_id" : 2,
@@ -62,7 +62,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                  "updated_at": "",
                                  "isPrefered": false
                              },
-                             {"id": 2,
+                             {"id": 32,
                                  "name": "Seller 2",
                                  "vendor_id": 2,
                                  "vendor_seat_id" : 2,
@@ -71,7 +71,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                  "updated_at": "",
                                  "isPrefered": false
                              },
-                             {"id": 2,
+                             {"id": 42,
                                  "name": "Seller 5",
                                  "vendor_id": 2,
                                  "vendor_seat_id" : 2,
@@ -79,7 +79,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                  "created_at": "",
                                  "updated_at": "",
                                  "isPrefered": false
-                             },{"id": 2,
+                             },{"id": 52,
                                  "name": "Seller 2",
                                  "vendor_id": 2,
                                  "vendor_seat_id" : 2,
@@ -87,7 +87,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                  "created_at": "",
                                  "updated_at": "",
                                  "isPrefered": false
-                             },{"id": 2,
+                             },{"id": 62,
                                  "name": "Seller 6",
                                  "vendor_id": 2,
                                  "vendor_seat_id" : 2,
@@ -101,15 +101,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                          //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
                          if(!_.isEmpty($scope.adData.sellersTargetting)){
                              sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
-
-                             //TODO find a better way
-                             var sellersIds = _.pluck($scope.adData.sellersTargetting,'id');
-                             _.each(sellersIds,function(id) {
-                                 var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {
-                                     return seller.id === id;
-                                 });
-                                 sellerCtrl.sellers.sellersList[index].isChecked = true;
-                             });
+                             _sellerTargetting.checkUserSelectedSellers();
                          }
 
 
@@ -194,7 +186,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
 
                         //concat 2 strings
 
-                        sellerCtrl.sellers.sellersList.concat(result)
+                        sellerCtrl.sellers.sellersList = _.union(sellerCtrl.sellers.sellersList, result);
                     });
 
 
@@ -210,12 +202,26 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                         }, function () {
                             $(this).hide();
                         });
+                },
+
+                resetBasicParameters: function() {
+                    pageNo = 1;
+                    //reset search textfield here;
+
+                },
+
+                checkUserSelectedSellers: function() {
+                    var sellersIds = _.pluck($scope.adData.sellersTargetting,'id');
+                    _.each(sellersIds,function(id) {
+                        var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {
+                            return seller.id === id;
+                        });
+                        sellerCtrl.sellers.sellersList[index].isChecked = true;
+                    });
                 }
             };
 
-        $scope.$on('triggerSeller', function () {
-            _sellerTargetting.showSellerTargetingBox();
-        });
+
 
         // Closes Seller Targeting View
         sellerCtrl.resetSellerTargetingVariables = function () {
@@ -224,7 +230,8 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
             // sellers variable
             sellerCtrl.sellers.userSelectedSeller = [];
             if($scope.adData.sellersTargetting.length > 0) {
-                sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting.length);
+                sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
+                _sellerTargetting.checkUserSelectedSellers();
             }
 
             //close sellers screen and redirect user to targeting overview screen
@@ -280,7 +287,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
 
         sellerCtrl.saveSellersList = function(){
             $scope.adData.sellersTargetting = _.clone(sellerCtrl.sellers.userSelectedSeller);
-            $scope.adData.sellersAction = _.clone(sellerCtrl.sellers.userSelectedSeller);
+            $scope.adData.sellersAction = sellerCtrl.includeAllSellersFlag;
 
             //close sellers screen and redirect user to targeting overview screen
             _sellerTargetting.closeSellersTargetting();
@@ -289,9 +296,14 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         sellerCtrl.loadMoreSellers = function() {
             console.log('load more');
             pageNo++ ;
-            _sellerTargetting.fetchAllSellers();
+            _sellerTargetting.loadMoreSellers();
 
         };
+
+        $scope.$on('triggerSeller', function () {
+            _sellerTargetting.showSellerTargetingBox();
+            _sellerTargetting.resetBasicParameters();
+        });
 
 
 

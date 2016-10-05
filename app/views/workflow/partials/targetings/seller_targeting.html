@@ -78,8 +78,8 @@
                         </div>
                         <div class="segBodyWrap">
                             <div class="common-loading-area" data-ng-if="showSellerLoader"></div>
-                            <div class="segFixedWrap marginBottom" >
-                                <div class="col-md-12 segBodyTable" ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: preferedFilterFlag.isPrefered" lr-infinite-scroll="loadMoreSellers">
+                            <div class="segFixedWrap marginBottom" lr-infinite-scroll="sellersCtrl.loadMoreSellers">
+                                <div class="col-md-12 segBodyTable" ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: preferedFilterFlag.isPrefered" >
                                     <div class="columnOne">
                                         <div class="checkbox">
                                             <input type="checkbox" data-ng-checked="sellers.isChecked" data-ng-click="sellersCtrl.selectSellers(sellers)">

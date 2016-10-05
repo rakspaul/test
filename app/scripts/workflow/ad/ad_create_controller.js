@@ -1725,6 +1725,15 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                     }
                                 }
                             }
+
+                            //sellers targetting
+
+                            if ($scope.adData.sellersTargetting) {
+                                postAdDataObj.targets.sellerTargets = _.pluck($scope.adData.sellersTargetting,'id');
+                                postAdDataObj.sellersAction = $scope.adData.sellersAction ? 'INCLUDE':'EXCLUDE';
+                            }
+
+
                         }
 
                         inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
