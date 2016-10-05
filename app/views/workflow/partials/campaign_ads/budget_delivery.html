@@ -213,7 +213,7 @@
                     </div>
                 </div>
                 <div ng-if="(adData.budgetType.toLowerCase() !== 'cost' && adData.fetchValue) ? true : false" class="col-sm-12 zeroPadding marginTop">
-                    <span class="pull-left commonCurrencySymLabel">
+                    <span class="pull-left  commonCurrencySymLabel">
                         <span class="commonCurrencySym" >%</span>
                         <input id="overbookPercent" name="overbookPercent" autocomplete="off" style="width:130px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-disabled="!adData.isOverbooked"
                                ng-model="adData.overbookPercent" fcsa-number="{  }" ng-value="adData.overbookPercent" id="overbookPercent" placeholder="Enter Value" autocomplete="off" ng-keyup="percentageValueCheck($event,'OVERBOOK')">
