@@ -664,7 +664,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -802,7 +802,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -3524,7 +3524,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #E1EDF9;
+  background: #e1edf9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
@@ -4785,6 +4785,9 @@ body.custom_report_page .bodyWrap {
   padding: 100px 0;
 }
 /* End of Quality Report Page - Video selected */
+#reports_platform_cost_block .each_strategy .first_col {
+  width: 100% ;
+}
 /*Platform - Performance Tab*/
 #reports_platform_performance_block {
   /*to manage the alignment according to the line item */
@@ -4866,11 +4869,11 @@ body.custom_report_page .bodyWrap {
 #reports_platform_performance_block .vid_none_hdr .each_col {
   width: 100px ;
 }
-#reports_platform_performance_block .vid_none_hdr .each_strategy .first_col {
-  width: 100% ;
-}
 #reports_platform_performance_block .vid_none_hdr .sec_col {
   width: 200px ;
+}
+#reports_platform_performance_block .each_strategy .first_col {
+  width: 100% ;
 }
 /*End of Platform - Performance Tab*/
 #reports_byscreens_block .sec_col {
