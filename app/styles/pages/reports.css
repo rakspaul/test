@@ -4896,3 +4896,9 @@ body.custom_report_page .bodyWrap {
 #reports_bydaysofweek_block .all_strategies_holder .each_strategy_holder .each_row_list {
   padding-left: 10px ;
 }
+.reports_main_page_holder .cost_report_kpi .dropdown-menu.kpi_indicator_ul {
+  min-width: 140px ;
+}
+.reports_main_page_holder .cost_report_kpi .dropdown-menu.kpi_indicator_ul .drop_list {
+  width: 100% !important;
+}
