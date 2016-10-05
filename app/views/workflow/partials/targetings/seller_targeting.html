@@ -79,7 +79,7 @@
                         <div class="segBodyWrap">
                             <div class="common-loading-area" data-ng-if="showSellerLoader"></div>
                             <div class="segFixedWrap marginBottom" >
-                                <div class="col-md-12 segBodyTable" ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: preferedFilterFlag.isPrefered">
+                                <div class="col-md-12 segBodyTable" ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: preferedFilterFlag.isPrefered" lr-infinite-scroll="loadMoreSellers">
                                     <div class="columnOne">
                                         <div class="checkbox">
                                             <input type="checkbox" data-ng-checked="sellers.isChecked" data-ng-click="sellersCtrl.selectSellers(sellers)">
@@ -105,7 +105,7 @@
                         <span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS"></span>
                         <a class="pull-right"  data-ng-bind="textConstants.CLEARALL"></a>
                         <div class="selectedItems ">
-                            <div class="default-selected-section" >
+                            <div class="default-selected-section" ng-show="sellersCtrl.sellers.userSelectedSeller.length == 0">
                                 <span class="icon-browser"></span>
                                 <div data-ng-bind="textConstants.NOSELLERSELECTED"></div>
                                 <div class="smallText" ng-bind-html="textConstants.SELLERNOTE"></div>

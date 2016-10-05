@@ -1,4 +1,4 @@
-define(['angularAMD','sellers-service'], function (angularAMD) {
+define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('SellerTargettingController', ['$scope','sellersService', function ($scope,sellersService) {
@@ -24,40 +24,181 @@ define(['angularAMD','sellers-service'], function (angularAMD) {
 
                 },
                 fetchAllSellers: function() {
-                     // sellersService.fetchAllSellers(pageNo);
-                    sellerCtrl.sellers.sellersList = [{"id": 1,
-                        "name": "Seller 1",
-                        "vendor_id": 1,
-                        "vendor_seat_id" : 1,
-                        "source_id" : 2101,
-                        "created_at": "",
-                        "updated_at": "",
-                        "isPrefered": true
-                    },
-                        {"id": 2,
-                            "name": "Seller 2",
-                            "vendor_id": 2,
-                            "vendor_seat_id" : 2,
-                            "source_id" : 2102,
+                    console.log($scope.adData);
+                     sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId).then(function(result) {
+                         sellerCtrl.sellers.sellersList = [{"id": 1,
+                             "name": "Seller 1",
+                             "vendor_id": 1,
+                             "vendor_seat_id" : 1,
+                             "source_id" : 2101,
+                             "created_at": "",
+                             "updated_at": "",
+                             "isPrefered": true
+                         },
+                             {"id": 2,
+                                 "name": "Seller 2",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             },
+                             {"id": 2,
+                                 "name": "Seller 3",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             },
+                             {"id": 2,
+                                 "name": "Seller 4",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             },
+                             {"id": 2,
+                                 "name": "Seller 2",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             },
+                             {"id": 2,
+                                 "name": "Seller 5",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             },{"id": 2,
+                                 "name": "Seller 2",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             },{"id": 2,
+                                 "name": "Seller 6",
+                                 "vendor_id": 2,
+                                 "vendor_seat_id" : 2,
+                                 "source_id" : 2102,
+                                 "created_at": "",
+                                 "updated_at": "",
+                                 "isPrefered": false
+                             }
+                         ];
+
+                         //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
+                         if(!_.isEmpty($scope.adData.sellersTargetting)){
+                             sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
+
+                             //TODO find a better way
+                             var sellersIds = _.pluck($scope.adData.sellersTargetting,'id');
+                             _.each(sellersIds,function(id) {
+                                 var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {
+                                     return seller.id === id;
+                                 });
+                                 sellerCtrl.sellers.sellersList[index].isChecked = true;
+                             });
+                         }
+
+
+                     });
+
+
+
+                },
+                loadMoreSellers: function() {
+                    sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId).then(function(result) {
+                        result = [{"id": 1,
+                            "name": "Seller 1",
+                            "vendor_id": 1,
+                            "vendor_seat_id" : 1,
+                            "source_id" : 2101,
                             "created_at": "",
                             "updated_at": "",
-                            "isPrefered": false
-                        }
-                    ];
+                            "isPrefered": true
+                        },
+                            {"id": 2,
+                                "name": "Seller 2",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            },
+                            {"id": 2,
+                                "name": "Seller 3",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            },
+                            {"id": 2,
+                                "name": "Seller 4",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            },
+                            {"id": 2,
+                                "name": "Seller 2",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            },
+                            {"id": 2,
+                                "name": "Seller 5",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            },{"id": 2,
+                                "name": "Seller 2",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            },{"id": 2,
+                                "name": "Seller 6",
+                                "vendor_id": 2,
+                                "vendor_seat_id" : 2,
+                                "source_id" : 2102,
+                                "created_at": "",
+                                "updated_at": "",
+                                "isPrefered": false
+                            }
+                        ];
 
-                    //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
-                    if(!_.isEmpty($scope.adData.sellersTargetting)){
-                        sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
+                        //concat 2 strings
 
-                        //TODO find a better way
-                        var sellersIds = _.pluck($scope.adData.sellersTargetting,'id');
-                        _.each(sellersIds,function(id) {
-                            var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {
-                                return seller.id === id;
-                            });
-                            sellerCtrl.sellers.sellersList[index].isChecked = true;
-                        });
-                    }
+                        sellerCtrl.sellers.sellersList.concat(result)
+                    });
+
+
+
                 },
                 closeSellersTargetting: function() {
                     $('#sellerTargeting')
@@ -139,9 +280,17 @@ define(['angularAMD','sellers-service'], function (angularAMD) {
 
         sellerCtrl.saveSellersList = function(){
             $scope.adData.sellersTargetting = _.clone(sellerCtrl.sellers.userSelectedSeller);
+            $scope.adData.sellersAction = _.clone(sellerCtrl.sellers.userSelectedSeller);
 
             //close sellers screen and redirect user to targeting overview screen
             _sellerTargetting.closeSellersTargetting();
+        };
+
+        sellerCtrl.loadMoreSellers = function() {
+            console.log('load more');
+            pageNo++ ;
+            _sellerTargetting.fetchAllSellers();
+
         };
 
 
