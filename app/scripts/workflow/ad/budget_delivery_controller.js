@@ -314,6 +314,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     type.toUpperCase() === 'OVERBOOK') &&
                     Number(value) > 100) {
                     elem.val(100);
+                    elem.trigger('input');
                 }
             };
 
