@@ -63,8 +63,12 @@ define(['angularAMD'], function (angularAMD) {
                     pixel.isChecked = true;
                     pixel.isIncluded = true;
                     $scope.selectedCampaign.selectedPixel.push(pixel);
+                    if($scope.selectedCampaign.pixelList.length === $scope.selectedCampaign.selectedPixel.length) {
+                        $scope.selectAllPixelChecked = true;
+                    }
                 } else {
                     $scope.selectedCampaign.selectedPixel.splice(pixelIndex, 1);
+                    $scope.selectAllPixelChecked = false;
 
                     index = _.findIndex($scope.selectedCampaign.pixelList, function (list) {
                         return pixel.id === list.id;
@@ -98,6 +102,7 @@ define(['angularAMD'], function (angularAMD) {
 
         $scope.clearAllSelectedPixel = function () {
             pixels.resetPixel();
+            $scope.selectAllPixelChecked = false;
             $scope.selectedCampaign.selectedPixel = [];
         };
 
