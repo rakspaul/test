@@ -1348,6 +1348,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 parentElem.find('label').removeClass('active');
                 target.parent().addClass('active');
                 target.attr('checked', 'checked');
+
+                if( target.closest('.btn').hasClass('daily_cap')) {
+                    $('#daily_cap_input').show();
+                } else {
+                    $('#daily_cap_input').hide();
+                }
             };
 
             // Create Tag Slide Page
