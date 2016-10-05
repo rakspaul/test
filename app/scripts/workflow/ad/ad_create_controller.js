@@ -689,10 +689,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             };
 
             $scope.displayKpiSymbol=function(type) {
-                var kpiTypeSymbolMap = {
-                    '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
-                    '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
-                    },
+                var kpiTypeSymbolMap = vistoconfig.kpiTypeSymbolMap,
                     symbol =constants.currencySymbol,
                     primaryKpiType = type || $scope.adData.primaryKpi;
 
@@ -1544,7 +1541,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (getfreqCapParams(formData).length > 0) {
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
                         }
-                        
+
                         if (formData.isOverbooked){
                             postAdDataObj.overbook = formData.isOverbooked;
                             postAdDataObj.overbookPercentage = formData.overbookPercent;

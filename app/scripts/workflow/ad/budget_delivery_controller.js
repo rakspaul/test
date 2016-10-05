@@ -307,13 +307,10 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         };
 
             $scope.percentageValueCheck = function (event,type) {
-                var elem = $(event.target);
+                var elem = $(event.target),
+                    rateArray = vistoconfig.kpiTypeSymbolMap['%'];
                 var value = elem.val();
-                if ((type.toUpperCase() === 'CTR' ||
-                    type.toUpperCase() === 'VTC' ||
-                    type.toUpperCase() === 'ACTION RATE' ||
-                    type.toUpperCase() === 'SUSPICIOUS ACTIVITY RATE' ||
-                    type.toUpperCase() === 'VIEWABLE RATE' ||
+                if ((($.inArray(type.toUpperCase(),rateArray) !== -1) ||
                     type.toUpperCase() === 'OVERBOOK') &&
                     Number(value) > 100) {
                     elem.val(100);
@@ -393,10 +390,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
 
             $scope.select_kpi = function (event, type) {
                 var elem = $(event.target),
-                    kpiTypeSymbolMap = {
-                        '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
-                        '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
-                    },
+                    kpiTypeSymbolMap = vistoconfig.kpiTypeSymbolMap,
                     autoComputeKpiTypeMap = {
                         '.targetActions':['CPA', 'POST CLICK CPA'],
                         '.targetImpressions':['CPM'],
