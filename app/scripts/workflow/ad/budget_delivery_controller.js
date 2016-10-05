@@ -24,6 +24,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
         $scope.adData.autoCompute = true;
         $scope.adData.fetchValue = false;
         $scope.adData.budgetType = 'Impressions';
+        $scope.adData.isOverbooked = true;
         // Kpi Types in an array of objects, sorted alphabetically
         $scope.adData.primaryKpiList = vistoconfig.kpiList;
 
@@ -265,21 +266,27 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         };
 
+            /* Reset booking method fields whenever a new booking method is selected
+             */
         $scope.resetBudgetField = function (budgetType) {
             $scope.adData.budgetAmount = '';
             $scope.adData.budgetExceeded = false;
             $scope.adData.budgetType = budgetType;
             $scope.adData.fetchValue = false;
+            $scope.adData.overbookPercent = '';
+            $scope.adData.isOverbooked = false;
             $scope.budgetErrorObj.mediaCostValidator = '';
             $scope.budgetErrorObj.availableRevenueValidator = '';
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
         };
 
+            /* If the 'Fetch Target Impressions' check box is checked on the booking method of the Ad, the value of targetImpression is set to this booking value
+             */
         $scope.fetch_existing_target_value = function (event) {
             var elem = $(event.target);
             if (elem.is(':checked')) {
                 $scope.adData.fetchValue = true;
-                elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                elem.closest('.budgetFields').find('#budgetAmount').attr('disabled', true).addClass('disabled-field');
                 if($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() === 'impressions') {
                     $scope.adData.budgetAmount =  $scope.adData.targetImpressions;
                 } else {
@@ -287,7 +294,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 }
             } else {
                 $scope.adData.fetchValue = false;
-                elem.closest('.budgetFields').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
+                elem.closest('.budgetFields').find('#budgetAmount').attr('disabled', false).removeClass('disabled-field');
                 $scope.adData.budgetAmount = '';
             }
         };
@@ -303,6 +310,25 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         };
 
+            /*Make sure percentage value does not cross 100 if the @type falls under percentage value category
+             * @param event: the event from the input box where value is entered
+             * @param type : the kpi type or any other key against which the value needs to be validated
+             */
+            $scope.percentageValueCheck = function (event,type) {
+                var elem = $(event.target),
+                    rateArray = vistoconfig.kpiTypeSymbolMap['%'];
+                var value = elem.val();
+                if ((($.inArray(type.toUpperCase(),rateArray) !== -1) ||
+                    type.toUpperCase() === 'OVERBOOK') &&
+                    Number(value) > 100) {
+                    elem.val(100);
+                    elem.trigger('input');
+                }
+            };
+
+            /* This method is called if the autocompute checkbox is checked on the kpi target fields.
+             * The actual computation of target values happen in this method according to the primary kpi selected. The default primary kpi is CPM.
+             */
             $scope.computeTargetValue = function() {
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
                 if($scope.adData.autoCompute){
@@ -354,7 +380,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 }
 
             };
-
+            
             $scope.isKpiFieldOptional = function(fieldName) {
                 var res = true;
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
@@ -373,13 +399,14 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             };
 
 
-
+            /* Method called when selecting primary kpi for Ad. This method sets the correct symbol for kpi value according to type selected.
+             * This method also shows/hides auto compute checkbox and enables/disables the correspoding input box to calculate target values.
+             * @param event: the event from the drop down from which kpi is selected
+             * @type: selected kpi type
+             */
             $scope.select_kpi = function (event, type) {
                 var elem = $(event.target),
-                    kpiTypeSymbolMap = {
-                        '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
-                        '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
-                    },
+                    kpiTypeSymbolMap = vistoconfig.kpiTypeSymbolMap,
                     autoComputeKpiTypeMap = {
                         '.targetActions':['CPA', 'POST CLICK CPA'],
                         '.targetImpressions':['CPM'],

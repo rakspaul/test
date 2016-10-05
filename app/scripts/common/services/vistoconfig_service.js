@@ -116,6 +116,11 @@ define(['angularAMD'], function (angularAMD) {
            // { kpi: 'viewable_impressions_perc',     displayName: 'Viewable Rate' }
         ];
 
+        this.kpiTypeSymbolMap = {
+            '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
+            '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
+        };
+
         this.PERFORMANCE_LINK = '/performance';
         this.PLATFORM_LINK = '/platform';
         this.COST_LINK = '/cost';
