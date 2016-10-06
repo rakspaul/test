@@ -23,9 +23,9 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
 
 
                 },
-                fetchAllSellers: function() {
+                fetchAllSellers: function(searchText) {
                     console.log($scope.adData);
-                     sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId).then(function(result) {
+                     sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId,searchText).then(function(result) {
                          sellerCtrl.sellers.sellersList = [{"id": 1,
                              "name": "Seller 1",
                              "vendor_id": 1,
@@ -99,7 +99,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                          ];
 
                          //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
-                         if(!_.isEmpty($scope.adData.sellersTargetting)){
+                         if(!_.isEmpty($scope.adData.sellersTargetting) && !searchText ){
                              sellerCtrl.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
                              _sellerTargetting.checkUserSelectedSellers();
                          }
@@ -296,6 +296,13 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         sellerCtrl.loadMoreSellers = function() {
             pageNo++ ;
             _sellerTargetting.loadMoreSellers();
+
+        };
+
+        sellerCtrl.searchSellers = function(searchText) {
+            pageNo = 1 ;
+            sellerCtrl.sellers.sellersList = [];
+            _sellerTargetting.fetchAllSellers(searchText);
 
         };
 

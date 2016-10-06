@@ -16,7 +16,7 @@
                             <!--Search-->
                             <div class="btn-group pull-right">
                                 <div class="searchInput col-md-12 zeroPadding">
-                                    <a class="btn btn-default searchInputBtnInline" data-ng-click="sellersCtrl.selectKeyword(keywordText)">
+                                    <a class="btn btn-default searchInputBtnInline" data-ng-click="sellersCtrl.searchSellers(keywordText)">
                                         <span class="icon-search" aria-hidden="true" ></span>
                                     </a>
                                     <div class="input-group searchInputForm">
@@ -30,7 +30,7 @@
                                                data-ng-model="keywordText"
                                                autocomplete="off">
                                         <div class="btn btn-default searchClearInputBtn">
-                                            <span class="icon-clear" aria-hidden="true" data-ng-click="sellersCtrl.clearKeywordSearch($event)"></span>
+                                            <span class="icon-clear" aria-hidden="true" data-ng-click="sellersCtrl.searchSellers('');keywordText = ''"></span>
                                         </div>
                                     </div>
                                 </div>
