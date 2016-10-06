@@ -12,20 +12,20 @@
                  ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)" id="platformId_{{platform.id}}">
             <img ng-src="{{platform.iconUrl}}"/>
             <p data-ng-bind="platform.displayName +' '+ seat.name"></p>
-            <!--<span ng-bind-html="platform.summary"></span>-->
             <span></span>
-            <div ng-if="selectedPlatform[platform.id] && selectedSeat[seat.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
-            <input ng-if="!selectedPlatform[platform.id] || !selectedSeat[seat.id]"
+            <div ng-if="selectedPlatform[seat.id + '_' + platform.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
+            <input ng-if="!selectedPlatform[seat.id + '_' + platform.id]"
                    type="button"
                    name="platform"
                    value="Select"
                    ng-disabled="!platform.active"
                    class="btn btn-default "
-                   ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)"> 
-            <input type="hidden" name="platformId" value="{{adData.platformId}}">
-            <input type="hidden" name="platformSeatId" value="{{adData.platformSeatId}}">
+                   ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)" > 
             </div>
         </div>
+
+        <input type="hidden" name="platformSeatId" value="{{adData.platformSeatId}}">
+        <input type="hidden" name="platformId" value="{{adData.platformId}}">
         <!-- <div class="col-md-6 platformHolder">
             <span data-ng-bind="textConstants.MORESELF"></span>
             <a href="" data-ng-bind="textConstants.CANTFIND"></a>
@@ -62,7 +62,6 @@
                             </div>
 
                         </div>
-                        <input type="hidden" name="platformId" value="{{adData.platformId}}">
                         <div class="sliderSpacing"></div>
                     </div>
                     <!--- start pop up -->
@@ -116,16 +115,4 @@
 </div>
 
 <!--  need to take these to less file -->
-<style>
-    #campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder  {
-        width: 285px;
-        margin-right: 12px;
-        margin-top : 12px ;
-    }
-    .adBuyingPlatform .platformSeats {
-        float: left;
-    }
-    #campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder:last-child {
-        visibility: visible;
-    }
-</style>
+

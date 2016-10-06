@@ -1,61 +1,119 @@
 <div class="viewability_header clearfix">
-    <div class="each_col platform_name_col icon_text_holder" data-ng-bind="textConstants.PLATFORM_NAME">
+    <div class="each_col platform_name_col"
+         data-ng-bind="textConstants.PLATFORM_NAME">
     </div>
     <div class="each_col third_col delivered_col">
-        <span class="icon_text_holder" data-ng-bind="textConstants.DELIVERED_IMPS">
-        </span>
+        <div class="pull-right sortingHolder"
+              data-ng-class="sortClassFunction('other_view_impressions')"
+              data-ng-click=" clickToSort('other_view_impressions')"
+              >
+              <div class="pull-left sortingTxt" data-ng-bind="textConstants.DELIVERED_IMPS"></div>
+              <div class="pull-left sortingIcon"></div>
+        </div>
     </div>
     <div class="each_col third_col measurable_col">
-        <span data-ng-bind="textConstants.MEASURABLE"></span>
+        <div class="text-center" data-ng-bind="textConstants.MEASURABLE"></div>
         <div class="sub_col">
-            <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
-            </span>
-            <span class="icon_text_holder">
-                %
-            </span>
+          <span>
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('other_view_measurable')"
+                  data-ng-click="clickToSort('other_view_measurable')">
+                  <div class="pull-left sortingTxt" data-ng-bind="textConstants.IMP_WITH_DOT"></div>
+                  <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
+          <span>
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('other_view_measurable_perc')"
+                  data-ng-click="clickToSort('other_view_measurable_perc')">
+                <div class="pull-left sortingTxt">%</div>
+                <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
         </div>
     </div>
     <div class="each_col forth_col">
-        <span data-ng-bind="textConstants.VIEWABLE"></span>
+        <div class="text-center" data-ng-bind="textConstants.VIEWABLE"></div>
         <div class="sub_col">
-            <span class="icon_text_holder" data-ng-bind="textConstants.IMP_WITH_DOT">
-            </span>
-            <span class="tooltip_holder icon_text_holder">
-                %
-                <sup>*</sup>
+          <span>
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('other_viewable_impressions')"
+                  data-ng-click="clickToSort('other_viewable_impressions')"
+                  >
+                  <div class="pull-left sortingTxt" data-ng-bind="textConstants.IMP_WITH_DOT"></div>
+                  <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
+          <span>
+            <div class="tooltip_holder pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('other_viewable_impressions_perc')"
+                  data-ng-click="clickToSort('other_viewable_impressions_perc')">
+                
                 <div class="common_tooltip" data-ng-bind="textConstants.BASED_ONLY_ON_VIEWABLE_IMPS"></div>
-            </span>
+                <div class="pull-left sortingTxt" >%
+                <sup>*</sup></div>
+                <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
         </div>
     </div>
     <div class="each_col sub_four_cols"  data-ng-show="adFormats.videoAds && videoMode">
         <div class="clearfix title_tooltip">
             <span class="pull-left">{{ textConstants.QUARTILE_DETAILS }}</span>
             <span class="pull-left tooltip_holder">
-                <span class="tooltip_show_icon"></span>
+                <span class="tooltip_show_icon icon-info"></span>
                 <span class="clearfix common_tooltip"
                       data-ng-bind=
-                        "textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD">
+                          "textConstants.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD">
                 </span>
             </span>
         </div>
 
         <div class="sub_col">
-            <span class="icon_text_holder">
-                25%
-            </span>
-            <span class="icon_text_holder">
-                50%
-            </span>
-            <span class="icon_text_holder">
-                75%
-            </span>
-            <span class="icon_text_holder">
-                100%
-            </span>
+          <span>
+            <div class="pull-left sortingHolder"
+                  data-ng-class="sortClassFunction('videos_1q_completed')"
+                  data-ng-click="clickToSort('videos_1q_completed')">
+                
+                <div class="pull-left sortingTxt" >25%</div>
+                <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
+          <span>
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('videos_2q_completed')"
+                  data-ng-click="clickToSort('videos_2q_completed')">
+                
+                <div class="pull-left sortingTxt" >50%</div>
+                <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
+          <span>
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('videos_3q_completed')"
+                  data-ng-click="clickToSort('videos_3q_completed')">
+                
+                <div class="pull-left sortingTxt" >75%</div>
+                <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
+          <span>
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('videos_4q_completed')"
+                  data-ng-click="clickToSort('videos_4q_completed')">
+               
+                 <div class="pull-left sortingTxt" >100%</div>
+                 <div class="pull-left sortingIcon"></div>
+            </div>
+          </span>
         </div>
     </div>
     <div class="each_col suspicious_col">
-        <span class="tooltip_holder icon_text_holder" ng-bind-html="textConstants.SUSPICIOUS + '<br> ' + textConstants.ACTIVITY + ' %'">
+        <span class="tooltip_holder pull-right sortingHolder"
+              data-ng-class="sortClassFunction('other_view_imps_suspicious_perc')"
+              data-ng-click="clickToSort('other_view_imps_suspicious_perc')">
+              <div class="pull-left sortingTxt" ng-bind-html="textConstants.SUSPICIOUS + ' ' + textConstants.ACTIVITY + ' %'"></div>
+              <div class="pull-left sortingIcon"></div>
         </span>
     </div>
 </div>

@@ -1,30 +1,118 @@
-<div class="col-md-1 zeroPadding icon_text_holder">
+<div class="eachCol text-left platform_logo">
     {{textConstants.PLATFORM_NAME}}
 </div>
 
 <div class="col-md-11 zeroPadding">
-    <div class="col-md-1 zeroPadding"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
-    <div class="col-md-1 zeroPadding">
-        <div class="dropdown kpi-dd-holder">
-            <kpi-drop-down type="selectedFilters.kpi_type.toLowerCase()"> </kpi-drop-down>
+    <div class="eachCol"
+         data-ng-class="sortClassFunction('impressions')"
+         data-ng-click="clickToSort('impressions')">
+         <div class="pull-right sortingHolder">
+            <span class="pull-left default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'">
+            </span>
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.IMP_WITH_DOT"></div>
+            <div class="pull-left sortingIcon"></div>
         </div>
     </div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.INVENTORY}}</div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.DATA}}</div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.AD_SERVING}}</div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.AD_VERIFICATION}}</div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.CREATIVE}}</div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.RESEARCH}}</div>
-    <div class="col-md-2 zeroPadding" style="margin-top: -12px;">
+    <div class="eachCol">
+        <div class="col-md-12 zeroPadding dropdown kpi-dd-holder">
+            <kpi-drop-down type="selectedFilters.kpi_type.toLowerCase()" changedrpval="yes"> </kpi-drop-down>
+        </div>
+    </div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+         data-ng-class="sortClassFunction('inventory_cost')"
+         data-ng-click="clickToSort('inventory_cost')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.INVENTORY"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+    </div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+         data-ng-class="sortClassFunction('data_cost')"
+         data-ng-click="clickToSort('data_cost')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.DATA"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+     </div>
+    <div class="eachCol text-center">
+        <div class="pull-right sortingHolder" 
+         data-ng-class="sortClassFunction('serving_cost')"
+         data-ng-click="clickToSort('serving_cost')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.AD_SERVING"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+     </div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+         data-ng-class="sortClassFunction('verification_cost')"
+         data-ng-click="clickToSort('verification_cost')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.AD_VERIFICATION"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+     </div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+         data-ng-class="sortClassFunction('creative_cost')"
+         data-ng-click="clickToSort('creative_cost')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.CREATIVE"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+     </div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+         data-ng-class="sortClassFunction('research_cost')"
+         data-ng-click="clickToSort('research_cost')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.RESEARCH"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+     </div>
+    <div class="eachColClub" style="margin-top: -12px;">
         <span class="col-md-12 zeroPadding text-center" style="border-bottom: 1px solid #000; margin: 0 0 5px 0;">Platform Fees</span>
         <div class="col-md-12 zeroPadding">
-            <span class="icon_text_holder col-md-4 zeroPadding" data-ng-bind="textConstants.TECH_FEES"></span>
-            <span class="icon_text_holder col-md-4 zeroPadding text-center" >Service</span>
-            <span class="icon_text_holder col-md-4 zeroPadding pull-right text-right" >Total</span>
+            <span class="pull-left col-md-4 zeroPadding">
+                  <div class="pull-left sortingHolder" 
+                 data-ng-class="sortClassFunction('tech_fees')"
+                  data-ng-click="clickToSort('tech_fees')">
+                    <div class="pull-left sortingTxt" data-ng-bind="textConstants.TECH_FEES"></div>
+                    <div class="pull-left sortingIcon"></div>
+                </div>
+            </span>
+            <span class="col-md-4 zeroPadding text-center">
+                  <div class="pull-right sortingHolder" 
+                 data-ng-class="sortClassFunction('service_fees')"
+                  data-ng-click="clickToSort('service_fees')">
+                    <div class="pull-left sortingTxt" data-ng-bind="textConstants.SERVICE"></div>
+                    <div class="pull-left sortingIcon"></div>
+                </div>
+            </span>
+            <span class="col-md-4 zeroPadding pull-right text-right">
+                  <div class="pull-right sortingHolder" 
+                  data-ng-class="sortClassFunction('tech_service_fees_total')"
+                  data-ng-click="clickToSort('tech_service_fees_total')">
+                    <div class="pull-left sortingTxt" data-ng-bind="textConstants.TOTAL"></div>
+                    <div class="pull-left sortingIcon"></div>
+                </div>
+            </span>
         </div>
     </div>
-    <div class="col-md-1 zeroPadding text-center">{{textConstants.TOTAL_SPEND}}</div>
-    <div class="col-md-1 zeroPadding text-center">Margin %</div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+          data-ng-class="sortClassFunction('spend')"
+         data-ng-click="clickToSort('spend')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.TOTAL_SPEND"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+    </div>
+    <div class="eachCol text-center">
+         <div class="pull-right sortingHolder" 
+          data-ng-class="sortClassFunction('margin')"
+          data-ng-click="clickToSort('margin')">
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.MARGIN_PERCENTAGE"></div>
+            <div class="pull-left sortingIcon"></div>
+        </div>
+    </div>
     <!-- ngIf: more_options -->
 </div>
 

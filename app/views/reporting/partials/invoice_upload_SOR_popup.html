@@ -11,17 +11,17 @@
     <div class="col-md-12 modal-body">
         <div class="col-md-12 zeroPadding">
             <div class="pull-left accountTitleTag">
-                <span class="tagTitle">Account:</span>
+                <span class="tagTitle" data-ng-bind="textConstants.INVOICE_ACCOUNT"></span>
                 <span data-ng-bind="clientName"></span>
                 <span class="slash-divider paddingLeftFive">/</span>
             </div>
             <div class="pull-left paddingLeftFive">
-                <span class="tagTitle">Advertiser:</span>
+                <span class="tagTitle" data-ng-bind="textConstants.INVOICE_ADVERTISER"></span>
                 <span data-ng-bind="advertiserName"></span>
                 <span class="slash-divider paddingLeftFive">/</span>
             </div>
             <div class="pull-left paddingLeftFive">
-                <span class="tagTitle">Invoice ID:</span>
+                <span class="tagTitle" data-ng-bind="textConstants.INVOICE_ID"></span>
                 <span class="ng-binding" data-ng-bind="invoiceData.id ? invoiceData.id : invoiceData.invoiceId"></span>
             </div>
             <div class="pull-right headerDownload"
@@ -42,7 +42,7 @@
             </div>
             <div class="pull-right zeroPadding">
                 <div class="pull-left">
-                    <span class="greyTxt">Invoice Month</span>
+                    <span class="greyTxt" data-ng-bind="'Invoice Month'"></span>
                     <br>
                     <span data-ng-bind="invoiceData.invoiceDate"></span>
                 </div>

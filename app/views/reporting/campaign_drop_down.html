@@ -14,12 +14,13 @@
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
             <ul class="nav navbar-nav">
-                <li class="dropdown {{loading_icon_mediaplan}}" >
+                <li class="dropdown {{loading_icon_mediaplan}}">
                     <ul class="dropdown-menu campaigns_list" role="menu" id="campaigns_list">
                         <div id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"
                                    id="campaignDropdown"
-                                   data-ng-keyup="search(fileIndex)"
+                                   data-ng-keyup="search(fileIndex, $event)"
+                                   style="border: none !important; padding: 0;"
                                    placeHolder="Select Campaign">
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
                             <span class="campaign_name_length" data-ng-bind="selectedObj.name"></span>
@@ -31,12 +32,10 @@
                                 title="{{campaign.name}}">
                                 <a data-ng-click="selectCampaign(campaign)">
                                     <span class="tick"></span>
-                                    <span class="menuItemText"
-                                          data-ng-bind-html="highlightSearch(campaign.name, selectedObj.name)"
-                                          data-ng-bind="campaign.name">
-                                    </span>
+                                    <span class="menuItemText" data-ng-bind-html="highlightSearch(campaign.name, selectedObj.name)" data-ng-bind="campaign.name"></span>
                                 </a>
                             </li>
+                            <li class="common-loading-area" data-ng-show="campaignData.campaigns.length && fetching"></li>
                         </div>
                     </ul>
                 </li>

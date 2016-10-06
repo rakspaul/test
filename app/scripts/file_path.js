@@ -76,7 +76,8 @@ assets.html_campaign_filters = '/views/reporting/campaign_filters.html';
 assets.html_campaign_strategy_card = '/views/reporting/campaign_strategy_card.html';
 assets.html_campaign_tactics_card = '/views/reporting/campaign_tactics_card.html';
 assets.html_kpi_drop_down = '/views/reporting/kpi_drop_down.html';
-assets.html_reports_login = '/views/reporting/reports_login.html';
+assets.html_login = 'login.html';
+assets.html_home = 'home.html';
 assets.html_multi_select = '/views/reporting/multi_select.html';
 assets.html_strategy_drop_down = '/views/reporting/strategy_drop_down.html';
 assets.html_timeperiod_drop_down = '/views/reporting/timeperiod_drop_down.html';
@@ -157,7 +158,6 @@ assets.html_invocie_upload_SOR = '/views/reporting/partials/invoice_upload_SOR_p
 assets.html_add_note_popup = '/views/reporting/partials/invoice_add_note.html';
 
 assets.html_change_password = '/views/reporting/change_password.html';
-
 
 // Admin page
 assets.html_admin_home = '/views/workflow/admin_home.html';

@@ -172,16 +172,15 @@ define(['angularAMD'], function (angularAMD) {
                 },
 
                 APIActionData = function (clientId, campaignId) {
-
                     return vistoconfig.apiPaths.workflow_apiServicesUrl +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId + '/actions';
                 },
 
                 APICampaignDropDownList = function (clientId, advertiserId, brandId) {
-
                     brandId = Number(brandId) || -1;
                     advertiserId = Number(advertiserId) || -1;
+
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                         '/clients/' + clientId +
                         '/advertisers/' + advertiserId +
@@ -397,6 +396,19 @@ define(['angularAMD'], function (angularAMD) {
                     return url + '/clients/' + clientId + '/invoices/' + invoiceId + '/upload';
                 },
 
+                customRptFilterAutoSugg = function(params) {
+                        var url =  vistoconfig.apiPaths.apiSerivicesUrl_NEW;
+                        url+= '/clients/'+params.clientId+'/reports/custom/dimension/meta?dimension='+params.dimension;
+                        if(params.searchKey) {
+                            url+='&search_term='+params.searchKey;
+                        }
+                        if(params.offset) {
+                            url+='&offset='+params.offset;
+                        }
+                        url+='&limit='+100;
+                        return url;
+                },
+
                 getCampaignSpend = function (queryObj) {
                     var params = this.buildParams(queryObj);
 
@@ -445,7 +457,8 @@ define(['angularAMD'], function (angularAMD) {
                     downloadTemplateWithCampaignId : downloadTemplateWithCampaignId,
                     downloadInvoiceWithId : downloadInvoiceWithId,
                     uploadInvoiceData : uploadInvoiceData,
-                    getCampaignSpend : getCampaignSpend
+                    getCampaignSpend : getCampaignSpend,
+                    customRptFilterAutoSugg:customRptFilterAutoSugg
                 };
             }
         ]);

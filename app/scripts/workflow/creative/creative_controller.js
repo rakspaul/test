@@ -1,15 +1,11 @@
 define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-down', 'ng-upload-hidden'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CreativeController', ['$scope', '$rootScope', '$routeParams', '$location',
-        'constants', 'workflowService', 'creativeCustomModule', 'loginModel', 'utils', 'localStorageService',
-        'vistoconfig', 'accountService', 'subAccountService', 'advertiserModel', 'urlBuilder',
-        function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule,
-                  loginModel, utils, localStorageService, vistoconfig, accountService, subAccountService, advertiserModel, urlBuilder) {
-
-
+    angularAMD.controller('CreativeController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants', 'workflowService', 'creativeCustomModule', 'loginModel', 'utils',
+        'localStorageService', 'vistoconfig', 'accountService', 'subAccountService', 'advertiserModel', 'urlBuilder', 'pageLoad',
+        function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule, loginModel, utils, localStorageService, vistoconfig,
+                  accountService, subAccountService, advertiserModel, urlBuilder, pageLoad) {
         var postCrDataObj = {},
-            urlInfo = {},
 
             processEditCreative = function (clientId) {
                 workflowService
@@ -58,12 +54,13 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
                                 $scope.creative.clientId = $scope.creativeEditData.client.id;
                                 //tracker
+
                                 if($scope.creativeEditData.thirdPartyTracker){
                                     $scope.toggleCodeField = true;
                                     $scope.adData.thirdPartyTracker =  $scope.creativeEditData.thirdPartyTracker;
                                 }
 
-                                creatives.fetchAdvertisers($scope.creativeEditData.client.id);
+                                $scope.advertisers = advertiserModel.getAdvertiserList();
 
                                 creatives.fetchBrands($scope.creativeEditData.client.id,
                                     $scope.creativeEditData.advertiser.id);
@@ -208,14 +205,17 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                             responseData = result.data.data;
                             $scope.creativeAdServers = responseData;
 
-                            $scope.creativeSizeData.adFormats = [
-                                {id: 1, name: 'Display',    active: false, disabled: true},
-                                {id: 2, name: 'Video',      active: false, disabled: true},
-                                {id: 3, name: 'Rich Media', active: false, disabled: true},
-                                {id: 4, name: 'Social',     active: false, disabled: true},
-                                {id: 5, name: 'Native',     active: false, disabled: true}
+                            if(!$scope.adPage) {
+                                $scope.creativeSizeData.adFormats = [
+                                    {id: 1, name: 'Display',    active: false, disabled: true},
+                                    {id: 2, name: 'Video',      active: false, disabled: true},
+                                    {id: 3, name: 'Rich Media', active: false, disabled: true},
+                                    {id: 4, name: 'Social',     active: false, disabled: true},
+                                    {id: 5, name: 'Native',     active: false, disabled: true}
 
-                            ];
+                                ];
+                            }
+
                             if ($scope.creativeMode === 'edit') {
                                 processEditCreative(responseData.clientId);
                             }
@@ -226,6 +226,10 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     });
 
             };
+
+        console.log('CREATIVE controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.creative = {};
         $scope.adData = {};
@@ -245,14 +249,6 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
         $scope.IncorrectClickThru=false;
         $scope.creativeId = $routeParams.creativeId;
         localStorage.setItem('isOnchangeOfCreativeFeild', 0);
-
-        if($routeParams.accountId){
-            urlInfo.clientId = $routeParams.accountId;
-        }
-
-        if($routeParams.subAccountId){
-            urlInfo.subAccountId = $routeParams.subAccountId;
-        }
 
         $scope.creativeTagSelected = function (event, creativeType) {
             var target;
@@ -600,7 +596,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
             var accountData = accountService.getSelectedAccount(),
                 selectedSubAccount =  subAccountService.getSelectedSubAccount(),
-                clientId = accountData.id;
+                clientId = accountData.id,
+                selectedAdvertiser;
 
             if (!accountData.isLeafNode) {
                 $scope.showSubAccount = true;
@@ -612,7 +609,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
 
             if ($scope.adPage) {
-                var selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
                 $scope.advertiserName = selectedAdvertiser.name;
                 $scope.creative.advertiserId = selectedAdvertiser.id;
                 creatives.fetchBrands(clientId, selectedAdvertiser.id);
@@ -627,14 +624,21 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 $scope.$broadcast('adFormatChanged', 'DISPLAY');
             }
 
-
             if (!$scope.adPage) {
-                creatives.fetchAdvertisers(clientId);
-                reset.advertiser();
-                reset.brand();
-                getAdServersInLibraryPage(clientId);
+                if($routeParams.advertiserId) {
+                    selectedAdvertiser = advertiserModel.getSelectedAdvertiser();
+                    $scope.advertiserName = selectedAdvertiser.name;
+                    $scope.creative.advertiserId = selectedAdvertiser.id;
+                    $scope.advertisers = advertiserModel.getAdvertiserList();
+                    creatives.fetchBrands(clientId, selectedAdvertiser.id);
+                } else {
+                    creatives.fetchAdvertisers(clientId);
+                    reset.advertiser();
+                    reset.brand();
+                }
             }
 
+            getAdServersInLibraryPage(clientId);
         };
 
         $scope.init();
@@ -844,7 +848,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
             $scope.$broadcast('show-errors-reset');
 
             if ($location.path().endsWith('/creative/add') || ($scope.creativeMode === 'edit' && !$scope.adPage)) {
-                url = urlBuilder.goToCreativeList(urlInfo) + '/creative/list';
+                url = urlBuilder.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, $routeParams.advertiserId, -1) + '/creative/list';
                 $location.url(url);
 
             } else {

@@ -11,7 +11,7 @@
             <div class="col-md-12 zeroPadding radioBtnToggle">
                 <div class="btn-group miniToggle">
                     <label class="btn btn-default whitelist
-                                {{workflowData.whiteListsSelected ? ' active disabled' : ''}}"
+                                {{workflowData.whiteListsSelected ? 'active' : ''}}"
                            style="width: auto;">
                         <span>Whitelist</span>
                         <input type="radio"
@@ -25,7 +25,7 @@
                                data-ng-click="showDomainListTypePopupCue('INCLUDE', $event)">
                     </label>
                     <label class="btn btn-default blacklist
-                                {{workflowData.blackListsSelected ? ' active disabled' : ''}}"
+                                {{workflowData.blackListsSelected ? 'active' : ''}}"
                            style="width: auto;">
                         <span>Blacklist</span>
                         <input type="radio"

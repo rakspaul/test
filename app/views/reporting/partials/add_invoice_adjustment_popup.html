@@ -5,22 +5,22 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    
+
     <div class="modal-body col-md-12">
        <div class="col-md-11 zeroPadding">
             <div class="pull-left accountTitleTag" style="margin-bottom:20px;">
-            <span class="tagTitle">Account:</span>
+            <span class="tagTitle" data-ng-bind="textConstants.INVOICE_ACCOUNT"></span>
             <span data-ng-bind="clientName"></span>
             <span class="slash-divider" style="padding-left:5px;">/</span>
            </div>
             <div class="pull-left" style="padding-left:5px;">
-                <span class="tagTitle">Advertiser:</span>
+                <span class="tagTitle" data-ng-bind="textConstants.INVOICE_ADVERTISER"></span>
                 <span data-ng-bind="advertiserName"></span>
                 <span class="slash-divider" style="padding-left:5px;">/</span>
             </div>
 
             <div class="pull-left" style="padding-left:5px;">
-                <span class="tagTitle">Invoice ID:</span>
+                <span class="tagTitle" data-ng-bind="textConstants.INVOICE_ID"></span>
                 <span class="ng-binding" data-ng-bind="addAdjustmentData.invoiceId"></span>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
             <div class="col-md-8 zeroPadding" style="margin-right:20px ;">
                 <div class="pull-left">
-                    <span class="greyTxt">Media Plan</span> <br>
+                    <span class="greyTxt" data-ng-bind="textConstants.INVOICE_MEDIA_PLAN"></span> <br>
                     <span data-ng-bind="addAdjustmentData.invoiceName"></span>
                 </div>
 
@@ -59,7 +59,7 @@
 
                </div>
                <div class="col-md-6 zeroPadding">
-                   <span class="greyTxt">Notes</span> <br>
+                   <span class="greyTxt" data-ng-bind="textConstants.INVOICE_NOTES"></span> <br>
                 <span><input type="text" style="margin:0"
                              class="form-control"
                              name="adName"

@@ -1,20 +1,16 @@
-define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
-        'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-column-line', 'time-period-controller',
-        'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'],
-    function (angularAMD) {
+define(['angularAMD', 'kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'charts-column-line',
+    'time-period-controller', 'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('InventoryController', ['$scope', 'kpiSelectModel', 'campaignSelectModel',
-        'strategySelectModel', 'columnline', 'dataService', 'constants',
-        'timePeriodModel', 'loginModel', 'advertiserModel',
-        'brandsModel', 'urlService', 'domainReports', 'vistoconfig', 'utils', function ($scope, kpiSelectModel, campaignSelectModel,
-                                                           strategySelectModel, columnline, dataService, constants,
-                                                           timePeriodModel, loginModel, advertiserModel,
-                                                           brandsModel, urlService, domainReports, vistoconfig, utils) {
+    angularAMD.controller('InventoryController', ['$scope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'columnline', 'dataService', 'constants',
+        'timePeriodModel', 'loginModel', 'advertiserModel', 'brandsModel', 'urlService', 'domainReports', 'vistoconfig', 'utils', 'pageLoad',
+        function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel, columnline, dataService, constants, timePeriodModel, loginModel, advertiserModel,
+                  brandsModel, urlService, domainReports, vistoconfig, utils, pageLoad) {
         var _curCtrl = this,
             inventoryWrapper =  {
             // Function called to draw the Strategy chart
-            getStrategyChartData: function () { //TODO : we need to refactor the code and divide into small function.
+            getStrategyChartData: function () {
+                // TODO : we need to refactor the code and divide into small function.
                 var inventoryQueryIdMapperWithAllAdsGroup = {
                         categories: 25,
                         domains: 27
@@ -37,6 +33,10 @@ define(['angularAMD', 'kpi-select-model', 'campaign-select-model',
                     },
 
                     url;
+
+                console.log('INVENTORY controller is loaded!');
+                // Hide page loader when the page is loaded
+                pageLoad.hidePageLoader();
 
                 $scope.strategyBusy = true;
                 $scope.loadingFlag = true;

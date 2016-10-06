@@ -23,7 +23,7 @@
             <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{workflowData.adGroupData.bookedSpend | number : 2}}</span>
             <!-- UNCOMMENT THIS LINE AND SET CORRECT VALUE WHEN WE GET SPENT FROM REPORTING
             <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{workflowData.adGroupData.bookedSpend}}</span>-->
-            <span class="pull-left clearLeft">{{textConstants.currencySymbol}} {{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend) | number : 2}}</span>
+            <span class="pull-left clearLeft">{{textConstants.currencySymbol}}{{(workflowData.adGroupData.deliveryBudget - workflowData.adGroupData.bookedSpend) | number : 2}}</span>
         </div>
     </div>
 
@@ -192,7 +192,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+
 
             <!--<div class="btn-group miniToggle" style="display:block;">-->
             <!--    <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>-->
@@ -202,7 +202,11 @@
             <!--        <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}"  ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="resetBudgetField('impressions'); toggleBtn($event);">-->
             <!--    </label>-->
             <!--</div>-->
+            </div>
         </div>
+
+
+
         <div class="col-md-6 zeroPadding" style="margin-left: 10px;" id="budgetHolder">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
             <div class="clearfix budgetFields">
@@ -331,7 +335,7 @@
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VERIFICATION_VENDOR"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle" data-ng-disabled="workflowData.adsData.pushStatus === 'PUSHED'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span class="text">{{((adData.selectedSetting.name).toLowerCase()!= textConstants.VERIFICATION_DEFAULT_SMALL)?(adData.selectedSetting.name):textConstants.VERIFICATION_DEFAULT}}</span>
                         <span class="icon-arrow-solid-down"></span>
                     </button>

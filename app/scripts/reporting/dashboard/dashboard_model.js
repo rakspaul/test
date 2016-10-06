@@ -1,39 +1,54 @@
 define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-service', 'common-utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel',
-        'constants', 'urlService', 'requestCanceller', 'dataService', 'utils','subAccountService', 'vistoconfig',
-        function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller,
-                  dataService, utils, subAccountService, vistoconfig) {
+    angularAMD.factory('dashboardModel', ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService',
+        'utils', 'subAccountService', 'vistoconfig', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller,
+                                                               dataService, utils, subAccountService, vistoconfig) {
 
-            var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter')),
 
-            // by default it is active.  Now check local storage if we want to change it last saved status.
-                dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT},
+                var dashboardData = {},
 
-                setTitle = function () {
-                    dashboardData.title = 'Showing ';
-                    getCampaingsCount();
-                    addCampaigns();
+                getMediaPlanToolTip = function() {
+                    var total = 0,
+                        toolTipText,
+                        stateMapper = {
+                            'In Flight' : 'In_flight',
+                            'Ended' : 'Ended'
+                        },
+                        selectedStatus = getSelectedStatus();
+
+
+                    if(stateMapper[selectedStatus]) {
+                        _.each(dashboardData.campaignData.advertisers, function (obj) {
+                            total += _.filter(obj.campaigns, function (campaign) {
+                                return campaign.state === stateMapper[selectedStatus];
+                            }).length;
+                        });
+                    } else {
+                        total = dashboardData.campaignData.total_campaigns;
+                    }
+
+                    toolTipText = 'Media Plan' + (total > 1 ? 's' : '');
+                    dashboardData.toolTipText = 'Showing data for ' + total + ' ' + toolTipText;
                 },
 
-                getCampaingsCount = function () {
+                getAdvertisers = function () {
                     var clientId = vistoconfig.getSelectedAccountId(),
                         advertiserId = vistoconfig.getSelectAdvertiserId(),
-                        url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId,
-                            'end_date', campaignStatusToSend());
+                        url = urlService.APICalendarWidgetForAllAdvertisers(clientId, advertiserId, 'end_date', campaignStatusToSend());
 
                     return dataService
                         .fetch(url)
                         .then(function (response) {
-                            var totalCamapigns = response.data.data.total_campaigns;
-                            var mediaPlanText = 'Media Plan' + (totalCamapigns > 1 ? 's' : '');
-                            dashboardData.toolTip = 'Showing data for ' + totalCamapigns + ' ' + mediaPlanText;
+                            if(response.data && response.data.data && response.status === 'success') {
+                                dashboardData.campaignData = response.data.data;
+
+                                getMediaPlanToolTip();
+                            }
                         });
                 },
 
-
-                setAdvertiser = function(advertiser){
+                setAdvertiser = function (advertiser) {
                     dashboardData.selectedAdvertiser = advertiser.name;
 
                     if (advertiser.name === constants.ALL_ADVERTISERS) {
@@ -43,19 +58,40 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                     }
                 },
 
+                setSelectedStatus = function (status) {
+                    dashboardData.selectedStatus = status || constants.DASHBOARD_STATUS_IN_FLIGHT;
+                },
+
+                getSelectedStatus = function () {
+                    return dashboardData.selectedStatus;
+                },
+
+                getDisplayLabel = function () {
+                    var label = 'Showing ' + getSelectedStatus() + ' Media Plans for ';
+
+                    if (vistoconfig.getSelectedBrandId() === -1) {
+                        label += constants.ALL_BRANDS;
+                    }
+
+                    dashboardData.displayLabel = label;
+                },
+
                 getData = function () {
                     dashboardData.brandSelected = vistoconfig.getSelectedBrandId() !== -1;
 
-                    if(dashboardData.brandSelected) {
+                    if (dashboardData.brandSelected) {
                         // TODO: Please change the following name "selectedBrand". It may be confused with "brandSelected".
                         dashboardData.selectedBrand = brandsModel.getSelectedBrand().brandName;
                     }
+
+                    getDisplayLabel();
+                    getAdvertisers();
 
                     return dashboardData;
                 },
 
                 campaignStatusToSend = function () {
-                    var campStatus = getData().selectedStatus;
+                    var campStatus = getSelectedStatus();
 
                     if (campStatus === constants.DASHBOARD_STATUS_ALL) {
                         return 'ALL';
@@ -66,19 +102,8 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                     }
                 };
 
-            function addCampaigns() {
-                dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
-                if (vistoconfig.getSelectedBrandId() === -1) {
-                    dashboardData.titleSecondPart += constants.ALL_BRANDS;
-                }
-            }
 
-            if (localStoredCampaignStatus !== null && localStoredCampaignStatus !== undefined &&
-                (localStoredCampaignStatus === constants.DASHBOARD_STATUS_ALL ||
-                localStoredCampaignStatus === constants.DASHBOARD_STATUS_IN_FLIGHT ||
-                localStoredCampaignStatus === constants.DASHBOARD_STATUS_ENDED)) {
-                dashboardData.selectedStatus= localStoredCampaignStatus;
-            }
+
 
             dashboardData.statusDropdownValues = [
                 constants.DASHBOARD_STATUS_ALL,
@@ -97,10 +122,12 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
             dashboardData.selectedAdvertiser = advertiserModel.getSelectedAdvertiser().name;
 
             return {
-                setTitle: setTitle,
                 setSelectedAdvertiser: setAdvertiser,
                 getData: getData,
-                campaignStatusToSend: campaignStatusToSend
+                campaignStatusToSend: campaignStatusToSend,
+                setSelectedStatus: setSelectedStatus,
+                getSelectedStatus: getSelectedStatus,
+
             };
         }
     ]);

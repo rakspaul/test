@@ -1,19 +1,20 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
-    'time-period-model', 'url-service', 'common-utils', 'strategy-select-directive', 'strategy-select-controller',
-    'time-period-pick-directive'], function (angularAMD) {
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'strategy-select-directive',
+    'strategy-select-controller', 'time-period-pick-directive'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('ViewabilityController', ['$scope', 'kpiSelectModel', 'campaignSelectModel',
-        'strategySelectModel', 'dataService', 'domainReports', 'constants',
-        'vistoconfig', 'timePeriodModel', 'loginModel', 'urlService',
-        'utils', function ($scope, kpiSelectModel, campaignSelectModel,
-                                                             strategySelectModel, dataService, domainReports, constants,
-                                                             vistoconfig, timePeriodModel, loginModel, urlService,
-                                                             utils) {
+    angularAMD.controller('ViewabilityController', ['$scope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService', 'domainReports', 'constants',
+        'vistoconfig', 'timePeriodModel', 'loginModel', 'urlService', 'utils', 'pageLoad',
+        function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, domainReports, constants, vistoconfig, timePeriodModel, loginModel, urlService,
+                  utils, pageLoad) {
         var extractAdFormats =  function () {
             $scope.adFormats = domainReports.checkForCampaignFormat(strategySelectModel.allAdFormats());
             $scope.videoMode = $scope.adFormats && $scope.adFormats.videoAds;
         };
+
+        console.log('QUALITY (Viewability) controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
 
@@ -68,6 +69,37 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         };
 
         $scope.strategyLoading =  true;
+
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+            $scope.specialSort(type);
+            $scope.removeKpiActive();
+        };
+
+        $scope.sortClassFunction = function(a){
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
+
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+
+            if ($('.kpi-dd-holder').hasClass('active')) {
+                $('.each_cost_col').removeClass('active');
+                return sortDirection;
+            } else{
+                return isActive + ' ' + sortDirection;
+            }
+        };
+
+        $scope.specialSort = function(passedSortype){
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                $scope.tacticPlatformData = _.sortBy( $scope.tacticPlatformData, function(item) {
+                    return $scope.sortReverse ? -item[0][passedSortype] : item[0][passedSortype];
+                });
+            } else {
+                $scope.sortType = passedSortype;
+            }
+        };
 
         $scope.init = function () {
             $scope.viewData = {};
@@ -219,18 +251,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         $scope.removeActivesForVidSelect = function () {
             $('.icon_text_holder').removeClass('active');
             $('.viewability_header .sec_col .icon_text_holder').addClass('active');
-        };
-
-        $scope.sortClassFunction = function (a, b, c) {
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
-
-            if ($('.kpi-dd-holder').hasClass('active')) {
-                $('.each_cost_col').removeClass('active');
-                return sortDirection;
-            } else{
-                return isActive + ' ' + sortDirection;
-            }
         };
 
         $scope.removeKpiActive = function () {

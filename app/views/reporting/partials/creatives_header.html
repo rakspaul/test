@@ -1,60 +1,189 @@
 <div class="each_col sec_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'"></span>{{textConstants.CREATIVE}}</span>
+    <span class="pull-left sortingHolder"
+          data-ng-class="sortClassFunction('dimension')"
+          data-ng-click="clickToSort('dimension');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'Creatives'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.CREATIVE"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 <div class="each_col third_col imps-col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('impressions')"
+          data-ng-click="clickToSort('impressions');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'impressions'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.IMP_WITH_DOT"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'"></span>{{textConstants.CLICKS}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('clicks')"
+          data-ng-click="clickToSort('clicks');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'clicks'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.CLICKS"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
-<span  data-ng-show="adFormats.videoAds  == true">
+<span  data-ng-show="adFormats.videoAds  == true" class="creativesTpl_vid_col pull-left">
     <div class="each_col third_col">
-        <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
+        <span class="pull-right sortingHolder"
+              data-ng-class="sortClassFunction('video_played')"
+              data-ng-click="clickToSort('video_played');" >
+            <span class="pull-left default-kpi-header-icon"
+                  tooltip="Primary KPI"
+                  data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'video_played'">
+            </span>
+            <div class="pull-left sortingTxt" data-ng-bind="textConstants.VIDEO_PLAYS"></div>
+            <div class="pull-left sortingIcon"></div>
     </div>
 <div class="vid_data_hdr">
-<span>{{textConstants.QUARTILE_DATA}}</span> <br>
-<div class="vid_sub_col">
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder">25%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder">50%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder">75%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder">100%</span></div>
-</div>
+    <div class="text-center" data-ng-bind="textConstants.QUARTILE_DATA"></div>
+    <div class="vid_sub_col">
+        <div class="vid_sub_col_hdr">
+            <div class="pull-left sortingHolder"
+                  data-ng-class="sortClassFunction('vtc_25')"
+                  data-ng-click="clickToSort('vtc_25');">
+                  <div class="pull-left sortingTxt" data-ng-bind="'25%'"></div>
+                  <div class="pull-left sortingIcon"></div>
+            </div>
+        </div>
+        <div class="vid_sub_col_hdr">
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('vtc_50')"
+                  data-ng-click="clickToSort('vtc_50');">
+                  <div class="pull-left sortingTxt" data-ng-bind="'50%'"></div>
+                  <div class="pull-left sortingIcon"></div>
+            </div>
+        </div>
+        <div class="vid_sub_col_hdr">
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('vtc_75')"
+                  data-ng-click="clickToSort('vtc_75');">
+                  <div class="pull-left sortingTxt" data-ng-bind="'75%'"></div>
+                  <div class="pull-left sortingIcon"></div>
+            </div>
+        </div>
+        <div class="vid_sub_col_hdr">
+            <div class="pull-right sortingHolder"
+                  data-ng-class="sortClassFunction('vtc_100')"
+                  data-ng-click="clickToSort('vtc_100');">
+                  <div class="pull-left sortingTxt" data-ng-bind="'100%'"></div>
+                  <div class="pull-left sortingIcon"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('vtc_100')"
+          data-ng-click="clickToSort('vtc_100');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'vtc'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.VTC"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 </span>
 <div class="each_col forth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('ctr')"
+          data-ng-click="clickToSort('ctr');">
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'ctr'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.CTR"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 
 <div class="each_col forth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action rate'"></span>{{textConstants.ACTION_RATE}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('action_rate')"
+          data-ng-click="clickToSort('action_rate');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'action_rate'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.ACTION_RATE"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 
 <span  data-ng-show="adFormats.videoAds   == false">
 <div class="each_col seventh_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('cpa')"
+          data-ng-click="clickToSort('cpa')" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpa'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.CPA"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 <div class="each_col sixth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('cpc')"
+          data-ng-click="clickToSort('cpc');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpc'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.CPC"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('cpm')"
+          data-ng-click="clickToSort('cpm');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.CPM"></div>
+        <div class="pull-left sortingIcon"></div>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'"></span>{{textConstants.PC_CPA}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('pc_cpa')"
+          data-ng-click="clickToSort('pc_cpa');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'pc_cpa'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.PC_CPA"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 <div class="each_col fifth_col">
-    <span class="icon_text_holder"><span class="default-kpi-header-icon" tooltip="Primary KPI" data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'"></span>{{textConstants.SPEND}}</span>
+    <span class="pull-right sortingHolder"
+          data-ng-class="sortClassFunction('spend')"
+          data-ng-click="clickToSort('spend');" >
+        <span class="pull-left default-kpi-header-icon"
+              tooltip="Primary KPI"
+              data-ng-if="selectedFilters.campaign_default_kpi_type.toLowerCase() === 'spend'">
+        </span>
+        <div class="pull-left sortingTxt" data-ng-bind="textConstants.SPEND"></div>
+        <div class="pull-left sortingIcon"></div>
+    </span>
 </div>
 </span>
 
 
 <div class="each_col seventh_col last_col" >
-    <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder " >
+    <div data-ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder col-md-12 zeroPadding" >
         <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
     </div>
 </div>
-
-

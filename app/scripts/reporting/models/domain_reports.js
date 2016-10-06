@@ -8,7 +8,6 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
             getReportsTabs: function (params) {
                 var tabs = [],
                     fParams = params || featuresService.getFeatureParams(),
-                    isAgencyCostModelTransparent,
                     userRole;
 
                 if (fParams[0].report_overview === true) {
@@ -39,15 +38,6 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                     tabs.push({href: 'optimization', title: 'Optimization Impact'});
                 }
 
-                isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                // if agency level cost model is opaque
-                if (!isAgencyCostModelTransparent) {
-                    tabs = _.filter(tabs, function (obj) {
-                        return obj.href !== 'cost';
-                    });
-                }
-
                 userRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().uiExclusions;
 
                 if (userRole && userRole.ui_modules) {
@@ -67,11 +57,11 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                     fParams = featuresService.getFeatureParams();
 
                 if (fParams[0].scheduled_reports === true) {
-                    tabs.push({ href:'reports/schedules', title: 'My Reports', moduleName : 'scheduleReports'});
+                    tabs.push({title: 'My Reports', moduleName : 'scheduleReports'});
                 }
 
                 if (fParams[0].collective_insights === true) {
-                    tabs.push({href: 'reports/list', title: 'Collective Insights', moduleName : 'collectiveInsights'});
+                    tabs.push({title: 'Collective Insights', moduleName : 'collectiveInsights'});
                 }
 
                 return {

@@ -197,7 +197,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         $scope.$parent.TrackingIntegrationsSelected = false;
                         $scope.adData.platformName = seat.name;
                         $scope.adData.platformSeatId = seat.id;
-                        $scope.selectedPlatform[platform.id] = seat.name;
+                        $scope.selectedPlatform[seat.id + '_' + platform.id] = seat.name;
                         $scope.selectedSeat[seat.id] = seat.name;
                     } else {
                         $scope.adData.platformName = platform.name;

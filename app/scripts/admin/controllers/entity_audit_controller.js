@@ -5,19 +5,25 @@ define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('entityAuditCtrl', ['$scope', '$rootScope','vistoconfig','dataService', function ($scope, $rootScope, vistoconfig, dataService) {
+        angularAMD.controller('entityAuditCtrl', ['$scope', '$rootScope','vistoconfig','dataService', 'pageLoad',
+            function ($scope, $rootScope, vistoconfig, dataService, pageLoad) {
+            console.log('ENTITY AUDIT controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             $scope.entityType = 'AD';
             $scope.entityId = '';
+
             $scope.searchEntity = function () {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/entityAudits/' +
-                    'entityType/' + $scope.entityType + '/entityId/' + $scope.entityId;
-                var result = dataService.fetch(url).then(function(result){
-                    if (result.status === 'OK' || result.status === 'success') {
-                        $scope.auditObjs = result.data.data;
-                        //$scope.auditObjs.responseObject = JSON.stringify($scope.auditObjs.response,null,"    ")
-                    }
-                });
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/entityAudits/' + 'entityType/' + $scope.entityType + '/entityId/' + $scope.entityId;
+
+                dataService
+                    .fetch(url)
+                    .then(function(result){
+                        if (result.status === 'OK' || result.status === 'success') {
+                            $scope.auditObjs = result.data.data;
+                        }
+                    });
             };
 
             $scope.prettyPrint = function(responseJson) {
@@ -28,9 +34,7 @@ define(['angularAMD'],
                     //if the string cannot be parsed as json, return it as is.
                     return responseJson;
                 }
-            }
-
+            };
         }]);
     }
 );
-

@@ -1,53 +1,38 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service',
-    'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
-    'strategy-select-directive','strategy-select-controller',
-    'time-period-pick-directive', 'kpi-select-directive'],
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'request-cancel-service', 'common-utils',
+    'strategy-select-directive','strategy-select-controller', 'time-period-pick-directive', 'kpi-select-directive'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
-            'strategySelectModel', 'dataService', 'constants',
-            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel',
-            'RoleBasedService', 'advertiserModel', 'brandsModel',
-            'urlService', 'featuresService', 'requestCanceller',
-            'utils', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel,
-                                                              strategySelectModel, dataService, constants,
-                                                              domainReports, vistoconfig, timePeriodModel, loginModel,
-                                                              RoleBasedService, advertiserModel, brandsModel,
-                                                              urlService, featuresService, requestCanceller,
-                                                              utils) {
+        angularAMD.controller('PlatformController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService', 'constants',
+            'domainReports', 'vistoconfig', 'timePeriodModel', 'loginModel', 'RoleBasedService', 'advertiserModel', 'brandsModel', 'urlService', 'featuresService',
+            'requestCanceller', 'utils', 'pageLoad',
+            function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, constants, domainReports, vistoconfig, timePeriodModel,
+                      loginModel, RoleBasedService, advertiserModel, brandsModel, urlService, featuresService, requestCanceller, utils, pageLoad) {
             var _currCtrl = this,
                 extractAdFormats;
+
+            console.log('PLATFORM controller is loaded!');
+            // Hide page loader when the page is loaded
+            pageLoad.hidePageLoader();
 
             $scope.textConstants = constants;
 
             // set the default sort type
-            $scope.sortType = 'impressions';
+            //$scope.sortType = 'impressions';
             $scope.sortReverse = false;
             $scope.sortReverseKpiDropdown = true;
 
-            $scope.sortTypeByPerformance = '-impressions';
-            $scope.sortTypeByCost = '-impressions';
-            $scope.sortTypeByViewability = '-other_view_impressions';
-            $scope.sortTypeByMargin = '-impressions';
-            $scope.sortReverseForPerfImps = true;
-            $scope.sortReverseForCostImps = true;
-            $scope.sortReverseForQualImps = true;
-            $scope.sortReverseForMarginImps = true;
-            $scope.sortReverseForCostscpm = true;
-            $scope.sortReverseForCostscpa = true;
-            $scope.sortReverseForCostscpc = true;
             $scope.kpiDropdownActive = {};
 
             $scope.isStrategyDropDownShow = true;
 
-            if ($scope.selected_tab === 'performance') {
-                $scope.sortType = 'impressions';
-            } else if ($scope.selected_tab === 'viewability') {
-                $scope.sortType = 'other_view_impressions';
-            } else {
-                $scope.sortType = 'impressions';
-            }
+            //if ($scope.selected_tab === 'performance') {
+            //    $scope.sortType = 'impressions';
+            //} else if ($scope.selected_tab === 'viewability') {
+            //    $scope.sortType = 'other_view_impressions';
+            //} else {
+            //    $scope.sortType = 'impressions';
+            //}
 
             $scope.strategyLoading = true;
             $scope.strategyFound = true;
@@ -89,11 +74,44 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             // set default selected tab to Performance.
             $scope.selected_tab = 'performance';
 
+            $scope.clickToSort = function(type){
+                $scope.sortType = type;
+                $scope.sortReverse = !$scope.sortReverse;
+                $scope.specialSort(type);
+                $scope.removeKpiActive();
+            };
+
+            $scope.sortClassFunction = function(a){
+                var isActive = (a === $scope.sortType) ?  'active' : '',
+                    sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
+
+                $('.direction_arrows div.kpi_arrow_sort.active').hide();
+
+                if ($('.kpi-dd-holder').hasClass('active')) {
+                    $('.each_cost_col').removeClass('active');
+                    return sortDirection;
+                } else{
+                    return isActive + ' ' + sortDirection;
+                }
+            };
+
+
+            $scope.specialSort = function(passedSortype){
+                if (Number($scope.selectedStrategy.id) >= 0) {
+                    $scope.tacticPlatformData = _.sortBy( $scope.tacticPlatformData, function(item) {
+                        return $scope.sortReverse ? -item[0][passedSortype] : item[0][passedSortype];
+                    });
+                } else {
+                    $scope.sortType = passedSortype;
+                }
+            };
+
             $scope.getPlatformData = function () {
                 var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key),
                     tab,
                     errorHandlerForPerformanceTab,
                     url,
+                    indexOfFirstColumn,
                     canceller,
 
                     param = {
@@ -180,6 +198,12 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     return (item.ad_id === -1 && item.ad_group_name === '');
                                 });
 
+                                indexOfFirstColumn = _.findIndex($scope.platformData, function(item){
+                                    return (item.platform_name === 'Line Item Totals');
+                                });
+
+                                $scope.platformData = utils.swapValuesInArray($scope.platformData, 0, indexOfFirstColumn);
+
                                 _.each($scope.platformData, function (item) {
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
@@ -216,18 +240,28 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                     }
                                 });
 
+                                tacticPlatformData = _.each(tacticPlatformData, function(data){
+                                    indexOfFirstColumn = _.findIndex(data, function(item){
+                                        return (item.platform_name === 'Ad Totals');
+                                    });
+                                    data = utils.swapValuesInArray(data, 0, indexOfFirstColumn);
+                                });
+
                                 $scope.tacticPlatformData = tacticPlatformData;
                             } else {
                                 $scope.platformData = result.data.data;
 
-                                _.each($scope.platformData, function (item) {
+                                _.each($scope.platformData, function (item, i) {
                                     if(item.platform_name === 'Media Plan Totals') {
                                         item.sepratorCls_platform = 'sepratorCls_platform';
+                                        indexOfFirstColumn = i;
                                     }
                                     sumTechFeesNServiceFees(item);
                                     marginPercentage(item);
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
+
+                                $scope.platformData = utils.swapValuesInArray($scope.platformData, 0, indexOfFirstColumn);
 
                                 $scope['dataNotFoundFor' + tab] = false;
                             }
@@ -291,16 +325,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                             label: 'Platform by Quality',
                             download_config_id: 3
                         }
-                    ],
+                    ];
 
-                    isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
-
-                // if agency level cost model is opaque
-                if (!isAgencyCostModelTransparent) {
-                    download_report = _.filter(download_report, function (obj) {
-                        return obj.report_name !== 'by_cost';
-                    });
-                }
 
                 $scope.download_report = download_report;
             };
@@ -354,7 +380,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                 $scope.selectedFilters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase();
                 $scope.selectedFilters.kpi_type = kpiSelectModel.getSelectedKpi();
-                $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
                 $scope.selectedFilters.kpi_type = 'cpm';
                 $scope.selectedFilters2 = {};
@@ -478,19 +503,11 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             });
 
             $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-                if ($scope.selected_tab === 'viewability') {
-                    $scope.sortTypeByViewability = args;
-                    $scope.sortReverse = sortorder;
-                } else if ($scope.selected_tab === 'performance') {
-                    $scope.sortTypeByPerformance = args;
-                    $scope.sortReverse = sortorder;
-                } else if ($scope.selected_tab === 'cost') {
-                    $scope.sortTypeByCost = args;
-                    $scope.sortReverse = sortorder;
-                } else if ($scope.selected_tab === 'margin') {
-                    $scope.sortTypeByMargin = args;
-                    $scope.sortReverse = sortorder;
-                }
+                $scope.sortType = args;
+                $scope.sortTypeScreens = args;
+                $scope.sortReverse = sortorder;
+                $scope.kpiDropdownActive = true;
+                $scope.specialSort(args);
             });
 
             $scope.removeKpiActive = function () {
@@ -504,9 +521,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $('.direction_arrows div.kpi_arrow_sort').removeClass('active');
             };
 
-            $scope.sortClassFunction = function (a, b, c) {
-                var isActive = (a === b ) ? 'active' : '',
-                    sortDirection = (c === true ) ? 'sort_order_up' : 'sort_order_down';
+            $scope.sortClassFunction = function (a) {
+                var isActive = (a === $scope.sortType ) ? 'active' : '',
+                    sortDirection = ($scope.sortReverse === true ) ? 'sort_order_up' : 'sort_order_down';
 
                 if ($('.kpi-dd-holder').hasClass('active')) {
                     $('.each_cost_col').removeClass('active');

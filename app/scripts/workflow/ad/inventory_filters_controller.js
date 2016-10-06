@@ -590,9 +590,9 @@ define(['angularAMD', 'file-reader'], function (angularAMD) {
             }
 
             if ($scope.adData.inventory.domainAction === 'INCLUDE') {
-                $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
+                $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active');
             } else {
-                $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active disabled');
+                $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active');
             }
         };
 

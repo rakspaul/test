@@ -27,6 +27,7 @@ define([
     'showErrors',
     'ng-tag',
     'chosen',
+    'populatetemplatecache',
 
     'local-storage-service',
     'account-service',
@@ -49,10 +50,9 @@ define([
     'vistoconfig-service',
     'route-resolvers-params-service',
     'route-resolvers-service',
-
     'login-service',
     'login-model',
-
+    'page-load-service',
     'brands-model',
     'change-password-controller',
     'gantt-chart-controller',

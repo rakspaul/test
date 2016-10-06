@@ -1,16 +1,12 @@
-define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-select-service',
-    'common-utils', 'url-service', 'time-period-model', 'strategy-select-directive',
-    'strategy-select-controller', 'time-period-pick-directive',
-    'kpi-select-directive'],function (angularAMD) {
+define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-select-service', 'common-utils', 'url-service', 'time-period-model', 'strategy-select-directive',
+    'strategy-select-controller', 'time-period-pick-directive', 'kpi-select-directive'],
+    function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CostController', ['$scope', '$window', 'campaignSelectModel', 'kpiSelectModel',
-        'advertiserModel', 'strategySelectModel', 'brandsModel', 'dataService',
-        'utils', 'loginModel', 'urlService', 'constants', 'timePeriodModel',
-        'domainReports', 'vistoconfig', function ($scope, $window, campaignSelectModel, kpiSelectModel,
-                                                       advertiserModel, strategySelectModel, brandsModel, dataService,
-                                                       utils, loginModel, urlService, constants, timePeriodModel,
-                                                       domainReports, vistoconfig) {
+    angularAMD.controller('CostController', ['$scope', '$window', 'campaignSelectModel', 'kpiSelectModel', 'advertiserModel', 'strategySelectModel', 'brandsModel', 'dataService',
+        'utils', 'loginModel', 'urlService', 'constants', 'timePeriodModel', 'domainReports', 'vistoconfig', 'pageLoad',
+        function ($scope, $window, campaignSelectModel, kpiSelectModel, advertiserModel, strategySelectModel, brandsModel, dataService, utils, loginModel, urlService,
+                  constants, timePeriodModel, domainReports, vistoconfig, pageLoad) {
         var dataHeader = function () {
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === vistoconfig.LINE_ITEM_DROPDWON_OBJECT.id ?
                 constants.MEDIA_PLAN_TOTALS:
@@ -20,6 +16,10 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
                 constants.INCLUDES_FIXED_COSTS :
                 constants.EXCLUDES_MEDIA_PLAN_FIXED_COSTS;
         };
+
+        console.log('COST controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
 
@@ -64,6 +64,26 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
 
         $scope.download_urls = {
             cost: null
+        };
+
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+            $scope.removeKpiActive();
+        };
+
+        $scope.sortClassFunction = function(a){
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
+
+            $('.direction_arrows div.kpi_arrow_sort.active').hide();
+
+            if ($('.kpi-dd-holder').hasClass('active')) {
+                $('.each_cost_col').removeClass('active');
+                return sortDirection;
+            } else{
+                return isActive + ' ' + sortDirection;
+            }
         };
 
         $scope.init = function () {
@@ -257,10 +277,14 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
         $scope.callBackStrategyChange();
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-            $scope.sortType = 'kpi_metrics.' + args;
-            $scope.sortTypeSubSort ='kpi_metrics.' + args;
-            $scope.sortReverse  = sortorder;
+            $scope.sortType = args;
+            $scope.sortReverse = sortorder;
         });
+
+        $scope.clickToSort = function(type){
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+        };
 
         $scope.removeKpiActive = function () {
             var dropListLi = $('.drop_list li');
@@ -270,13 +294,6 @@ define(['angularAMD', 'campaign-select-model', 'kpi-select-model', 'strategy-sel
             $('.dropdown_ul_text').removeClass('active');
             dropListLi.removeClass('active');
             $('.direction_arrows div.kpi_arrow_sort').removeClass('active');
-        };
-
-        $scope.sortClassFunction = function (a,b,c) {
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
-
-            return isActive + ' ' + sortDirection;
         };
 
         $scope.$on(constants.EVENT_KPI_CHANGED, function() {

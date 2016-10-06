@@ -3,12 +3,18 @@
     <div data-ng-repeat="tactic in strategy.strategyTactics track by tactic.id"
          class="clearfix tactics_linkage_lines each_tactic_holder">
         <div class="each_tactic_container">
-            <div class="clearfix each_campaign_list_container">
+            <div class="clearfix each_campaign_list_container {{tactic.is_archived}}_archive">
                 <div class="clearfix">
                     <div class="each_campaign_section" style="padding-right: 0;">
                         <div class="campaign_status_icon {{tactic.status.toLowerCase()}}_bulb"
+                             data-ng-hide="tactic.is_archived === true"
                              tooltip-placement="left"
                              tooltip="{{tactic.status.toLowerCase() === 'in_flight' ? 'In Flight' : tactic.status.toLowerCase() | toCamelCase}}">
+                        </div>
+                        <div class="pull-left campaign_status_icon icon-archive"
+                             data-ng-if="tactic.is_archived === true"
+                             tooltip-placement="bottom"
+                             tooltip="Archived">
                         </div>
                     </div>
                     <div class="each_campaign_section zeroPadding">
@@ -63,9 +69,14 @@
                             <div data-ng-init="duration_t = tactic.durationLeft()"></div>
                             <div class="days_over" data-ng-style="{'width': tactic.durationCompletion() + '%'};">
                               <span data-ng-if="duration_t === 'Yet to start'"
+                                    data-ng-hide="tactic.is_archived === true"
                                     class="days_over_text start_text"
                                     data-ng-bind="textConstants.YET_TO_START">
                               </span>
+                                <span data-ng-if="tactic.is_archived === true"
+                                      data-ng-bind="textConstants.WF_ARCHIVED"
+                                      class="days_over_text start_text" style="color:#57606D;">
+                             </span>
                               <span data-ng-if="duration_t === 'Ended'"
                                     class="days_over_text ended_text"
                                     data-ng-bind="textConstants.ENDED">

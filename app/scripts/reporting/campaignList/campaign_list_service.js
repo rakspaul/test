@@ -75,7 +75,8 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
                                 chart: false,
                                 momentInNetworkTZ: momentInNetworkTZ,
                                 is_tracking: tactic.is_tracking,
-                                spend:tactic.spend
+                                spend:tactic.spend,
+                                is_archived : tactic.is_archived
                             };
 
 
@@ -413,6 +414,9 @@ define(['angularAMD', 'common-utils', 'transformer-service', 'campaign-model', '
 
                                 if (result.status === 'success' && !angular.isString(data)) {
                                     if (data.length >= 0) {
+                                        data = _.sortBy(data, function(item) {
+                                            return item.start_date;
+                                        });
                                         if (data.length <= pageSize) {
                                             campaign.campaignStrategies = createStrategyObject(clientId, campaign, data, timePeriod, kpiType, kpiValue);
                                         } else {

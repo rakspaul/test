@@ -63,26 +63,42 @@
                                     </div> -->
                                     <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="screenBusy"></div>
-                                        <div class="clearfix each_row_list {{screenData.sepratorCls}}"
+                                        <div class="">
+                                            <div class="clearfix each_row_list sepratorCls"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="screenData in strategyPerfDataByScreen | limitTo:1"
+                                                 data-ng-include="'screenTpl'"></div>
+                                        </div>
+                                        <div class="body">
+                                          <div class="clearfix each_row_list"
                                              data-ng-show="!screenBusy"
-                                             data-ng-repeat="screenData in strategyPerfDataByScreen |
-                                                orderBy : sortTypeScreens : sortReverse track by $index"
-                                             data-ng-include="'screenTpl'"></div>
+                                             data-ng-repeat="screenData in strategyPerfDataByScreen | startFrom : 1 |
+                                                orderBy : sortType : sortReverse track by $index"
+                                             data-ng-include="'screenTpl'">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!screenBusy">
                                     <div class="each_strategy_holder clearfix "
-                                         data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypeScreens : sortReverse track by $index"
+                                         data-ng-repeat="tactic in groupThem"
                                          data-ng-if="showPerfMetrix === true" >
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
                                             <div class="col-md-12 zeroPadding row_list_holder">
-                                                <div class="clearfix each_row_list {{screenData.sepratorCls}}"
-                                                     data-ng-repeat="screenData in tactic.perf_metrics |
-                                                        orderBy : sortTypeScreens : sortReverse track by $index"
-                                                     data-ng-include="'screenTpl'" >
+                                                <div>
+                                                    <div class="clearfix each_row_list sepratorLineCls"
+                                                         data-ng-repeat="screenData in tactic.perf_metrics | limitTo : 1"
+                                                         data-ng-include="'screenTpl'" >
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="clearfix each_row_list"
+                                                         data-ng-repeat="screenData in tactic.perf_metrics | startFrom : 1 |
+                                                                        orderBy : sortType : sortReverse track by $index"
+                                                        data-ng-include="'screenTpl'" >
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -92,6 +108,230 @@
                         </div>
                     </div>
                     <!-- -------END :  Screen Block ----------------------------- -->
+
+                    <!-- -------START :  Format Block ----------------------------- -->
+                    <div data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block'"
+                         id="reports_byformats_block"
+                         style="{{defaultDisplayFormat}}">
+                        <div class="no_data_found"
+                             data-ng-if="dataNotFoundForFormat"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                        </div>
+                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForFormat">
+                            <div class="clearfix reports_performance_header" data-ng-hide="formatBusy">
+                                <format-header></format-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <!-- <div class="each_col first_col" data-ng-hide="formatBusy">
+                                         <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
+                                         <span class="pull-left icon-target viewLabelTxt"></span>
+                                         <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
+                                     </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
+                                        <div class="common-load-icon" data-ng-show="formatBusy"></div>
+                                        <div class="">
+                                            <div class="clearfix each_row_list sepratorCls"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="formatData in strategyPerfDataByFormat | limitTo:1"
+                                                 data-ng-include="'formatTpl'"></div>
+                                        </div>
+                                        <div class="body">
+                                            <div class="clearfix each_row_list"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="formatData in strategyPerfDataByFormat | startFrom : 1 |
+                                                orderBy : sortType : sortReverse track by $index"
+                                                 data-ng-include="'formatTpl'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" data-ng-show="!formatBusy">
+                                    <div class="each_strategy_holder clearfix"
+                                         data-ng-repeat="tactic in groupThem"
+                                         data-ng-if="showPerfMetrix === true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col zeroPadding col-md-12 first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="col-md-12 zeroPadding row_list_holder">
+                                                <div>
+                                                    <div class="clearfix each_row_list sepratorLineCls"
+                                                         data-ng-repeat="formatData in tactic.perf_metrics | limitTo : 1"
+                                                         data-ng-include="'formatTpl'" >
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="clearfix each_row_list"
+                                                         data-ng-repeat="formatData in tactic.perf_metrics | startFrom : 1|
+                                                                        orderBy : sortType : sortReverse track by $index"
+                                                         data-ng-include="'formatTpl'" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------END :  Format Block ----------------------------- -->
+
+                    <!-- -------START :  Ad sizes Block ----------------------------- -->
+                    <div  id="reports_byadsizes_block"
+                          data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "
+                          style="{{defaultDisplayAdSize}}">
+                        <div class="no_data_found" data-ng-if="dataNotFoundForAdsizes"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForAdsizes">
+                            <div class="clearfix reports_performance_header" data-ng-hide="adSizesBusy">
+                                <adsizes-header></adsizes-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <!-- <div class="each_col first_col" data-ng-hide="adSizeBusy">
+                                        <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
+                                    </div> -->
+
+                                    <div class="row_list_holder row_list_pad clearfix">
+                                        <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
+                                        <div class="">
+                                            <div class="clearfix each_row_list sepratorCls"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="adSizesData in strategyPerfDataByAdsizes | limitTo:1"
+                                                 data-ng-include="'AdSizesTpl'"></div>
+                                        </div>
+                                        <div class="body">
+                                            <div class="clearfix each_row_list"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="adSizesData in strategyPerfDataByAdsizes | startFrom : 1 |
+                                                orderBy : sortType : sortReverse track by $index"
+                                                 data-ng-include="'AdSizesTpl'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" data-ng-show="!adSizesBusy">
+                                    <div class="each_strategy_holder clearfix"
+                                         data-ng-repeat="tactic in groupThem"
+                                         data-ng-if="showPerfMetrix === true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col col-md-12 zeroPadding"
+                                                 style="width: 100%"
+                                                 data-ng-bind="tactic.name">
+                                            </div>
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div>
+                                                    <div class="clearfix each_row_list sepratorLineCls"
+                                                         data-ng-repeat="adSizesData in tactic.perf_metrics | limitTo : 1"
+                                                         data-ng-include="'AdSizesTpl'" >
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="clearfix each_row_list"
+                                                         data-ng-repeat="adSizesData in tactic.perf_metrics | startFrom : 1|
+                                                                        orderBy : sortType : sortReverse track by $index"
+                                                         data-ng-include="'AdSizesTpl'" >
+                                                    </div>
+                                                </div>
+
+
+                                                <!--<div ng-if="adSizesData.sepratorCls == 'sepratorLineCls'" class="clearfix each_row_list {{adSizesData.sepratorCls}}"-->
+                                                     <!--data-ng-repeat="adSizesData in tactic.perf_metrics |-->
+                                                        <!--orderBy : sortTypeByAdSizes : sortReverseAdSizes-->
+                                                        <!--track by $index"-->
+                                                     <!--data-ng-include="'AdSizesTpl'">-->
+                                                <!--</div>-->
+                                                <!--<div ng-if="adSizesData.sepratorCls!='sepratorLineCls'" class="clearfix each_row_list"-->
+                                                     <!--data-ng-repeat="adSizesData in tactic.perf_metrics |-->
+                                                        <!--orderBy : sortTypeByAdSizes : sortReverseAdSizes-->
+                                                        <!--track by $index"-->
+                                                     <!--data-ng-include="'AdSizesTpl'">-->
+                                                <!--</div>-->
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------END :  Ad Sizes Block ----------------------------- -->
+
+                    <!-- -------START :  Creative Block ----------------------------- -->
+                    <div id="reports_bycreatives_block"
+                         data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "
+                         style="display: none;">
+                        <div class="no_data_found"
+                             data-ng-if="dataNotFoundForCreatives"
+                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
+                        </div>
+                        <div class="reports_details_outer_container overflowAuto"
+                             data-ng-show="!dataNotFoundForCreatives"
+                             data-ng-class="{strategy_video_disabled: adFormats.videoAds === false}">
+                            <div class="clearfix reports_performance_header" data-ng-hide="creativeBusy">
+                                <creatives-header></creatives-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <!--<div class="each_col first_col" data-ng-hide="creativeBusy">
+                                        <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
+                                    </div> -->
+                                    <div class="row_list_holder row_list_pad clearfix">
+                                        <div class="common-load-icon" data-ng-show="creativeBusy"></div>
+                                        <div class="">
+                                            <div class="clearfix each_row_list sepratorCls"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="creativesData in strategyPerfDataByCreatives | limitTo:1"
+                                                 data-ng-include="'CreativesTpl'"></div>
+                                        </div>
+                                        <div class="body">
+                                            <div class="clearfix each_row_list"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="creativesData in strategyPerfDataByCreatives | startFrom : 1 |
+                                                orderBy : sortType : sortReverse track by $index"
+                                                 data-ng-include="'CreativesTpl'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" data-ng-show="!creativeBusy">
+
+                                    <div class="each_strategy_holder clearfix"
+                                         data-ng-repeat="tactic in groupThem"
+                                         data-ng-if="showPerfMetrix === true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col col-md-12 zeroPadding"
+                                                 style="width: 100%"
+                                                 data-ng-bind="tactic.name">
+                                            </div>
+                                            <div class="row_list_holder col-md-12 zeroPadding">
+                                                <div>
+                                                    <div class="clearfix each_row_list sepratorLineCls"
+                                                         data-ng-repeat="creativesData in tactic.perf_metrics | limitTo : 1"
+                                                         data-ng-include="'CreativesTpl'" >
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="clearfix each_row_list"
+                                                         data-ng-repeat="creativesData in tactic.perf_metrics | startFrom : 1|
+                                                                        orderBy : sortType : sortReverse track by $index"
+                                                         data-ng-include="'CreativesTpl'" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------END :  Creative Block ----------------------------- -->
 
                     <!-- -------START :  Days of week Block ----------------------------- -->
                     <div data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block'"
@@ -114,28 +354,40 @@
                                     </div> -->
                                     <div class="row_list_holder row_list_pad clearfix">
                                         <div class="common-load-icon" data-ng-show="dowBusy"></div>
-                                        <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
-                                             data-ng-show="!dowBusy"
-                                             data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW |
-                                                orderBy : sortTypebydaysofweek : sortReverse track by $index"
-                                             data-ng-include="'daysOfWeekTpl'">
+                                        <div class="">
+                                            <div class="clearfix each_row_list sepratorCls"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW | limitTo:1"
+                                                 data-ng-include="'daysOfWeekTpl'"></div>
+                                        </div>
+                                        <div class="body">
+                                            <div class="clearfix each_row_list"
+                                                 data-ng-show="!screenBusy"
+                                                 data-ng-repeat="daysOfWeekData in strategyPerfDataByDOW | startFrom : 1 |
+                                                orderBy : sortType : sortReverse track by $index"
+                                                 data-ng-include="'daysOfWeekTpl'">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="all_strategies_holder" data-ng-show="!dowBusy">
                                     <div class="each_strategy_holder clearfix"
-                                         data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypebydaysofweek : sortReverse track by $index"
+                                         data-ng-repeat="tactic in groupThem"
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
                                             <div class="col-md-12 zeroPadding  each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="col-md-12 zeroPadding  row_list_holder">
-                                                <div class="clearfix each_row_list {{daysOfWeekData.sepratorCls}}"
-                                                     data-ng-repeat="daysOfWeekData in tactic.perf_metrics |
-                                                        orderBy : sortTypebydaysofweek : sortReverse
-                                                        track by $index"
-                                                     data-ng-include="'daysOfWeekTpl'">
+                                            <div>
+                                                <div class="clearfix each_row_list sepratorCls"
+                                                     data-ng-repeat="daysOfWeekData in tactic.perf_metrics | limitTo : 1"
+                                                     data-ng-include="'daysOfWeekTpl'" >
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="clearfix each_row_list"
+                                                     data-ng-repeat="daysOfWeekData in tactic.perf_metrics | startFrom : 1|
+                                                                     orderBy : sortType : sortReverse track by $index"
+                                                     data-ng-include="'daysOfWeekTpl'" >
                                                 </div>
                                             </div>
                                         </div>
@@ -175,8 +427,7 @@
                                         <div class="common-load-icon" data-ng-show="discrepancyBusy"></div>
                                         <div class="col-md-12 zeroPadding"
                                              data-ng-show="!discrepancyBusy"
-                                             data-ng-repeat="vendor in strategyPerfDataByDiscrepancy  |
-                                                orderBy : sortTypediscrepancy track by $index"
+                                             data-ng-repeat="vendor in strategyPerfDataByDiscrepancy"
                                              data-ng-include="'discrepancyTpl'">
                                         </div>
                                     </div>
@@ -191,8 +442,7 @@
                                             <div class="each_col col-md-12 zeroPadding first_col" data-ng-bind="tactic.name"></div>
                                             <div class="row_list_holder col-md-12 zeroPadding">
                                                 <div class="clearfix each_row_list {{vendor.sepratorCls}}"
-                                                     data-ng-repeat="vendor in tactic.perf_metrics |
-                                                        orderBy : sortTypediscrepancy : sortReverse track by $index"
+                                                     data-ng-repeat="vendor in tactic.perf_metrics"
                                                      data-ng-include="'discrepancyTpl'">
                                                 </div>
                                             </div>
@@ -204,180 +454,11 @@
                     </div>
                     <!-- -------END :  Discrepancy Block ----------------------------- -->
 
-                    <!-- -------START :  Format Block ----------------------------- -->
-                    <div data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block'"
-                         id="reports_byformats_block"
-                         style="{{defaultDisplayFormat}}">
-                        <div class="no_data_found"
-                             data-ng-if="dataNotFoundForFormat"
-                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
-                        </div>
-                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForFormat">
-                            <div class="clearfix reports_performance_header" data-ng-hide="formatBusy">
-                                <format-header></format-header>
-                            </div>
-                            <div class="strategy_total_container ">
-                                <div class="strategy_total_container_header clearfix">
-                                   <!-- <div class="each_col first_col" data-ng-hide="formatBusy">
-                                        <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
-                                        <span class="pull-left icon-target viewLabelTxt"></span>
-                                        <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div> -->
-                                    <div class="row_list_holder row_list_pad clearfix">
-                                        <div class="common-load-icon" data-ng-show="formatBusy"></div>
-                                        <div class="clearfix each_row_list {{formatData.sepratorCls}}"
-                                             data-ng-show="!formatBusy"
-                                             data-ng-repeat="formatData in strategyPerfDataByFormat |
-                                                orderBy : sortTypebyformats : sortReverse track by $index"
-                                             data-ng-include="'formatTpl'">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="all_strategies_holder" data-ng-show="!formatBusy">
-                                    <div class="each_strategy_holder clearfix"
-                                         data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypebyformats : sortReverse track by $index"
-                                         data-ng-if="showPerfMetrix === true">
-                                        <div class="linkage_bar"></div>
-                                        <div class="each_strategy clearfix">
-                                            <div class="each_col zeroPadding col-md-12 first_col" data-ng-bind="tactic.name"></div>
-                                            <div class="col-md-12 zeroPadding row_list_holder">
-                                                <div class="clearfix each_row_list {{formatData.sepratorCls}}"
-                                                     data-ng-repeat="formatData in tactic.perf_metrics |
-                                                        orderBy : sortTypebyformats : sortReverseFormatTab
-                                                        track by $index"
-                                                     data-ng-include="'formatTpl'">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- -------END :  Format Block ----------------------------- -->
 
-                    <!-- -------START :  Creative Block ----------------------------- -->
-                    <div id="reports_bycreatives_block"
-                         data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "
-                         style="display: none;">
-                        <div class="no_data_found"
-                             data-ng-if="dataNotFoundForCreatives"
-                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
-                        </div>
-                        <div class="reports_details_outer_container overflowAuto"
-                             data-ng-show="!dataNotFoundForCreatives"
-                             data-ng-class="{strategy_video_disabled: adFormats.videoAds === false}">
-                            <div class="clearfix reports_performance_header" data-ng-hide="creativeBusy">
-                                <creatives-header></creatives-header>
-                            </div>
-                            <div class="strategy_total_container ">
-                                <div class="strategy_total_container_header clearfix">
-                                    <!--<div class="each_col first_col" data-ng-hide="creativeBusy">
-                                        <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
-                                        <span class="pull-left icon-target viewLabelTxt"></span>
-                                        <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div> -->
-                                    <div class="row_list_holder row_list_pad clearfix">
-                                        <div class="common-load-icon" data-ng-show="creativeBusy"></div>
-                                        <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
-                                             data-ng-show="!creativeBusy"
-                                             data-ng-repeat="creativesData in strategyPerfDataByCreatives |
-                                                orderBy : sortTypeByCreatives : sortReverse
-                                                track by $index"
-                                             data-ng-include="'CreativesTpl'">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="all_strategies_holder" data-ng-show="!creativeBusy">
 
-                                    <div class="each_strategy_holder clearfix"
-                                         data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypeByCreatives : sortReverse track by $index"
-                                         data-ng-if="showPerfMetrix === true">
-                                        <div class="linkage_bar"></div>
-                                        <div class="each_strategy clearfix">
-                                            <div class="each_col first_col col-md-12 zeroPadding"
-                                                 style="width: 100%"
-                                                 data-ng-bind="tactic.name">
-                                            </div>
-                                            <div class="row_list_holder col-md-12 zeroPadding">
-                                                <div class="clearfix each_row_list {{creativesData.sepratorCls}}"
-                                                     data-ng-repeat="creativesData in tactic.perf_metrics |
-                                                        orderBy : sortTypeByCreatives : sortReverseCreativesTab
-                                                        track by $index"
-                                                     data-ng-include="'CreativesTpl'">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- -------END :  Creative Block ----------------------------- -->
 
-                    <!-- -------START :  Ad sizes Block ----------------------------- -->
-                    <div  id="reports_byadsizes_block"
-                          data-ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "
-                          style="{{defaultDisplayAdSize}}">
-                        <div class="no_data_found" data-ng-if="dataNotFoundForAdsizes"
-                             data-ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                        <div class="reports_details_outer_container overflowAuto" data-ng-show="!dataNotFoundForAdsizes">
-                            <div class="clearfix reports_performance_header" data-ng-hide="adSizesBusy">
-                                <adsizes-header></adsizes-header>
-                            </div>
-                            <div class="strategy_total_container ">
-                                <div class="strategy_total_container_header clearfix">
-                                    <!-- <div class="each_col first_col" data-ng-hide="adSizeBusy">
-                                        <span class="strategyHeading" data-ng-bind="strategyHeading"></span>
-                                        <span class="pull-left icon-target viewLabelTxt"></span>
-                                        <span class="viewLabelTxt" data-ng-bind="viewLabelTxt"></span>
-                                    </div> -->
 
-                                    <div class="row_list_holder row_list_pad clearfix">
-                                        <div class="common-load-icon" data-ng-show="adSizesBusy"></div>
-                                        <div class="clearfix each_row_list {{adSizesData.sepratorCls}}"
-                                             data-ng-show="!adSizesBusy"
-                                             data-ng-repeat="adSizesData in strategyPerfDataByAdsizes |
-                                                orderBy : sortTypeByAdSizes : sortReverse track by $index"
-                                             data-ng-include="'AdSizesTpl'">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="all_strategies_holder" data-ng-show="!adSizesBusy">
-                                    <div class="each_strategy_holder clearfix"
-                                         data-ng-repeat="tactic in groupThem |
-                                            orderBy : sortTypeByAdSizes : sortReverse track by $index"
-                                         data-ng-if="showPerfMetrix === true">
-                                        <div class="linkage_bar"></div>
-                                        <div class="each_strategy clearfix">
-                                            <div class="each_col first_col col-md-12 zeroPadding"
-                                                 style="width: 100%"
-                                                 data-ng-bind="tactic.name">
-                                            </div>
-                                            <div class="row_list_holder col-md-12 zeroPadding">
-                                                <div ng-if="adSizesData.sepratorCls == 'sepratorLineCls'" class="clearfix each_row_list {{adSizesData.sepratorCls}}"
-                                                     data-ng-repeat="adSizesData in tactic.perf_metrics |
-                                                        orderBy : sortTypeByAdSizes : sortReverseAdSizes
-                                                        track by $index"
-                                                     data-ng-include="'AdSizesTpl'">
-                                                </div>
-                                                <div ng-if="adSizesData.sepratorCls!='sepratorLineCls'" class="clearfix each_row_list"
-                                                     data-ng-repeat="adSizesData in tactic.perf_metrics |
-                                                        orderBy : sortTypeByAdSizes : sortReverseAdSizes
-                                                        track by $index"
-                                                     data-ng-include="'AdSizesTpl'">
-                                                </div>
-                                            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- -------END :  Ad Sizes Block ----------------------------- -->
                 </div>
             </div>
         </div>
@@ -402,7 +483,7 @@
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data"
+                <div class="vid_quartile_data text-left"
                      data-ng-bind="((screenData.vtc_25 > 0) || (screenData.vtc_25 === 0)) ?
                         (screenData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
@@ -493,7 +574,7 @@
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data"
+                <div class="vid_quartile_data text-left"
                      data-ng-bind="((daysOfWeekData.vtc_25 > 0) || (daysOfWeekData.vtc_25 === 0)) ?
                         (daysOfWeekData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
@@ -583,7 +664,7 @@
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data"
+                <div class="vid_quartile_data text-left"
                      data-ng-bind="((formatData.vtc_25 > 0) || (formatData.vtc_25 === 0)) ?
                         (formatData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
@@ -669,7 +750,7 @@
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data"
+                <div class="vid_quartile_data text-left"
                      data-ng-bind="((creativesData.vtc_25 > 0) || (creativesData.vtc_25 === 0)) ?
                         (creativesData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
@@ -758,7 +839,7 @@
         </div>
         <div class="vid_data_hdr">
             <div>
-                <div class="vid_quartile_data"
+                <div class="vid_quartile_data text-left"
                      data-ng-bind="((adSizesData.vtc_25 > 0) || (adSizesData.vtc_25 === 0)) ?
                         (adSizesData.vtc_25 | nrFormat : 2) : '-'">
                 </div>
@@ -880,7 +961,7 @@
                     <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
                 </span>
                 <span class="pull-left col-md-2 text-left discrepancySecLevelCategory" data-ng-bind="vendor.category"></span>
-                <div class="col-md-2 zeroPadding text-left" 
+                <div class="col-md-2 zeroPadding text-left"
                      data-ng-bind="node.imps >= 0 ? (node.imps | number : 0) : '-'" >
                 </div>
             </div>

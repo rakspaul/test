@@ -1,11 +1,14 @@
 define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-edit-advertiser-controller', 'accounts-add-or-edit-brand-controller',
-    'accounts-add-or-edit-controller', 'custom-date-picker'],
-    function (angularAMD) {
+    'accounts-add-or-edit-controller', 'custom-date-picker'], function (angularAMD) {
         'use strict';
 
-        angularAMD.controller('AccountsController', ['$scope', '$rootScope', '$modal', '$compile', '$sce', 'constants', 'adminAccountsService',
-            'momentService', 'loginModel', function ($scope, $rootScope, $modal, $compile, $sce, constants, adminAccountsService, momentService, loginModel) {
+        angularAMD.controller('AccountsController', ['$scope', '$rootScope', '$modal', '$compile', '$sce', 'constants', 'adminAccountsService', 'momentService',
+            'loginModel', 'pageLoad', function ($scope, $rootScope, $modal, $compile, $sce, constants, adminAccountsService, momentService, loginModel, pageLoad) {
                 var _currCtrl = this;
+
+                console.log('ADMIN ACCOUNTS controller is loaded!');
+                // Hide page loader when the page is loaded
+                pageLoad.hidePageLoader();
 
                 _currCtrl.pixelTypeCode = {
                     RETARGETING: 'rt',

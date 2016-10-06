@@ -1,13 +1,9 @@
 define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 'data-store-model', 'report-schedule-delete-controller'],
     function (angularAMD) {
-    angularAMD.controller('ReportsScheduleListController', ['$scope', '$filter', '$location', '$modal', '$rootScope',
-        '$routeParams', 'collectiveReportModel', 'utils', 'constants', 'urlService', 'dataStore', 'domainReports', 'dataService',
-        'momentService', '$q', '$timeout', 'localStorageService', 'vistoconfig', 'urlBuilder',
-
-        function ($scope,$filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils,
-                  constants, urlService, dataStore, domainReports, dataService, momentService, $q, $timeout,
-                  localStorageService, vistoconfig, urlBuilder) {
-            
+    angularAMD.controller('ReportsScheduleListController', ['$scope', '$filter', '$location', '$modal', '$rootScope', '$routeParams', 'collectiveReportModel', 'utils',
+        'constants', 'urlService', 'dataStore', 'domainReports', 'dataService', 'momentService', '$q', '$timeout', 'localStorageService', 'vistoconfig', 'urlBuilder', 'pageLoad',
+        function ($scope,$filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils, constants, urlService, dataStore, domainReports, dataService,
+                  momentService, $q, $timeout, localStorageService, vistoconfig, urlBuilder, pageLoad) {
         var _curCtrl = this,
             isSearch = false,
             urlQueries = $location.search(),
@@ -24,7 +20,12 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
 
             isValidQueryParamFilter = false;
 
+        console.log('MY REPORTS controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
+
         $scope.createCustomReportUrl = urlBuilder.customReportsUrl(true);
+        $scope.textConstants = constants;
 
         _curCtrl.filters = {};
         _curCtrl.isFilterExpanded = false;
@@ -558,7 +559,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
                                         $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
                                     }, function () {
                                         $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                                    }, data.client_id, data);
+                                    }, data);
                                 };
 
                                 copyError = function () {

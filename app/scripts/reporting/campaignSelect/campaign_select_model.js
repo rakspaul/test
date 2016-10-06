@@ -6,7 +6,8 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
                 var campaign = {
                     selectedCampaign: {},
                     selectedCampaignOriginal: {}
-                };
+                },
+                reportWidget;
 
                 campaign.setSelectedCampaign = function (_campaign) {
                     if (!$.isEmptyObject(_campaign)) {
@@ -61,20 +62,24 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
                         $timeout(function() {
                             deferred.resolve();
                         }, 5);
+
                         return deferred.promise;
                     }
                     url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId;
 
-                    dataService.getSingleCampaign(url).then(function (result) {
-                        if (result.status === 'success' && !angular.isString(result.data)) {
-                            campaign.selectedCampaignOriginal = result.data.data;
-                            campaign.setSelectedCampaign(result.data.data);
-                            console.log('fetchCampaign', 'is fetched');
-                        }
-                        deferred.resolve();
-                    }, function() {
-                        deferred.reject('Mediaplan not found');
-                    });
+                    dataService
+                        .getSingleCampaign(url)
+                        .then(function (result) {
+                            if (result.status === 'success' && !angular.isString(result.data)) {
+                                campaign.selectedCampaignOriginal = result.data.data;
+                                campaign.setSelectedCampaign(result.data.data);
+                                console.log('fetchCampaign is fetched');
+                            }
+
+                            deferred.resolve();
+                        }, function() {
+                            deferred.reject('Mediaplan not found');
+                        });
 
                     return deferred.promise;
                 };
@@ -132,6 +137,15 @@ define(['angularAMD', 'url-service', 'kpi-select-model'], function (angularAMD) 
 
                 campaign.removeSelectedCampaign = function () {
                     return localStorageService.selectedCampaign.remove();
+                };
+
+                campaign.setReportWidget = function(reportName) {
+                    reportWidget  = reportName;
+
+                };
+
+                campaign.getReportWidget = function() {
+                    return reportWidget;
                 };
 
                 return campaign;

@@ -1,12 +1,12 @@
 <div class="clearfix modal-body">
-    
+
     <div class="col-md-12 zeroPadding">
-        <h2 class="pull-left" style="margin-bottom: 0;">About this Account</h2>
+        <h2 class="pull-left" style="margin-bottom: 0;" data-ng-bind="textConstants.ABOUT_THIS_ACCOUNT"></h2>
     </div>
-    
+
     <!--Row 1-->
     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-        <label class="col-sm-12 greyTxt">Account Type:</label>
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ACCOUNT_TYPE"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle"
@@ -36,9 +36,9 @@
             </div>
         </div>
     </div>
-    
+
     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-        <label class="col-sm-12 greyTxt">Account Name:</label>
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ACCOUNT_NAME"></label>
         <input type="text"
                class="form-control"
                placeholder="Add Name"
@@ -48,10 +48,10 @@
                special-character="special-character" >
         <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR" ></label>
     </div>
-    
+
     <div class="form-group col-md-4 " style="padding: 0;">
         <div class="col-md-12 zeroPadding dropdown-workflow accountCode">
-            <label class="col-sm-12 greyTxt">Account Code:</label>
+            <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ACCOUNT_CODE"></label>
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle setSelectedClientCode"
                         type="button"
@@ -73,7 +73,7 @@
         </div>
 
         <div class="form-group customClientCode" style="padding: 0;" data-ng-show="setSelectedClientCode=='Others'">
-            <label class="col-sm-12 greyTxt">Enter Code:</label>
+            <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ENTER_CODE"></label>
             <input type="text"
                    class="form-control"
                    placeholder="Add Code"
@@ -97,11 +97,11 @@
                data-ng-model="clientNameData.nickname"
                special-character="special-character"
                placeholder="Add Nickname">
-        <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>  
+        <label class="txtError special-character-error" style="display:none" data-ng-bind="textConstants.SPECIAL_CHARACTER_ERROR"></label>
     </div>
-    
+
     <div class="form-group col-md-3" style="padding: 0 15px 0 0;">
-        <label class="col-sm-12 greyTxt">Currency:</label>
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ADMIN_CURRENCY"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle"
@@ -122,27 +122,27 @@
                         <a data-ng-bind="curr.currencyCode" data-ng-click="selectCurrency(curr)"></a>
                     </li>
                 </ul>
-            </div>
+            </div> 
         </div>
     </div>
-    
+
     <div class="form-group col-md-3" style="padding: 0 15px 0 0;">
-        <label class="col-sm-12 greyTxt">Geography:</label>
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ADMIN_GEOGRAPHY"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button id="geography"
-                        class="btn btn-default dropdown-toggle"
-                        type="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="true">
-                    <span class="text" data-ng-bind="selectedCountry ? selectedCountry : 'Select Geography'"></span>
-                    <span class="icon-arrow-solid-down"></span>
-                </button>
-                <ul class="dropdown-menu" data-toggle="dropdown">
+                <input id="accountGeography"
+                       type="text"
+                       class="form-control"
+                       data-ng-model="selectedCountry"
+                       data-toggle="dropdown"
+                       special-character="special-character"
+                       data-ng-keyup="filterCountries($event)"
+                       placeholder="Select Geography"/>                           
+                    <span id="accountGeographyDD" class="icon-arrow-solid-down"  data-toggle="dropdown"></span>              
+                <ul id="geoDropdown" class="dropdown-menu" data-toggle="dropdown">
                     <li class="available"
                         value="{{country.id}}"
-                        data-ng-repeat="country in Geography"
+                        data-ng-repeat="country in GeographyList"
                         data-ng-selected="{{country.id == selectedCountry}}">
                         <a data-ng-bind="country.name" data-ng-click="selectCountry(country)"></a>
                     </li>
@@ -150,9 +150,9 @@
             </div>
         </div>
     </div>
-    
+
     <div class="form-group col-md-3" style="padding: 0;">
-        <label class="col-sm-12 greyTxt">Timezone:</label>
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ADMIN_TIMEZONE"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle"
@@ -181,10 +181,10 @@
 <!--Ad Choices-->
 <div class="adChoices" data-ng-show="clientObj.isLeafNode" style="margin-top: 30px;">
     <div class="col-md-12 zeroPadding">
-        <h1 class="pull-left" style="margin-top: 5px;">Ad Choices</h1>
+        <h1 class="pull-left" style="margin-top: 5px;" data-ng-bind="textConstants.AD_CHOICES"></h1>
     </div>
     <div class="form-group col-md-2" style="padding: 0 15px 0 0;">
-        <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
+        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.ENABLE_AD_CHOICES"></label>
         <input id="advEnableAdChoices"
                class="cmn-toggle cmn-toggle-round"
                type="checkbox"
@@ -192,7 +192,7 @@
         <label for="advEnableAdChoices"></label>
     </div>
     <div class="form-group col-md-10" style="padding: 0 15px;" data-ng-show="enableAdChoice">
-        <label class="col-sm-12 greyTxt" for="pixelCode">Ad Choices Code Block:</label>
+        <label class="col-sm-12 greyTxt" for="pixelCode" data-ng-bind="textConstants.AD_CHOICES_CODE_BLOCK"></label>
         <textarea data-ng-model="adChoiceCode" id="pixelCode"></textarea>
         <span class="col-md-12 zeroPadding" style="margin-top: 7px;"
          data-ng-show="enableAdChoice"

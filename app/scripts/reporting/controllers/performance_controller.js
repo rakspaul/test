@@ -1,20 +1,18 @@
-define(['angularAMD','kpi-select-model', 'campaign-select-model',
-    'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'time-period-controller',
+define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-select-service', 'time-period-model', 'url-service', 'common-utils', 'time-period-controller',
     'kpi-select-directive', 'strategy-select-directive', 'strategy-select-controller', 'time-period-pick-directive'], function (angularAMD) {
     'use strict';
-
-    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', 'kpiSelectModel', 'campaignSelectModel',
+    angularAMD.controller('PerformanceController', ['$scope', '$rootScope', '$filter', 'kpiSelectModel', 'campaignSelectModel',
         'strategySelectModel', 'dataService', 'domainReports', 'constants',
         'timePeriodModel', 'brandsModel', 'loginModel', 'urlService',
-        'advertiserModel', 'vistoconfig', 'featuresService', 'utils', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel,
+        'advertiserModel', 'vistoconfig', 'featuresService', 'utils','pageLoad', function ($scope, $rootScope, $filter, kpiSelectModel, campaignSelectModel,
                                                              strategySelectModel, dataService, domainReports, constants,
                                                              timePeriodModel, brandsModel, loginModel, urlService,
-                                                             advertiserModel, vistoconfig, featuresService, utils) {
+                                                             advertiserModel, vistoconfig, featuresService, utils, pageLoad) {
 
         var _customCtrl = this,
             extractAdFormats,
 
-            performaceTabMap = [
+            performanceTabMap = [
                 {byscreens: 'Screen'},
                 {byformats: 'Format'},
                 {byplatforms: 'Platform'},
@@ -24,58 +22,20 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                 {bydiscrepancy: 'Discrepancy'}
             ];
 
+        console.log('PERFORMANCE controller is loaded!');
+        // Hide page loader when the page is loaded
+        pageLoad.hidePageLoader();
+
         $scope.textConstants = constants;
 
         // highlight the header menu - Dashboard, Campaigns, Reports
         domainReports.highlightHeaderMenu();
         //domainReports.highlightSubHeaderMenu();
 
-        $scope.sortType             = 'impressions';
-        $scope.sortTypebyformats    = '-impressions';
-        $scope.sortTypebyplatforms  = '-impressions';
-        $scope.sortTypebydaysofweek = 'dimension1';
-        $scope.sortTypeByCreatives  = '-impressions';
-        $scope.sortTypeByAdSizes    = '-impressions';
-        $scope.sortTypeScreens      = '-impressions';
-        $scope.sortTypediscrepancy  = '-imps';
+     //   $scope.sortType = 'impressions';
 
         // set the default sort order
         $scope.sortReverse  = false;
-
-        $scope.sortReverseFormatTab  = false;
-        $scope.sortReverseAdSizeTab  = false;
-        $scope.sortReverseCreativesTab  = false;
-        $scope.sortReverseDaysTab  = false;
-
-        $scope.sortReverseForCostscpm  = true;
-        $scope.sortReverseForCostscpa  = true;
-        $scope.sortReverseForCostscpc  = true;
-        $scope.sortReverseAdSizes  = false;
-
-        $scope.sortReverseForCostscpmFormats  = true;
-        $scope.sortReverseForCostscpaFormats  = true;
-        $scope.sortReverseForCostscpcFormats  = true;
-        $scope.sortReverseAdSizesFormats  = true;
-
-        $scope.sortReverseForCostscpmPlatforms  = true;
-        $scope.sortReverseForCostscpaPlatforms   = true;
-        $scope.sortReverseForCostscpcPlatforms    = true;
-        $scope.sortReverseAdSizesPlatforms    = true;
-
-        $scope.sortReverseForCostscpmDaysofweek  = true;
-        $scope.sortReverseForCostscpaDaysofweek  = true;
-        $scope.sortReverseForCostscpcDaysofweek  = true;
-        $scope.sortReverseAdSizesDaysofweek  = true;
-
-        $scope.sortReverseForCostscpmCreatives  = true;
-        $scope.sortReverseForCostscpaCreatives  = true;
-        $scope.sortReverseForCostscpcCreatives  = true;
-        $scope.sortReverseAdSizesCreatives  = true;
-
-        $scope.sortReverseForCostscpmAdsizes  = true;
-        $scope.sortReverseForCostscpaAdsizes  = true;
-        $scope.sortReverseForCostscpcAdsizes  = true;
-        $scope.sortReverseAdSizesAdsizes  = true;
 
         $scope.isStrategyDropDownShow = true;
         $scope.characterLimit  = 50;
@@ -111,20 +71,24 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
 
         // We should not keep selected tab in $scope.selectedFilters object because it is altered by
         // directive_controller in callBackCampaingSuccess and then tab info is not set
-        if ($scope.redirectWidget && $scope.redirectWidget === 'adsizes') {
+         var reportWidgetName = campaignSelectModel.getReportWidget();
+
+        if (reportWidgetName && reportWidgetName === 'adsizes') {
             $scope.sortByColumn = 'dimension';
             $scope.activeAdSizeClass = 'active';
             $scope.defaultDisplayAdSize = 'display: block';
             $scope.defaultDisplayFormat = 'display: none';
             $scope.defaultDisplayScreen = 'display: none';
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
-        } else if ($scope.redirectWidget === 'formats') {
+
+            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
+        } else if (reportWidgetName === 'formats') {
             $scope.sortByColumn = 'dimension';
             $scope.activeFormatClass = 'active';
             $scope.defaultDisplayFormat = 'display: block';
             $scope.defaultDisplayAdSize = 'display: none';
             $scope.defaultDisplayScreen = 'display: none';
-            $scope.selected_tab = 'by'+$scope.redirectWidget.toLowerCase();
+
+            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
         } else {
             $scope.selected_tab = 'byscreens';
             $scope.sortByColumn = 'name';
@@ -198,7 +162,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                 },
 
                 url,
-                tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];
+                totalValIndex = null,
+                tab = _.compact(_.pluck(performanceTabMap, [param.tab]))[0];
 
             if (Number($scope.selectedStrategy.id) >= 0) {
                 param.queryId = performanceQueryIdMapperWithSelectedAdsGroup[tab.toLowerCase()];
@@ -267,9 +232,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         return item.ad_id !== -1 && item.ad_group_id !== -1;
                                     });
 
-
-
-
                                 $scope.groupThem = _.chain($scope['strategyPerfDataByTactic' + tab])
                                     .groupBy('ad_id')
                                     .map(function (value, key) {
@@ -280,17 +242,23 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         };
                                     })
                                     .value();
+
                             } else {
                                 // Media Plan total
                                 $scope.showPerfMetrix = false;
                                 $scope['strategyPerfDataBy' + tab]  = result.data.data;
 
-                                _.each($scope['strategyPerfDataBy' + tab], function (item) {
+                                _.each($scope['strategyPerfDataBy' + tab], function (item, i) {
                                     if(item.dimension === 'Media Plan Totals') {
                                         item.sepratorCls = 'sepratorCls';
                                     }
+                                    if(item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                        ' Totals' || item.dimension === 'Ad Totals'){
+                                        totalValIndex = i;
+                                    }
                                     item.kpi_type = $scope.selectedFilters.campaign_default_kpi_type;
                                 });
+
                             }
 
                             if (param.tab === 'bydiscrepancy') {
@@ -317,6 +285,28 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
                                         $scope.selectedCategoryType = item.category;
                                     }
                                 });
+                            }else{
+
+                                if (Number($scope.selectedStrategy.id) >= 0) {
+                                    totalValIndex = _.findIndex($scope['strategyPerfDataBy' + tab], function(item){
+                                        return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                        ' Totals' || item.dimension === 'Ad Totals');
+                                    });
+                                    $scope['strategyPerfDataBy' + tab] = utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+
+                                    _.each($scope.groupThem, function(data){
+                                        data = data.perf_metrics;
+                                        totalValIndex = _.findIndex(data, function(item){
+                                            return (item.dimension === 'Media Plan Totals' || item.dimension === 'Line Item' +
+                                            ' Totals' || item.dimension === 'Ad Totals');
+                                        });
+                                        data = utils.swapValuesInArray(data, 0, totalValIndex);
+                                    });
+
+                                } else {
+                                        $scope['strategyPerfDataBy' + tab] =
+                                         utils.swapValuesInArray($scope['strategyPerfDataBy' + tab], 0, totalValIndex);
+                                }
                             }
                         }
                     } else {
@@ -584,32 +574,12 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         });
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-            if ($scope.selected_tab === 'byformats') {
-                $scope.sortTypebyformats = args;
-            } else if ($scope.selected_tab === 'bydaysofweek') {
-                $scope.sortTypebydaysofweek = args;
-            } else if ($scope.selected_tab === 'bycreatives') {
-                $scope.sortTypeByCreatives = args;
-            } else if ($scope.selected_tab === 'byadsizes') {
-                $scope.sortTypeByAdSizes = args;
-            } else if ($scope.selected_tab === 'byplatforms') {
-                $scope.sortTypebyplatforms = args;
-            } else if ($scope.selected_tab === 'byscreens') {
-                $scope.sortTypeScreens = args;
-
-                if (args === 'cpm') {
-                    $scope.sortReverseForCostscpm = sortorder;
-                } else if (args === 'cpc') {
-                    $scope.sortReverseForCostscpc = sortorder;
-                } else {
-                    $scope.sortReverseForCostscpa = sortorder;
-                }
-            }
-
             $scope.sortType = args;
             $scope.sortTypeSubSort = 'tactic.' + args;
+            $scope.sortTypeScreens = args;
             $scope.sortReverse = sortorder;
             $scope.kpiDropdownActive = true;
+            $scope.specialSort(args);
         });
 
         $scope.removeKpiActive = function () {
@@ -621,12 +591,32 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model',
         };
 
         $scope.specialSort = function (passedSortype) {
-            $scope.sortType = passedSortype;
+            if (Number($scope.selectedStrategy.id) >= 0) {
+                passedSortype = (passedSortype === 'dimension') ? 'ad_name' : passedSortype;
+                $scope.groupThem = _.sortBy( $scope.groupThem, function(item) {
+                    return $scope.sortReverse ? -item.perf_metrics[0][passedSortype] : item.perf_metrics[0][passedSortype];
+                });
+            }else {
+                $scope.sortType = passedSortype;
+            }
         };
 
-        $scope.sortClassFunction = function (a,b,c) {
-            var isActive = (a === b) ?  'active' : '',
-                sortDirection = (c === true) ?  'sort_order_up' : 'sort_order_down';
+        $scope.clickToSort = function(type){
+            if($scope.selected_tab==='bydaysofweek' && type === 'dimension'){
+                type = 'dimension1';
+            }
+            $scope.sortType = type;
+            $scope.sortReverse = !$scope.sortReverse;
+            $scope.specialSort(type);
+            $scope.removeKpiActive();
+        };
+
+        $scope.sortClassFunction = function (a) {
+            if($scope.selected_tab==='bydaysofweek' && a === 'dimension'){
+                a = 'dimension1';
+            }
+            var isActive = (a === $scope.sortType) ?  'active' : '',
+                sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
 

@@ -36,6 +36,35 @@
                 <div class="listToBeSelected">
                     <div class="segmentHeader">
                         <!--Search-->
+                        <div class="col-md-4 pull-left providers-dropdown zeroPadding">
+
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-with-search-btn" type="button"  aria-haspopup="true" aria-expanded="true" ng-click="showHideDropdownWithSearch($event);" >
+                                        <span data-ng-bind="providerLabel"></span>
+                                        <span class="icon-arrow-solid-down"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-with-search multiSelect">
+                                        <div  class="search-inside-dropdown">
+                                            <input type="text" ng-model="providerSearchText" class="dropdown-toggle " />
+                                            <span class="sort-image-inactive brands_dd_filter_arrow" ></span>
+                                        </div>
+
+                                        <div ng-if="providerLoader" class="common-loading-area" ></div>
+
+                                        <li class="available" ng-if="!providerLoader && segmentProviders.length >0" ng-repeat="provider in segmentProviders | filter : providerSearchText">
+                                            <label>
+                                                <input class="pull-left"  ng-click="filterAudienceData(provider)" type="checkbox">
+                                                <span class="pull-left">{{provider}}</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
                         <div class="btn-group pull-right">
                             <div class="searchInput col-md-12 zeroPadding">
                                 <a class="btn btn-default searchInputBtnInline" data-ng-click="selectKeyword(keywordText)">
@@ -58,21 +87,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 zeroPadding">
+                        <!--Temp Hide?-->
+                        <div class="col-md-6 zeroPadding" style="display: none;">
                             <input type="text" id="amount" class="col-md-12 greyTxt sliderAmount" readonly>
                             <div class="col-md-12 zeroPadding" id="slider-range"></div>
                         </div>
                     </div>
-					<div class="col-md-12 segHeaderTable" style="margin-top: -15px;">
+					<div class="col-md-12 segHeaderTable">
 						<div class="columnOne">
 							<div class="checkbox">
 								<input type="checkbox" data-ng-click="selectAllAudience($event)" data-ng-checked="selectAllChecked">
 							</div>
 						</div>
-						<div class="columnTwo col-md-5">
+						<div class="columnTwo col-md-4">
 							<span data-ng-bind="textConstants.SEGMENTNAME"></span>
 						</div>
-						<div class="columnThree col-md-3">
+                        <div class="columnThree col-md-2">
+                            <span>Providers</span>
+                        </div>
+						<div class="columnThree col-md-2">
 							<span data-ng-bind="textConstants.CPM"></span>
 						</div>
 						<div class="columnFour col-md-3">
@@ -88,10 +121,14 @@
 										<input type="checkbox" data-ng-click="selectAudience(audience)" data-ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo audienceTip col-md-5">
+								<div class="columnTwo audienceTip col-md-4">
 									<span data-ng-bind="audience.displayName" title="{{audience.displayName}}" class="toolTipAudienceSegment"></span>
 								</div>
-								<div class="columnTwo col-md-3">
+                                <div class="columnTwo col-md-2">
+                                    <div class="pull-left">&nbsp;</div>
+                                    <div class="pull-left" data-ng-bind="audience.providerCode"></div>
+                                </div>
+								<div class="columnTwo col-md-2">
 									<div class="pull-left">$&nbsp;</div>
 									<div class="pull-left" data-ng-bind="(audience.cpmCost).toFixed(2)"></div>
 								</div>
