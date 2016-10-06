@@ -203,35 +203,34 @@
 
         <div class="icon-browser"></div>
         <p style="margin: 6px 0 6px;">Sellers</p>
-        <div class="cardTxtWrap" data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude">
+        <div class="cardTxtWrap" data-ng-if="adData.sellersTargetting.length == 0">
             <span data-ng-bind="textConstants.SELLERS_TARGETING" style="margin: 5px 0 10px;"></span>
             <p style="margin: 0;">
                 <span>All Sellers (default)</span>
             </p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
-             data-ng-if="geoPreviewData.include || geoPreviewData.exclude">
-            <div class="targetDataSavedTop" data-ng-if="geoPreviewData.include.count > 0">
+             data-ng-if="adData.sellersTargetting.length > 0">
+            <div class="targetDataSavedTop" data-ng-if="adData.sellersAction">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
-                <div class="badge" data-ng-bind="geoPreviewData.include.count"></div>
+                <div class="badge" data-ng-bind="adData.sellersTargetting.length"></div>
             </div>
-            <span class="targetListItem" data-ng-bind="geoPreviewData.include.label"></span>
             <div class="targetDataSavedTop"
                  style="padding-top: 20px;"
-                 data-ng-if="geoPreviewData.exclude.count > 0">
+                 data-ng-if="adData.sellersAction == false">
                 <div class="icon-exclude"></div>
                 <span data-ng-bind="textConstants.EXCLUDED"></span>
-                <div class="badge" data-ng-bind="geoPreviewData.exclude.count"></div>
+                <div class="badge" data-ng-bind="adData.sellersTargetting.length"></div>
             </div>
-            <span class="targetListItem" data-ng-if="geoPreviewData.exclude.count" data-ng-bind="geoPreviewData.exclude.label">
+            <span class="targetListItem" data-ng-if="adData.sellersAction" data-ng-bind="geoPreviewData.exclude.label">
             </span>
         </div>
         <span data-ng-if="$parent.isPlatformSelected"
               class="onSelectBtn active"
               data-ng-click="selectSellerTarget()">
         </span>
-        <input data-ng-if="!geoPreviewData.include && !geoPreviewData.exclude"
+        <input data-ng-if="adData.sellersTargetting.length == 0"
                type="button"
                name="platform"
                value="Create"

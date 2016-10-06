@@ -26,77 +26,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                 fetchAllSellers: function(searchText) {
                     console.log($scope.adData);
                      sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId,searchText).then(function(result) {
-                         sellerCtrl.sellers.sellersList = [{"id": 1,
-                             "name": "Seller 1",
-                             "vendor_id": 1,
-                             "vendor_seat_id" : 1,
-                             "source_id" : 2101,
-                             "created_at": "",
-                             "updated_at": "",
-                             "isPrefered": true
-                         },
-                             {"id": 2,
-                                 "name": "Seller 2",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             },
-                             {"id": 12,
-                                 "name": "Seller 3",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             },
-                             {"id": 22,
-                                 "name": "Seller 4",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             },
-                             {"id": 32,
-                                 "name": "Seller 2",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             },
-                             {"id": 42,
-                                 "name": "Seller 5",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             },{"id": 52,
-                                 "name": "Seller 2",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             },{"id": 62,
-                                 "name": "Seller 6",
-                                 "vendor_id": 2,
-                                 "vendor_seat_id" : 2,
-                                 "source_id" : 2102,
-                                 "created_at": "",
-                                 "updated_at": "",
-                                 "isPrefered": false
-                             }
-                         ];
+                         sellerCtrl.sellers.sellersList = result.data.data;
 
                          //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
                          if(!_.isEmpty($scope.adData.sellersTargetting) && !searchText ){
@@ -319,7 +249,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         sellerCtrl.selectAllChecked = false;
         sellerCtrl.includeAllSellersFlag = true;
         sellerCtrl.preferedFilterFlag = {isPrefered: ''};
-        $scope.adData.sellersTargetting = {};
+        $scope.adData.sellersTargetting = [];
 
     }]);
 });
