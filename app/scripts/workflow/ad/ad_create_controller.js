@@ -300,7 +300,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     idx,
                     i,
                     videoTargetsData,
-                    sellerTargetting,
+                    sellerTargettingData,
                     pacingType,
 
                     findFunc = function (item) {
@@ -604,6 +604,17 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     videoTargetsData.videoTargets.positions.length > 0 ||
                     videoTargetsData.videoTargets.playbackMethods.length > 0)) {
                     $scope.$broadcast('setTargeting', ['Video']);
+                }
+
+                // sellers part edit
+                sellerTargettingData = responseData.targets;
+                console.log('sellse-----',sellerTargettingData)
+                if (sellerTargettingData.sellerTargets &&
+                    (sellerTargettingData.sellerTargets.length > 0)) {
+                    $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
+                    $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
+
+                    $scope.$broadcast('triggerSeller');
                 }
 
                 $scope.$broadcast('getDominList', [{
@@ -1727,8 +1738,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             }
 
                             //sellers targetting
-
-                            if ($scope.adData.sellersTargetting) {
+                            if ($scope.adData.sellersTargetting && $scope.adData.sellersTargetting.length > 0) {
                                 postAdDataObj.targets.sellerTargets = _.pluck($scope.adData.sellersTargetting,'id');
                                 postAdDataObj.sellersAction = $scope.adData.sellersAction ? 'INCLUDE':'EXCLUDE';
                             }
@@ -1749,11 +1759,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             appListsIds = inventoryLists.appList;
                         }
 
-                        // seller targetting
-                        sellerTargetting = $scope.adData.sellersTargetting;
-                        if (sellerTargetting) {
-
-                        }
 
                         // domains save
                         if ($scope.adData.inventory &&

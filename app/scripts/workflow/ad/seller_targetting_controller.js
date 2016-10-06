@@ -294,7 +294,6 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         };
 
         sellerCtrl.loadMoreSellers = function() {
-            console.log('load more');
             pageNo++ ;
             _sellerTargetting.loadMoreSellers();
 
