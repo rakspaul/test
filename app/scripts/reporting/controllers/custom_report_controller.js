@@ -440,7 +440,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         $scope.fetching = false;
                         $scope.generateBtnDisabled = false;
                         _customctrl.isReportLastPage_1D = respData.last_page;
-                        console.log('respData: ',respData);
                         if((respData.total_data) && (respData.total_data[0])){
                             _customctrl.setDimTotal(respData.total_data[0]);
                         }
