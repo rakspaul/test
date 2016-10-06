@@ -212,7 +212,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                     saveAds: function (postDataObj) {
                         var promiseObj,
-                            clientId = vistoconfig.getSelectedAccountId();
+                            clientId = vistoconfig.getSelectedAccountId(),
+                            successMsg;
 
                         function adSaveErrorHandler (data) {
                             var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
@@ -244,6 +245,9 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
 
+                        successMsg =  $scope.adId ? $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS :  $scope.textConstants.AD_CREATED_SUCCESS;
+
+
                         promiseObj.then(function (result) {
                             var responseData = result.data.data;
 
@@ -253,14 +257,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 $scope.state = responseData.state;
                                 $scope.adId = responseData.id;
                                 $scope.updatedAt = responseData.updatedAt;
-                                $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS, 0);
+                                $rootScope.setErrAlertMessage(successMsg, 0);
 
                                 localStorage.setItem('adPlatformCustomInputs',
                                     window.JSON.stringify(responseData.adPlatformCustomInputs));
 
                                 $location.url(urlBuilder.mediaPlanOverviewUrl(result.data.data.campaignId));
-
-                                localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                             } else {
                                 if (responseData.statusCode === 400) {
                                     adSaveErrorHandler(responseData);
