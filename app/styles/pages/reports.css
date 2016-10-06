@@ -664,7 +664,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
 }
 .reports_main_page_holder .dropdown-menu.kpi_indicator_ul li span {
   padding: 0;
@@ -802,7 +802,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container .download_report:hover,
 .breadcrumb_campaign_strategy .download_report:hover,
 .smallScreenScrollDiv .download_report:hover {
-  background-color: #e1edf9;
+  background-color: #E1EDF9;
   border: 1px solid #bfc9d7;
 }
 .common_reports_container .download_anchor,
@@ -3524,7 +3524,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   cursor: pointer;
 }
 .report_generator_and_response #dynamicHeader .downReport:hover {
-  background: #e1edf9;
+  background: #E1EDF9;
 }
 .report_generator_and_response #dynamicHeader .subTitle {
   display: block;
@@ -4902,31 +4902,29 @@ body.custom_report_page .bodyWrap {
 .reports_main_page_holder .cost_report_kpi .dropdown-menu.kpi_indicator_ul .drop_list {
   width: 100% !important;
 }
-
-
-.sort_order_up:hover {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
-}
-
 .custom_report_response_table .sort_order_up:hover {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+}
+.custom_report_response_table .sort_order_up:hover {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
 }
 .custom_report_response_table .sort_order_up.active {
-    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -65px;
-    cursor: pointer;
-    padding-right: 20px;
-    color: #0978c9;
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -65px;
+  cursor: pointer;
+  padding-right: 20px;
+  color: #0978c9;
 }
-.custom_report_response_table .sort_order_down , .custom_report_response_table .sort_order_up{
-    cursor: pointer;
-    padding-right: 20px;
+.custom_report_response_table .sort_order_down,
+.custom_report_response_table .sort_order_up {
+  cursor: pointer;
+  padding-right: 20px;
 }
 .custom_report_response_table .sort_order_down:hover {
-    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
 }
 .custom_report_response_table .sort_order_down.active {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -65px;
-    cursor: pointer;
-    padding-right: 20px;
-    color: #0978c9;
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -65px;
+  cursor: pointer;
+  padding-right: 20px;
+  color: #0978c9;
 }
