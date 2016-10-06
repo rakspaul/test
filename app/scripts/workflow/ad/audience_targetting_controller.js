@@ -80,6 +80,10 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                         $scope.audienceList = [];
                     }
 
+                    if($scope.noMoreSegmentData) {
+                        return;
+                    }
+
                     audienceService
                         .fetchAudience(paramsObj)
                         .then(function (result) {
@@ -89,24 +93,28 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                                 $scope.showAudienceLoader = false;
                                 responseData = result.data.data;
                                 audienceService.setAudience(responseData);
+                                if(responseData.length  >0) {
+                                    $scope.noMoreSegmentData =  false;
+                                    if (loadMoreFlag) {
+                                        _.each(responseData, function (obj) {
+                                            $scope.audienceList.push(obj);
+                                        });
+                                    } else {
+                                        // first time fetch/filter fetch
+                                        $scope.audienceList = responseData;
+                                    }
 
-                                if (loadMoreFlag) {
-                                    _.each(responseData, function (obj) {
-                                        $scope.audienceList.push(obj);
-                                    });
+                                    if ($scope.mode === 'edit' && editOneTimeFlag === false) {
+                                        _audienceTargetting.processAudienceEdit();
+                                        editOneTimeFlag = true;
+                                    }
+
+                                    // check if selected audience exists and length > 0 call select Audience
+                                    if ($scope.selectedAudience && $scope.selectedAudience.length > 0) {
+                                        _audienceTargetting.checkSelectedAudience();
+                                    }
                                 } else {
-                                    // first time fetch/filter fetch
-                                    $scope.audienceList = responseData;
-                                }
-
-                                if ($scope.mode === 'edit' && editOneTimeFlag === false) {
-                                    _audienceTargetting.processAudienceEdit();
-                                    editOneTimeFlag = true;
-                                }
-
-                                // check if selected audience exists and length > 0 call select Audience
-                                if ($scope.selectedAudience && $scope.selectedAudience.length > 0) {
-                                    _audienceTargetting.checkSelectedAudience();
+                                    $scope.noMoreSegmentData  = true;
                                 }
                             }
                         });
@@ -161,6 +169,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
 
                 resetSelectedFields: function () {
                     $scope.pageNumber = 1;
+                    $scope.noMoreSegmentData =  false;
                     $scope.selectedKeywords = [];
                     $scope.selectedCategory = [];
                     $scope.selectedAudience = [];
@@ -208,6 +217,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         $scope.audienceFetching = false;
         $scope.categoryText = 'All';
         $scope.providerLabel = 'All';
+        $scope.noMoreSegmentData = false;
 
         $scope.dropdownCss = {
             display: 'none',
@@ -458,6 +468,8 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.selectedKeywords=[];
             $('.keyword-txt').val('');
             evt && $(evt.currentTarget).parent().hide();
+            $scope.noMoreSegmentData =  false;
+            $scope.pageNumber = 1;
 
             if ($scope.isAudienceTargetingSearched) {
                 $scope.isAudienceTargetingSearched = false;
@@ -468,11 +480,13 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         // keyword user choice
         $scope.showKeywords = function (event, keyword) {
             event.stopPropagation();
+            $scope.noMoreSegmentData =  false;
             $scope.pageNumber = 1;
             $scope.dropdownCss.display = keyword.length > 0 ? 'block' : 'none';
             $scope.isAudienceTargetingSearched = true;
 
             if (event.which === 13) {
+                $scope.audienceList = [];
                 if (keyword.length){
                     // fetch audience for keyword entered by user
                     $scope.selectKeyword(keyword);
@@ -487,6 +501,8 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
 
         $scope.filterAudienceData = function(provider) {
             var index;
+            $scope.noMoreSegmentData =  false;
+            $scope.pageNumber = 1;
 
             index = _.findIndex($scope.selectedProviders, function (item) {
                 return item === provider;
@@ -520,6 +536,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
 
             $scope.clearAllSelectedAudience();
             $scope.pageNumber = 1;
+            $scope.noMoreSegmentData =  false;
             _audienceTargetting.showAudienceTargetingBox();
             _audienceTargetting.initAudienceTargeting();
             _audienceTargetting.fetchAllAudience();
