@@ -678,19 +678,19 @@ define(['angularAMD'],
                         return 'NA';
                     }
                     switch(type){
-                        case "eCPM":
-                        case "eCPC":
-                        case "eCPA":
+                        case 'eCPM':
+                        case 'eCPC':
+                        case 'eCPA':
                             ret = $filter('number')(val, 2);
                             break;
-                        case "CTR %":
-                        case "PCCR %":
-                        case "pacing_metrics":
+                        case 'CTR %':
+                        case 'PCCR %':
+                        case 'pacing_metrics':
                             ret = val.toFixed(2) + '%';
                             break;
-                        case "Measurable %":
-                        case "Viewable %":
-                        case "Suspicious Activity %":
+                        case 'Measurable %':
+                        case 'Viewable %':
+                        case 'Suspicious Activity %':
                             ret = val.toFixed(0) + '%';
                             break;
                         default:
