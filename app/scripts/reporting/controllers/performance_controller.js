@@ -602,6 +602,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         };
 
         $scope.clickToSort = function(type){
+            if($scope.selected_tab==='bydaysofweek' && type === 'dimension'){
+                type = 'dimension1';
+            }
             $scope.sortType = type;
             $scope.sortReverse = !$scope.sortReverse;
             $scope.specialSort(type);
