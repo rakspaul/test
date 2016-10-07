@@ -1,15 +1,10 @@
-define(['angularAMD', 'vendor-config-service', 'vendor-config-select-type-controller', 'vendor-config-basic-settings-controller'], function (angularAMD) {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('VendorConfigController', ['pageLoad', 'constants', 'vendorConfigService', function (pageLoad, constants, vendorConfigService) {
-        var vm = this;
-
+    angularAMD.controller('CreateVendorController', function (pageLoad) {
+        console.log('VENDOR CREATE controller is loaded!');
         // Hide page loader when the page is loaded
         pageLoad.hidePageLoader();
-
-        vm.constants = constants;
-        vm.vendorConfig = vendorConfigService.vendorConfig;
-        console.log('VENDOR CONFIG controller is loaded!');
 
         // initial initialization
         $(function () {
@@ -23,5 +18,5 @@ define(['angularAMD', 'vendor-config-service', 'vendor-config-select-type-contro
                 $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
             });
         });
-    }]);
+    });
 });

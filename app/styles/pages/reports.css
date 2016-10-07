@@ -4210,11 +4210,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row {
   width: 100% ;
 }
-.custom_report_response_page .custom_report_response_table .inner_heading_row_total {
-  font-family: "Avenir";
-}
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
-  padding: 45px 0px 0px 0px ;
+  padding: 20px 0px 0px 0px ;
   margin-top: 80px;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {

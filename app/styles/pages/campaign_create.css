@@ -99,14 +99,14 @@
 }
 .adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 {
   position: relative;
-  /* span {
-                    left: 8px;
-                    position: absolute;
-                    top: 8px;
-                }*/
 }
 .adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 input {
   text-indent: 10px;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 span {
+  left: 8px;
+  position: absolute;
+  top: 8px;
 }
 .adCreateMaster #targetting .addTargetBtn {
   color: #0978c9;

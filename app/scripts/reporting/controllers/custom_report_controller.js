@@ -130,14 +130,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 }
             };
 
-            _customctrl.setDimTotal = function(data){
-                _.each(metricCategoryKeys, function(metrics){
-                    _.each($scope.metricKeyArr[metrics], function(val){
-                        val.total = data[metrics][val.key];
-                    });
-                });
-            };
-
             _customctrl.getDataBasedOnTabSelected = function (activeTab, typeofDimension, currIdx) {
                 var tmpObj = {},
                     activeTabDataObj,
@@ -440,10 +432,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         $scope.fetching = false;
                         $scope.generateBtnDisabled = false;
                         _customctrl.isReportLastPage_1D = respData.last_page;
-                        if((respData.total_data) && (respData.total_data[0])){
-                            _customctrl.setDimTotal(respData.total_data[0]);
-                        }
-
                         respData = respData.report_data;
 
                         if (respData && respData.length > 0) {

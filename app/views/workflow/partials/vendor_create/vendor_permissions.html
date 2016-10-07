@@ -99,7 +99,7 @@
                     <span class="td col-md-3">3</span>
                 </div>
                 <div data-ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common">
-                    <div class="td" data-ng-bind="vendor.constants.DATANOTAVAILABLE"></div>
+                    <div class="td" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
 
     <div class="col-md-5 zeroPadding selectedTables">
         <div class="col-md-12 zeroPadding" style="margin-top: 73px;">
-            <h2 class="pull-left" data-ng-bind="vendor.constants.SELECTED" style="    font-size: 18px;
+            <h2 class="pull-left" data-ng-bind="textConstants.SELECTED" style="    font-size: 18px;
     margin: 0 0 10px;"></h2>
             <div class="pull-right ">
                 <span class="pull-left marginRightFive icon-clear"></span>
@@ -119,15 +119,15 @@
         <div class="col-md-12 zeroPadding options-selected-section" id="geo-selected-section">
             <div class="default-selected-section" ng-if="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)">
                 <span class="icon-location"></span>
-                <div data-ng-bind="vendor.constants.NOTHINGSELECTED"></div>
-                <div class="smallText" ng-bind-html="vendor.constants.GEONOTE"></div>
+                <div data-ng-bind="textConstants.NOTHINGSELECTED"></div>
+                <div class="smallText" ng-bind-html="textConstants.GEONOTE"></div>
             </div>
             <div class="col-md-12 zeroPadding" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0">
 
                 <div class="table regionTable" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0">
                     <div>
                         <div class="clearfix each-row" >
-                            <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
+                            <div class="pull-left boldSubHeading" data-ng-bind="textConstants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
                             <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'countries');">
                             </div>
                         </div>
@@ -156,14 +156,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
+                        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
                     </div>
                 </div>
 
                 <div class="table dmaTable" ng-if="geoData.dmas.selected.length > 0">
                     <div>
                         <div class="clearfix each-row" >
-                            <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.METROS"></div>
+                            <div class="pull-left boldSubHeading" data-ng-bind="textConstants.METROS"></div>
                             <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'dmas');">
                             </div>
                         </div>
@@ -174,14 +174,14 @@
                             <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(dma, 'dmas', 'dma_{{dma.id}}')"></span></div>
                         </div>
                         <div ng-if="geoTargetingData.selected.dmas.length === 0">
-                            <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET"></div>
+                            <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
                         </div>
                     </div>
                 </div>
                 <div class="table zipTable" ng-if="geoData.zip.selected.length >0">
                     <div>
                         <div class="clearfix each-row" >
-                            <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.ZIPPOSTCODE"></div>
+                            <div class="pull-left boldSubHeading" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
                             <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'zip');">
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                                 <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(zip, 'zip')"></span></div>
                             </div>
                             <div ng-if="geoData.zip.selected.length === 0">
-                                <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET"></div>
+                                <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
                             </div>
                         </div>
                     </div>
@@ -205,6 +205,6 @@
 <a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
     <span class="btn btn-default"
           data-ng-click="highlightLeftNav(2)"
-          data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE">
+          data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
     </span>
 </a>

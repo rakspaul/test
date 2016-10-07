@@ -27,7 +27,7 @@
                     data-ng-model="adData.unitType"
                     id="unitcostType"
                     data-toggle="dropdown">
-                    <li data-ng-repeat="vendor in vendorList track by $index">
+                    <li data-ng-repeat="vendor in vendorList">
                         <a data-ng-click="select_vender_option(vendor.name)"
                            data-ng-bind="vendor.name + '('+vendor.category+')'" >
                         </a>
