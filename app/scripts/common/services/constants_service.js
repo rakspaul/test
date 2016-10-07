@@ -33,7 +33,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.REPORTS_OVERVIEW = 'Reports Overview';
         this.ADMIN = 'Admin';
         this.INVOICE_TOOL = 'Billing';
-
+        this.DAILYCAP = 'Use daily cap' ;
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
         this.ACTIVE = 'active';

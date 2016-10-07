@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('vendorsService', ['dataService', 'vistoconfig', function (dataService, vistoconfig) {
+        angularAMD.factory('vendorsConfigListService', ['dataService', 'vistoconfig', function (dataService, vistoconfig) {
             var clientId,
                 url,
 

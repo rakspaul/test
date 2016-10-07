@@ -13,9 +13,10 @@ define(['common'], function (angularAMD) {
 
     app
         .config(function ($routeProvider, $httpProvider) {
-            $routeProvider.caseInsensitiveMatch = true;
+            var rp = $routeProvider;
+            rp.caseInsensitiveMatch = true;
 
-            $routeProvider
+            rp
                 .when('/', angularAMD.route({
                     title: 'Bootstrapping Visto',
                     templateUrl: assets.html_home,
@@ -78,36 +79,6 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'login-controller'
                 }))
 
-                .when('/a/:accountId/dashboard', angularAMD.route({
-                    templateUrl: assets.html_dashboard,
-                    controller: 'DashboardController',
-                    controllerUrl: 'dashboard-controller',
-                    title: 'Dashboard',
-                    showHeader: true,
-                    bodyclass: 'dashboard_body',
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/dashboard', angularAMD.route({
-                    templateUrl: assets.html_dashboard,
-                    controller: 'DashboardController',
-                    controllerUrl: 'dashboard-controller',
-                    title: 'Dashboard',
-                    showHeader: true,
-                    bodyclass: 'dashboard_body',
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
                 .when('/a/:accountId/adv/:advertiserId/b/:brandId/dashboard', angularAMD.route({
                     templateUrl: assets.html_dashboard,
                     controller: 'DashboardController',
@@ -158,36 +129,6 @@ define(['common'], function (angularAMD) {
                                 });
 
                             return deferrer.promise;
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/dashboard', angularAMD.route({
-                    templateUrl: assets.html_dashboard,
-                    controller: 'DashboardController',
-                    controllerUrl: 'dashboard-controller',
-                    title: 'Dashboard',
-                    showHeader: true,
-                    bodyclass: 'dashboard_body',
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/dashboard', angularAMD.route({
-                    templateUrl: assets.html_dashboard,
-                    controller: 'DashboardController',
-                    controllerUrl: 'dashboard-controller',
-                    title: 'Dashboard',
-                    showHeader: true,
-                    bodyclass: 'dashboard_body',
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.dashboardHeaderResolver2(routeResolversParams);
                         }
                     }
                 }))
@@ -248,1773 +189,28 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/a/:accountId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
+                .when('/a/:accountId/sa/:subAccountId/vendor/create', angularAMD.route({
+                    templateUrl: assets.html_vendor_config,
+                    title: 'Create - Vendor Configuration',
+                    controller: 'VendorConfigController',
+                    controllerUrl: 'vendor-config-controller',
+                    controllerAs: 'vendor',
                     showHeader: true,
 
                     resolve: {
                         header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
                         }
                     }
                 }))
 
-                .when('/a/:accountId/adv/:advertiserId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName', angularAMD.route({
-                    templateUrl: assets.html_campaign_reports,
-                    title: 'Reports Overview',
-                    controller: 'CampaignReportsController',
-                    controllerUrl: 'campaign-reports-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
-                    title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
-                    controllerUrl: 'campaign-details-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
-                    title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
-                    controllerUrl: 'campaign-details-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
-                    title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
-                    controllerUrl: 'campaign-details-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
-                    title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
-                    controllerUrl: 'campaign-details-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
-                    title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
-                    controllerUrl: 'campaign-details-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_details,
-                    title: 'Reports Overview',
-                    controller: 'CampaignDetailsController',
-                    controllerUrl: 'campaign-details-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/performance', angularAMD.route({
-                    templateUrl: assets.html_performance,
-                    title: 'Reports - Performance',
-                    controller: 'PerformanceController',
-                    controllerUrl: 'performance-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/cost', angularAMD.route({
-                    templateUrl: assets.html_cost,
-                    title: 'Reports - Cost',
-                    controller: 'CostController',
-                    controllerUrl: 'cost-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/platform', angularAMD.route({
-                    templateUrl: assets.html_platform,
-                    title: 'Reports - Platform',
-                    controller: 'PlatformController',
-                    controllerUrl: 'platform-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/inventory', angularAMD.route({
-                    templateUrl: assets.html_inventory,
-                    title: 'Reports - Inventory',
-                    controller: 'InventoryController',
-                    controllerUrl: 'inventory-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/quality', angularAMD.route({
-                    templateUrl: assets.html_viewability,
-                    title: 'Reports - Quality',
-                    controller: 'ViewabilityController',
-                    controllerUrl: 'viewability-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/optimization', angularAMD.route({
-                    templateUrl: assets.html_optimization,
-                    title: 'Reports - Optimization Impact',
-                    controller: 'OptimizationController',
-                    controllerUrl: 'optimization-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader: true,
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans', angularAMD.route({
-                    templateUrl: assets.html_campaign_list,
-                    title: 'Media Plan List',
-                    reloadOnSearch : false,
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/reports/schedules', angularAMD.route({
-                    templateUrl: assets.html_reports_schedule_list,
-                    title: 'Scheduled Reports',
-                    controller: 'ReportsScheduleListController',
-                    controllerUrl: 'reports-schedule-list-controller',
-                    showHeader: true,
-                    css: assets.css_reports_schedule_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/customreport', angularAMD.route({
-                    templateUrl: assets.html_custom_report,
-                    title: 'Report Builder',
-                    controller: 'CustomReportController',
-                    controllerUrl: 'custom-report-controller',
-                    showHeader: true,
-                    bodyclass: 'custom_report_page',
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/customreport/edit/:reportId', angularAMD.route({
-                    templateUrl: assets.html_custom_report,
-                    title: 'Report Builder',
-                    controller: 'CustomReportController',
-                    controllerUrl: 'custom-report-controller',
-                    showHeader: true,
-                    bodyclass: 'custom_report_page',
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
-                    title: 'Upload Custom Reports',
-                    controller: 'CustomReportUploadController',
-                    controllerUrl: 'custom-report-upload-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
-                    title: 'Upload Custom Reports',
-                    controller: 'CustomReportUploadController',
-                    controllerUrl: 'custom-report-upload-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
-                    title: 'Upload Custom Reports',
-                    controller: 'CustomReportUploadController',
-                    controllerUrl: 'custom-report-upload-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
-                    title: 'Upload Custom Reports',
-                    controller: 'CustomReportUploadController',
-                    controllerUrl: 'custom-report-upload-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/upload', angularAMD.route({
-                    templateUrl: assets.html_custom_report_upload,
-                    title: 'Upload Custom Reports',
-                    controller: 'CustomReportUploadController',
-                    controllerUrl: 'custom-report-upload-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams,routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams,routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list', angularAMD.route({
-                    templateUrl: assets.html_collective_report_listing,
-                    title: 'Collective Insights',
-                    controller: 'CollectiveReportListingController',
-                    controllerUrl: 'collective-report-listing-controller',
-                    showHeader: true,
-                    css: assets.css_custom_reports,
-
-                    resolve: {
-                        reportsList: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/v1sto/invoices', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice_list,
-                    title: 'Invoices Reports',
-                    controller: 'ReportsInvoiceListController',
-                    controllerUrl: 'reports-invoice-list-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/v1sto/invoices', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice_list,
-                    title: 'Invoices Reports',
-                    controller: 'ReportsInvoiceListController',
-                    controllerUrl: 'reports-invoice-list-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/v1sto/invoices', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice_list,
-                    title: 'Invoices Reports',
-                    controller: 'ReportsInvoiceListController',
-                    controllerUrl: 'reports-invoice-list-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice_list,
-                    title: 'Invoices Reports',
-                    controller: 'ReportsInvoiceListController',
-                    controllerUrl: 'reports-invoice-list-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/v1sto/invoices/:invoiceId', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice,
-                    title: 'Media Plan - Overview',
-                    controller: 'reportsInvoiceController',
-                    controllerUrl: 'reports-invoice-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice,
-                    title: 'Media Plan - Overview',
-                    controller: 'reportsInvoiceController',
-                    controllerUrl: 'reports-invoice-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/v1sto/invoices/:invoiceId', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice,
-                    title: 'Media Plan - Overview',
-                    controller: 'reportsInvoiceController',
-                    controllerUrl: 'reports-invoice-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId', angularAMD.route({
-                    templateUrl: assets.html_reports_invoice,
-                    title: 'Media Plan - Overview',
-                    controller: 'reportsInvoiceController',
-                    controllerUrl: 'reports-invoice-controller',
-                    showHeader: true,
-                    css: assets.css_reports_invoice_list,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.invoiceHeader(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/vendor/create', angularAMD.route({
-                    templateUrl: assets.html_vendor_create,
-                    title: 'Create - Vendor',
-                    controller: 'CreateVendorController',
-                    controllerUrl: 'vendor-create-controller',
-                    showHeader: true
-                }))
-
-                .when('/vendors/list', angularAMD.route({
-                    templateUrl: assets.html_vendors_list,
-                    title: 'Vendors - List',
-                    controller: 'VendorsListController',
-                    controllerUrl: 'vendors-list-controller',
+                .when('/a/:accountId/sa/:subAccountId/vendors/list', angularAMD.route({
+                    templateUrl: assets.html_vendors_config_list,
+                    title: 'Vendors Configuration - List',
+                    controller: 'VendorsConfigListController',
+                    controllerUrl: 'vendors-config-list-controller',
                     showHeader: true,
                     css: assets.css_table_list
-                }))
-
-                .when('/a/:accountId/admin/accounts', angularAMD.route({
-                    templateUrl: assets.html_accounts,
-                    title: 'Accounts',
-                    controller: 'AccountsController',
-                    controllerUrl: 'accounts-controller',
-                    showHeader: true,
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/admin/accounts', angularAMD.route({
-                    templateUrl: assets.html_accounts,
-                    title: 'Accounts',
-                    controller: 'AccountsController',
-                    controllerUrl: 'accounts-controller',
-                    showHeader: true,
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/admin/users', angularAMD.route({
-                    templateUrl: assets.html_users,
-                    title: 'Users',
-                    controller: 'UsersController',
-                    controllerUrl: 'users-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/admin/users', angularAMD.route({
-                    templateUrl: assets.html_users,
-                    title: 'Users',
-                    controller: 'UsersController',
-                    controllerUrl: 'users-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/admin/brands', angularAMD.route({
-                    templateUrl: assets.html_brands,
-                    title: 'AdminBrands',
-                    controller: 'AdminAdvertisersController',
-                    controllerUrl: 'admin-brands-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/admin/brands', angularAMD.route({
-                    templateUrl: assets.html_brands,
-                    title: 'AdminBrands',
-                    controller: 'AdminAdvertisersController',
-                    controllerUrl: 'admin-brands-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/admin/advertisers', angularAMD.route({
-                    templateUrl: assets.html_advertisers,
-                    title: 'AdminAdvertisers',
-                    controller: 'AdminUsersController',
-                    controllerUrl: 'admin-advertisers-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/admin/advertisers', angularAMD.route({
-                    templateUrl: assets.html_advertisers,
-                    title: 'AdminAdvertisers',
-                    controller: 'AdminUsersController',
-                    controllerUrl: 'admin-advertisers-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adminHeaderResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplan/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create,
-                    title: 'Create - Media Plan',
-                    controller: 'CreateCampaignController',
-                    controllerUrl: 'campaign-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplan/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create,
-                    title: 'Create - Media Plan',
-                    controller: 'CreateCampaignController',
-                    controllerUrl: 'campaign-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams,routeResolvers) {
-                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create,
-                    title: 'Edit - Media Plan',
-                    controller: 'CreateCampaignController',
-                    controllerUrl: 'campaign-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams,routeResolvers) {
-                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'edit');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplan/:campaignId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create,
-                    title: 'Edit - Media Plan',
-                    controller: 'CreateCampaignController',
-                    controllerUrl: 'campaign-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'edit');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/mediaplan/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_ad,
-                    title: 'Media Plan - Overview',
-                    controller: 'CampaignOverViewController',
-                    controllerUrl: 'campaign-overview-controller',
-                    showHeader: true,
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlanOverviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/overview', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_ad,
-                    title: 'Media Plan - Overview',
-                    controller: 'CampaignOverViewController',
-                    controllerUrl: 'campaign-overview-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.mediaPlanOverviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Create',
-                    controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'ad-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            // TODO: Check out this method's implementation
-                            return routeResolvers.adsResolver(routeResolversParams, 'create');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Create',
-                    controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'ad-create-controller',
-                    showHeader: true,
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adsResolver(routeResolversParams, 'create');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Edit',
-                    controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'ad-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adsResolver(routeResolversParams, 'edit');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
-                    templateUrl: assets.html_campaign_create_adBuild,
-                    title: 'Media Plan - Ad Edit',
-                    controller: 'CampaignAdsCreateController',
-                    controllerUrl: 'ad-create-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.adsResolver(routeResolversParams, 'edit');
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/creative/add', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Add Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/creative/add', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Add Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/creative/add', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Add Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/add', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Add Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/creative/:creativeId/edit', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Edit Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-
-                .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/edit', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Edit Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/creative/:creativeId/edit', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Edit Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/edit', angularAMD.route({
-                    templateUrl: assets.html_creative,
-                    title: 'Edit Creative',
-                    controller: 'CreativeController',
-                    controllerUrl: 'creative-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'creative-list-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeListResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'creative-list-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeListResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'creative-list-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeListResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'creative-list-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeListResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'creative-list-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeListResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/b/:brandId/creative/list', angularAMD.route({
-                    templateUrl: assets.html_creative_list,
-                    title: 'Creative List',
-                    controller: 'CreativeListController',
-                    controllerUrl: 'creative-list-controller',
-                    showHeader: true,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativeListResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'creative-preview-controller',
-                    showHeader: false,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativePreviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'creative-preview-controller',
-                    showHeader: false,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativePreviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'creative-preview-controller',
-                    showHeader: false,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativePreviewResolver(routeResolversParams);
-                        }
-                    }
-                }))
-
-                .when('/a/:accountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview', angularAMD.route({
-                    templateUrl: assets.html_creative_preview,
-                    title: 'Preview Creative',
-                    controller: 'CreativePreviewController',
-                    controllerUrl: 'creative-preview-controller',
-                    showHeader: false,
-
-                    resolve: {
-                        header: function (routeResolversParams, routeResolvers) {
-                            return routeResolvers.creativePreviewResolver(routeResolversParams);
-                        }
-                    }
                 }))
 
                 .when('/help', angularAMD.route({
@@ -2033,6 +229,872 @@ define(['common'], function (angularAMD) {
                 }))
 
                 .otherwise({redirectTo: '/'});
+
+            [
+                '/a/:accountId/dashboard',
+                '/a/:accountId/adv/:advertiserId/dashboard'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_dashboard,
+                    controller: 'DashboardController',
+                    controllerUrl: 'dashboard-controller',
+                    title: 'Dashboard',
+                    showHeader: true,
+                    bodyclass: 'dashboard_body',
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.dashboardHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/dashboard',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/dashboard'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_dashboard,
+                    controller: 'DashboardController',
+                    controllerUrl: 'dashboard-controller',
+                    title: 'Dashboard',
+                    showHeader: true,
+                    bodyclass: 'dashboard_body',
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.dashboardHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/mediaplans/reports/:reportName',
+                '/a/:accountId/adv/:advertiserId/mediaplans/reports/:reportName',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_reports,
+                    title: 'Reports Overview',
+                    controller: 'CampaignReportsController',
+                    controllerUrl: 'campaign-reports-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/mediaplans/reports/:reportName',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans/reports/:reportName',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/reports/:reportName'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_reports,
+                    title: 'Reports Overview',
+                    controller: 'CampaignReportsController',
+                    controllerUrl: 'campaign-reports-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolverWOCampaign2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/overview',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_details,
+                    title: 'Reports Overview',
+                    controller: 'CampaignDetailsController',
+                    controllerUrl: 'campaign-details-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/overview',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/overview',
+                '/a/:accountId/mediaplans/:campaignId/overview',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/overview'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_details,
+                    title: 'Reports Overview',
+                    controller: 'CampaignDetailsController',
+                    controllerUrl: 'campaign-details-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/performance',
+                '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/performance',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/performance'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_performance,
+                    title: 'Reports - Performance',
+                    controller: 'PerformanceController',
+                    controllerUrl: 'performance-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/performance',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/performance',
+                '/a/:accountId/mediaplans/:campaignId/performance',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/performance'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_performance,
+                    title: 'Reports - Performance',
+                    controller: 'PerformanceController',
+                    controllerUrl: 'performance-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/cost',
+                '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/cost',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/cost'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_cost,
+                    title: 'Reports - Cost',
+                    controller: 'CostController',
+                    controllerUrl: 'cost-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/cost',
+                '/a/:accountId/mediaplans/:campaignId/cost',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/cost',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/cost'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_cost,
+                    title: 'Reports - Cost',
+                    controller: 'CostController',
+                    controllerUrl: 'cost-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform',
+                '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/platform',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/platform'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_platform,
+                    title: 'Reports - Platform',
+                    controller: 'PlatformController',
+                    controllerUrl: 'platform-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/platform',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/platform',
+                '/a/:accountId/mediaplans/:campaignId/platform',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/platform'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_platform,
+                    title: 'Reports - Platform',
+                    controller: 'PlatformController',
+                    controllerUrl: 'platform-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/inventory',
+                '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/inventory',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/inventory'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_inventory,
+                    title: 'Reports - Inventory',
+                    controller: 'InventoryController',
+                    controllerUrl: 'inventory-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/inventory',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/inventory',
+                '/a/:accountId/mediaplans/:campaignId/inventory',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/inventory'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_inventory,
+                    title: 'Reports - Inventory',
+                    controller: 'InventoryController',
+                    controllerUrl: 'inventory-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/quality',
+                '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/quality',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/quality'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_viewability,
+                    title: 'Reports - Quality',
+                    controller: 'ViewabilityController',
+                    controllerUrl: 'viewability-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/quality',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/quality',
+                '/a/:accountId/mediaplans/:campaignId/quality',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/quality'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_viewability,
+                    title: 'Reports - Quality',
+                    controller: 'ViewabilityController',
+                    controllerUrl: 'viewability-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/optimization',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_optimization,
+                    title: 'Reports - Optimization Impact',
+                    controller: 'OptimizationController',
+                    controllerUrl: 'optimization-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/optimization',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/optimization',
+                '/a/:accountId/mediaplans/:campaignId/optimization',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/li/:lineitemId/optimization',
+                '/a/:accountId/mediaplans/:campaignId/li/:lineitemId/optimization',
+                '/a/:accountId/sa/:subAccountId/mediaplans/:campaignId/li/:lineitemId/optimization'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_optimization,
+                    title: 'Reports - Optimization Impact',
+                    controller: 'OptimizationController',
+                    controllerUrl: 'optimization-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.reportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/mediaplans',
+                '/a/:accountId/adv/:advertiserId/mediaplans',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_list,
+                    title: 'Media Plan List',
+                    reloadOnSearch : false,
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/mediaplans',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplans',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_list,
+                    title: 'Media Plan List',
+                    reloadOnSearch : false,
+                    showHeader: true,
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/reports/schedules'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_reports_schedule_list,
+                    title: 'Scheduled Reports',
+                    controller: 'ReportsScheduleListController',
+                    controllerUrl: 'reports-schedule-list-controller',
+                    showHeader: true,
+                    css: assets.css_reports_schedule_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/customreport'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_custom_report,
+                    title: 'Report Builder',
+                    controller: 'CustomReportController',
+                    controllerUrl: 'custom-report-controller',
+                    showHeader: true,
+                    bodyclass: 'custom_report_page',
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.scheduleReportListCreateResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/customreport/edit/:reportId'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_custom_report,
+                    title: 'Report Builder',
+                    controller: 'CustomReportController',
+                    controllerUrl: 'custom-report-controller',
+                    showHeader: true,
+                    bodyclass: 'custom_report_page',
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/reports/upload'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'custom-report-upload-controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/reports/upload'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'custom-report-upload-controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/reports/upload',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/upload',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/upload'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_custom_report_upload,
+                    title: 'Upload Custom Reports',
+                    controller: 'CustomReportUploadController',
+                    controllerUrl: 'custom-report-upload-controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlansHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/reports/list',
+                '/a/:accountId/adv/:advertiserId/reports/list',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/reports/list',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'collective-report-listing-controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
+
+                    resolve: {
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/reports/list',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/reports/list',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/reports/list',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/mediaplans/:campaignId/reports/list'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_collective_report_listing,
+                    title: 'Collective Insights',
+                    controller: 'CollectiveReportListingController',
+                    controllerUrl: 'collective-report-listing-controller',
+                    showHeader: true,
+                    css: assets.css_custom_reports,
+
+                    resolve: {
+                        reportsList: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.uploadReportsHeaderResolver2(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/v1sto/invoices',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/v1sto/invoices',
+                '/a/:accountId/v1sto/invoices',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_reports_invoice_list,
+                    title: 'Invoices Reports',
+                    controller: 'ReportsInvoiceListController',
+                    controllerUrl: 'reports-invoice-list-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/v1sto/invoices/:invoiceId',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId',
+                '/a/:accountId/v1sto/invoices/:invoiceId',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/v1sto/invoices/:invoiceId'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_reports_invoice,
+                    title: 'Media Plan - Overview',
+                    controller: 'reportsInvoiceController',
+                    controllerUrl: 'reports-invoice-controller',
+                    showHeader: true,
+                    css: assets.css_reports_invoice_list,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.invoiceHeader(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/admin/accounts',
+                '/a/:accountId/sa/:subAccountId/admin/accounts'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_accounts,
+                    title: 'Accounts',
+                    controller: 'AccountsController',
+                    controllerUrl: 'accounts-controller',
+                    showHeader: true,
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/admin/users',
+                '/a/:accountId/sa/:subAccountId/admin/users'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_users,
+                    title: 'Users',
+                    controller: 'UsersController',
+                    controllerUrl: 'users-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/admin/brands',
+                '/a/:accountId/sa/:subAccountId/admin/brands'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_brands,
+                    title: 'AdminBrands',
+                    controller: 'AdminAdvertisersController',
+                    controllerUrl: 'admin-brands-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/admin/advertisers',
+                '/a/:accountId/sa/:subAccountId/admin/advertisers'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_advertisers,
+                    title: 'AdminAdvertisers',
+                    controller: 'AdminUsersController',
+                    controllerUrl: 'admin-advertisers-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/mediaplan/create',
+                '/a/:accountId/sa/:subAccountId/mediaplan/create'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_create,
+                    title: 'Create - Media Plan',
+                    controller: 'CreateCampaignController',
+                    controllerUrl: 'campaign-create-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'create');
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/edit',
+                '/a/:accountId/mediaplan/:campaignId/edit'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_create,
+                    title: 'Edit - Media Plan',
+                    controller: 'CreateCampaignController',
+                    controllerUrl: 'campaign-create-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams,routeResolvers) {
+                            return routeResolvers.mediaPlanCreateResolver(routeResolversParams, 'edit');
+                        }
+                    }
+                }));
+            });
+
+
+            [
+                '/a/:accountId/mediaplan/:campaignId/overview',
+                '/a/:accountId/sa/:subAccountId/mediaplan/:campaignId/overview'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_create_ad,
+                    title: 'Media Plan - Overview',
+                    controller: 'CampaignOverViewController',
+                    controllerUrl: 'campaign-overview-controller',
+                    showHeader: true,
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.mediaPlanOverviewResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_create_adBuild,
+                    title: 'Media Plan - Ad Create',
+                    controller: 'CampaignAdsCreateController',
+                    controllerUrl: 'ad-create-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            // TODO: Check out this method's implementation
+                            return routeResolvers.adsResolver(routeResolversParams, 'create');
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_campaign_create_adBuild,
+                    title: 'Media Plan - Ad Edit',
+                    controller: 'CampaignAdsCreateController',
+                    controllerUrl: 'ad-create-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adsResolver(routeResolversParams, 'edit');
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/creative/add',
+                '/a/:accountId/adv/:advertiserId/creative/add',
+                '/a/:accountId/sa/:subAccountId/creative/add',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/add'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Add Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'creative-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/creative/:creativeId/edit',
+                '/a/:accountId/adv/:advertiserId/creative/:creativeId/edit',
+                '/a/:accountId/sa/:subAccountId/creative/:creativeId/edit',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/edit'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_creative,
+                    title: 'Edit Creative',
+                    controller: 'CreativeController',
+                    controllerUrl: 'creative-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/creative/list',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/list',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/b/:brandId/creative/list',
+                '/a/:accountId/creative/list',
+                '/a/:accountId/adv/:advertiserId/creative/list',
+                '/a/:accountId/adv/:advertiserId/b/:brandId/creative/list'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_creative_list,
+                    title: 'Creative List',
+                    controller: 'CreativeListController',
+                    controllerUrl: 'creative-list-controller',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativeListResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
+
+            [
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/creative/:creativeId/preview',
+                '/a/:accountId/adv/:advertiserId/creative/:creativeId/preview',
+                '/a/:accountId/sa/:subAccountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview',
+                '/a/:accountId/adv/:advertiserId/campaign/:campaignId/ad/:adId/creative/:creativeId/preview'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_creative_preview,
+                    title: 'Preview Creative',
+                    controller: 'CreativePreviewController',
+                    controllerUrl: 'creative-preview-controller',
+                    showHeader: false,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.creativePreviewResolver(routeResolversParams);
+                        }
+                    }
+                }));
+            });
 
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         })

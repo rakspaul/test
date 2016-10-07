@@ -81,8 +81,8 @@ define([
 
     'campaign-create-controller',
     'line-item-controller',
-    'vendors-list-controller',
-    'vendor-create-controller'
+    'vendors-config-list-controller',
+    'vendor-config-controller'
 
 ], function (angularAMD) {
     return angularAMD;

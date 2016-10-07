@@ -1,0 +1,180 @@
+<div id="campaignCreate">
+    <div class="firstWrapper">
+        <div class="masterContainer">
+            <!-- Header Starts -->
+            <div class="clearfix left_column_nav campaign-create-left-nav" style="border-width: 0;">
+                <div class="campaign_name_holder">
+                    <h1 class="campaign_name">Vendor Configuration</h1>
+                    <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
+                        <li class="active eachStepCompLabel">
+                            <a class="leftNavLink selected" data-target="#select_vendor" data-toggle="tab">1. Vendor</a>
+                            <div class="col-md-12 statusLabel each-setting" data-ng-show="vendor.vendorConfig.vendor.id" style="margin: 0; padding-left: 20px;">
+                                <div class="pull-left">
+                                    <img src="{{vendor.vendorConfig.vendor.iconURL}}"
+                                         alt="{{vendor.vendorConfig.vendor.name}}"
+                                         title="{{vendor.vendorConfig.vendor.name}}"
+                                         style="max-height: 16px;">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix eachStepCompLabel">
+                            <a class="leftNavLink"  data-target="#settings" data-toggle="tab">2. Basic Settings</a>
+                            <div class="statusLabel">
+                                <span class="greyTxt">(Owner)</span>
+                            </div>
+                            <div class="statusLabel">
+                                <span class="greyTxt">(Currency)</span>
+                            </div>
+                            <div class="statusLabel"> <!-- data-ng-if="selectedVendor.startTime"-->
+                                <div class="col-md-12">
+                                    <div class="statusIcon icon-calendar"></div>
+                                    <span data-ng-bind="vendor.selectedVendor.startTime"></span>
+                                    <span class="" data-ng-if="vendor.selectedVendor.endTime">&nbsp;-&nbsp;</span>
+                                    <span data-ng-bind="vendor.selectedVendor.endTime"></span>
+                                    <span class="greyTxt">(contract)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel">
+                                <div class="statusIcon icon-arrow-solid-down"></div>
+                                <span class="">Active</span>
+                            </div>
+                            <div class="statusLabel">
+                                <span class="">SOR</span>
+                            </div>
+                            <div class="statusLabel">
+                                <span class="">Automated Billing</span>
+                            </div>
+                        </li>
+                        <li class="clearfix eachStepCompLabel">
+                            <a class="leftNavLink budget-page-trigger"  data-target="#permissions" data-toggle="tab">3. Permissions</a>
+                            <div class="statusLabel" data-ng-if="Campaign.totalBudget">
+                                <div class="col-md-12">
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="greyTxt">(Total Budget)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" data-ng-if="Campaign.deliveryBudget">
+                                <div class="col-md-12">
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="greyTxt">(Delivery Budget)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" data-ng-if="PrimaryImpressions > 0">
+                                <div class="col-md-12">
+                                    <div class="statusIcon icon-goal"></div>
+                                    <span class="">{{PrimaryImpressions | number : fractionSize}}</span>
+                                    <span class="greyTxt">(Primary KPI)</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix eachStepCompLabel" >
+                            <a class="leftNavLink" data-target="#offerings" data-toggle="tab">4. Offerings</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
+                                    <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
+                                </div>
+
+                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length === 0">
+                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12">
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix eachStepCompLabel" >
+                            <a class="leftNavLink" data-target="#account" data-toggle="tab">5. Account</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
+                                    <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
+                                </div>
+
+                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length === 0">
+                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12" >
+                                    <!--<div class="statusIcon icon-usd"></div>-->
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix eachStepCompLabel" >
+                            <a class="leftNavLink"  data-target="#workflowOptions" data-toggle="tab">6.  Workflow Options</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
+                                    <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
+                                </div>
+
+                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length === 0">
+                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12" >
+                                    <!--<div class="statusIcon icon-usd"></div>-->
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Header Ends -->
+
+            <!-- Page Start -->
+            <div class="settingWrap">
+                <form class="" id="createVendorForm" role="form" name="createVendorForm" action="#"  novalidate>
+                    <div class="collapseHeader">
+                        <div class="col-md-12 zeroPadding">
+                            <a href="#"
+                               class="btn btn-primary pull-right"
+                               data-ng-show="!vendor.saveBtnLoader"
+                               role="button"
+                               data-ng-bind="vendor.constants.MP_SAVE"
+                               data-ng-disabled="vendor.vendorForm.$invalid"
+                               data-ng-click="vendor.saveVendor()">
+                            </a>
+                            <div data-ng-show="vendor.saveBtnLoader" class="pull-right common-loading-btn"></div>
+                            <div>
+                                <a href="javscript:void(0);" class="btn btn-link pull-right" role="button" data-ng-bind="vendor.constants.MP_CANCEL"></a>
+                            </div>
+                            <div class="pull-right common-loading-btn" style="width:62px;" data-ng-show="vendor.saveVendorClicked"></div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="isCollapsed tab-pane fade in active" id="select_vendor">
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_select_type.html'"
+                                 data-ng-controller="VendorConfigSelectTypeController as vendorType">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="settings">
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_basic_settings.html'"
+                                 data-ng-controller="VendorConfigBasicSettingsController as vendorSettings">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="permissions">
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_permissions.html'"></div>
+                        </div>
+                        <div class="tab-pane fade" id="offerings">
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_offerings.html'"></div>
+                        </div>
+                        <div class="tab-pane fade" id="account">
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_account.html'"></div>
+                        </div>
+                        <div class="tab-pane fade" id="workflowOptions">
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_workflow_options.html'"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Settings End -->
+        </div>
+    </div>
+</div>
