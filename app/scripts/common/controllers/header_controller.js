@@ -376,7 +376,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     }
 
                     quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr('id');
-                    
+
                     if (quickFilters.is(':visible') &&
                         quickFilterId !== 'sliding_dropdown_container' &&
                         event.target.id !== 'sliding_dropdown_btn') {

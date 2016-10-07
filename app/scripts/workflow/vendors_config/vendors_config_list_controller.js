@@ -1,19 +1,17 @@
-define(['angularAMD', 'vendors-list-service'], function (angularAMD) {
+define(['angularAMD', 'vendors-config-list-service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('VendorsConfigListController', ['$scope', '$modal', 'vendorsService', 'pageLoad', function ($scope, $modal, vendorsService, pageLoad) {
+    angularAMD.controller('VendorsConfigListController', ['$scope', '$modal', 'vendorsConfigListService', 'pageLoad',
+        function ($scope, $modal, vendorsConfigListService, pageLoad) {
         console.log('VENDORS CONFIG LIST controller is loaded!');
         // Hide page loader when the page is loaded
         pageLoad.hidePageLoader();
 
         $scope.vendorList = [];
 
-        $scope.vendorList = vendorsService
-            .fetchVendors()
-            .then(function(result) {
-console.log('vendorList = ', result.data.data);
-                $scope.vendorList = result.data.data ;
-            });
+        $scope.vendorList = vendorsConfigListService.fetchVendors().then(function(result) {
+            $scope.vendorList = result.data.data ;
+        });
 
     	$scope.viewSummary = function () {
             $modal.open({
@@ -21,6 +19,5 @@ console.log('vendorList = ', result.data.data);
                 windowClass: 'view-summary-dialog'
             });
         };
-
     }]);
 });

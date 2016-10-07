@@ -61,7 +61,6 @@ require.config({
         'login-service': 'login/login_service',
         'page-load-service': 'common/services/page_load_service',
         'gauge': 'reporting/common/d3/gauge',
-        'vendors-list-service': 'workflow/services/vendors_list_service',
         'audience-service': 'workflow/services/audience_service',
         'strategy-select-service': 'reporting/strategySelect/strategy_select_service',
         'screen-chart-model': 'reporting/models/screen_chart_model',
@@ -183,7 +182,11 @@ require.config({
         'line-item-controller': 'workflow/campaign/line_item_controller',
 
         'vendors-config-list-controller': 'workflow/vendors_config/vendors_config_list_controller',
+        'vendors-config-list-service': 'workflow/vendors_config/vendors_config_list_service',
         'vendor-config-controller': 'workflow/vendors_config/vendor_config_controller',
+        'vendor-config-select-type-controller': 'workflow/vendors_config/vendor_config_select_type_controller',
+        'vendor-config-basic-settings-controller': 'workflow/vendors_config/vendor_config_basic_settings_controller',
+        'vendor-config-service': 'workflow/vendors_config/vendor_config_service',
 
         'campaign-service': 'workflow/campaign/campaign_service',
         'pixels-controller': 'workflow/campaign/pixels_controller',

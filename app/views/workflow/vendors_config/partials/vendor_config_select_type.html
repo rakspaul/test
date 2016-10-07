@@ -1,30 +1,18 @@
 <div class="col-md-12 zeroPadding">
     <div class="form-group col-md-12 zeroPadding">
+        <div class="col-md-6 zeroPadding" style="margin-top: -60px;">
+            <h2>Select Vendor</h2>
+        </div>
         <label class="col-sm-12 control-label greyTxt miniLabels" >Vendor Type</label>
         <div class="pull-left dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text">All Types</span>
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width: auto;">
+                    <span class="text" data-ng-bind="vendorType.selectedVendorType.displayName + ' ' + vendorType.selectedVendorType.id" data-id="vendorType.selectedVendorType.id"></span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="unitcostType" id="unitcostType" data-toggle="dropdown">
-                    <li class="available">
-                        <a>All Types</a>
-                    </li>
-                    <li class="available">
-                        <a>Verifications Solutions</a>
-                    </li>
-                    <li class="available">
-                        <a>Attribution</a>
-                    </li>
-                    <li class="available">
-                        <a>Metric Provider</a>
-                    </li>
-                    <li class="available">
-                        <a>Billing</a>
-                    </li>
-                    <li class="available">
-                        <a>Data Providers</a>
+                <ul class="dropdown-menu" aria-labelledby="vendorTypes" id="vendorTypes" data-toggle="dropdown">
+                    <li class="available" data-ng-repeat="vendorTypeObj in vendorType.vendorTypes track by $index">
+                        <a data-ng-bind="vendorTypeObj.displayName" data-id="vendorTypeObj.id" href="#"></a>
                     </li>
                 </ul>
             </div>
@@ -50,186 +38,23 @@
             </div>
         </div>
     </div>
-    <div class="form-group col-md-12 zeroPadding">
-        <label class="labelQuestTxt">Buying & Execution</label>
-        <div class="col-md-12 zeroPadding">
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
+    <div class="form-group col-md-12 zeroPadding"
+         data-ng-if="vendorType.selectedVendorType.id === 0 || vendorType.selectedVendorType.id === vendorTypeObj.id"
+         data-ng-repeat="vendorTypeObj in vendorType.vendorTypes | limitTo: (1 - vendorType.vendorTypes.length)">
+        <label class="labelQuestTxt" data-ng-bind="vendorTypeObj.displayName + ' ' + vendorTypeObj.id"></label>
+        <ul class="col-md-12 zeroPadding">
+            <li class="col-md-2 zeroPadding"
+                data-ng-repeat="vendor in vendorType.vendors | filter: {vendorTypes: {id: vendorTypeObj.id}}"
+                style="list-style-type: none; overflow: hidden;">
+                <a href="#" class="each-box-option" style="display: block; color: #000; height: 150px;" data-ng-click="vendorType.selectVendor(vendor)">
+                    <img data-ng-src="{{vendor.iconURL}}" alt="">
+                    <div class="box-option-bottom" style="margin-top: 10px;">
+                        <span data-ng-bind="vendor.name"></span>
+                        <span class="greyTxt" data-ng-bind="vendor.vendorTypes[0].displayName"></span>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greytxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greytxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greytxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greytxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group col-md-12 zeroPadding">
-        <label class="labelQuestTxt">Measurement</label>
-        <div class="col-md-12 zeroPadding">
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greyTxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 zeroPadding">
-                <div class="each-box-option">
-                    <img src="/images/workflow/platform_icons/plat-dbclick.png">
-                    <div class="box-option-bottom">
-                        <span class="">DoubleClick</span>
-                        <span class="greytxt">Ad Serving</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -237,3 +62,6 @@
 <a  data-toggle="tab" data-target="#vendor_settings" role="tab" class="nextWrapper leftNavLink vendor_settings">
     <span class="btn btn-default" data-ngclick="highlightLeftNav(1)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE"></span>
 </a>
+
+<script>
+</script>
