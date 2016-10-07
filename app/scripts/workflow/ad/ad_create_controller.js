@@ -608,7 +608,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 // sellers part edit
                 sellerTargettingData = responseData.targets;
-                console.log('sellse-----',responseData)
                 if (sellerTargettingData.sellerTargets &&
                     (sellerTargettingData.sellerTargets.length > 0)) {
                     $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;

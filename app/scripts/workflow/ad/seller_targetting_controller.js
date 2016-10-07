@@ -42,6 +42,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                 },
                 loadMoreSellers: function() {
                     sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId).then(function(result) {
+                        //TODO: remove the below line and uncomment the line below
                         result = [{"id": 1,
                             "name": "Seller 1",
                             "vendor_id": 1,
@@ -113,9 +114,10 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                                 "isPrefered": false
                             }
                         ];
+                        // TODO: end of TODO uncomment line below
+                        // result = result.data.data;
 
                         //concat 2 strings
-
                         sellerCtrl.sellers.sellersList = _.union(sellerCtrl.sellers.sellersList, result);
                     });
 
@@ -239,6 +241,10 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         $scope.$on('triggerSeller', function () {
             _sellerTargetting.showSellerTargetingBox();
             _sellerTargetting.resetBasicParameters();
+
+            if($scope.adData.sellersAction === false){
+                $('.toggle-event').bootstrapToggle('off');
+            }
         });
 
 
