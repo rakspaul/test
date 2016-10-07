@@ -496,9 +496,10 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 }
             } else {
                 // TODO  verify HACK
-                if (keyword.length == 0){
+                // if (keyword.length == 0){
                     $scope.selectedKeywords = [];
-                }
+                    $scope.selectedKeywords.push(keyword);
+                // }
 
             }
         };
