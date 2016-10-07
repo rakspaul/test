@@ -1,18 +1,25 @@
-<div class="col-md-12 zeroPadding">
+<div class="col-md-12 zeroPadding" data-ng-show="vendorType.vendors.length">
     <div class="form-group col-md-12 zeroPadding">
         <div class="col-md-6 zeroPadding" style="margin-top: -60px;">
             <h2>Select Vendor</h2>
         </div>
-        <label class="col-sm-12 control-label greyTxt miniLabels" >Vendor Type</label>
+        <div class="col-sm-12 control-label greyTxt miniLabels">Vendor Type</div>
         <div class="pull-left dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width: auto;">
-                    <span class="text" data-ng-bind="vendorType.selectedVendorType.displayName + ' ' + vendorType.selectedVendorType.id" data-id="vendorType.selectedVendorType.id"></span>
+                <button class="btn btn-default dropdown-toggle"
+                        type="button" data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="true"
+                        style="width: auto;">
+                    <span class="text"
+                          data-ng-bind="vendorType.selectedVendorType.displayName"
+                          data-id="vendorType.selectedVendorType.id">
+                    </span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="vendorTypes" id="vendorTypes" data-toggle="dropdown">
                     <li class="available" data-ng-repeat="vendorTypeObj in vendorType.vendorTypes track by $index">
-                        <a data-ng-bind="vendorTypeObj.displayName" data-id="vendorTypeObj.id" href="#"></a>
+                        <a data-ng-bind="vendorTypeObj.displayName" data-id="vendorTypeObj.id" href="javascript:void(0)"></a>
                     </li>
                 </ul>
             </div>
@@ -38,11 +45,10 @@
             </div>
         </div>
     </div>
-    <div class="form-group col-md-12 zeroPadding"
-         id="vendors"
+    <div class="form-group col-md-12 zeroPadding vendorsList"
          data-ng-if="vendorType.selectedVendorType.id === 0 || vendorType.selectedVendorType.id === vendorTypeObj.id"
          data-ng-repeat="vendorTypeObj in vendorType.vendorTypes | limitTo: (1 - vendorType.vendorTypes.length)">
-        <label class="labelQuestTxt" data-ng-bind="vendorTypeObj.displayName + ' ' + vendorTypeObj.id"></label>
+        <label class="labelQuestTxt" data-ng-bind="vendorTypeObj.displayName"></label>
         <ul class="col-md-12 zeroPadding">
             <li class="col-md-2 zeroPadding"
                 data-ng-repeat="vendor in vendorType.vendors | filter: {vendorTypes: {id: vendorTypeObj.id}}"
@@ -64,9 +70,11 @@
 </div>
 
 <!--=== Next Step Panel ===-->
-<a  data-toggle="tab" data-target="#vendor_settings" role="tab" class="nextWrapper leftNavLink vendor_settings">
-    <span class="btn btn-default" data-ngclick="highlightLeftNav(1)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE"></span>
+<a data-toggle="tab" data-target="#settings" role="tab" class="nextWrapper leftNavLink vendor_settings" data-ng-show="vendorType.vendors.length">
+    <span class="btn btn-default" data-ng-click="vendor.highlightLeftNav(1)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE"></span>
 </a>
 
-<script>
-</script>
+<!-- Show inline loader while vendors are loading -->
+<div id="pageLoader" class="load-more" data-ng-show="!vendorType.vendors.length">
+    <div class="ui active large inline loader"></div>
+</div>

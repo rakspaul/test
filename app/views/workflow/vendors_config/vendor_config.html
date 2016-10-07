@@ -18,14 +18,14 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel">
-                            <a class="leftNavLink"  data-target="#settings" data-toggle="tab">2. Basic Settings</a>
+                            <a class="leftNavLink" data-target="#settings" data-toggle="tab">2. Basic Settings</a>
                             <div class="statusLabel">
                                 <span class="greyTxt">(Owner)</span>
                             </div>
                             <div class="statusLabel">
                                 <span class="greyTxt">(Currency)</span>
                             </div>
-                            <div class="statusLabel"> <!-- data-ng-if="selectedVendor.startTime"-->
+                            <div class="statusLabel">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-calendar"></div>
                                     <span data-ng-bind="vendor.selectedVendor.startTime"></span>
@@ -46,7 +46,7 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel">
-                            <a class="leftNavLink budget-page-trigger"  data-target="#permissions" data-toggle="tab">3. Permissions</a>
+                            <a class="leftNavLink budget-page-trigger" data-target="#permissions" data-toggle="tab">3. Permissions</a>
                             <div class="statusLabel" data-ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
@@ -80,7 +80,9 @@
                             </div>
                             <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
                                 <div class="col-md-12">
-                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="">
+                                        {{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}
+                                    </span>
                                     <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
@@ -99,13 +101,15 @@
                             <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
                                 <div class="col-md-12" >
                                     <!--<div class="statusIcon icon-usd"></div>-->
-                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="">
+                                        {{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}
+                                    </span>
                                     <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink"  data-target="#workflowOptions" data-toggle="tab">6.  Workflow Options</a>
+                            <a class="leftNavLink" data-target="#workflowOptions" data-toggle="tab">6. Workflow Options</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
                                     <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
@@ -118,7 +122,9 @@
                             <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
                                 <div class="col-md-12" >
                                     <!--<div class="statusIcon icon-usd"></div>-->
-                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
+                                    <span class="">
+                                        {{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}
+                                    </span>
                                     <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
@@ -130,7 +136,7 @@
 
             <!-- Page Start -->
             <div class="settingWrap">
-                <form class="" id="createVendorForm" role="form" name="createVendorForm" action="#"  novalidate>
+                <form class="" id="createVendorForm" role="form" name="createVendorForm" action="#" novalidate>
                     <div class="collapseHeader">
                         <div class="col-md-12 zeroPadding">
                             <a href="#"
@@ -138,7 +144,7 @@
                                data-ng-show="!vendor.saveBtnLoader"
                                role="button"
                                data-ng-bind="vendor.constants.MP_SAVE"
-                               data-ng-disabled="vendor.vendorForm.$invalid"
+                               data-ng-disabled="vendorForm.$invalid"
                                data-ng-click="vendor.saveVendor()">
                             </a>
                             <div data-ng-show="vendor.saveBtnLoader" class="pull-right common-loading-btn"></div>
