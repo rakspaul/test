@@ -32,13 +32,16 @@ define(['angularAMD', 'vendor-config-service'], function (angularAMD) {
             vm.selectedVendorType = vendorType;
         };
 
-        vm.selectVendor = function (vendor) {
+        vm.selectVendor = function (event, vendor) {
             vendorConfigService.vendorConfig.vendorId = vendor.id;
             vendorConfigService.vendorConfig.vendorName = vendor.name;
             vendorConfigService.vendorConfig.vendor.id = vendor.id;
             vendorConfigService.vendorConfig.vendor.name = vendor.name;
             vendorConfigService.vendorConfig.vendor.iconURL = vendor.iconURL;
-            console.log(vendorConfigService.vendorConfig);
+
+            $('#vendors').find('.each-box-option').css('background', 'none');
+            $(event.currentTarget).css('background', '#e1edf9');
+            console.log($(event.currentTarget));
         };
 
         console.log('VENDOR CONFIG SELECT TYPE controller is loaded!');

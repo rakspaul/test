@@ -39,6 +39,7 @@
         </div>
     </div>
     <div class="form-group col-md-12 zeroPadding"
+         id="vendors"
          data-ng-if="vendorType.selectedVendorType.id === 0 || vendorType.selectedVendorType.id === vendorTypeObj.id"
          data-ng-repeat="vendorTypeObj in vendorType.vendorTypes | limitTo: (1 - vendorType.vendorTypes.length)">
         <label class="labelQuestTxt" data-ng-bind="vendorTypeObj.displayName + ' ' + vendorTypeObj.id"></label>
@@ -46,8 +47,12 @@
             <li class="col-md-2 zeroPadding"
                 data-ng-repeat="vendor in vendorType.vendors | filter: {vendorTypes: {id: vendorTypeObj.id}}"
                 style="list-style-type: none; overflow: hidden;">
-                <a href="#" class="each-box-option" style="display: block; color: #000; height: 150px;" data-ng-click="vendorType.selectVendor(vendor)">
-                    <img data-ng-src="{{vendor.iconURL}}" alt="">
+                <a href="javascript:void(0)"
+                   class="each-box-option"
+                   title="{{vendor.name}}"
+                   style="display: block; color: #000; height: 150px;"
+                   data-ng-click="vendorType.selectVendor($event, vendor)">
+                    <img data-ng-src="{{vendor.iconURL}}" alt="{{vendor.name}}" title="{{vendor.name}}">
                     <div class="box-option-bottom" style="margin-top: 10px;">
                         <span data-ng-bind="vendor.name"></span>
                         <span class="greyTxt" data-ng-bind="vendor.vendorTypes[0].displayName"></span>
