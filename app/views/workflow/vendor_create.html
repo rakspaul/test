@@ -8,11 +8,12 @@
                     <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
                         <li class="active eachStepCompLabel">
                             <a class="leftNavLink selected" data-target="#select_vendor" data-toggle="tab">1. Vendor</a>
-                            <div class="statusLabel" data-ng-if="selectedCampaign.startTime">
+
+                            <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-calendar"></div>
                                     <span class="">{{selectedCampaign.startTime}}</span>
-                                    <span class="" data-ng-if="selectedCampaign.endTime">&nbsp;-&nbsp;</span>
+                                    <span class="" ng-if="selectedCampaign.endTime">&nbsp;-&nbsp;</span>
                                     <span>{{selectedCampaign.endTime}}</span>
                                     <span class="greyTxt">(Flight)</span>
                                 </div>
@@ -32,7 +33,7 @@
                                 </div>
                             </div>
 
-                            <div class="statusLabel" data-ng-if="selectedCampaign.budget">
+                            <div class="statusLabel" ng-if="selectedCampaign.budget">
                                 <div class="col-md-12">
                                     <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                                     <span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
@@ -40,32 +41,35 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="clearfix eachStepCompLabel">
+                        <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink"  data-target="#settings" data-toggle="tab">2. Basic Settings</a>
                             <div class="statusLabel">
-                                <div class="col-md-12" data-ng-if="selectedCampaign.selectedPixel.length >0">
+                                <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length >0">
                                     <div>{{selectedCampaign.selectedPixel.length}} pixels selected</div>
                                 </div>
-                                <div class="col-md-12" data-ng-if="selectedCampaign.selectedPixel.length === 0">
-                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
                                 </div>
                             </div>
                         </li>
-                        <li class="clearfix eachStepCompLabel">
+
+                        <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink budget-page-trigger"  data-target="#permissions" data-toggle="tab">3. Permissions</a>
-                            <div class="statusLabel" data-ng-if="Campaign.totalBudget">
+                            <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
+                                    <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
                                     <span class="greyTxt">(Total Budget)</span>
                                 </div>
                             </div>
-                            <div class="statusLabel" data-ng-if="Campaign.deliveryBudget">
+                            <div class="statusLabel" ng-if="Campaign.deliveryBudget">
                                 <div class="col-md-12">
+                                    <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
                                     <span class="greyTxt">(Delivery Budget)</span>
                                 </div>
                             </div>
-                            <div class="statusLabel" data-ng-if="PrimaryImpressions > 0">
+                            <div class="statusLabel" ng-if="PrimaryImpressions>0">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-goal"></div>
                                     <span class="">{{PrimaryImpressions | number : fractionSize}}</span>
@@ -76,56 +80,57 @@
                         <li class="clearfix eachStepCompLabel" >
                             <a class="leftNavLink" data-target="#offerings" data-toggle="tab">4. Offerings</a>
                             <div class="statusLabel">
-                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12" ng-if="lineItems.lineItemList.length >0">
                                     <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
                                 </div>
 
-                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length === 0">
-                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                <div class="col-md-12" ng-if="lineItems.lineItemList.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
                                 </div>
                             </div>
-                            <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
-                                <div class="col-md-12">
+                            <div class="statusLabel" ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12" >
+                                    <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
-                                    <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                    <span class="greyTxt">({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#account" data-toggle="tab">5. Account</a>
+                            <a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">5. Account</a>
                             <div class="statusLabel">
-                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12" ng-if="lineItems.lineItemList.length >0">
                                     <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
                                 </div>
 
-                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length === 0">
-                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                <div class="col-md-12" ng-if="lineItems.lineItemList.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
                                 </div>
                             </div>
-                            <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
+                            <div class="statusLabel" ng-if="lineItems.lineItemList.length >0">
                                 <div class="col-md-12" >
                                     <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
-                                    <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                    <span class="greyTxt">({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink"  data-target="#workflowOptions" data-toggle="tab">6.  Workflow Options</a>
+                            <a class="leftNavLink"  data-target="#addLineItems" data-toggle="tab">6.  Workflow Options</a>
                             <div class="statusLabel">
-                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length >0">
+                                <div class="col-md-12" ng-if="lineItems.lineItemList.length >0">
                                     <span>{{lineItems.lineItemList.length}} Line Item{{(lineItems.lineItemList.length > 1)?'s':''}}</span>
                                 </div>
 
-                                <div class="col-md-12" data-ng-if="lineItems.lineItemList.length === 0">
-                                    <span data-ng-bind="vendor.constants.NOTSET"></span>
+                                <div class="col-md-12" ng-if="lineItems.lineItemList.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
                                 </div>
                             </div>
-                            <div class="statusLabel" data-ng-if="lineItems.lineItemList.length >0">
+                            <div class="statusLabel" ng-if="lineItems.lineItemList.length >0">
                                 <div class="col-md-12" >
                                     <!--<div class="statusIcon icon-usd"></div>-->
                                     <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}} {{selectedCampaign.lineItemBillableAmountTotal | setDecimal:2 | number : fractionSize}}</span>
-                                    <span class="greyTxt">({{vendor.constants.TOTAL_BILLABLE_AMOUNT}})</span>
+                                    <span class="greyTxt">({{textConstants.TOTAL_BILLABLE_AMOUNT}})</span>
                                 </div>
                             </div>
                         </li>
@@ -142,35 +147,30 @@
                             <h2>Select Vendor</h2>
                         </div>
                         <div class="col-md-6 zeroPadding">
-                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" data-ng-show="(mode =='edit' && !cloneMediaPlanName)">
+                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-show="(mode =='edit' && !cloneMediaPlanName)">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                        <li class="disabled"><a>{{vendor.constants.WF_PAUSE}}</a></li>
-                                        <li class="disabled"><a>{{vendor.constants.WF_RESUME}}</a></li>
-                                        <li><a class="available" id="archiveAdbtn" data-ng-hide="(mode!='edit')" data-ng-click="cancelArchiveCampaign()">{{vendor.constants.WF_ARCHIVE}}</a></li>
+                                        <li class="disabled"><a>{{textConstants.WF_PAUSE}}</a></li>
+                                        <li class="disabled"><a>{{textConstants.WF_RESUME}}</a></li>
+                                        <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <a href="#"
-                               class="btn btn-primary pull-right"
-                               data-ng-show="!Campaign.saveBtnLoader"
-                               role="button"
-                               data-ng-bind="vendor.constants.MP_SAVE"
-                               data-ng-disabled="createCampaignForm.$invalid"
-                               data-ng-click="saveCampaign()">
-                            </a>
-                            <div data-ng-show="Campaign.saveBtnLoader" class="pull-right common-loading-btn"></div>
-                            <div>
-                                <a href="javscript:void(0);" class="btn btn-link pull-right" role="button">{{vendor.constants.MP_CANCEL}}</a>
-                            </div>
-                            <div class="pull-right common-loading-btn" style="width:62px;" data-ng-show="saveCampaignClicked"></div>
+                            <a href="#" class="btn btn-primary pull-right" ng-show="!Campaign.saveBtnLoader" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <div ng-show="Campaign.saveBtnLoader" class="pull-right common-loading-btn"></div>
 
-                            <div data-ng-show="(mode == 'create' && !cloneMediaPlanName)">
-                                <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{vendor.constants.MP_CANCEL}}</a>
+                            <div>
+                                <a href="javscript:void(0);" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
+                            </div>
+
+                            <div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
+
+                            <div ng-show="(mode == 'create' && !cloneMediaPlanName)">
+                                <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
 
                         </div>
@@ -178,27 +178,26 @@
 
                     <div class="tab-content">
                         <div class="isCollapsed tab-pane fade in active" id="select_vendor">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_select_type.html'"></div>
+                            <div ng-include="'/views/workflow/partials/vendor_create/vendor_select.html'"></div>
                         </div>
+
                         <div class="tab-pane fade" id="settings">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_basic_settings.html'"></div>
+                            <div ng-include="'/views/workflow/partials/vendor_create/vendor_settings.html'"></div>
                         </div>
+
                         <div class="tab-pane fade" id="permissions">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_permissions.html'"></div>
+                            <div ng-include="'/views/workflow/partials/vendor_create/vendor_permissions.html'" ></div>
                         </div>
+
                         <div class="tab-pane fade" id="offerings">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_offerings.html'"></div>
-                        </div>
-                        <div class="tab-pane fade" id="account">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_account.html'"></div>
-                        </div>
-                        <div class="tab-pane fade" id="workflowOptions">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_workflow_options.html'"></div>
+                            <div ng-include="'/views/workflow/partials/vendor_create/vendor_offerings.html'" ></div>
                         </div>
                     </div>
                 </form>
             </div>
             <!-- Settings End -->
+
+
         </div>
     </div>
 </div>

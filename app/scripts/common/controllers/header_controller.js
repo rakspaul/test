@@ -134,6 +134,8 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             };
 
             $scope.navigateToTab = function (url, event, page) {
+
+
                 // TODO: Temp code - get rid of it later.
                 if (_.isEmpty($routeParams) && page !== 'creativelist') {
                     return;
@@ -175,10 +177,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     $location.url(urlBuilder.uploadReportsListUrl());
                 } else if (page === 'reportsOverview') {
                     urlBuilder.reportsOverviewUrl(url);
-                } else if (page === 'vendorsConfig') {
-                    $location.url(urlBuilder.vendorConfigUrl());
                 }
-
                 return url;
             };
 
@@ -238,7 +237,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
             $scope.user_name = loginModel.getUserName();
             $scope.version = version;
 
-            // Start Feature Permission
+            /* Start Feature Permission */
             $rootScope.$on('features', function () {
                 $scope.accountsData = accountService.getAccounts();
                 $scope.defaultAccountsName = accountService.getSelectedAccount().name;
@@ -251,7 +250,7 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
                 }
             });
-            // End Feature Permission
+            /* End Feature Permission */
 
             $(function () {
                 var closeMenuPopUs = function (event) {
@@ -376,7 +375,6 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     }
 
                     quickFilterId = $(event.target).closest('.sliding_dropdown_container').attr('id');
-                    
                     if (quickFilters.is(':visible') &&
                         quickFilterId !== 'sliding_dropdown_container' &&
                         event.target.id !== 'sliding_dropdown_btn') {
@@ -455,6 +453,5 @@ define(['angularAMD', 'campaign-select-model', 'workflow-service'], function (an
                     });
                 };
             });
-        }
-    ]);
+        }]);
 });

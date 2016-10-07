@@ -846,15 +846,6 @@
                                          data-ng-bind-html="dm.value">
                                     </div>
                                 </div>
-                                <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
-                                    <div class="each_col_delivery"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
-                                    </div>
-                                </div>
                             </div>
                             <div class="clearfix first_dimension_row_holder">
                                 <div data-ng-if="reportDataLoading" class="common-load-more report-response-load">
@@ -935,15 +926,6 @@
                                          data-ng-bind="bm.value">
                                     </div>
                                 </div>
-                                <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
-                                    <div class="each_col_cost"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.cost_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
-                                    </div>
-                                </div>
                             </div>
                             <div class="clearfix first_dimension_row_holder">
                                 <div data-ng-if="reportDataLoading" class="common-load-more report-response-load">
@@ -1014,15 +996,6 @@
                                          data-ng-click="clickToSort(vm.key);"
                                          data-ng-repeat="vm in metricKeyArr.video_metrics track by $index"
                                          data-ng-bind="vm.value">
-                                    </div>
-                                </div>
-                                <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
-                                    <div class="each_col"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.video_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
                                     </div>
                                 </div>
                             </div>
@@ -1098,15 +1071,6 @@
                                          data-ng-click="clickToSort(vm.key);"
                                          data-ng-repeat="vm in metricKeyArr.quality_metrics track by $index"
                                          data-ng-bind="vm.value">
-                                    </div>
-                                </div>
-                                <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
-                                    <div class="each_col"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.quality_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
                                     </div>
                                 </div>
                             </div>

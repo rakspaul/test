@@ -2,7 +2,9 @@ define(['angularAMD'],
     function (angularAMD) {
         angularAMD.factory('urlBuilder', ['$location', '$routeParams', 'accountService', 'subAccountService', 'campaignSelectModel',
             function ($location, $routeParams, accountService, subAccountService, campaignSelectModel) {
+
                 var buildBaseUrl = function (accountId, subAccountId, advertiserId, brandId) {
+
                         // this method can be used for building base url which can be used everywhere
                         var url, selectedAccount;
 
@@ -38,16 +40,14 @@ define(['angularAMD'],
                         return url;
                     },
 
-                    // this method returns the url if fromView is true, and changes the current location if fromView is false
+                // this method returns the url if fromView is true, and changes the current location if fromView is false
                     mediaPlansListUrl = function (accountId) {
-                        var url,
+                        accountId = $routeParams.accountId || accountId;
+
+                        var url = '/a/' + accountId,
                             leafSubAccount,
                             selectedAccount,
                             subAccounts;
-
-                        accountId = $routeParams.accountId || accountId;
-
-                        url = '/a/' + accountId;
 
                         if ($routeParams.subAccountId) {
                             leafSubAccount = _.find(subAccountService.getSubAccounts(), function (a) {
@@ -87,6 +87,7 @@ define(['angularAMD'],
                             });
 
                             if (selectedAccount && selectedAccount.isLeafNode) {
+
                                 if ($routeParams.advertiserId > 0) {
                                     url += '/adv/' + $routeParams.advertiserId;
 
@@ -94,7 +95,6 @@ define(['angularAMD'],
                                         url += '/b/' + $routeParams.brandId;
                                     }
                                 }
-
                                 url += '/mediaplans';
 
                                 $location.url(url);
@@ -115,6 +115,7 @@ define(['angularAMD'],
 
                                         url += '/mediaplans';
                                         $location.url(url);
+
                                     });
 
                             }
@@ -122,12 +123,11 @@ define(['angularAMD'],
                     },
 
                     mediaPlanOverviewUrl = function (campaignId, accountId, subAccountId) {
-                        var url;
 
                         accountId = accountId || $routeParams.accountId;
                         subAccountId = subAccountId || $routeParams.subAccountId;
 
-                        url = this.buildBaseUrl(accountId, subAccountId, -1);
+                        var url = this.buildBaseUrl(accountId, subAccountId, -1);
 
                         if (campaignId) {
                             url += '/mediaplan/' + campaignId;
@@ -139,6 +139,7 @@ define(['angularAMD'],
                     },
 
                     mediaPlanCreateUrl = function () {
+
                         var url = this.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, -1, -1);
 
                         url += '/mediaplan/create';
@@ -150,6 +151,7 @@ define(['angularAMD'],
                         var selectedCampaign = campaignSelectModel.getSelectedCampaign();
 
                         // All Advertisers id is -1 and don't show it in the URL
+
                         if ($routeParams.advertiserId > 0) {
                             url += '/adv/' + $routeParams.advertiserId;
 
@@ -158,7 +160,7 @@ define(['angularAMD'],
                             }
                         }
 
-                        // Attach campaign
+                        //Attach campaign
                         if ($routeParams.campaignId) {
                             url += '/mediaplans/' + $routeParams.campaignId + '/overview';
                             $location.url(url);
@@ -167,23 +169,20 @@ define(['angularAMD'],
                             $location.url(url);
                         } else {
                             //you should redirect to mediaplan list
-                            campaignSelectModel
-                                .fetchCampaigns(subAccountId || $routeParams.accountId, $routeParams.advertiserId, $routeParams.brandId)
-                                .then(function (response) {
-                                    var campaignArr = response.data.data,
-                                        campaignId;
+                            campaignSelectModel.fetchCampaigns(subAccountId || $routeParams.accountId, $routeParams.advertiserId, $routeParams.brandId).then(function (response) {
+                                var campaignArr = response.data.data,
+                                    campaignId;
+                                if (campaignArr && campaignArr.length > 0 && campaignArr[0].campaign_id) {
+                                    campaignId = campaignArr[0].campaign_id;
 
-                                    if (campaignArr && campaignArr.length > 0 && campaignArr[0].campaign_id) {
-                                        campaignId = campaignArr[0].campaign_id;
-
-                                        //set first campaign as selected campaign
-                                        campaignSelectModel.setSelectedCampaign(campaignArr[0]);
-                                        url += '/mediaplans/' + campaignId + '/overview';
-                                        $location.url(url);
-                                    } else {
-                                        console.log('No campaings for the account');
-                                    }
-                                });
+                                    //set first campaign as selected campaign
+                                    campaignSelectModel.setSelectedCampaign(campaignArr[0]);
+                                    url += '/mediaplans/' + campaignId + '/overview';
+                                    $location.url(url);
+                                } else {
+                                    console.log('No campaings for the account');
+                                }
+                            });
                         }
                     },
 
@@ -249,6 +248,7 @@ define(['angularAMD'],
                             });
 
                             if (selectedAccount && selectedAccount.isLeafNode) {
+
                                 if ($routeParams.advertiserId > 0) {
                                     url += '/adv/' + $routeParams.advertiserId;
                                     url += '/b/' + ($routeParams.brandId || 0);
@@ -275,19 +275,28 @@ define(['angularAMD'],
                     },
 
                     customReportsUrl = function () {
-                        return '/a/' + $routeParams.accountId + '/customreport';
+
+                        var url = '/a/' + $routeParams.accountId + '/customreport';
+
+                        return url;
+
                     },
 
                     customReportsListUrl = function () {
+
                         var url = '/a/' + $routeParams.accountId + '/reports/schedules';
 
                         $location.url(url);
+
                     },
 
+
                     collectiveInsightsUrl = function () {
+
                         var url = this.buildBaseUrl() + '/reports/list';
 
                         $location.url(url);
+
                     },
 
                     creativeListUrl = function (accountId, subAccountId, advertiserId) {
@@ -295,8 +304,8 @@ define(['angularAMD'],
                     },
 
                     adminUrl = function () {
-                        var url = '/a/' + $routeParams.accountId;
 
+                        var url = '/a/' + $routeParams.accountId;
                         if ($routeParams.subAccountId) {
                             url += '/sa/' + $routeParams.subAccountId;
                         }
@@ -304,14 +313,20 @@ define(['angularAMD'],
                         url += '/admin/accounts';
 
                         $location.url(url);
+
                     },
 
                     invoiceTool = function () {
+
                         $location.url(this.buildBaseUrl() + '/v1sto/invoices');
+
                     },
 
                     gotoInvoiceReport = function (invoiceId) {
-                        var url = '/a/' + $routeParams.accountId;
+
+                        var url;
+
+                        url = '/a/' + $routeParams.accountId;
 
                         if ($routeParams.subAccountId) {
                             url += '/sa/' + $routeParams.subAccountId;
@@ -319,15 +334,22 @@ define(['angularAMD'],
 
                         url += '/v1sto/invoices/' + invoiceId;
                         $location.url(url);
+
                     },
 
                     gotoCreativeUrl = function () {
-                        var url = this.buildBaseUrl() + '/creative/add';
 
+                        var url;
+
+                        url = this.buildBaseUrl();
+
+                        url += '/creative/add';
                         $location.url(url);
+
                     },
 
                     uploadReportsUrl = function () {
+
                         var url,
                             leafSubAccount;
 
@@ -354,12 +376,18 @@ define(['angularAMD'],
                     },
 
                     uploadReportsListUrl = function () {
-                        return this.buildBaseUrl() + '/reports/list';
+
+                        var url = this.buildBaseUrl();
+
+                        url += '/reports/list';
+
+                        return url;
+
                     },
 
                     goToPreviewUrl = function (obj) {
-                        var url = '/a/' + $routeParams.accountId,
-                            hasSubaccount = accountService.getSelectedAccount().isLeafNode;
+                        var url = '/a/' + $routeParams.accountId;
+                        var hasSubaccount = accountService.getSelectedAccount().isLeafNode;
 
                         if (!hasSubaccount) {
                             url += '/sa/' + $routeParams.subAccountId;
@@ -383,18 +411,19 @@ define(['angularAMD'],
                         return url;
                     },
 
-                    vendorConfigUrl = function () {
-                        return '/a/' + $routeParams.accountId + '/sa/' + $routeParams.accountId + '/vendor/create';
-                    },
-
                     adUrl = function (params) {
-                        var campaignId = params.campaignId || $routeParams.campaignId,
-                            url = '/a/' + $routeParams.accountId,
+
+                        var campaignId = params.campaignId || $routeParams.campaignId;
+
+                        var url = '/a/' + $routeParams.accountId,
                             selectedAccount;
 
                         if ($routeParams.subAccountId) {
+
                             url += '/sa/' + $routeParams.subAccountId;
+
                         } else {
+
                             // user navigating from custom reports to media plans
                             selectedAccount = _.find(accountService.getAccounts(), function (a) {
                                 return Number(a.id) === Number($routeParams.accountId);
@@ -403,21 +432,23 @@ define(['angularAMD'],
                             if (!selectedAccount.isLeafNode) {
                                 url += '/sa/' + $routeParams.accountId;
                             }
+
                         }
+
 
                         if (params.advertiserId > 0) {
                             url += '/adv/' + params.advertiserId;
                         }
 
-                        if (campaignId) {
+                        if(campaignId) {
                             url += '/mediaplan/' + campaignId;
                         }
 
-                        if (params.lineItemId) {
+                        if(params.lineItemId) {
                             url += '/lineItem/' + params.lineItemId;
                         }
 
-                        if (params.adGroupId) {
+                        if(params.adGroupId) {
                             url += '/adGroup/' + params.adGroupId;
                         }
 
@@ -451,10 +482,7 @@ define(['angularAMD'],
                     gotoInvoiceReport: gotoInvoiceReport,
                     goToCreativeList: goToCreativeList,
                     reportsOverviewUrl: reportsOverviewUrl,
-                    collectiveInsightsUrl: collectiveInsightsUrl,
-                    vendorConfigUrl: vendorConfigUrl
+                    collectiveInsightsUrl: collectiveInsightsUrl
                 };
-            }
-        ]);
-    }
-);
+            }]);
+    });
