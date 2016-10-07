@@ -212,7 +212,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                     saveAds: function (postDataObj) {
                         var promiseObj,
-                            clientId = vistoconfig.getSelectedAccountId();
+                            clientId = vistoconfig.getSelectedAccountId(),
+                            successMsg;
 
                         function adSaveErrorHandler (data) {
                             var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
@@ -244,6 +245,9 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
 
+                        successMsg =  $scope.adId ? $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS :  $scope.textConstants.AD_CREATED_SUCCESS;
+
+
                         promiseObj.then(function (result) {
                             var responseData = result.data.data;
 
@@ -253,14 +257,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 $scope.state = responseData.state;
                                 $scope.adId = responseData.id;
                                 $scope.updatedAt = responseData.updatedAt;
-                                $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS, 0);
+                                $rootScope.setErrAlertMessage(successMsg, 0);
 
                                 localStorage.setItem('adPlatformCustomInputs',
                                     window.JSON.stringify(responseData.adPlatformCustomInputs));
 
                                 $location.url(urlBuilder.mediaPlanOverviewUrl(result.data.data.campaignId));
-
-                                localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                             } else {
                                 if (responseData.statusCode === 400) {
                                     adSaveErrorHandler(responseData);
@@ -503,9 +505,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 if (responseData.fetchValue) {
                     $scope.adData.fetchValue = responseData.fetchValue;
-                    $('#budgetHolder').find('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    $('#budgetHolder').find('.budgetFields').find('#budgetAmount').attr('disabled', true).addClass('disabled-field');
                 } else {
                     $scope.adData.fetchValue = false;
+                }
+
+                if (responseData.overbook) {
+                    $scope.adData.isOverbooked = responseData.overbook;
+                    $scope.adData.overbookPercent = responseData.overbookPercentage;
                 }
 
                 if (responseData.rateType) {
@@ -684,10 +691,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             };
 
             $scope.displayKpiSymbol=function(type) {
-                var kpiTypeSymbolMap = {
-                    '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
-                    '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
-                    },
+                var kpiTypeSymbolMap = vistoconfig.kpiTypeSymbolMap,
                     symbol =constants.currencySymbol,
                     primaryKpiType = type || $scope.adData.primaryKpi;
 
@@ -1346,6 +1350,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 parentElem.find('label').removeClass('active');
                 target.parent().addClass('active');
                 target.attr('checked', 'checked');
+
+                if( target.closest('.btn').hasClass('daily_cap')) {
+                    $('#daily_cap_input').show();
+                } else {
+                    $('#daily_cap_input').hide();
+                }
             };
 
             // Create Tag Slide Page
@@ -1538,6 +1548,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if (getfreqCapParams(formData).length > 0) {
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
+                        }
+
+                        if (formData.isOverbooked){
+                            postAdDataObj.overbook = formData.isOverbooked;
+                            postAdDataObj.overbookPercentage = formData.overbookPercent;
                         }
 
                         postAdDataObj.pacingType = formData.pacingType;
