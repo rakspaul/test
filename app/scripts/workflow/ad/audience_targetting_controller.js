@@ -494,6 +494,13 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     // fetch all audience when user clears the textBox
                     $scope.clearKeywordSearch();
                 }
+            } else {
+                // TODO  verify HACK
+                // if (keyword.length == 0){
+                    $scope.selectedKeywords = [];
+                    $scope.selectedKeywords.push(keyword);
+                // }
+
             }
         };
 
