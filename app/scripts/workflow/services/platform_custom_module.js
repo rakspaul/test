@@ -87,7 +87,7 @@ define(['angularAMD'], function (angularAMD) {
                 });
             },
 
-            createInputElem = function (inputList, inputGroupList, idx, elem) {
+            createInputElem = function (inputList, inputGroupList, idx, elem, noGroup) {
                 var inputWrapper,
                     options,
                     inputListHTML,
@@ -404,7 +404,14 @@ define(['angularAMD'], function (angularAMD) {
                     groupContainer =
                         $('<div/>')
                             .addClass('form-group col-md-12 zeroPadding')
-                            .addClass(noGroup ? 'form-individual-section' : 'inputCheckBoxSection');
+                            .addClass(noGroup ? 'form-individual-section' : '');
+                }
+
+
+                if(_.filter(platformCustomInputList, function(obj) {
+                    return obj.platformCustomWidgetType === 'CHECKBOX_SMALL'
+                }).length > 0) {
+                    groupContainer.addClass('inputCheckBoxSection');
                 }
 
                 _.each(platformCustomInputList, function (inputList, idx) {
