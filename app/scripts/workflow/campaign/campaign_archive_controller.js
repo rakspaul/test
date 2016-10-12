@@ -1,6 +1,6 @@
 define(['angularAMD'], function(angularAMD) {
     angularAMD.controller('ArchiveController', ['$scope' , '$routeParams', '$rootScope', '$location', 'workflowService',
-        'urlBuilder', function($scope , $routeParams, $rootScope ,$location, workflowService, urlBuilder) {
+        'urlBuilder', 'vistoconfig', function($scope , $routeParams, $rootScope ,$location, workflowService, urlBuilder, vistoconfig) {
         $scope.campaignArchive = false;
 
         // archive campaign
@@ -26,7 +26,7 @@ define(['angularAMD'], function(angularAMD) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.campaignArchive = false;
                         $scope.campaignArchiveLoader = false;
-                        localStorage.setItem('topAlertMessage','Campaign has been archived');
+                        vistoconfig.defaultMessage.set({message : 'Campaign has been archived'});
                         $location.url(urlBuilder.mediaPlansListUrl());
 
                     } else {
