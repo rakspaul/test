@@ -27,9 +27,9 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                     console.log($scope.adData);
                      sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId,searchText).then(function(result) {
                          sellerCtrl.sellers.sellersList = result.data.data;
-                         sellerCtrl.sellers.sellersList[1].isPreferred = true;
-                         sellerCtrl.sellers.sellersList[3].isPreferred = true;
-                         sellerCtrl.sellers.sellersList[5].isPreferred = true;
+
+                         //TODO remove next 3 lines
+                         // var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {rCtrl.sellers.sellersList[5].isPreferred = true;
 
                          //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
                          if(!_.isEmpty($scope.adData.sellersTargetting) && !searchText ){
@@ -47,7 +47,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                     sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId).then(function(result) {
                         result = result.data.data;
 
-                        //concat 2 strings
+                        //concat 2 Arrays
                         sellerCtrl.sellers.sellersList = _.union(sellerCtrl.sellers.sellersList, result);
                         _sellerTargetting.checkUserSelectedSellers();
                     });
@@ -79,12 +79,15 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                         var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {
                             return seller.id === id;
                         });
-                        sellerCtrl.sellers.sellersList[index].isChecked = true;
+                        if(index != -1) {
+                            sellerCtrl.sellers.sellersList[index].isChecked = true;
 
-                        // set selectAll flag = true when all sellers are selected
-                        if(sellerCtrl.sellers.userSelectedSeller.length === sellerCtrl.sellers.sellersList.length) {
-                            sellerCtrl.selectAllChecked = true;
+                            // set selectAll flag = true when all sellers are selected
+                            if(sellerCtrl.sellers.userSelectedSeller.length === sellerCtrl.sellers.sellersList.length) {
+                                sellerCtrl.selectAllChecked = true;
+                            }
                         }
+
                     });
                 }
             };
@@ -111,10 +114,21 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
 
             //initially set the checked box to whatever the selected flag is assigned and
             // store it in user selected array. Them if the user deselects all sellers
-            // clear the array
+            // then clear the array
+
             _.each(sellerCtrl.sellers.sellersList,function(seller) {
-                seller.isChecked = sellerCtrl.selectAllChecked;
-                sellerCtrl.sellers.userSelectedSeller.push(seller);
+                // check if the user has selected the preferred filter
+                if(sellerCtrl.preferedFilterFlag.isPreferred) {
+                    if(seller.isPreferred) {
+                        // select only the preferred filter
+                        seller.isChecked = sellerCtrl.selectAllChecked;
+                        sellerCtrl.sellers.userSelectedSeller.push(seller);
+                    }
+                } else {
+                    seller.isChecked = sellerCtrl.selectAllChecked;
+                    sellerCtrl.sellers.userSelectedSeller.push(seller);
+                }
+
             });
 
             // if the user deselects all the sellers set the array to empty
@@ -177,7 +191,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         $scope.showKeywords = function(event, keywordText) {
             event.stopPropagation();
             if (event.which === 13) {
-                if (keyword.length){
+                if (keywordText.length){
                     // fetch audience for keyword entered by user
                     sellerCtrl.searchSellers(keywordText);
                 } else {
@@ -188,6 +202,10 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
             }
         };
 
+        sellerCtrl.setPreferredFlag = function(flag) {
+            sellerCtrl.preferedFilterFlag.isPreferred = flag;
+        };
+
         $scope.$on('triggerSeller', function () {
             _sellerTargetting.showSellerTargetingBox();
             _sellerTargetting.resetBasicParameters();
@@ -196,7 +214,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                 $('.toggle-event').bootstrapToggle('off');
                 sellerCtrl.includeAllSellersFlag = false;
             }
-            sellerCtrl.preferedFilterFlag.isPrefered = false;
+            sellerCtrl.preferedFilterFlag.isPreferred = false;
         });
 
 
@@ -206,7 +224,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         sellerCtrl.sellers.userSelectedSeller = [];
         sellerCtrl.selectAllChecked = false;
         sellerCtrl.includeAllSellersFlag = true;
-        sellerCtrl.preferedFilterFlag = {isPrefered: false};
+        sellerCtrl.preferedFilterFlag = {isPreferred: false};
         $scope.adData.sellersTargetting = [];
 
     }]);
