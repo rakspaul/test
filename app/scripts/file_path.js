@@ -165,3 +165,7 @@ assets.html_users = '/views/reporting/users.html';
 assets.html_accounts = '/views/workflow/accounts.html';
 assets.html_advertisers = '/views/workflow/advertisers.html';
 assets.html_brands = '/views/workflow/brands.html';
+
+// Vendors config
+assets.html_vendors_config_list = '/views/workflow/vendors_config/vendors_config_list.html';
+assets.html_vendor_config = '/views/workflow/vendors_config/vendor_config.html';
