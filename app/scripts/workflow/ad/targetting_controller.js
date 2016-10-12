@@ -307,6 +307,14 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             _targeting.setTargetingForPreview('Geography');
         };
 
+            $scope.selectSellerTarget = function () {
+                 colResize();
+                 $scope.$broadcast('triggerSeller');
+                 // show targeting in side bar
+                     _targeting.setTargetingForPreview('Seller');
+            };
+
+
         $scope.deleteGeoTargetting = function () {
             var adData;
 
@@ -393,6 +401,10 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     case 'Video' :
                         _targeting.showVideoTargetingInfo(adData);
                         break;
+
+                    case 'Seller':
+
+                        break;
                 }
             }
         });
@@ -469,6 +481,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.isAudienceTargetEnabled = false;
             $scope.isDaypartTargetEnabled = false;
             $scope.isVideoTargetEnabled = false;
+            $scope.isSellerTargetting = false
             $scope.adData.domainEnable = false;
             $scope.adData.appEnable = false;
 
@@ -488,6 +501,9 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
 
                     case 'Video Creative Serving':
                         $scope.isVideoTargetEnabled = true;
+                        break;
+                    case 'Seller Targeting':
+                        $scope.isSellerTargetting = true;
                         break;
 
                     case 'Inventory Targeting':
