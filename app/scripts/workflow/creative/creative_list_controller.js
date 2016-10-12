@@ -198,7 +198,7 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
             };
 
             $scope.resetAlertMessage = function () {
-                localStorage.removeItem('topAlertMessage');
+                vistoconfig.defaultMessage.reset();
                 $rootScope.setErrAlertMessage('', 0);
             };
 

@@ -238,6 +238,7 @@
                                        autoclose: true,
                                        todayHighlight: true,
                                        forceParse: false
+
                                    }"
                                    style="position: absolute; z-index: 10; top: 0; right: 0; background: transparent;"
                                    data-ng-model="pixelFormData.expiryDate"
@@ -286,22 +287,22 @@
                     <div class="pull-left" data-ng-if="pixelFormData.segmentName && isEditMode">
                         <label class="greyTxt pull-left" style="padding-top: 0 !important;">Segment Name:</label>
                         <input class="col-md-12 zeroPadding" style="border-width: 0; background: transparent;"
-                               value="{{pixelFormData.segmentName}}" />
+                              value="{{pixelFormData.segmentName}}" />
                     </div>
                 </div>
 
                 <div class="form-group col-md-6 zeroPadding" style="margin: 15px 0;">
                     <a class="pull-right btn btn-default"
-                       data-ng-click="savePixel()"
-                       data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
+                        data-ng-click="savePixel()"
+                        data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">
                         Save Pixel
                     </a>
                     <a class="pull-right btn btn-link" data-ng-click="cancelPixel();" aria-label="Close">Cancel</a>
                     <a class="pull-right btn btn-default"
-                       data-dismiss="modal"
-                       data-ng-if="pixelIndex !== null && topCtrlData.pixels[pixelIndex].isFeedData !== true"
-                       data-ng-click="removePixel();"
-                       aria-label="Close">
+                        data-dismiss="modal"
+                        data-ng-if="pixelIndex !== null && topCtrlData.pixels[pixelIndex].isFeedData !== true"
+                        data-ng-click="removePixel();"
+                        aria-label="Close">
                         Remove Pixel
                     </a>
                 </div>
@@ -397,3 +398,4 @@
     </div>
 
 </div>
+<!-- end of modal_body -->

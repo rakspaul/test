@@ -1,0 +1,284 @@
+<div class="table-list-container col-md-12 zeroPadding" id="vendorConfigurationPage">
+    <h1 class="col-md-12 zeroPadding"
+        style="margin: 30px 0;"
+        data-ng-bind-html="textConstants.VENDOR_CONFIGURATION">
+    </h1>
+    <div id="searchList" class="col-md-12 zeroPadding">
+    <div class="col-md-12 zeroPadding btn_list_filters">
+        <div class="btn-group create" role="group" aria-label="...">
+            <a role="button" class="btn btn-default" data-ng-click="creativeCreate();">
+                <span class="icon-plus"></span>
+                <span data-ng-bind="textConstants.CREATE"></span>
+            </a>
+            <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle moreOptCreative"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            style="padding-right: 18px;">
+                        <span class="icon-more-options"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="moreOptions" style="left: 0; right: initial;">
+                        <li><a class="text-left" role="button"  data-ng-bind="textConstants.EDIT"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Quick Filter-->
+        <div class="pull-right">
+            <button type="button" class="btn btn-default"
+                    data-toggle="collapse"
+                    data-target="#schedule_report_filter"
+                    style="height:36px;"
+                    data-ng-click="clickedOnFilterIcon()">
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
+            </button>
+            <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
+        </div>
+
+        <!--Search Input-->
+        <div class="btn-group pull-right" style="margin-right: 10px;">
+            <div class="searchInput pull-left">
+                <a class="btn btn-default searchInputBtnInline"
+                   data-ng-click="searchShowInput();filters.searchText=null"
+                   style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+                </a>
+                <div class="input-group searchInputForm">
+                    <input type="text"
+                           class="form-control"
+                           id="creativeSearch"
+                           search-box
+                           name="creativeSearch"
+                           data-ng-model="creativeSearch"
+                           data-ng-keyup="select_filter_option('reportName', creativeSearch, $event)"
+                           placeholder="Search Reports By Report Name..">
+                    <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput($event)">
+                        <span class="icon-clear" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapse">
+            <div class="col-md-12 zeroPadding" style="margin: 20px 0;">
+                <!--Report Types-->
+                <div class="col-md-2" style="padding: 0 10px 0 0;">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <label  class="col-sm-12 greyTxt miniLabels ng-binding"
+                                data-ng-bind="textConstants.REPORT_TYPES">
+                        </label>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true">
+                                <span class="text"
+                                      data-ng-bind="filters.reportType ? filters.reportType : 'All Types'">
+                                </span>
+                                <span class="icon-arrow-solid-down"></span>
+                            </button>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="unitcostType"
+                                data-ng-model="adData.unitType"
+                                id="unitcostType"
+                                data-toggle="dropdown">
+                                <li data-ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
+                                    <a data-ng-click="select_filter_option('reportType',type)" data-ng-bind="type"></a>
+                                </li>
+                            </ul>
+                            <input type="hidden"
+                                   name="unitType"
+                                   data-ng-model="adData.unitType.name"
+                                   data-ng-update-hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generated -->
+                <div class="col-md-2" style="padding: 0 10px 0 0;">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <label  class="col-sm-12 greyTxt miniLabels ng-binding"
+                                data-ng-bind="textConstants.GENERATED">
+                        </label>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true">
+                                <span class="text" data-ng-bind="filters.generated ? filters.generated : 'All'"></span>
+                                <span class="icon-arrow-solid-down"></span>
+                            </button>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="unitcostType"
+                                data-ng-model="adData.unitType"
+                                id="unitcostType"
+                                data-toggle="dropdown">
+                                <li data-ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
+                                    <a data-ng-click="select_filter_option('generated' , type.key)"
+                                       data-ng-bind="type.value">
+                                    </a>
+                                </li>
+                            </ul>
+                            <input type="hidden"
+                                   name="unitType"
+                                   data-ng-model="adData.unitType.name"
+                                   data-ng-update-hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimensions -->
+                <div class="col-md-6" style="padding: 0 10px 0 0;">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <label  class="col-sm-12 greyTxt miniLabels ng-binding"
+                                data-ng-bind="textConstants.DIMENSIONS_FIVE">
+                        </label>
+                        <div class="dropdown">
+                            <tags-input
+                                    data-ng-bind="dimensionFilterModel"
+                                    display-property="value"
+                                    placeholder="Type here..."
+                                    add-from-autocomplete-only="true"
+                                    on-tag-added="addDimensionFilter()"
+                                    on-tag-removed="removeDimensionFilter()"
+                                    max-tags="5">
+                                <auto-complete source="loadDimensionsList($query)"
+                                               min-length="1"
+                                               load-on-down-arrow="true"
+                                               max-results-to-show="50">
+                                </auto-complete>
+                            </tags-input>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:32px; padding: 0 10px 0 0;" class="col-md-1">
+                    <a href=""
+                       data-toggle="tab"
+                       id="applyFilter"
+                       class="btn btn-primary ng-binding"
+                       >Apply</a>
+                </div>
+                <div style="margin-top:32px;" class="col-md-1 zeroPadding">
+                    <a class="btn btn-default pull-right" role="button" data-ng-bind="clearFilters()">
+                        <div style="top: 0 !important;"
+                             class="glyphicon glyphicon-repeat pull-left"
+                             aria-hidden="true">
+                        </div>
+                        <span style="margin-left:6px;">Clear</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div style="text-align:center;">
+        <span class="download-report-load-icon"
+              style="margin:5px 0;"
+              data-ng-if="reportDownloadBusy"
+              data-ng-bind-html="textConstants.DOWNLOADING">
+        </span>
+    </div>
+
+    <div class="col-md-12 zeroPadding table_list_holder smallScreenScrollContent">
+        <!--Table Header-->
+        <div class="col-md-12 zeroPadding table-header">
+                <div class="table-th vendorFirstCol" data-ng-bind-html="textConstants.CONFIGURATION"></div>
+                <div class="table-th vendorSecCol" data-ng-bind-html="textConstants.ID"></div>
+                <div class="table-th vendorThirdCol" data-ng-bind-html="textConstants.VENDOR"></div>
+                <div class="table-th vendorForthCol" data-ng-bind-html="textConstants.TYPE"></div>
+                <div class="table-th vendorFifthCol" data-ng-bind-html="textConstants.OWNER"></div>
+                <div class="table-th vendorSixCol" data-ng-bind-html="textConstants.CURRENCY"></div>
+                <div class="table-th vendorSevCol" data-ng-bind-html="textConstants.UPDATED"></div>
+        </div>
+        <!--Table Body-->
+        <div class="col-md-12 zeroPadding table-body">
+            <div class="row" style="margin-top: 20px;display:none;">
+                <div class="common-loading-area"></div>
+            </div>
+            <div class="no_data_found" style="display:none;"
+                 data-ng-bind="textConstants.DATANOTAVAILABLE">
+            </div>
+            <div class="row" data-ng-repeat="vendor in vendorList">
+                <div class="clearfix rowHover">
+
+                    <!--Column 1-->
+                    <div class="table-td vendorFirstCol">
+                        <input type="checkbox" class="marginRight col-md-1">
+                        <div class="col-md-8 zeroPadding">
+                            <div class="pull-left campaign_status_icon in_flight_bulb"
+                                 tooltip-placement="bottom"
+                                 tooltip="In Flight">
+                            </div>
+                            <span title="{{vendor.name}}" class="vendor_name" data-ng-bind="vendor.name"></span>
+                        </div>
+
+                        <div class="col-md-2 zeroPadding pull-right" style="margin-top:-4px;">
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown hideOption">
+
+                                    <button class="dropdown-toggle"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true">
+                                        <span class="icon-more-options"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a data-ng-bind-html="textConstants.EDIT"></a>
+                                        </li>
+                                        <li data-ng-click="viewSummary()">
+                                            <a data-ng-bind-html="textConstants.VIEW_SUMMARY"></a>
+                                        </li>
+                                        <li>
+                                            <a data-ng-bind-html="textConstants.ARCHIVE"></a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Column 2-->
+                    <div class="table-td vendorSecCol" title="{{vendor.vendorId}}">
+                        <span class="table-td-val">{{vendor.vendorId}}</span>
+                    </div>
+
+                    <!--Column 3-->
+                    <div class="table-td vendorThirdCol" title="{{vendor.vendorName}}">
+                        <span class="table-td-val">{{vendor.vendorName}}</span>
+                    </div>
+
+                    <!--Column 4-->
+                    <div class="table-td vendorForthCol">
+                          <span class="table-td-val">Buying/Execution</span>
+                    </div>
+
+                    <!--Column 5-->
+                    <div class="table-td vendorFifthCol">
+                        <span class="table-td-val">Collective US (CollUS)</span>
+                    </div>
+
+                    <!--Column 6-->
+                    <div class="table-td vendorSixCol">
+                         <span class="table-td-val">$USD</span>
+                    </div>
+
+                    <!--Column 7-->
+                    <div class="table-td vendorSevCol">
+                         <span class="table-td-val">15 Jun 2016 12:35PM</span>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -763,7 +763,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             $scope.adArchiveLoader = false;
 
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_ARCHIVE_SUCCESS});
                         } else {
                             errorAchiveAdHandler();
                         }
@@ -796,7 +796,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adArchive = false;
                             url = '/mediaplan/' + $scope.campaignId + '/overview';
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_PAUSE_SUCCESS});
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         } else {
                             errorAchiveAdHandler();
@@ -828,7 +828,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adArchive = false;
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_RESUME_SUCCESS});
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         } else {
                             errorAchiveAdHandler();
@@ -1352,10 +1352,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 target.attr('checked', 'checked');
 
                 if( target.closest('.btn').hasClass('daily_cap')) {
-                    $('#daily_cap_input').show();
+                   $('#daily_cap_input').show();
                 } else {
-                    $('#daily_cap_input').hide();
+                   $('#daily_cap_input').hide();
                 }
+
             };
 
             // Create Tag Slide Page
@@ -1550,7 +1551,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
                         }
 
-                        if (formData.isOverbooked){
+                        if (formData.isOverbooked) {
                             postAdDataObj.overbook = formData.isOverbooked;
                             postAdDataObj.overbookPercentage = formData.overbookPercent;
                         }

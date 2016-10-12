@@ -38,7 +38,7 @@ define(['angularAMD'],
                         return url;
                     },
 
-                    // this method returns the url if fromView is true, and changes the current location if fromView is false
+                // this method returns the url if fromView is true, and changes the current location if fromView is false
                     mediaPlansListUrl = function (accountId) {
                         var url,
                             leafSubAccount,

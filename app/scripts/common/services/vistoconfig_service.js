@@ -8,7 +8,11 @@ define(['angularAMD'], function (angularAMD) {
         },
             clientTimeZone,
             selectedAccountData,
-            noMediaPlanFoundMsg;
+            noMediaPlanFoundMsg,
+            defaultMsg = {
+                message : '',
+                isErrorMsg : 0
+            };
 
         this.supportedBrowser = [
             {
@@ -140,7 +144,7 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.getMasterClientId = function() {
-            return $routeParams.accountId ? Number($routeParams.accountId) : -1;
+            return Number($routeParams.accountId);
         };
 
         this.getSelectedAccountId = function() {
@@ -210,6 +214,23 @@ define(['angularAMD'], function (angularAMD) {
 
         this.getCurrentSelectedAccount = function() {
             return selectedAccountData;
+        };
+
+        this.defaultMessage = {
+            'set' : function(data){
+                for(var k in data){
+                    defaultMsg[k] = data[k];
+                }
+            },
+            'get' : function(){
+                return defaultMsg;
+            },
+            'reset' : function(){
+                defaultMsg = {
+                    message : '',
+                    isErrorMsg : 0
+                };
+            }
         };
 
     }]);

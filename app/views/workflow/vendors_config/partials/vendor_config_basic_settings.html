@@ -1,8 +1,11 @@
 <div class="col-md-12 zeroPadding marginBottom">
     <label class="col-md-12 labelQuestTxt">Basic Settings</label>
     <div class="zeroPadding col-md-12">
+        <div style="position: relative;">
+            <input class="col-md-7" type="text" data-ng-model="vendor.vendorConfig.name" placeHolder="Vendor Configuration name" style="position: absolute; top: -80px;">
+        </div>
         <h2 class="greyTxt">Description</h2>
-        <input class="col-md-7" type="text" placeHolder="Use for Display campaigns with standard components">
+        <input class="col-md-7" type="text" data-ng-model="vendor.vendorConfig.description" placeHolder="Use for Display campaigns with standard components">
     </div>
 </div>
 <div class="col-md-12 zeroPadding marginBottom">
@@ -11,27 +14,16 @@
         <div class="pull-left dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text">The Griffin Group</span>
+                    <span class="text" data-ng-bind="vendorSettings.selectedContractOwner.name" data-id="{{vendorSettings.selectedContractOwner.id}}"></span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="contactOwner" id="contactOwner" data-toggle="dropdown">
-                    <li class="available">
-                        <a>The Griffin Group</a>
-                    </li>
-                    <li class="available">
-                        <a>Verifications Solutions</a>
-                    </li>
-                    <li class="available">
-                        <a>Attribution</a>
-                    </li>
-                    <li class="available">
-                        <a>Metric Provider</a>
-                    </li>
-                    <li class="available">
-                        <a>Billing</a>
-                    </li>
-                    <li class="available">
-                        <a>Data Providers</a>
+                    <li class="available" data-ng-repeat="contractOwner in vendorSettings.contractOwners">
+                        <a href="javascript:void(0)"
+                           data-ng-bind="contractOwner.name"
+                           data-id="{{contractOwner.id}}"
+                           data-ng-click="vendorSettings.selectContractOwner($event, contractOwner)">
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -42,27 +34,20 @@
         <div class="pull-left dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text">$ USD</span>
+                    <span class="text"
+                          data-ng-bind="vendorSettings.selectedCurrency.currencySymbol + ' ' + vendorSettings.selectedCurrency.currencyCode"
+                          data-id="{{vendorSettings.selectedCurrency.id}}">
+
+                    </span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="currency" id="currency" data-toggle="dropdown">
-                    <li class="available">
-                        <a>$ USD</a>
-                    </li>
-                    <li class="available">
-                        <a>Verifications Solutions</a>
-                    </li>
-                    <li class="available">
-                        <a>Attribution</a>
-                    </li>
-                    <li class="available">
-                        <a>Metric Provider</a>
-                    </li>
-                    <li class="available">
-                        <a>Billing</a>
-                    </li>
-                    <li class="available">
-                        <a>Data Providers</a>
+                    <li class="available" data-ng-repeat="currency in vendorSettings.currencies">
+                        <a href="javascript:void(0)"
+                           data-ng-bind="currency.currencySymbol + ' ' + currency.currencyCode"
+                           data-id="{{currency.id}}"
+                           data-ng-click="vendorSettings.selectCurrency($event, currency)">
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -74,16 +59,15 @@
         <div class="dateContainer">
             <label class="col-sm-12  greyTxt miniLabels" >Contract Start</label>
             <input type="text"
-                   data-ng-disabled="!cloneMediaPlanName && (selectedCampaign.status ==='IN_FLIGHT' || selectedCampaign.status ==='ENDED')"
                    id="startDateInput"
                    placeholder="MM/DD/YYYY"
-                   class="form-control mediaplanStartTime"
+                   class="form-control"
                    readonly
-                   name="startTime"
-                   data-ng-init="selectedCampaign.startTime"
-                   data-ng-model="selectedCampaign.startTime"
-                   data-ng-value="selectedCampaign.startTime"
-                   data-ng-change=" handleFlightDate(selectedCampaign)"
+                   name="startDate"
+                   data-ng-init="vendor.vendorConfig.startDate"
+                   data-ng-model="vendor.vendorConfig.startDate"
+                   data-ng-value="vendor.vendorConfig.startDate"
+                   data-ng-change="handleContractDate(vendorConfig)"
                    required>
         </div>
         <div class="dateContainer" style="padding-left: 10px;">
@@ -91,12 +75,13 @@
             <input type="text"
                    id="endDateInput"
                    placeholder="MM/DD/YYYY"
-                   class="form-control mediaplanEndTime"
+                   class="form-control"
                    readonly
-                   name="endTime"
-                   data-ng-init="selectedCampaign.endTime"
-                   data-ng-model="selectedCampaign.endTime"
-                   value="selectedCampaign.endTime"
+                   name="endDate"
+                   data-ng-init="vendor.vendorConfig.endDate"
+                   data-ng-model="vendor.vendorConfig.endDate"
+                   value="vendor.vendorConfig.endDate"
+                   style="background: transparent;"
                    required>
         </div>
         <label data-ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="vendor.constants.STARTDATE_REQUIRED">.</label>
@@ -110,23 +95,21 @@
         </div>
     </div>
 </div>
-<div class="col-md-12 zeroPadding marginBottomTwenty">
+<div class="col-md-12 zeroPadding marginBottomTwenty" id="enabled" data-ng-click="vendorSettings.toggleButtonClicked($event, 'enabled')">
     <div class="pull-left">
         <input type="checkbox"
-               data-ng-model="scheduleReportActive"
-               checked
+               data-ng-model="vendor.vendorConfig.enabled"
                data-toggle="toggle"
                class="toggle"
                data-on="Yes"
                data-off="No">
     </div>
-    <span class="pull-left marginLeft" style="margin-top:6px ;">Active Status</span>
+    <span class="pull-left marginLeft" style="margin-top:6px;">Active Status</span>
 </div>
-<div class="col-md-12 zeroPadding marginBottomTwenty">
+<div class="col-md-12 zeroPadding marginBottomTwenty" id="useAsSor" data-ng-click="vendorSettings.toggleButtonClicked($event, 'useAsSor')">
     <div class="pull-left">
         <input type="checkbox"
-               data-ng-model="scheduleReportActive"
-               checked
+               data-ng-model="vendor.vendorConfig.useAsSor"
                data-toggle="toggle"
                class="toggle"
                data-on="Yes"
@@ -134,11 +117,10 @@
     </div>
     <span class="pull-left marginLeft" style="margin-top:6px ;">Available as a System of Record (SOR)</span>
 </div>
-<div class="col-md-12 zeroPadding marginBottomTwenty" >
+<div class="col-md-12 zeroPadding marginBottomTwenty" id="isBillable" data-ng-click="vendorSettings.toggleButtonClicked($event, 'isBillable')">
     <div class="pull-left">
         <input type="checkbox"
-               data-ng-model="scheduleReportActive"
-               checked
+               data-ng-model="vendor.vendorConfig.isBillable"
                data-toggle="toggle"
                class="toggle"
                data-on="Yes"
@@ -148,18 +130,6 @@
 </div>
 
 <!--=== Next Step Panel ===-->
-<a  data-toggle="tab" data-target="#pixels" role="tab" class="nextWrapper leftNavLink budget">
-    <span class="btn btn-default" data-ng-click="highlightLeftNav(1)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE"></span>
+<a data-toggle="tab" data-target="#permissions" role="tab" class="nextWrapper leftNavLink vendor_settings">
+    <span class="btn btn-default" data-ng-click="vendor.highlightLeftNav(2)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE"></span>
 </a>
-
-<script>
-    $(document).ready(function() {
-        $('.input-daterange').datepicker({
-            format: "mm/dd/yyyy",
-            orientation: "auto",
-            autoclose: true,
-            todayHighlight: true
-        });
-        $('.toggle').bootstrapToggle('on');
-    })
-</script>

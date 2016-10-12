@@ -9,19 +9,12 @@ define(['angularAMD', 'vendor-config-service', 'vendor-config-select-type-contro
 
         vm.constants = constants;
         vm.vendorConfig = vendorConfigService.vendorConfig;
-        console.log('VENDOR CONFIG controller is loaded!');
 
-        // initial initialization
-        $(function () {
-            // This is for the drop down list. Perhaps adding this to a more general controller
-            $(document).on('click', '.dropdown-menu li.available a', function () {
-                $(this)
-                    .parents('.dropdown')
-                    .find('.btn')
-                    .find('.text').text($(this).text());
+        vm.highlightLeftNav = function (pageNo) {
+            var eachStepCompLabel = $('.eachStepCompLabel');
 
-                $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
-            });
-        });
+            eachStepCompLabel.removeClass('active');
+            eachStepCompLabel[pageNo].classList.add('active');
+        };
     }]);
 });

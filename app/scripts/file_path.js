@@ -119,6 +119,9 @@ assets.html_admin_header = '/views/reporting/partials/admin_header.html';
 assets.html_admin_sub_header = '/views/reporting/partials/admin_sub_header.html';
 
 assets.html_campaign_create = '/views/workflow/campaign_create.html';
+assets.html_vendor_create = '/views/workflow/vendor_create.html';
+
+assets.html_vendors_list = '/views/workflow/vendors_list.html';
 
 assets.html_campaign_create_ad = '/views/workflow/campaign_overview.html';
 assets.html_campaign_create_adBuild = '/views/workflow/campaign_ad_create.html';
@@ -145,6 +148,7 @@ assets.html_filter_drop_down = '/views/workflow/filter_drop_down.html';
 
 // admin
 assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.html';
+// assets.admin_accounts_subclient = '/views/workflow/partials/admin_accounts_subclientList.html';
 
 assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popup.html';
 assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';

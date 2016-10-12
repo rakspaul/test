@@ -2010,13 +2010,18 @@ tags-input .autocomplete {
   margin-right: 5px ;
 }
 .marginTopTwenty {
-  margin-bottom: 20px ;
+  margin-top: 20px ;
 }
 .marginBottomTwenty {
   margin-bottom: 20px ;
 }
 .marginBottomThirty {
   margin-bottom: 30px ;
+}
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput,
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:hover,
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:focus {
+  border: 0px !important;
 }
 .clickCursor {
   cursor: pointer;

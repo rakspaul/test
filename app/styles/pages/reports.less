@@ -3015,6 +3015,13 @@ div.strategy_total_container {
             padding-left: 15px ;
         }
     }
+
+
+    .kpi_indicator_ul {
+        .drop_list {
+            width : 100% !important;
+        }
+    }
 }
 .optimization_header {
     .duration_filters {
@@ -4427,18 +4434,24 @@ only screen and (min-device-pixel-ratio: 2) {
         .heading_row {
             font-family: "Avenir-bold" ;
             margin-bottom: 20px ;
-            border-bottom: solid 1px #ccc ;
-            padding: 30px 30px 0 30px;
+            border-bottom: solid 1px #bfc9d7;
+            padding: 20px 20px 0 20px;
             .inner_heading_row {
                 width: 100% ;
+                color: @lead-gray;
             }
         }
         .inner_heading_row_total{
-            font-family: "Avenir";
+            font-family: "Avenir-bold";
+            color: @raven-text;
         }
         .first_dimension_row_holder {
-            padding: 45px 0px 0px 0px ;
+            padding: 40px 0px 0px 0px ;
             margin-top: 80px;
+        }
+
+        .first_dimension_row_holder_pacing {
+            padding: 0px 0px 0px 20px ;
         }
         .second_dimension_row_holder  {
             margin-left: 5px ;
@@ -4625,7 +4638,7 @@ div.reports_tabs_content_container {
     }
     .custom_report_scroll {
         .first_dimension_row_holder {
-            padding-left: 28px;
+            padding-left: 20px;
         }
         .heading_first_dimension:first-child {
             padding-left: 0 ;

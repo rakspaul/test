@@ -438,7 +438,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
             }
 
             $scope.$on('$locationChangeSuccess', function () {
-                $scope.close();
-            });
-        }]);
+            $scope.close();
+        });
+    }]);
 });

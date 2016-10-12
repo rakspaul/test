@@ -35,6 +35,7 @@
             <div class="segmentStepOne">
                 <div class="listToBeSelected">
                     <div class="segmentHeader">
+                        <div class="greyTxt" data-ng-bind="textConstants.PROVIDER"></div>
                         <!--Search-->
                         <div class="col-md-4 pull-left providers-dropdown zeroPadding">
 
@@ -47,7 +48,7 @@
 
                                     <ul class="dropdown-menu dropdown-menu-with-search multiSelect">
                                         <div  class="search-inside-dropdown">
-                                            <input type="text" ng-model="providerSearchText" class="dropdown-toggle " />
+                                            <input type="text" ng-model="providerSearchText" placeHolder="Search Providers" class="dropdown-toggle borderZeroInput" />
                                             <span class="sort-image-inactive brands_dd_filter_arrow" ></span>
                                         </div>
 
