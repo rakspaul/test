@@ -5,7 +5,6 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
         'dataService', 'urlService', 'utils', function ($scope, $timeout, $rootScope, $modalInstance, adminAccountsService, constants,
                                                         momentService, dataService, urlService, utils) {
             var _currCtrl = this,
-                selectedBillingTypeName,
                 searchAdvertisersTimer = 0;
             $scope.showInfoMessage = false;
             $scope.loadingBtnFlag = false;
@@ -82,13 +81,7 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     lookbackImpressions : 14,
                     lookbackClicks : 14,
                     adChoice: '',
-                    iabCategoryId: null,
-                    techBillingTypeId: null,
-                    techBillingValue: null,
-                    serviceBillingTypeId: null,
-                    serviceBillingValue: null,
-                    costBillingTypeId: null,
-                    costBillingValue: null
+                    iabCategoryId: null
                 };
 
                 if (!$scope.isEditMode){
@@ -107,21 +100,6 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     if ($scope.advertiserAddOrEditData.selectedIABCategory) {
                         requestData.iabCategoryId = Number($scope.advertiserAddOrEditData.selectedIABCategoryId);
                     }
-                }
-
-                if ($scope.billingData.techFees.billingValue) {
-                    requestData.techBillingTypeId = Number($scope.billingData.techFees.billingTypeId);
-                    requestData.techBillingValue = Number($scope.billingData.techFees.billingValue);
-                }
-
-                if ($scope.billingData.serviceFees.billingValue) {
-                    requestData.serviceBillingTypeId = Number($scope.billingData.serviceFees.billingTypeId);
-                    requestData.serviceBillingValue = Number($scope.billingData.serviceFees.billingValue);
-                }
-
-                if ($scope.billingData.cost.billingValue) {
-                    requestData.costBillingTypeId = Number($scope.billingData.cost.billingTypeId);
-                    requestData.costBillingValue = Number($scope.billingData.cost.billingValue);
                 }
 
                 adminAccountsService
@@ -205,112 +183,9 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     });
             }
 
-            function getBillingTypes() {
-                adminAccountsService
-                    .getBillingTypes()
-                    .then(function (res) {
-                        var billingTypes;
-
-                        if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                            billingTypes = res.data.data;
-
-                            // Billing types for "Service Fees"
-                            // id = 6 (COGS)
-                            // id = 8 (CPM)
-                            $scope.billingData.serviceFees.billingTypesArr =  billingTypes.filter(function (obj) {
-                                return obj.id === 6 || obj.id === 8;
-                            });
-
-                            // Sort the array in desc. order so that CPM comes first
-                            $scope.billingData.serviceFees.billingTypesArr.sort(function (a, b) {
-                                return a.id < b.id;
-                            });
-
-                            if ($scope.clientObj && $scope.clientObj.billingTypeId) {
-                                $scope.billingData.serviceFees.billingTypeId = $scope.clientObj.billingTypeId;
-
-                                selectedBillingTypeName =
-                                    $scope.billingData.serviceFees.billingTypesArr.filter(function (obj) {
-                                        return obj.id === $scope.clientObj.billingTypeId;
-                                    });
-
-                                $scope.billingData.serviceFees.billingTypeId = selectedBillingTypeName[0].name;
-                            }
-
-                            // Billing types for "Cost"
-                            // id = 6 (COGS)
-                            $scope.billingData.cost.billingTypesArr =  billingTypes.filter(function (obj) {
-                                return obj.id === 6;
-                            });
-
-                            $scope.billingData.cost.billingTypesArr.push({
-                                id: -1,
-                                name: 'Arbitrage'
-                            });
-
-                            if ($scope.clientObj && $scope.clientObj.billingTypeId) {
-                                $scope.billingData.cost.billingTypeId = $scope.clientObj.billingTypeId;
-
-                                selectedBillingTypeName = $scope.billingData.cost.billingTypesArr.filter(function (obj) {
-                                    return obj.id === $scope.clientObj.billingTypeId;
-                                });
-
-                                $scope.billingData.cost.billingTypeName = selectedBillingTypeName[0].name;
-                            }
-                        }
-                    }, function (err) {
-                        console.log('Error = ', err);
-                    });
-            }
-
             $scope.topCtrlData.disableDownLoadPixel = true;
 
-            $scope.billingData = {
-                techFees: {
-                    name: 'Tech Fees',
-                    value: 'TECH_FEES',
-                    billingTypeId: '8',
-                    billingTypeName: 'CPM',
-                    billingValue: null
-                },
-
-                serviceFees: {
-                    name: 'Service Fees',
-                    value: 'SERVICE_FEES',
-                    billingTypeId: '8',
-                    billingTypeName: 'CPM',
-                    billingValue: null,
-                    billingTypesArr: []
-                },
-
-                cost: {
-                    name: 'Cost',
-                    value: 'COST',
-                    billingTypeId: 6,
-                    billingTypeName: 'COGS+ %',
-                    billingValue: null,
-                    billingTypesArr: []
-                }
-            };
-
             $scope.selectedRateType = 'Select';
-
-            $scope.selectedBillingTypeChanged = function (billingType, billedFor) {
-                if (billedFor === 'SERVICE_FEES') {
-                    $scope.billingData.serviceFees.billingTypeId = billingType.id;
-                    $scope.billingData.serviceFees.billingTypeName = billingType.name;
-                    $scope.billingData.serviceFees.billingValue = null;
-                    $('#serviceFeesBillingValue').trigger('focus');
-                } else if (billedFor === 'COST') {
-                    $scope.billingData.cost.billingTypeId = billingType.id;
-                    $scope.billingData.cost.billingTypeName = billingType.name;
-                    $scope.billingData.cost.billingValue = null;
-
-                    setTimeout(function () {
-                        $('#costBillingValue').trigger('focus');
-                    }, 0);
-                }
-            };
 
             $scope.showUserModeText = function () {
                 return ($scope.mode === 'create'? 'Add Advertiser' : 'Edit Advertiser ( ' + $scope.advObj.name + ' )');
@@ -523,8 +398,6 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
 
             _currCtrl.getIABCategoryList();
 
-            getBillingTypes();
-
             if ($scope.isEditMode) {
                 // Prefill saved data for editing
                 $scope.selectedAdvertiserId = $scope.savedAdvertiserData.advertiserId;
@@ -553,33 +426,6 @@ define(['angularAMD', 'custom-date-picker', 'url-service', 'common-utils', 'admi
                     $scope.advertiserAddOrEditData.selectedIABCategoryId = null;
                     $scope.advertiserAddOrEditData.selectedIABSubCategory = 'Select';
                     $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
-                }
-
-                // 3. Billing
-                if ($scope.savedAdvertiserData.techBillingTypeId) {
-                    $scope.billingData.techFees.billingTypeId = $scope.savedAdvertiserData.techBillingTypeId;
-                    $scope.billingData.techFees.billingTypeName = 'CPM';
-                    $scope.billingData.techFees.billingValue = $scope.savedAdvertiserData.techBillingValue;
-                }
-
-                if ($scope.savedAdvertiserData.serviceBillingTypeId) {
-                    $scope.billingData.serviceFees.billingTypeId = $scope.savedAdvertiserData.serviceBillingTypeId;
-
-                    if (parseInt($scope.savedAdvertiserData.serviceBillingTypeId) === 8) {
-                        $scope.billingData.serviceFees.billingTypeName = 'CPM';
-                    } else if (parseInt($scope.savedAdvertiserData.serviceBillingTypeId) === 6) {
-                        $scope.billingData.serviceFees.billingTypeName = 'COG+ %';
-                    }
-
-                    $scope.billingData.serviceFees.billingValue = $scope.savedAdvertiserData.serviceBillingValue;
-                }
-
-                if ($scope.savedAdvertiserData.costBillingTypeId) {
-                    $scope.billingData.cost.billingTypeId = $scope.savedAdvertiserData.costBillingTypeId;
-                    if (parseInt($scope.savedAdvertiserData.costBillingTypeId) === 6) {
-                        $scope.billingData.cost.billingTypeName = 'COG+ %';
-                    }
-                    $scope.billingData.cost.billingValue = $scope.savedAdvertiserData.costBillingValue;
                 }
 
                 setTimeout(function () {
