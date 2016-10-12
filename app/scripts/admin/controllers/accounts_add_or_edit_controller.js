@@ -421,12 +421,13 @@ define(['angularAMD', 'admin-account-service'],
                 var rateTypeId = item;
 
                 if(!settings[rateTypeId]){
-                    settings[rateTypeId] = {};      
-                     settings[rateTypeId].isPercent = index.indexOf('PERCENTAGE') > -1;              
+                    settings[rateTypeId] = {};  
                     settings[rateTypeId].clientId = clientId;
                     settings[rateTypeId].rateTypeId = item;
                     settings[rateTypeId].slices = [{'label':'', 'value':''}];
                   }
+
+                  settings[rateTypeId].isPercent = index.indexOf('PERCENTAGE') > -1;   
                });
 
                return settings;
@@ -609,6 +610,7 @@ define(['angularAMD', 'admin-account-service'],
                         tempItem.rateTypeId = item.rateTypeId;
                         tempItem.clientId = clientId;
                         tempItem.startTime = item.startTime;
+                        tempItem.isPercent = item.isPercent;
 
                         if(item.updatedAt)
                             tempItem.updatedAt = item.updatedAt;
