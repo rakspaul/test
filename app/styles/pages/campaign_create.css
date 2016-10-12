@@ -3885,6 +3885,22 @@
 #vendorCreate .platformSlide .form-individual-section .form-group-section select {
   margin-top: 0;
 }
+#campaignCreate .platformSlide .inputCheckBoxSection .form-group-section,
+#vendorCreate .platformSlide .inputCheckBoxSection .form-group-section {
+  position: relative;
+  width: 100% ;
+  margin: 5px 0 0;
+}
+#campaignCreate .platformSlide .inputCheckBoxSection .form-group-section .inputCheckBoxSectionTxt,
+#vendorCreate .platformSlide .inputCheckBoxSection .form-group-section .inputCheckBoxSectionTxt {
+  padding-left: 20px ;
+}
+#campaignCreate .platformSlide .inputCheckBoxSection .form-group-section .inputCheckBox,
+#vendorCreate .platformSlide .inputCheckBoxSection .form-group-section .inputCheckBox {
+  position: absolute;
+  left: 0px ;
+  top: 0px ;
+}
 #campaignCreate .platformSlide .platform-custom,
 #vendorCreate .platformSlide .platform-custom {
   background: #fff;
