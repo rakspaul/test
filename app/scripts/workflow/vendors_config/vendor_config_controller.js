@@ -1,4 +1,4 @@
-define(['angularAMD', 'vendor-config-service', 'vendor-config-select-type-controller', 'vendor-config-basic-settings-controller'], function (angularAMD) {
+define(['angularAMD', 'vendor-config-service', 'vendor-config-select-type-controller', 'vendor-config-basic-settings-controller' , 'vendor-config-permissions-controller'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('VendorConfigController', ['pageLoad', 'constants', 'vendorConfigService', function (pageLoad, constants, vendorConfigService) {

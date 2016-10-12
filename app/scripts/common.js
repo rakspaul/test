@@ -82,7 +82,8 @@ define([
     'campaign-create-controller',
     'line-item-controller',
     'vendors-config-list-controller',
-    'vendor-config-controller'
+    'vendor-config-controller',
+    'vendor-config-permissions-controller'
 
 ], function (angularAMD) {
     return angularAMD;

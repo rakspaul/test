@@ -160,7 +160,9 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="permissions">
-                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_permissions.html'"></div>
+                            <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_permissions.html'"
+                                 data-ng-controller="VendorConfigPermissionsController as vendorPermissions" >
+                        </div>
                         </div>
                         <div class="tab-pane fade" id="offerings">
                             <div data-ng-include="'/views/workflow/vendors_config/partials/vendor_config_offerings.html'"></div>

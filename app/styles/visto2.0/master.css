@@ -6,7 +6,7 @@ body {
   margin: 25px 25px 0 0;
 }
 .adminElement.active {
-  background: #e1edf9;
+  background: #E1EDF9;
   cursor: default;
 }
 .zeroPadding {
@@ -463,7 +463,7 @@ strong {
   cursor: pointer;
 }
 .cardSelectHolder .btn.active {
-  background: #e1edf9;
+  background: #E1EDF9;
   box-shadow: none;
   width: auto;
   margin-left: -43px;
