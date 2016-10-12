@@ -293,7 +293,7 @@
                <div class="col-md-3 " id='daily_cap_input' style="display:none;" >
                    <span class="commonCurrencySymLabel">
                        <span class="KPI_symbol commonCurrencySym" >{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                       <input type="text">
+                       <input type="text" name="dailyBudgetValue" ng-model="adData.dailyBudgetValue">
                    </span>
                 </div>
             </div>
