@@ -4222,6 +4222,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 40px 0px 0px 0px ;
   margin-top: 80px;
 }
+.custom_report_response_page .custom_report_response_table .first_dimension_row_holder_pacing {
+  padding: 0px 0px 0px 20px ;
+}
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
   margin-left: 5px ;
 }
