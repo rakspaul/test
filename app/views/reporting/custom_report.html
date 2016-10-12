@@ -12,7 +12,7 @@
                id="{{$index+ 1}}"
                href=""
                style="margin: 0 10px 30px 0;">
-                <span class="icon-plus" data-ng-click="ToggleAdGroups(this)"></span>
+                <span class="icon-plus AUTO_toggleRB" data-ng-click="ToggleAdGroups(this)"></span>
             </a>
             <h1 class="pull-left zeroMargin"
                 data-ng-bind="textConstants.REPORT_BUILDER + ' ' + reports.name + ' | ' +
@@ -27,7 +27,7 @@
             <!-- his will be hidden until fold happens -->
             <span class="heading downReport pull-right">
                 <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
-                <a data-ng-click="downloadCreateRepBuilder()" class="pull-left">Download Report</a>
+                <a data-ng-click="downloadCreateRepBuilder()" class="pull-left AUTO_download">Download Report</a>
             </span>
         </div>
         <div style="text-align:center;">
@@ -53,7 +53,7 @@
                             <div class="pull-left custom_report_filter custom_report_breakdown">
                                 <div class="common_dropdown">
                                     <div class="dropdown">
-                                        <div class="dropdown_ul_text clearfix"
+                                        <div class="dropdown_ul_text clearfix AUTO_priDim"
                                              data-toggle="dropdown"
                                              title="{{reports.reportDefinition.dimensions.primary.name ?
                                                   reports.reportDefinition.dimensions.primary.name :
@@ -133,7 +133,7 @@
                                 <div class="pull-left custom_report_filter custom_report_breakdown">
                                     <div class="common_dropdown">
                                         <div class="dropdown">
-                                            <div class="dropdown_ul_text clearfix"
+                                            <div class="dropdown_ul_text clearfix AUTO_secDim"
                                                  data-toggle="dropdown"
                                                  title="{{reports.reportDefinition.dimensions.secondary.name ?
                                                       reports.reportDefinition.dimensions.secondary.name :
@@ -202,14 +202,15 @@
                                     <!-- Secondary dimension auto suggestion end -->
 
                                 </div>
-                                <div class="pull-left delete_row" data-ng-click="deleteSecondDimensionBlock();"></div>
+                                <div class="pull-left delete_row AUTO_delSecDim"
+                                     data-ng-click="deleteSecondDimensionBlock();"></div>
                             </div>
                         </div>
 
                         <!-- Second Dimension end -->
                         <div class="row" data-ng-show="showAddBreakdownButton">
                             <div class="add_breakdown_line"></div>
-                            <div class="clearfix add_breakdown_btn">
+                            <div class="clearfix add_breakdown_btn AUTO_addDimension">
                                 <div class="pull-left add_circle_symbol" data-ng-click="showSecondDimension()"></div>
                                 <div class="pull-left"
                                      data-ng-click="showSecondDimension()"
@@ -236,7 +237,8 @@
                                     <div class="pull-left custom_filter_dropdown custom_report_breakdown">
                                         <div class="common_dropdown">
                                             <div class="dropdown">
-                                                <div class="dropdown_ul_text clearfix" data-toggle="dropdown">
+                                                <div class="dropdown_ul_text clearfix AUTO_addFilterData"
+                                                     data-toggle="dropdown">
                                                     <span class="dd_txt"
                                                           data-ng-bind-html="addFilts.name ?
                                                               addFilts.name :
@@ -300,12 +302,13 @@
                                     </div>
                                     <!--   Auto suggestion filter text box end -->
 
-                                    <div class="pull-left delete_row" data-ng-click="delAditFlt($index);"></div>
+                                    <div class="pull-left delete_row AUTO_deleteFilter"
+                                         data-ng-click="delAditFlt($index);"></div>
                                 </div>
                                 <!-- sapna -->
                             </div>
                             <div class="clearfix title_row_separator">
-                                <div class="pull-left additional_filters_label">
+                                <div class="pull-left additional_filters_label AUTO_addFilters">
                                     <div class="pull-left add_circle_symbol"
                                          data-ng-click="addAdditionalFilters()">
                                     </div>
@@ -327,7 +330,7 @@
                         <div class="common_dropdown">
                             <div class="dropdown">
                                 <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
-                                    <span class="dd_txt"
+                                    <span class="dd_txt AUTO_seletTimeframe"
                                           id="date-selected-txt"
                                           data-ng-bind-html="reports.reportDefinition.timeframe.type ?
                                               reports.reportDefinition.timeframe.type : textConstants.YESTERDAY">
@@ -352,7 +355,7 @@
                                 <input type="text"
                                        style="background: transparent;"
                                        id="startDateInput"
-                                       class="input-sm form-control timeframe"
+                                       class="input-sm form-control timeframe AUTO_startDate"
                                        data-ng-model="reports.reportDefinition.timeframe.start_date"
                                        required>
                                 <label data-ng-if="!reports.reportDefinition.timeframe.start_date"
@@ -365,7 +368,7 @@
                                 <input type="text"
                                        style="background: transparent;"
                                        id="endDateInput"
-                                       class="input-sm form-control timeframe"
+                                       class="input-sm form-control timeframe AUTO_endDate"
                                        data-ng-model="reports.reportDefinition.timeframe.end_date"
                                        required>
                                 <label data-ng-if="!reports.reportDefinition.timeframe.end_date"
@@ -398,7 +401,8 @@
                         <div class="" >
                             <div class="common_dropdown">
                                 <div class="dropdown">
-                                    <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
+                                    <span class="dropdown_ul_text clearfix AUTO_selectPriDataSrc"
+                                          data-toggle="dropdown">
                                         <span class="dd_txt" data-ng-bind-html="displayName[reports.reportDefinition.dataSource]">
                                         </span>
                                         <span class="icon-arrow-solid-down"></span>
@@ -428,7 +432,8 @@
                 <div class="col-md-12 zeroPadding metricDataViewHeader">
                     <span class="pull-left greyTxt">Metrics</span>
                     <div class="pull-left clearLeft">
-                        <button type="button" class="pull-left btn btn-default" data-ng-click="refreshMetriPopUp()" ng-disabled="!showMetricsButton"><span class="text">Select Metrics</span></button>
+                        <button type="button" class="pull-left btn btn-default AUTO_selectMetrics"
+                                data-ng-click="refreshMetriPopUp()" ng-disabled="!showMetricsButton"><span class="text">Select Metrics</span></button>
                         <span class="pull-left marginLeft marginTop" data-ng-bind="metrics_text"></span>
                     </div>
                 </div>
@@ -443,7 +448,7 @@
                             <input data-ng-click="metrics.selectUnSelectAvailableMetrics()"
                                    type="checkbox"
                                    data-ng-model="allMetrics"
-                                   class="pull-left"
+                                   class="pull-left AUTO_selectAllMetrices"
                                    id="selectAll_chkbox"
                                    style="margin: 8px 5px 0 30px"
                             >
@@ -455,17 +460,19 @@
                                 <div class="common_tooltip"
                                      ng-bind="textConstants.REPORT_BUILDER_METRIC_TOOLTIP"></div>
                             </div>
-                            <a class="btn btn-default pull-right" data-ng-click="saveMetrics();">Save & Close</a>
-                            <a class="btn btn-link pull-right" data-ng-click="cancelMetricView();">Cancel</a>
+                            <a class="btn btn-default pull-right AUTO_saveMetrics" data-ng-click="saveMetrics();">Save & Close</a>
+                            <a class="btn btn-link pull-right AUTO_cancelMetrics" data-ng-click="cancelMetricView();">
+                                Cancel</a>
                         </div>
 
                         <!--Body-->
                         <div class="col-md-12 zeroPadding">
                             <!--Delivery-->
-                            <div class="col-md-2 zeroPadding" data-ng-show="deliveryMetrics.length">
+                            <div class="col-md-2 zeroPadding AUTO_deliveryAllMetrics"
+                                 data-ng-show="deliveryMetrics.length">
                                 <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:deliveryMetrics.isDisabled}">
                                     <input type="checkbox"
-                                           class="squaredFourChkbox"
+                                           class="squaredFourChkbox AUTO_deliveryAllMetrices"
                                            id="delivery_chkbox"
                                            data-ng-model="deliveryMetrics.isAllSelected"
                                            data-ng-click="onMetricClick('deliveryMetrics')"
@@ -473,7 +480,8 @@
                                         Delivery
                                 </span>
                                 <div>
-                                  <div data-ng-repeat="delivery_metric in deliveryMetrics track by $index">
+                                  <div data-ng-repeat="delivery_metric in deliveryMetrics track by $index"
+                                        class="AUTO_deleveryMetric">
                                     <fieldset class="metricData"
                                               relationIds="Delivery"
                                               id="{{delivery_metric.key}}"
@@ -487,7 +495,7 @@
                             </div>
 
                             <!--Pacing-->
-                            <div class="col-md-2 zeroPadding" data-ng-show="pacingMetrics.length">
+                            <div class="col-md-2 zeroPadding AUTO_pacingAllMetrics" data-ng-show="pacingMetrics.length">
                                 <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:pacingMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -498,7 +506,8 @@
                                     Pacing
                                 </span>
                                 <div>
-                                  <div data-ng-repeat="pacing_metric in pacingMetrics track by $index">
+                                  <div data-ng-repeat="pacing_metric in pacingMetrics track by $index"
+                                        class="AUTO_pacingMetric">
                                     <fieldset class="metricData"
                                               relationIds='Pacing'
                                               id="{{pacing_metric.key}}"
@@ -512,7 +521,7 @@
                             </div>
 
                             <!--Cost-->
-                            <div class="col-md-2 zeroPadding" data-ng-show="costMetrics.length">
+                            <div class="col-md-2 zeroPadding AUTO_costAllMetrics" data-ng-show="costMetrics.length">
                                 <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:costMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -523,7 +532,8 @@
                                         Cost
                                 </span>
                                 <div>
-                                  <div data-ng-repeat="cost_metric in costMetrics track by $index">
+                                  <div data-ng-repeat="cost_metric in costMetrics track by $index"
+                                        class="AUTO_costMetric">
                                     <fieldset class="metricData"
                                               relationIds='Cost'
                                               id="{{cost_metric.key}}"
@@ -537,7 +547,7 @@
                             </div>
 
                             <!--Video-->
-                            <div class="col-md-2 zeroPadding" data-ng-show="videoMetrics.length">
+                            <div class="col-md-2 zeroPadding AUTO_videoAllMetrics" data-ng-show="videoMetrics.length">
                                 <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:videoMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -548,7 +558,8 @@
                                         Video
                                 </span>
                                 <div>
-                                  <div data-ng-repeat="video_metric in videoMetrics track by $index">
+                                  <div data-ng-repeat="video_metric in videoMetrics track by $index"
+                                        class="AUTO_videoMetric">
                                     <fieldset class="metricData"
                                               relationIds="Video"
                                               id="{{video_metric.key}}"
@@ -562,7 +573,8 @@
                             </div>
 
                             <!--Quality-->
-                            <div class="col-md-4 zeroPadding" data-ng-show="qualityMetrics.length">
+                            <div class="col-md-4 zeroPadding AUTO_qualityAllMetrics"
+                                 data-ng-show="qualityMetrics.length">
                                 <span class="col-md-12 zeroPadding" data-ng-class="{disabled_txt:qualityMetrics.isDisabled}">
                                     <input type="checkbox"
                                            class="squaredFourChkbox"
@@ -573,7 +585,8 @@
                                         Quality
                                 </span>
                                 <div>
-                                  <div data-ng-repeat="quality_metrics in qualityMetrics track by $index">
+                                  <div data-ng-repeat="quality_metrics in qualityMetrics track by $index"
+                                        class="AUTO_qualityMetric">
                                     <fieldset class="metricData"
                                               relationIds="Quality"
                                               id="{{quality_metrics.key}}"
@@ -604,7 +617,7 @@
                         <div class="clearfix scheduled_report_fields">
                             <div class="each-col" id="schedule-btn">
                                 <div class="label-txt" data-ng-bind-html="textConstants.SAVE_SCHEDULE"></div>
-                                <div class="schedule-on-off-btn">
+                                <div class="schedule-on-off-btn AUTO_toggleSaveSch">
                                     <input type="checkbox"
                                            data-ng-model="scheduleReportActive"
                                            checked
@@ -829,12 +842,13 @@
                               style="width: 91px;"
                               data-ng-show="loadingBtn">
                         </span>
-                        <button class="pull-right btn btn-primary {{generateBtnDisabled ? 'disabled' : ''}}"
+                        <button
+                            class="pull-right btn btn-primary {{generateBtnDisabled ? 'disabled' : ''}} AUTO_Generate"
                                 data-ng-click="scheduleReportAction();"
                                 data-ng-bind-html="buttonLabel"
                                 data-ng-show="!loadingBtn">
                         </button>
-                        <button class="pull-right btn btn-default marginRight"
+                        <button class="pull-right btn btn-default marginRight AUTO_clear"
                                 data-ng-click="resetMetricOptions();"
                                 data-ng-bind-html="buttonResetCancel"
                                 data-ng-class="reportTypeSelect === 'Save' ? 'save_reset' : ''">
@@ -860,31 +874,31 @@
                 <div class="report_response_and_tabs">
                     <!-- add  style="display:none;"  when tabs are not to be shown -->
                     <div data-ng-if="!hideReportsTabs" class="clearfix custom_report_response_tabs">
-                        <div class="each_tab active"
+                        <div class="each_tab active AUTO_deliveryTab"
                              data-ng-click="show_respective_table('delivery')"
                              id="delivery_tab"
                              data-ng-show="metricKeyArr.delivery_metrics.length">
                             <span>Delivery</span>
                         </div>
-                        <div class="each_tab"
+                        <div class="each_tab AUTO_costTab"
                              data-ng-click="show_respective_table('cost')"
                              id="cost_tab"
                              data-ng-show="showCost && metricKeyArr.cost_metrics.length">
                             <span>Cost</span>
                         </div>
-                        <div class="each_tab"
+                        <div class="each_tab AUTO_videoTab"
                              data-ng-click="show_respective_table('video')"
                              id="video_tab"
                              data-ng-show="metricKeyArr.video_metrics.length">
                             <span>Video</span>
                         </div>
-                        <div class="each_tab"
+                        <div class="each_tab AUTO_qualityTab"
                              data-ng-click="show_respective_table('quality')"
                              id="quality_tab"
                              data-ng-show="showQuality && metricKeyArr.quality_metrics.length">
                             <span>Quality</span>
                         </div>
-                        <div class="each_tab"
+                        <div class="each_tab AUTO_pacingTab"
                              data-ng-click="show_respective_table('pacing')"
                              id="pacing_tab"
                              data-ng-show="metricKeyArr.pacing_metrics.length">
@@ -899,7 +913,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind-html="reportTitle"></div>
-                                    <div class="each_col_delivery"
+                                    <div class="each_col_delivery AUTO_deliveryHeader"
                                          data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(dm.key);"
                                          data-ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
@@ -907,7 +921,7 @@
                                     </div>
                                 </div>
                                 <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind="dimTotal"></div>
+                                    <div class="each_col tree_dimension_col" data-ng-bind="dimTotal"    ></div>
                                     <div class="each_col_delivery"
                                          data-ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
                                          data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
@@ -929,7 +943,8 @@
                                         orderBy : sortType : sortReverse">
                                     <!-- add active when the next dimension is open -->
                                     <!-- add hasBreakdown when the next dimension is available -->
-                                    <div data-ng-include="'deliveryTpl'" class="heading_first_dimension"></div>
+                                    <div data-ng-include="'deliveryTpl'"
+                                         class="heading_first_dimension AUTO_firstDimData"></div>
 
                                     <!-- second dimension div-->
                                     <div
@@ -986,7 +1001,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind="reportTitle"></div>
-                                    <div class="each_col_cost"
+                                    <div class="each_col_cost AUTO_costHeader"
                                          data-ng-class="addReqClassToSort(bm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(bm.key);"
                                          data-ng-repeat="bm in metricKeyArr.cost_metrics track by $index"
@@ -1065,7 +1080,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind="reportTitle"></div>
-                                    <div class="each_col"
+                                    <div class="each_col AUTO_videoHeader"
                                          data-ng-class="addReqClassToSort(vm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(vm.key);"
                                          data-ng-repeat="vm in metricKeyArr.video_metrics track by $index"
@@ -1147,7 +1162,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind="reportTitle"></div>
-                                    <div class="each_col"
+                                    <div class="each_col AUTO_qualityHeader"
                                          data-ng-class="addReqClassToSort(vm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(vm.key);"
                                          data-ng-repeat="vm in metricKeyArr.quality_metrics track by $index"
@@ -1230,7 +1245,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" data-ng-bind="reportTitle"></div>
-                                    <div class="each_col"
+                                    <div class="each_col AUTO_pacingHeader"
                                          data-ng-class="addReqClassToSort(vm.key, sortType, sortReverse)"
                                          data-ng-click="clickToSort(vm.key);"
                                          data-ng-repeat="vm in metricKeyArr.pacing_metrics track by $index"
