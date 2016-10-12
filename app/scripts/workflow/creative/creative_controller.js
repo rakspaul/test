@@ -813,7 +813,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                             $scope.cancelBtn();
 
                             $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS, 0);
-                            localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message : $scope.textConstants.CREATIVE_SAVE_SUCCESS});
                         } else if (result.status === 'error') {
                             $scope.savingCreative = false;
                             $scope.Message = result.data.data.message || 'Unable to create Creative';
@@ -845,7 +845,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                             // redirect user after successful saving
                             $scope.cancelBtn();
                             $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS, 0);
-                            localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
+                           // localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message : $scope.textConstants.CREATIVE_SAVE_SUCCESS});
                         } else {
                             $scope.addedSuccessfully = true;
                             $scope.Message = 'Unable to create Creatives';
