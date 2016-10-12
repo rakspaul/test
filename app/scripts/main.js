@@ -83,6 +83,7 @@ require.config({
         'platform-custom-module': 'workflow/services/platform_custom_module',
         'zip-code-service': 'common/services/zip_code_service',
         'admin-account-service': 'admin/services/admin_account_service',
+        'sellers-service': 'workflow/services/sellers_service',
 
         /*register Services - End*/
 
@@ -247,6 +248,8 @@ require.config({
         'creative-preview-controller': 'workflow/creative/creative_preview_controller',
         'creative-bulk-controller': 'workflow/creative/creative_bulk_controller',
         'audit-controller': 'admin/controllers/entity_audit_controller',
+        'seller-targetting-controller' : 'workflow/ad/seller_targetting_controller',
+        'seller-targetting-controller' : 'workflow/ad/seller_targetting_controller',
 
         /*register Controllers - Start*/
 

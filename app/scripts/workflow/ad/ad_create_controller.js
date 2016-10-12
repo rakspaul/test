@@ -1,6 +1,6 @@
 define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budget-delivery-controller', 'buying-platform-controller', 'targetting-controller',
     'geo-targetting-controller', 'audience-targetting-controller', 'daypart-create-controller', 'video-targetting-controller', 'inventory-filters-controller',
-    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller'],
+    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller', 'seller-targetting-controller'],
     function (angularAMD) {
 
     angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams', '$locale', '$location', '$filter', '$timeout', 'constants',
@@ -300,6 +300,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     idx,
                     i,
                     videoTargetsData,
+                    sellerTargettingData,
                     pacingType,
 
                     findFunc = function (item) {
@@ -608,6 +609,16 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     videoTargetsData.videoTargets.positions.length > 0 ||
                     videoTargetsData.videoTargets.playbackMethods.length > 0)) {
                     $scope.$broadcast('setTargeting', ['Video']);
+                }
+
+                // sellers part edit
+                sellerTargettingData = responseData.targets;
+                if (sellerTargettingData.sellerTargets &&
+                    (sellerTargettingData.sellerTargets.length > 0)) {
+                    $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
+                    $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
+
+                    // $scope.$broadcast('triggerSeller');
                 }
 
                 $scope.$broadcast('getDominList', [{
@@ -1428,6 +1439,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     adData,
                     videoTargetsData,
                     inventoryLists,
+                    sellerTargetting,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) {
@@ -1737,6 +1749,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                     }
                                 }
                             }
+
+                            //sellers targetting
+                            if ($scope.adData.sellersTargetting && $scope.adData.sellersTargetting.length > 0) {
+                                postAdDataObj.targets.sellerTargets = _.pluck($scope.adData.sellersTargetting,'id');
+                                postAdDataObj.sellersAction = $scope.adData.sellersAction ? 'INCLUDE':'EXCLUDE';
+                            }
+
+
                         }
 
                         inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
@@ -1751,6 +1771,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (inventoryLists.appList.length > 0){
                             appListsIds = inventoryLists.appList;
                         }
+
 
                         // domains save
                         if ($scope.adData.inventory &&
