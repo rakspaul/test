@@ -189,19 +189,26 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/vendor/create', angularAMD.route({
-                    templateUrl: assets.html_vendor_create,
-                    title: 'Create - Vendor',
-                    controller: 'CreateVendorController',
-                    controllerUrl: 'vendor-create-controller',
-                    showHeader: true
+                .when('/a/:accountId/sa/:subAccountId/vendor/create', angularAMD.route({
+                    templateUrl: assets.html_vendor_config,
+                    title: 'Create - Vendor Configuration',
+                    controller: 'VendorConfigController',
+                    controllerUrl: 'vendor-config-controller',
+                    controllerAs: 'vendor',
+                    showHeader: true,
+
+                    resolve: {
+                        header: function (routeResolversParams, routeResolvers) {
+                            return routeResolvers.adminHeaderResolver(routeResolversParams);
+                        }
+                    }
                 }))
 
-                .when('/vendors/list', angularAMD.route({
-                    templateUrl: assets.html_vendors_list,
-                    title: 'Vendors - List',
-                    controller: 'VendorsListController',
-                    controllerUrl: 'vendors-list-controller',
+                .when('/a/:accountId/sa/:subAccountId/vendors/list', angularAMD.route({
+                    templateUrl: assets.html_vendors_config_list,
+                    title: 'Vendors Configuration - List',
+                    controller: 'VendorsConfigListController',
+                    controllerUrl: 'vendors-config-list-controller',
                     showHeader: true,
                     css: assets.css_table_list
                 }))
@@ -829,19 +836,6 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.invoiceHeader(routeResolversParams);
                         }
                     }
-                }));
-            });
-
-            [
-                '/vendor/create',
-                '/vendors/list'
-            ].forEach(function(path) {
-                rp.when(path, angularAMD.route({
-                    templateUrl: assets.html_vendor_create,
-                    title: 'Create - Vendor',
-                    controller: 'CreateVendorController',
-                    controllerUrl: 'vendor-create-controller',
-                    showHeader: true
                 }));
             });
 

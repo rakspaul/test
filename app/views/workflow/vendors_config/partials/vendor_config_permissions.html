@@ -1,0 +1,210 @@
+<h3 class="col-md-6 adName"
+    data-ng-bind="selectedCampaign.campaignName.length > 0 ?
+        (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name">
+</h3>
+
+<!--Pixel Option List-->
+<div class="col-md-7" style="padding: 0 10px 0 0;">
+    <label for="nameTitleCampaign"
+           class="col-sm-12 labelQuestTxt"
+           style="margin-bottom: 5px;">
+        Permissions
+    </label>
+    <div class="col-md-12 zeroPadding btn-group create"
+         role="group"
+         style="margin: 20px 0 10px 0;">
+        <span class="pull-left">
+          Accounts, Advertisers & Brands available to use this Configuration
+        </span>
+
+        <!--Search/Quickfilters Input-->
+        <div class="col-md-12 zeroPadding" style="margin-top: 20px; display: none">
+            <div class="btn-group pull-right">
+                <button type="button"
+                        class="btn btn-default pull-right disabled"
+                        style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
+                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                </button>
+                <div class="searchInput pull-right">
+                    <a class="btn btn-default searchInputBtn"
+                       data-ng-click="searchShowInput()"
+                       style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <a class="btn btn-default searchInputBtnInline"
+                       data-ng-click="campaignSearchFunc()"
+                       style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <div class="input-group searchInputForm" style="width:300px !important;">
+                        <input type="text"
+                               class="form-control"
+                               name="campaignsSearch"
+                               search-box
+                               placeholder="Search Line Items..."
+                               data-ng-model="searchText">
+                        <div class="btn btn-default searchClearInputBtn" data-ng-click="searchHideInput($event)">
+                            <span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="pull-right"
+                  style="padding:8px 5px 8px 0 ;"
+                  data-ng-bind="selectedPixel.length">
+                Pixels in list
+            </span>
+        </div>
+    </div>
+
+    <!--Pixel Table Sample Start-->
+    <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
+        <div class="vistoTable pixelVistoTable" id="visto_table">
+            <div class="thead thin">
+                <div class="tr">
+                    <div class="th col-md-9">
+                        <span>Account</span>
+                    </div>
+                    <div class="th col-md-3">Tier Levels</div>
+                </div>
+            </div>
+            <div class="tbody thin" style="overflow:auto;">
+                <!--Table Data Sample-->
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
+                        <a>Delta Systems</a>
+                    </div>
+                    <span class="td col-md-3">3</span>
+                </div>
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
+                        <a>Delta Systems</a>
+                    </div>
+                    <span class="td col-md-3">3</span>
+                </div>
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
+                        <a>Delta Systems</a>
+                    </div>
+                    <span class="td col-md-3">3</span>
+                </div>
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
+                        <a>Delta Systems</a>
+                    </div>
+                    <span class="td col-md-3">3</span>
+                </div>
+                <div data-ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common">
+                    <div class="td" data-ng-bind="vendor.constants.DATANOTAVAILABLE"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Pixel Table Sample Start-->
+</div>
+
+<div class="col-md-5 zeroPadding selectedTables">
+    <div class="col-md-12 zeroPadding" style="margin-top: 73px;">
+        <h2 class="pull-left" data-ng-bind="vendor.constants.SELECTED" style="    font-size: 18px;
+    margin: 0 0 10px;"></h2>
+        <div class="pull-right ">
+            <span class="pull-left marginRightFive icon-clear"></span>
+            <span class="pull-left">Clear All</span>
+        </div>
+    </div>
+    <div class="col-md-12 zeroPadding options-selected-section" id="geo-selected-section">
+        <div class="default-selected-section" ng-if="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)">
+            <span class="icon-location"></span>
+            <div data-ng-bind="vendor.constants.NOTHINGSELECTED"></div>
+            <div class="smallText" ng-bind-html="vendor.constants.GEONOTE"></div>
+        </div>
+        <div class="col-md-12 zeroPadding" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0">
+
+            <div class="table regionTable" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0">
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
+                        <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'countries');">
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <!----   selected country , region and city level targeting ---------->
+                    <div ng-repeat="item in geoSelectedItems">
+                        <div class="clearfix each-row" ng-repeat="country in item.countries track by $index">
+                            <div class="pull-left"><img ng-show = "country.included !==undefined" ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
+                            <div ng-show = "country.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(country, 'countries', 'country_'+country.id)"></span></div>
+                            <div class="group">
+                                <div class="each-group" ng-repeat="region in country.regions track by $index">
+                                    <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                                    <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(region, 'regions', 'region_' + region.id + '_' + region.country.id)"></span></div>
+                                    <div class="group">
+                                        <div class="each-group" ng-repeat="city in region.cities track by $index">
+                                            <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                            <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(city, 'cities', 'city_' + city.id + '_' + city.parent.id + '_' + city.country.id)"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="each-group" ng-repeat="city in country.cities">
+                                    <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                    <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
+                </div>
+            </div>
+
+            <div class="table dmaTable" ng-if="geoData.dmas.selected.length > 0">
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.METROS"></div>
+                        <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'dmas');">
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div class="clearfix each-row"  ng-repeat="dma in geoData.dmas.selected">
+                        <div class="pull-left"><img ng-src="/images/workflow/{{dma.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dma.name}}</div>
+                        <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(dma, 'dmas', 'dma_{{dma.id}}')"></span></div>
+                    </div>
+                    <div ng-if="geoTargetingData.selected.dmas.length === 0">
+                        <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="table zipTable" ng-if="geoData.zip.selected.length >0">
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.ZIPPOSTCODE"></div>
+                        <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'zip');">
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div ng-repeat="zipCodeList in geoData.zip.selected">
+                        <div class="countryHeading" ng-bind="zipCodeList.countryName"></div>
+                        <div class="clearfix each-row" ng-repeat="zip in zipCodeList.data">
+                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zip}}</div>
+                            <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(zip, 'zip')"></span></div>
+                        </div>
+                        <div ng-if="geoData.zip.selected.length === 0">
+                            <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
+    <span class="btn btn-default"
+          data-ng-click="highlightLeftNav(2)"
+          data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE">
+    </span>
+</a>

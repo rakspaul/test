@@ -80,9 +80,7 @@ define([
     'strategy-select-model',
 
     'campaign-create-controller',
-    'line-item-controller',
-    'vendors-list-controller',
-    'vendor-create-controller'
+    'line-item-controller'
 
 ], function (angularAMD) {
     return angularAMD;
