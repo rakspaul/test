@@ -308,45 +308,66 @@
 .view-summary-dialog .modal-dialog {
   width: 1200px ;
 }
-.view_summary_page .summarySection {
+.view_summary_page .summarySection,
+.permissionsSelection .summarySection {
   border: solid 1px rgba(191, 201, 215, 0.5);
   padding: 20px ;
   margin-right: 20px ;
 }
-.view_summary_page .summarySection .summarySectionRow {
+.view_summary_page .summarySection .summarySectionRow,
+.permissionsSelection .summarySection .summarySectionRow {
   margin-top: 5px ;
 }
 .view_summary_page .summarySection .glyphicon-ok-sign,
-.view_summary_page .summarySection .icon-user {
+.permissionsSelection .summarySection .glyphicon-ok-sign,
+.view_summary_page .summarySection .icon-user,
+.permissionsSelection .summarySection .icon-user {
   color: #57606D ;
   font-size: 12px ;
 }
-.view_summary_page .summarySection .icon-user {
+.view_summary_page .summarySection .icon-user,
+.permissionsSelection .summarySection .icon-user {
   color: #0564a9;
 }
-.view_summary_page .summarySection .summarySectionHeading {
+.view_summary_page .summarySection .summarySectionHeading,
+.permissionsSelection .summarySection .summarySectionHeading {
   color: #57606D ;
   font-size: 16px;
   margin-bottom: 10px ;
 }
-.view_summary_page .summarySection:last-child {
+.view_summary_page .summarySection:last-child,
+.permissionsSelection .summarySection:last-child {
   margin: 0 ;
 }
-.view_summary_page .modal-header {
+.view_summary_page .modal-header,
+.permissionsSelection .modal-header {
   margin-bottom: 30px ;
 }
-.view_summary_page .summaryHeadline .glyphicon-ok-sign {
+.view_summary_page .summaryHeadline .glyphicon-ok-sign,
+.permissionsSelection .summaryHeadline .glyphicon-ok-sign {
   color: #70d43d ;
   margin-right: 5px ;
 }
-.view_summary_page .summaryValues {
+.view_summary_page .summaryValues,
+.permissionsSelection .summaryValues {
   margin: 20px 0 25px ;
 }
-.view_summary_page .summaryValues .marginLeft {
+.view_summary_page .summaryValues .marginLeft,
+.permissionsSelection .summaryValues .marginLeft {
   margin-left: 50px ;
 }
-.view_summary_page .summaryValues .icon-calendar {
+.view_summary_page .summaryValues .icon-calendar,
+.permissionsSelection .summaryValues .icon-calendar {
   margin-right: 5px ;
+}
+.view_summary_page .icon-clear,
+.permissionsSelection .icon-clear {
+  cursor: pointer;
+  margin-top: 2px;
+}
+.view_summary_page .eachSelection,
+.permissionsSelection .eachSelection {
+  margin-top: 10px ;
 }
 #vendorConfigurationPage .table_list_holder .table-td-val {
   display: inline-block;

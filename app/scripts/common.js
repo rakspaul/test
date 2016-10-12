@@ -81,7 +81,6 @@ define([
 
     'campaign-create-controller',
     'line-item-controller'
-
 ], function (angularAMD) {
     return angularAMD;
 });

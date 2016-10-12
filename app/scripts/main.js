@@ -188,6 +188,8 @@ require.config({
         'vendor-config-select-type-controller': 'workflow/vendors_config/vendor_config_select_type_controller',
         'vendor-config-basic-settings-controller': 'workflow/vendors_config/vendor_config_basic_settings_controller',
         'vendor-config-service': 'workflow/vendors_config/vendor_config_service',
+        'vendor-config-permissions-controller': 'workflow/vendors_config/vendor_config_permissions_controller',
+
 
         'campaign-service': 'workflow/campaign/campaign_service',
         'pixels-controller': 'workflow/campaign/pixels_controller',

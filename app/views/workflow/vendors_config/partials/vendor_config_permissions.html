@@ -58,57 +58,183 @@
     </div>
 
     <!--Pixel Table Sample Start-->
-    <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
-        <div class="vistoTable pixelVistoTable" id="visto_table">
-            <div class="thead thin">
-                <div class="tr">
-                    <div class="th col-md-9">
-                        <span>Account</span>
-                    </div>
-                    <div class="th col-md-3">Tier Levels</div>
+
+    <div class="col-md-12 zeroPadding listTable">
+
+
+        <!-- First level Permission-->
+        <div class="col-md-12 zeroPadding firstLevelPermission" ng-show="vendorPermissions.firstLevelSectionShow">
+            <div class="col-md-12  listTableHead">
+                <div class="col-md-9">
+                    Account
+                </div>
+                <div class="col-md-3 text-center">
+                    Tier Levels
                 </div>
             </div>
-            <div class="tbody thin" style="overflow:auto;">
-                <!--Table Data Sample-->
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
-                        <a>Delta Systems</a>
+            <div class="col-md-12  listTableBody">
+
+                <!-- ng-repeat for list -->
+                <div class="row eachList " ng-click="vendorPermissions.showSecondLevel()"  ><!-- add 'disabled' class whenever it is disabled -->
+                    <div class="col-md-9">
+                        <div class="pull-left circle"></div>
+                        <div class="pull-left">Delta Systems</div>
                     </div>
-                    <span class="td col-md-3">3</span>
+                    <div class="col-md-3 text-center">3</div>
                 </div>
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
-                        <a>Delta Systems</a>
+                <div class="row eachList">
+                    <div class="col-md-9">
+                        <div class="pull-left circle"></div>
+                        <div class="pull-left">Delta Systems</div>
                     </div>
-                    <span class="td col-md-3">3</span>
+                    <div class="col-md-3 text-center">3</div>
                 </div>
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
-                        <a>Delta Systems</a>
+                <div class="row eachList">
+                    <div class="col-md-9">
+                        <div class="pull-left circle"></div>
+                        <div class="pull-left">Delta Systems</div>
                     </div>
-                    <span class="td col-md-3">3</span>
+                    <div class="col-md-3 text-center">3</div>
                 </div>
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox" data-ng-click="selectPixel(pixel)" data-ng-checked="pixel.isChecked">
-                        <a>Delta Systems</a>
-                    </div>
-                    <span class="td col-md-3">3</span>
-                </div>
-                <div data-ng-if="selectedCampaign.pixelList.length === 0" class="tr no-data-common">
-                    <div class="td" data-ng-bind="vendor.constants.DATANOTAVAILABLE"></div>
-                </div>
+                <!-- end of ng-repeat for list -->
+
             </div>
         </div>
+        <!-- end of First level Permission-->
+
+        <!-- Second level Permission-->
+        <div class="col-md-12 zeroPadding secLevelPermission" ng-show="vendorPermissions.secondLevelSectionShow">
+            <div class="col-md-12  listTableBody">
+                <div class="row sectionNavHolder">
+                    <div class="col-md-12">
+                        Tegna Corp
+                    </div>
+                </div>
+                <div class="row searchBox">
+                    <input class="pull-left" type="text" placeHolder="Search Accounts, Advertisers, & Brands">
+                    <span class="pull-right searchIcon"></span>
+                </div>
+
+                <!-- ng-repeat for list -->
+                <div class="row eachList" ng-click="vendorPermissions.showThirdLevel()"> <!-- add 'disabled' class whenever it is disabled -->
+                    <div class="col-md-11 zeroPadding checkbox_holder">
+                        <div class="external_chkbox zeroPadding">
+                            <div class="pull-left squaredFour" >
+                                <!-- here the input tag 'id' and label type 'for' attribute should be same for enabling it to click  and it should be unique for a page -->
+                                <input type="checkbox" id="squaredFour_item1" class="squaredFourChkbox">
+                                <label for="squaredFour_item1"></label>
+                            </div>
+                            <span class="pull-left">Southwest</span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 icon-next-arrow"></div>
+                </div>
+                <div class="row eachList">
+                    <div class="col-md-11 zeroPadding checkbox_holder">
+                        <div class="external_chkbox zeroPadding">
+                            <div class="pull-left squaredFour" >
+                                <input type="checkbox" id="squaredFour_item2" class="squaredFourChkbox">
+                                <label for="squaredFour_item2"></label>
+                            </div>
+                            <span class="pull-left">Southwest</span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 icon-next-arrow"></div>
+                </div>
+                <div class="row eachList">
+                    <div class="col-md-11 zeroPadding checkbox_holder">
+                        <div class="external_chkbox zeroPadding">
+                            <div class="pull-left squaredFour" >
+                                <input type="checkbox" id="squaredFour_item3" class="squaredFourChkbox">
+                                <label for="squaredFour_item3"></label>
+                            </div>
+                            <span class="pull-left">Southwest</span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 icon-next-arrow"></div>
+                </div>
+                <!-- end of ng-repeat for list -->
+
+            </div>
+        </div>
+
+        <!-- End of Second level Permission-->
+
+
+        <!-- Third level Permission-->
+        <div class="col-md-12 zeroPadding thirdLevelPermission" ng-show="vendorPermissions.thirdLevelSectionShow">
+            <div class="col-md-12 listTableBody">
+                <div class="row sectionNavHolder">
+                    <div class="col-md-12">
+                        Tegna Corp | Midwest | WCBS | Griffin Group
+                    </div>
+                </div>
+                <div class="row searchBox">
+                    <input class="pull-left" type="text" placeHolder="Search Accounts, Advertisers, & Brands">
+                    <span class="pull-right searchIcon"></span>
+                </div>
+
+                <!-- ng-repeat for list -->
+                <div class="row eachList"> <!-- add 'disabled' class whenever it is disabled -->
+                    <div class="col-md-6 checkbox_holder">
+                        <div class="external_chkbox zeroPadding">
+                            <div class="pull-left squaredFour" >
+                                <!-- here the input tag 'id' and label type 'for' attribute should be same for enabling it to click  and it should be unique for a page -->
+                                <input type="checkbox" id="squaredFour_item4" class="squaredFourChkbox">
+                                <label for="squaredFour_item4"></label>
+                            </div>
+                            <span class="pull-left">Southwest</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 brandsSection">
+                        <div class="pull-left pillsWrap">
+                            <span class="pull-left labelPills"><span>Label1</span> <span class="pull-right icon-close"></span></span>
+                            <span class="pull-left labelPills"><span>Label1</span> <span class="pull-right icon-close"></span></span>
+                            <span class="pull-left labelPills"><span>Label1</span> <span class="pull-right icon-close"></span></span>
+                        </div>
+                        <div class="pull-right  icon-arrow-solid-down"></div>
+                    </div>
+                </div>
+                <div class="row eachList"> <!-- add 'disabled' class whenever it is disabled -->
+                    <div class="col-md-6 checkbox_holder">
+                        <div class="external_chkbox zeroPadding">
+                            <div class="pull-left squaredFour" >
+                                <!-- here the input tag 'id' and label type 'for' attribute should be same for enabling it to click  and it should be unique for a page -->
+                                <input type="checkbox" id="squaredFour_item4" class="squaredFourChkbox">
+                                <label for="squaredFour_item4"></label>
+                            </div>
+                            <span class="pull-left">Southwest</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 brandsSection brandsDropdownSection" >
+                        <div class="col-md-6 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-with-search-btn" type="button"  aria-haspopup="true" aria-expanded="true" ng-click="vendorPermissions.showHideDropdownWithSearch($event);" >
+                                    <span>All Brands</span>
+                                    <span class="icon-arrow-solid-down"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-with-search" >
+                                    <div id="brandsDropdownDiv" class="search-inside-dropdown">
+                                        <input class="dropdown-toggle inactive" ng-model="geoData.zip.name"/>
+                                        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                                    </div>
+                                    <li class="available" ><a data-ng-click="vendorPermissions.showHideDropdownWithSearch($event);">Brand 1</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of ng-repeat for list -->
+
+            </div>
+        </div>
+        <!-- end of Third level Permission-->
+
     </div>
-    <!--Pixel Table Sample Start-->
 </div>
 
 <div class="col-md-5 zeroPadding selectedTables">
-    <div class="col-md-12 zeroPadding" style="margin-top: 73px;">
+    <div class="col-md-12 zeroPadding" style="margin-top: 64px;">
         <h2 class="pull-left" data-ng-bind="vendor.constants.SELECTED" style="    font-size: 18px;
     margin: 0 0 10px;"></h2>
         <div class="pull-right ">
@@ -116,95 +242,60 @@
             <span class="pull-left">Clear All</span>
         </div>
     </div>
-    <div class="col-md-12 zeroPadding options-selected-section" id="geo-selected-section">
-        <div class="default-selected-section" ng-if="!(geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0)">
+    <div class="col-md-12 zeroPadding options-selected-section permissionsSelection" >
+        <div class="default-selected-section">
             <span class="icon-location"></span>
             <div data-ng-bind="vendor.constants.NOTHINGSELECTED"></div>
             <div class="smallText" ng-bind-html="vendor.constants.GEONOTE"></div>
         </div>
-        <div class="col-md-12 zeroPadding" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0 || geoData.dmas.selected.length > 0 || geoData.zip.selected.length > 0">
-
-            <div class="table regionTable" ng-if="geoData.countries.selected.length > 0 || geoData.regions.selected.length > 0 || geoData.cities.selected.length > 0">
-                <div>
-                    <div class="clearfix each-row" >
-                        <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.TARGETING_LABEL + ': ' + getTargetingType()"></div>
-                        <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'countries');">
-                        </div>
+        <div class="col-md-12 summarySection ">
+            <div class="summarySectionHeading">
+                <span>Tegna Corp</span>
+                <span class="pull-right icon-clear"></span>
+            </div>
+            <div class="col-md-12 zeroPadding tree-structure">
+                <div class="col-md-12 zeroPadding eachSelection">
+                    <div class="marginLeft">
+                        <span>Midwest</span>
                     </div>
-                </div>
-                <div class="values-table">
-                    <!----   selected country , region and city level targeting ---------->
-                    <div ng-repeat="item in geoSelectedItems">
-                        <div class="clearfix each-row" ng-repeat="country in item.countries track by $index">
-                            <div class="pull-left"><img ng-show = "country.included !==undefined" ng-src="/images/workflow/{{country.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{country.name}}</div>
-                            <div ng-show = "country.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(country, 'countries', 'country_'+country.id)"></span></div>
-                            <div class="group">
-                                <div class="each-group" ng-repeat="region in country.regions track by $index">
-                                    <div class="pull-left"><img ng-show = "region.included !==undefined" ng-src="/images/workflow/{{region.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
-                                    <div ng-show = "region.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(region, 'regions', 'region_' + region.id + '_' + region.country.id)"></span></div>
-                                    <div class="group">
-                                        <div class="each-group" ng-repeat="city in region.cities track by $index">
-                                            <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                            <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(city, 'cities', 'city_' + city.id + '_' + city.parent.id + '_' + city.country.id)"></span></div>
-                                        </div>
-                                    </div>
+                    <div class="marginLeft">
+                        <div class="marginLeft">
+                            <span>WCBS (1)</span>
+                        </div>
+                        <div class="marginLeft">
+                            Griffin Group(3)
+                            <div class="marginLeft">
+                                <div>
+                                    The Coca-Cola Companies (4)
                                 </div>
-                                <div class="each-group" ng-repeat="city in country.cities">
-                                    <div class="pull-left"><img ng-show = "city.included !==undefined" ng-src="/images/workflow/{{city.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
-                                    <div ng-show = "city.included !==undefined" class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                                <div>
+                                    <span class="icon-user"></span>Coke
+                                </div>
+                                <div>
+                                    <span class="icon-user"></span>Sprite
+                                </div>
+                                <div>
+                                    <span class="icon-user"></span>Teavana
                                 </div>
                             </div>
+                            <div><span class="icon-user"></span>Frankly Furniture</div>
+                            <div><span class="icon-user"></span>Great Northern</div>
                         </div>
-                    </div>
-                    <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET" ng-if="geoData.countries.selected.length === 0 && geoData.regions.selected.length === 0 && geoData.cities.selected.length === 0"></div>
-                </div>
-            </div>
 
-            <div class="table dmaTable" ng-if="geoData.dmas.selected.length > 0">
-                <div>
-                    <div class="clearfix each-row" >
-                        <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.METROS"></div>
-                        <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'dmas');">
-                        </div>
                     </div>
+
                 </div>
-                <div class="values-table">
-                    <div class="clearfix each-row"  ng-repeat="dma in geoData.dmas.selected">
-                        <div class="pull-left"><img ng-src="/images/workflow/{{dma.included ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dma.name}}</div>
-                        <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(dma, 'dmas', 'dma_{{dma.id}}')"></span></div>
-                    </div>
-                    <div ng-if="geoTargetingData.selected.dmas.length === 0">
-                        <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="table zipTable" ng-if="geoData.zip.selected.length >0">
-                <div>
-                    <div class="clearfix each-row" >
-                        <div class="pull-left boldSubHeading" data-ng-bind="vendor.constants.ZIPPOSTCODE"></div>
-                        <div class="pull-right icon-clear" ng-click="showRemoveConfirmBox($event, 'zip');">
-                        </div>
-                    </div>
-                </div>
-                <div class="values-table">
-                    <div ng-repeat="zipCodeList in geoData.zip.selected">
-                        <div class="countryHeading" ng-bind="zipCodeList.countryName"></div>
-                        <div class="clearfix each-row" ng-repeat="zip in zipCodeList.data">
-                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zip}}</div>
-                            <div class="pull-right cancel"><span class="icon-clear removeItem" ng-click="removeItem(zip, 'zip')"></span></div>
-                        </div>
-                        <div ng-if="geoData.zip.selected.length === 0">
-                            <div class="emptyTableLabel" data-ng-bind="vendor.constants.NOTSET"></div>
-                        </div>
-                    </div>
+                <div class="col-md-12 zeroPadding eachSelection">
+                    <span class="icon-user"></span>
+                    <span>Northeast</span>
+                    <span class="pull-right icon-clear"></span>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
-    <span class="btn btn-default"
-          data-ng-click="highlightLeftNav(2)"
-          data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE">
-    </span>
+
+<!--=== Next Step Panel ===-->
+<a data-toggle="tab" data-target="#offerings" role="tab" class="nextWrapper leftNavLink permissions">
+    <span class="btn btn-default" data-ng-click="vendor.highlightLeftNav(3)" data-ng-bind="vendor.constants.WF_AD_SAVE_CONTINUE"></span>
 </a>
