@@ -140,7 +140,7 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.getMasterClientId = function() {
-            return $routeParams.accountId ? Number($routeParams.accountId) : -1;
+            return Number($routeParams.accountId);
         };
 
         this.getSelectedAccountId = function() {

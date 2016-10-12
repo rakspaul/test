@@ -86,7 +86,7 @@
                                 </div>
                             </div>
 
-                            <div class="pull-left filter_input_txtbox" data-ng-show="showPrimaryTxtBox">
+                            <!--<div class="pull-left filter_input_txtbox" data-ng-show="showPrimaryTxtBox">
                                 <input type="text"
                                        name="filter"
                                        class="reportFilter"
@@ -94,7 +94,37 @@
                                        data-reportType="Primary"
                                        autofocus
                                        placeholder="Contains keywords...">
+                            </div>-->
+
+                            <!-- Primary auto suggestion start -->
+                            <div class="pull-left filter_input_txtbox">
+                                <div class="filter_input_dropdown">
+                                    <div class="common_dropdown">
+                                        <div class="dropdown">
+                                            <div class="dropdown_autoselect_box">
+                                                <input data-ng-click="hideVisibleDropdown($event);clickedDimInputBox();clickedDimInputBox('primary')"
+                                                       type="text" data-ng-model="reports.reportDefinition.dimensions.primary.value"
+                                                       class="autofillInputElem"
+                                                       ng-keyup="dimensionAutoFilter.fetchDimensionSuggestion($event,'primary',false)"
+                                                       placeholder="Type here..." >
+                                            </div>
+                                            <ul class="dropdown-menu autofill-dropdown" style="min-width: 200px;display:none;"
+                                                lr-infinite-scroll="dimensionAutoFilter.loadMoreData" >
+                                                <div class="common-loading-area" ng-if="(!(dimSuggestionArr.length > 0)&& (!dimSuggestionArr.dataNotFound))"></div>
+                                                <div class="no_data_found marginBottom" style="margin-top:10px;" ng-if="dimSuggestionArr.dataNotFound">No Data Found</div>
+                                                <li data-ng-repeat="dimSuggestion in dimSuggestionArr"
+                                                    data-ng-click="dimensionAutoFilter.setDimensionSelected($event,'primary',dimSuggestion)"
+                                                    data-ng-bind-html="dimSuggestion.id?(dimSuggestion.name)+' ('+dimSuggestion.id+')':dimSuggestion.name"
+                                                    data-toggle="dropdown" >
+                                                </li>
+                                                <li class="common-loading-area" data-ng-show="(dimSuggestionArr.length) && (dimSuggestionArr.length > 100)"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- Primar auto suggestion end -->
+
                         </div>
 
                         <!-- Second Dimension start -->
@@ -134,13 +164,43 @@
                                     </div>
                                 </div>
                                 <div class="pull-left filter_input_txtbox" data-ng-show="showSecondaryTxtBox">
-                                    <input type="text"
+                                    <!--<input type="text"
                                            name="filter"
                                            class="reportFilter"
                                            data-ng-model='reports.reportDefinition.dimensions.secondary.value'
                                            data-reportType="Secondary"
                                            autofocus
-                                           placeholder="Contains keywords...">
+                                           placeholder="Contains keywords...">-->
+
+                                    <!-- secondary dimension auto suggestion start -->
+                                    <div class="pull-left filter_input_txtbox">
+                                        <div class="filter_input_dropdown">
+                                            <div class="common_dropdown">
+                                                <div class="dropdown">
+                                                    <div class="dropdown_autoselect_box">
+                                                        <input data-ng-click="hideVisibleDropdown($event);clickedDimInputBox();clickedDimInputBox('secondary')"
+                                                               type="text" data-ng-model="reports.reportDefinition.dimensions.secondary.value"
+                                                               class="autofillInputElem"
+                                                               ng-keyup="dimensionAutoFilter.fetchDimensionSuggestion($event,'secondary',false)"
+                                                               placeholder="Type here..." >
+                                                    </div>
+                                                    <ul class="dropdown-menu autofill-dropdown" style="min-width: 200px;display:none;"
+                                                        lr-infinite-scroll="dimensionAutoFilter.loadMoreData" >
+                                                        <div class="common-loading-area" ng-if="(!(dimSuggestionArr.length > 0)&& (!dimSuggestionArr.dataNotFound))"></div>
+                                                        <div class="no_data_found marginBottom" style="margin-top:10px;" ng-if="dimSuggestionArr.dataNotFound">No Data Found</div>
+                                                        <li data-ng-repeat="dimSuggestion in dimSuggestionArr"
+                                                            data-ng-click="dimensionAutoFilter.setDimensionSelected($event,'secondary',dimSuggestion)"
+                                                            data-ng-bind-html="dimSuggestion.id?(dimSuggestion.name)+' ('+dimSuggestion.id+')':dimSuggestion.name"
+                                                            data-toggle="dropdown" >
+                                                        </li>
+                                                        <li class="common-loading-area" data-ng-show="(dimSuggestionArr.length) && (dimSuggestionArr.length > 100)"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Secondary dimension auto suggestion end -->
+
                                 </div>
                                 <div class="pull-left delete_row" data-ng-click="deleteSecondDimensionBlock();"></div>
                             </div>
@@ -847,10 +907,8 @@
                                     </div>
                                 </div>
                                 <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
+                                    <div class="each_col tree_dimension_col" data-ng-bind="dimTotal"></div>
                                     <div class="each_col_delivery"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
                                          data-ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
                                          data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
                                     </div>
@@ -936,12 +994,10 @@
                                     </div>
                                 </div>
                                 <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
-                                    <div class="each_col_cost"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.cost_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
+                                    <div class="each_col tree_dimension_col" data-ng-bind="dimTotal"></div>
+                                    <div class="each_col_delivery"
+                                         data-ng-repeat="bm in metricKeyArr.cost_metrics track by $index"
+                                         data-ng-bind-html="bm.total | suffixRBDimensionTotal : bm.value">
                                     </div>
                                 </div>
                             </div>
@@ -1017,12 +1073,10 @@
                                     </div>
                                 </div>
                                 <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
+                                    <div class="each_col tree_dimension_col" data-ng-bind="dimTotal"></div>
                                     <div class="each_col"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.video_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
+                                         data-ng-repeat="vm in metricKeyArr.video_metrics track by $index"
+                                         data-ng-bind-html="vm.total | suffixRBDimensionTotal : vm.value">
                                     </div>
                                 </div>
                             </div>
@@ -1101,12 +1155,10 @@
                                     </div>
                                 </div>
                                 <div class="inner_heading_row_total">
-                                    <div class="each_col tree_dimension_col" data-ng-bind-html="'Total'"></div>
+                                    <div class="each_col tree_dimension_col" data-ng-bind="dimTotal"></div>
                                     <div class="each_col"
-                                         data-ng-class="addReqClassToSort(dm.key, sortType, sortReverse)"
-                                         data-ng-click="clickToSort(dm.key);"
-                                         data-ng-repeat="dm in metricKeyArr.quality_metrics track by $index"
-                                         data-ng-bind-html="dm.total | suffixRBDimensionTotal : dm.value">
+                                         data-ng-repeat="vm in metricKeyArr.quality_metrics track by $index"
+                                         data-ng-bind-html="vm.total | suffixRBDimensionTotal : vm.value">
                                     </div>
                                 </div>
                             </div>
