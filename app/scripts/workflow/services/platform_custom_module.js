@@ -7,6 +7,7 @@ define(['angularAMD'], function (angularAMD) {
 
             widgetTypeMapper = {
                 checkbox_boolean : 'checkbox',
+                checkbox_small_boolean : 'checkbox',
                 textbox_integer : 'number',
                 textbox_double : 'number',
                 textbox_string : 'text',
@@ -17,21 +18,14 @@ define(['angularAMD'], function (angularAMD) {
 
             //private method
             platformHeader = function (pJson, elem) {
-                var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">';
-
-                platformHTML += '<div class="col-md-8 zeroPadding">' + pJson.displayName + '<br/>';
-                platformHTML += '</div>';
-
-                platformHTML += ' <div class="col-md-4 zeroPadding pull-left clearLeft"><span>' +
-                    pJson.subName + '</span></div>';
-
-                platformHTML += '</div>';
-
+                var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">' +
+                    '<div class="col-md-8 zeroPadding">' + pJson.displayName + '<br/></div>' +
+                    '<div class="col-md-4 zeroPadding pull-left clearLeft"><span>' + pJson.subName + '</span></div></div>';
                 elem.append(platformHTML);
             },
 
-            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList,
-                                       dependentItems, elem) {
+            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems, elem) {
+
                 var activationOrderList,
                     selectedOrderList,
                     platformCustomInputGroupId,
@@ -96,7 +90,7 @@ define(['angularAMD'], function (angularAMD) {
                 });
             },
 
-            createInputElem = function (inputList, inputGroupList, idx, elem) {
+            createInputElem = function (inputList, inputGroupList, idx, elem, noGroup) {
                 var inputWrapper,
                     options,
                     inputListHTML,
@@ -129,8 +123,13 @@ define(['angularAMD'], function (angularAMD) {
                     if (inputList.displayName !== 'NA') {
                         fieldLabel =
                             $('<span />')
-                                .addClass('greyTxt col-md-12 zeroPadding')
                                 .text(inputList.displayName);
+
+                            if(!noGroup) {
+                                fieldLabel.addClass('xyz')
+                            } else {
+                                fieldLabel.addClass('greyTxt col-md-12 zeroPadding')
+                            }
 
                         inputWrapper.append(fieldLabel);
                     }
@@ -164,9 +163,7 @@ define(['angularAMD'], function (angularAMD) {
                                 }
 
                                 if (inputList.dependentGroups) {
-                                    selectPlatform(this.value, inputList,
-                                        inputGroupList.platformCustomInputChildrenGroupList,
-                                        'selectBoxchkDependentItems', elem);
+                                    selectPlatform(this.value, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxchkDependentItems', elem);
                                 }
                             });
 
@@ -190,6 +187,7 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 if (inputList.platformCustomWidgetType === 'CHECKBOX' ||
+                    inputList.platformCustomWidgetType === 'CHECKBOX_SMALL' ||
                     inputList.platformCustomWidgetType === 'TEXTBOX' ||
                     inputList.platformCustomWidgetType === 'HIDDEN' ||
                     inputList.platformCustomWidgetType === 'PLACEMENT_WIDGET') {
@@ -219,13 +217,21 @@ define(['angularAMD'], function (angularAMD) {
                             .addClass('decoratorFloat');
                     }
 
-                    if (platformCustomWidgetType === 'CHECKBOX') {
+                    if (platformCustomWidgetType === 'CHECKBOX' || platformCustomWidgetType === 'CHECKBOX_SMALL') {
                         inputListHTML
-                            .addClass('cmn-toggle cmn-toggle-round')
                             .attr({
                                 id: 'cmn-toggle-' + (idx + 1),
                                 checked : inputList.defaultValue ==='TRUE' ? true : false
                             });
+
+
+                        if(!noGroup) {
+                            inputListHTML
+                                .addClass('abc')
+                        } else {
+                            inputListHTML
+                                .addClass('cmn-toggle cmn-toggle-round');
+                        }
 
                         inputWrapper.append(inputListHTML);
 
@@ -400,11 +406,11 @@ define(['angularAMD'], function (angularAMD) {
                     groupContainer =
                         $('<div/>')
                             .addClass('form-group col-md-12 zeroPadding')
-                            .addClass(noGroup ? 'form-individual-section' : '');
+                            .addClass(noGroup ? 'form-individual-section' : 'inputCheckBoxSection');
                 }
 
                 _.each(platformCustomInputList, function (inputList, idx) {
-                    newInpElem = createInputElem(inputList, inputGroupList, idx, elem, 'group');
+                    newInpElem = createInputElem(inputList, inputGroupList, idx, elem, noGroup);
 
                     if(inputList.platformCustomWidgetType === 'HIDDEN') {
                         newInpElem.hide();
