@@ -1,26 +1,20 @@
-define(['angularAMD'], function (angularAMD) {
+define(['angularAMD', 'vendor-config-service', 'vendor-config-select-type-controller', 'vendor-config-basic-settings-controller' , 'vendor-config-permissions-controller'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('VendorConfigController', ['pageLoad', 'constants', function (pageLoad, constants) {
+    angularAMD.controller('VendorConfigController', ['pageLoad', 'constants', 'vendorConfigService', function (pageLoad, constants, vendorConfigService) {
         var vm = this;
 
-        console.log('VENDOR CONFIG controller is loaded!');
         // Hide page loader when the page is loaded
         pageLoad.hidePageLoader();
 
         vm.constants = constants;
+        vm.vendorConfig = vendorConfigService.vendorConfig;
 
-        // initial initialization
-        $(function () {
-            // This is for the drop down list. Perhaps adding this to a more general controller
-            $(document).on('click', '.dropdown-menu li.available a', function () {
-                $(this)
-                    .parents('.dropdown')
-                    .find('.btn')
-                    .find('.text').text($(this).text());
+        vm.highlightLeftNav = function (pageNo) {
+            var eachStepCompLabel = $('.eachStepCompLabel');
 
-                $(this).parents('.dropdown').find('.btn').val($(this).data('value'));
-            });
-        });
+            eachStepCompLabel.removeClass('active');
+            eachStepCompLabel[pageNo].classList.add('active');
+        };
     }]);
 });

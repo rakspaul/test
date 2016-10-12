@@ -61,7 +61,6 @@ require.config({
         'login-service': 'login/login_service',
         'page-load-service': 'common/services/page_load_service',
         'gauge': 'reporting/common/d3/gauge',
-        'vendors-list-service': 'workflow/services/vendors_list_service',
         'audience-service': 'workflow/services/audience_service',
         'strategy-select-service': 'reporting/strategySelect/strategy_select_service',
         'screen-chart-model': 'reporting/models/screen_chart_model',
@@ -84,6 +83,7 @@ require.config({
         'platform-custom-module': 'workflow/services/platform_custom_module',
         'zip-code-service': 'common/services/zip_code_service',
         'admin-account-service': 'admin/services/admin_account_service',
+        'sellers-service': 'workflow/services/sellers_service',
 
         /*register Services - End*/
 
@@ -183,7 +183,13 @@ require.config({
         'line-item-controller': 'workflow/campaign/line_item_controller',
 
         'vendors-config-list-controller': 'workflow/vendors_config/vendors_config_list_controller',
+        'vendors-config-list-service': 'workflow/vendors_config/vendors_config_list_service',
         'vendor-config-controller': 'workflow/vendors_config/vendor_config_controller',
+        'vendor-config-select-type-controller': 'workflow/vendors_config/vendor_config_select_type_controller',
+        'vendor-config-basic-settings-controller': 'workflow/vendors_config/vendor_config_basic_settings_controller',
+        'vendor-config-service': 'workflow/vendors_config/vendor_config_service',
+        'vendor-config-permissions-controller': 'workflow/vendors_config/vendor_config_permissions_controller',
+
 
         'campaign-service': 'workflow/campaign/campaign_service',
         'pixels-controller': 'workflow/campaign/pixels_controller',
@@ -242,6 +248,8 @@ require.config({
         'creative-preview-controller': 'workflow/creative/creative_preview_controller',
         'creative-bulk-controller': 'workflow/creative/creative_bulk_controller',
         'audit-controller': 'admin/controllers/entity_audit_controller',
+        'seller-targetting-controller' : 'workflow/ad/seller_targetting_controller',
+        'seller-targetting-controller' : 'workflow/ad/seller_targetting_controller',
 
         /*register Controllers - Start*/
 

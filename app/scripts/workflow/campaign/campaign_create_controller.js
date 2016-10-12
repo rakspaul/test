@@ -769,7 +769,7 @@ define(['angularAMD', 'campaign-service','common-utils', 'clear-row', 'ng-upload
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.sucessHandler(result);
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS);
+                            vistoconfig.defaultMessage.set({message : $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS});
                             localStorage.setItem('campaignData', '');
                             $scope.repushCampaignEdit = false;
                             $scope.repushCampaignLoader = false;

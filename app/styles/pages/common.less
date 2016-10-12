@@ -2175,13 +2175,18 @@ tags-input .autocomplete {
 	margin-right: 5px ;
 }
 .marginTopTwenty {
-	margin-bottom: 20px ;
+	margin-top: 20px ;
 }
 .marginBottomTwenty {
 	margin-bottom: 20px ;
 }
 .marginBottomThirty {
 	margin-bottom: 30px ;
+}
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput, 
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:hover,
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:focus {
+	border: 0px !important;
 }
 .clickCursor {
     cursor:pointer;
@@ -2593,6 +2598,30 @@ tags-input .autocomplete {
         transform: scale(1);
     }
 }
+.circle {
+  text-align: center;
+  display: inline-block;
+  /* to allow placement of numbers on top of circles instead of below them */
+  white-space: nowrap;
+  margin : 1px 10px 0px 0px ;
+}
+
+.circle:before {
+  border-radius: 50%;
+  /* = 15%, almost gives us viewport width unit (15vw) */
+  width: 100%;
+  padding-bottom: 100%;
+  /* this way we should have 1px gap between circles */
+  margin: 0px .5px;
+  background: #ccc;
+  content: '';
+  display: inline-block;
+  
+  /* to use viewport based units we can safely override the old units in this way */
+  padding-bottom: 0vw;
+  width: 1vw;
+  height: 1vw;
+}
 
 .options-selected-section {
     min-height: 400px;
@@ -2883,4 +2912,161 @@ input.btn.fileUploadTxt:hover {
     text-decoration: underline;
     margin-left: 8px;
 }
+.left_column_nav {
+	.marginTopOne {
+		margin-top: 1px; 
+	}
+}
+.listTable {
+	border: 1px solid #dce6f1 ;
+	min-height: 400px ;
+	.icon-arrow-solid-down {
+		cursor: pointer;
+	}
+	.brandsDropdownSection {
+		padding-left: 20px ;
+		cursor: pointer;
+	}
+	.sectionNavHolder {
+		border-bottom: 1px solid #dce6f1;
+		font-family: "Avenir-bold";
+		padding: 8px 0;
+		color: #57606d;
+	}
+	.icon-next-arrow {
+		cursor: pointer;
+	}
+	.external_chkbox {
+		width: 100% ;
+		margin: 0 0 0 15px ;
+	}
+	.listTableHead {
+		border-bottom: 2px solid #dce6f1;
+    	padding: 15px 0px;
+		color: #57606d;
+		font-family: "Avenir-bold";
+	}
 
+	.eachList {
+		padding: 8px 0;
+		border-bottom: solid 1px #dce6f1;
+		&:hover {
+			background: #E1EDF9 ;
+			.circle:before {
+				background: #0564a9 ;
+			}
+		}
+	}
+	.circle:before {
+		background: #fff ;
+		border: solid 1px #dce6f1 ;
+
+	}
+	.searchBox {
+		border-bottom: solid 1px #dce6f1 ;
+		input , input:hover , input:focus {
+			border: 0px !important;
+			width: 85%;
+		}
+		.searchIcon {
+			cursor: pointer;
+			display: block;
+		    height: 36px;
+		    width: 40px;
+			background: url(/images/cdesk/search_input.png) no-repeat center center;
+
+		}
+	}
+	.firstLevelPermission {
+		.eachList {
+			cursor: pointer;
+		}
+	}
+	.external_chkbox .squaredFour {
+		margin: 0 10px 0 0 ;
+	}
+	.eachList.disabled {
+		opacity: 0.5 ;
+		div , label, span {
+			cursor: default !important;
+		}
+		.squaredFour label:after {
+			display: none;
+		}
+	}
+	.icon-arrow-solid-down {
+		color: #939EAE;
+		font-size: 10px;
+		margin: 4px 6px 0 0;
+	}
+	.pillsWrap {
+		width: 90% ;
+		.icon-close {
+			margin: 2px 0 0 8px;
+		}
+	}
+	.thirdLevelPermission {
+		.sectionNavHolder {
+			font-family: "Avenir" ;
+		}
+		.eachList {
+			padding: 0px ;
+			> div {
+				padding: 8px 0 ;
+			}
+			.brandsDropdownSection {
+				padding: 0px ;
+				.dropdown-workflow .btn-default {
+				    border: 0px !important;
+				    padding: 0;
+				    width: 255px;
+				    padding-left: 20px;
+				    border-radius: 0;
+				    -webkit-border-radius: 0;
+				    -moz-border-radius: 0;
+				}
+			}
+			&:hover {
+				background: none ;
+			}
+		}
+	}
+	.brandsSection {
+		border-left: solid 1px #dce6f1 ;
+	}
+
+}
+
+
+
+
+
+
+.adCreateMaster #targetting .targettingFormWrap#sellerTargetting {
+	.targetting-each-content {
+		display:block;
+		border:0px;
+	}
+	.targetting-tab-header {
+		padding:10px 0 0;
+		.btn-group .btn  {
+			color: #57606d;
+			margin-left: -1px ;
+			&.selected {
+				background-color: #dce6f1 !important;
+			border: 1px solid #bfc9d7 !important;
+			}
+		}
+
+	}
+	.selectedItems {
+		.icon-exclude {
+			color:#939EAD;
+			margin-top:2px;
+		}
+		.icon-success {
+			color:#0978c9;
+			margin-top:2px;
+		}
+	}
+}

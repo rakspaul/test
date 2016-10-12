@@ -33,6 +33,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.REPORTS_OVERVIEW = 'Reports Overview';
         this.ADMIN = 'Admin';
         this.INVOICE_TOOL = 'Billing';
+        this.DAILYCAP = 'Use daily cap' ;
+        this.PROVIDER = 'Providers';
+
 
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
@@ -455,6 +458,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';
         this.VIDEO = 'Video';
+        this.SELLER = 'Seller';
         this.PLAYS = 'plays';
         this.PRICING_METHOD_CPM = 'cpm';
         this.PRICING_METHOD_MARKUP = 'markup';
@@ -1355,6 +1359,17 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INVOICE_REPORT = 'Invoice Reports';
         this.INVOICE_NOTES = 'Notes:';
         this.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD = 'Video Viewability at various quartiles of the Ad' ;
+
+        //Seller Targeting
+         this.SELLERNAME = 'Seller Name';
+         this.SELLERID = ' Seller ID';
+         this.PREFERRED = 'Preferred';
+         this.SELLERS = 'Sellers';
+         this.SELLERS_TARGETING = 'Include or exclude specific 3rd party inventory sellers from your Open Exchange buy.';
+         this.SAVESELLER ='Save Seller';
+         this.NOSELLERSELECTED ='No Sellers Selected';
+         this.SELLERNOTE ='Check the checkbox next to the desired Seller name to target.';
+
 
     }]);
 });

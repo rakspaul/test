@@ -559,7 +559,7 @@ define(['angularAMD', 'collective-report-model', 'common-utils', 'url-service', 
                                         $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
                                     }, function () {
                                         $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                                    }, data.client_id, data);
+                                    }, data);
                                 };
 
                                 copyError = function () {

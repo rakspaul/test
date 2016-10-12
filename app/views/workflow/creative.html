@@ -228,6 +228,14 @@
                                 <span class="greyTxt col-md-12 zeroPadding" for="name">Tracking Code</span>
                                 <input type="text" class="form-control" name = "thirdPartyTracker" ng-model="adData.thirdPartyTracker" >
                             </div>
+                           
+                        </div>
+                        <div class="col-md-12 zeroPadding marginTop form-group">
+                            <div class="col-md-4 zeroPadding" ng-show="toggleCodeField" >
+                                <span class="greyTxt col-md-12 zeroPadding" for="name">Click Tracking URL</span>
+                                <input type="text" class="form-control" id="thirdPartyClickTracker" name = "thirdPartyClickTracker" ng-model="adData.thirdPartyClickTracker" >
+                                <label class="col-sm-12 control-label errorLabel" ng-style="(thirdPartyClickTrackerError)?{'display':'block'}: {'display':'none'}">Please enter a valid url.</label>
+                            </div>
 
 
                         </div>

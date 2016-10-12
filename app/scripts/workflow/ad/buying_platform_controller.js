@@ -201,7 +201,7 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         $scope.selectedSeat[seat.id] = seat.name;
                     } else {
                         $scope.adData.platformName = platform.name;
-                        $scope.selectedPlatform[seat.id + '_' + platform.id] = platform.name;
+                        $scope.selectedPlatform[platform.id] = platform.name;
                     }
 
                     $scope.adData.platform = platform.displayName;
@@ -246,6 +246,12 @@ define(['angularAMD', 'platform-custom-module', 'direct-Inventory-controller'], 
                         .animate({left: '100%', marginLeft: '0', opacity: '0.0'}, function () {
                             $(this).hide();
                         });
+
+                    $('#sellerTargeting')
+                    .delay(300)
+                        .animate({left: '100%', marginLeft: '0', opacity: '0.0'}, function () {
+                            $(this).hide();
+                         });
                 },
 
                 showCustomFieldBox: function () {

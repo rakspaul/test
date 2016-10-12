@@ -602,6 +602,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         };
 
         $scope.clickToSort = function(type){
+            if($scope.selected_tab==='bydaysofweek' && type === 'dimension'){
+                type = 'dimension1';
+            }
             $scope.sortType = type;
             $scope.sortReverse = !$scope.sortReverse;
             $scope.specialSort(type);
@@ -609,6 +612,9 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         };
 
         $scope.sortClassFunction = function (a) {
+            if($scope.selected_tab==='bydaysofweek' && a === 'dimension'){
+                a = 'dimension1';
+            }
             var isActive = (a === $scope.sortType) ?  'active' : '',
                 sortDirection = ($scope.sortReverse === true) ?  'sort_order_up' : 'sort_order_down';
 

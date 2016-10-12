@@ -1,11 +1,13 @@
 define(['angularAMD'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('popUpMsgCtr', ['$scope', '$rootScope', '$timeout', 'constants', function ($scope, $rootScope, $timeout, constants) {
+    angularAMD.controller('popUpMsgCtr', ['$scope', '$rootScope', '$timeout',
+        'constants', 'vistoconfig', function ($scope, $rootScope, $timeout, constants, vistoconfig) {
         $scope.addClass = '';
 
         $scope.init = function (msg) {
             if (!angular.element('.top_message_box').length) {
+                var defaultMsg = vistoconfig.defaultMessage.get();
                 $rootScope.errMsgKey = msg;
                 $rootScope.errMsg = constants.ERROR;
 
@@ -14,14 +16,15 @@ define(['angularAMD'], function (angularAMD) {
                     'isErrorMsg': 0
                 };
 
-                $rootScope[$rootScope.errMsgKey].message = localStorage.getItem('topAlertMessage');
-                $rootScope.isErrorMsg = 1;
+                $rootScope[$rootScope.errMsgKey].message = defaultMsg.message;
+                $rootScope.isErrorMsg = defaultMsg.isErrorMsg;
                 $rootScope.isMsg = 0;
             }
         };
 
         $scope.resetAlertMessage = function () {
-            localStorage.removeItem('topAlertMessage');
+
+            vistoconfig.defaultMessage.reset();
 
             if ($rootScope[$rootScope.errMsgKey] !== undefined) {
                 $rootScope[$rootScope.errMsgKey].message = '';

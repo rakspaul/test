@@ -1,6 +1,6 @@
 define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budget-delivery-controller', 'buying-platform-controller', 'targetting-controller',
     'geo-targetting-controller', 'audience-targetting-controller', 'daypart-create-controller', 'video-targetting-controller', 'inventory-filters-controller',
-    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller'],
+    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller', 'seller-targetting-controller'],
     function (angularAMD) {
 
     angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams', '$locale', '$location', '$filter', '$timeout', 'constants',
@@ -212,7 +212,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                     saveAds: function (postDataObj) {
                         var promiseObj,
-                            clientId = vistoconfig.getSelectedAccountId();
+                            clientId = vistoconfig.getSelectedAccountId(),
+                            successMsg;
 
                         function adSaveErrorHandler (data) {
                             var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
@@ -244,6 +245,9 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         promiseObj = workflowService[$scope.adId ? 'updateAd' : 'createAd'](clientId, postDataObj);
 
+                        successMsg =  $scope.adId ? $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS :  $scope.textConstants.AD_CREATED_SUCCESS;
+
+
                         promiseObj.then(function (result) {
                             var responseData = result.data.data;
 
@@ -253,14 +257,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                 $scope.state = responseData.state;
                                 $scope.adId = responseData.id;
                                 $scope.updatedAt = responseData.updatedAt;
-                                $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS, 0);
+                                $rootScope.setErrAlertMessage(successMsg, 0);
 
                                 localStorage.setItem('adPlatformCustomInputs',
                                     window.JSON.stringify(responseData.adPlatformCustomInputs));
 
                                 $location.url(urlBuilder.mediaPlanOverviewUrl(result.data.data.campaignId));
-
-                                localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                             } else {
                                 if (responseData.statusCode === 400) {
                                     adSaveErrorHandler(responseData);
@@ -298,6 +300,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     idx,
                     i,
                     videoTargetsData,
+                    sellerTargettingData,
                     pacingType,
 
                     findFunc = function (item) {
@@ -503,9 +506,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 if (responseData.fetchValue) {
                     $scope.adData.fetchValue = responseData.fetchValue;
-                    $('#budgetHolder').find('.budgetFields').find('input[type="text"]').attr('disabled', true).addClass('disabled-field');
+                    $('#budgetHolder').find('.budgetFields').find('#budgetAmount').attr('disabled', true).addClass('disabled-field');
                 } else {
                     $scope.adData.fetchValue = false;
+                }
+
+                if (responseData.overbook) {
+                    $scope.adData.isOverbooked = responseData.overbook;
+                    $scope.adData.overbookPercent = responseData.overbookPercentage;
                 }
 
                 if (responseData.rateType) {
@@ -603,6 +611,16 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.$broadcast('setTargeting', ['Video']);
                 }
 
+                // sellers part edit
+                sellerTargettingData = responseData.targets;
+                if (sellerTargettingData.sellerTargets &&
+                    (sellerTargettingData.sellerTargets.length > 0)) {
+                    $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
+                    $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
+
+                    // $scope.$broadcast('triggerSeller');
+                }
+
                 $scope.$broadcast('getDominList', [{
                     clientId: clientId,
                     advertiserId: advertiserId
@@ -684,10 +702,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
             };
 
             $scope.displayKpiSymbol=function(type) {
-                var kpiTypeSymbolMap = {
-                    '%': ['VTC', 'CTR', 'ACTION RATE', 'SUSPICIOUS ACTIVITY RATE', 'VIEWABLE RATE'],
-                    '#': ['IMPRESSIONS', 'VIEWABLE IMPRESSIONS']
-                    },
+                var kpiTypeSymbolMap = vistoconfig.kpiTypeSymbolMap,
                     symbol =constants.currencySymbol,
                     primaryKpiType = type || $scope.adData.primaryKpi;
 
@@ -759,7 +774,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             $scope.adArchiveLoader = false;
 
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_ARCHIVE_SUCCESS});
                         } else {
                             errorAchiveAdHandler();
                         }
@@ -792,7 +807,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adArchive = false;
                             url = '/mediaplan/' + $scope.campaignId + '/overview';
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_PAUSE_SUCCESS});
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         } else {
                             errorAchiveAdHandler();
@@ -824,7 +839,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adArchive = false;
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_RESUME_SUCCESS});
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         } else {
                             errorAchiveAdHandler();
@@ -1346,6 +1361,13 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 parentElem.find('label').removeClass('active');
                 target.parent().addClass('active');
                 target.attr('checked', 'checked');
+
+                if( target.closest('.btn').hasClass('daily_cap')) {
+                   $('#daily_cap_input').show();
+                } else {
+                   $('#daily_cap_input').hide();
+                }
+
             };
 
             // Create Tag Slide Page
@@ -1417,6 +1439,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     adData,
                     videoTargetsData,
                     inventoryLists,
+                    sellerTargetting,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) {
@@ -1538,6 +1561,11 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                         if (getfreqCapParams(formData).length > 0) {
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
+                        }
+
+                        if (formData.isOverbooked) {
+                            postAdDataObj.overbook = formData.isOverbooked;
+                            postAdDataObj.overbookPercentage = formData.overbookPercent;
                         }
 
                         postAdDataObj.pacingType = formData.pacingType;
@@ -1721,6 +1749,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                     }
                                 }
                             }
+
+                            //sellers targetting
+                            if ($scope.adData.sellersTargetting && $scope.adData.sellersTargetting.length > 0) {
+                                postAdDataObj.targets.sellerTargets = _.pluck($scope.adData.sellersTargetting,'id');
+                                postAdDataObj.sellersAction = $scope.adData.sellersAction ? 'INCLUDE':'EXCLUDE';
+                            }
+
+
                         }
 
                         inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
@@ -1735,6 +1771,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (inventoryLists.appList.length > 0){
                             appListsIds = inventoryLists.appList;
                         }
+
 
                         // domains save
                         if ($scope.adData.inventory &&

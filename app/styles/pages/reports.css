@@ -2922,6 +2922,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .strategy_total_container_header .each_row_list {
   padding-left: 15px ;
 }
+#reports_platform_cost_block .kpi_indicator_ul .drop_list {
+  width: 100% !important;
+}
 .optimization_header .duration_filters {
   margin: 10px 45px 0 0 ;
 }
@@ -4204,15 +4207,23 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_page .custom_report_response_table .heading_row {
   font-family: "Avenir-bold";
   margin-bottom: 20px ;
-  border-bottom: solid 1px #ccc ;
-  padding: 30px 30px 0 30px;
+  border-bottom: solid 1px #bfc9d7;
+  padding: 20px 20px 0 20px;
 }
 .custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row {
   width: 100% ;
+  color: #57606d;
+}
+.custom_report_response_page .custom_report_response_table .inner_heading_row_total {
+  font-family: "Avenir-bold";
+  color: #21252b;
 }
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
-  padding: 20px 0px 0px 0px ;
+  padding: 40px 0px 0px 0px ;
   margin-top: 80px;
+}
+.custom_report_response_page .custom_report_response_table .first_dimension_row_holder_pacing {
+  padding: 0px 0px 0px 20px ;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
   margin-left: 5px ;
@@ -4372,7 +4383,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   z-index: 2;
 }
 .report_response_and_tabs .custom_report_scroll .first_dimension_row_holder {
-  padding-left: 28px;
+  padding-left: 20px;
 }
 .report_response_and_tabs .custom_report_scroll .heading_first_dimension:first-child {
   padding-left: 0 ;
@@ -4782,6 +4793,9 @@ body.custom_report_page .bodyWrap {
   padding: 100px 0;
 }
 /* End of Quality Report Page - Video selected */
+#reports_platform_cost_block .each_strategy .first_col {
+  width: 100% ;
+}
 /*Platform - Performance Tab*/
 #reports_platform_performance_block {
   /*to manage the alignment according to the line item */
@@ -4863,11 +4877,11 @@ body.custom_report_page .bodyWrap {
 #reports_platform_performance_block .vid_none_hdr .each_col {
   width: 100px ;
 }
-#reports_platform_performance_block .vid_none_hdr .each_strategy .first_col {
-  width: 100% ;
-}
 #reports_platform_performance_block .vid_none_hdr .sec_col {
   width: 200px ;
+}
+#reports_platform_performance_block .each_strategy .first_col {
+  width: 100% ;
 }
 /*End of Platform - Performance Tab*/
 #reports_byscreens_block .sec_col {
@@ -4892,4 +4906,36 @@ body.custom_report_page .bodyWrap {
 #reports_bycreatives_block .all_strategies_holder .each_strategy_holder .each_row_list,
 #reports_bydaysofweek_block .all_strategies_holder .each_strategy_holder .each_row_list {
   padding-left: 10px ;
+}
+.reports_main_page_holder .cost_report_kpi .dropdown-menu.kpi_indicator_ul {
+  min-width: 140px ;
+}
+.reports_main_page_holder .cost_report_kpi .dropdown-menu.kpi_indicator_ul .drop_list {
+  width: 100% !important;
+}
+.custom_report_response_table .sort_order_up:hover {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+}
+.custom_report_response_table .sort_order_up:hover {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
+}
+.custom_report_response_table .sort_order_up.active {
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -65px;
+  cursor: pointer;
+  padding-right: 20px;
+  color: #0978c9;
+}
+.custom_report_response_table .sort_order_down,
+.custom_report_response_table .sort_order_up {
+  cursor: pointer;
+  padding-right: 20px;
+}
+.custom_report_response_table .sort_order_down:hover {
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
+}
+.custom_report_response_table .sort_order_down.active {
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -65px;
+  cursor: pointer;
+  padding-right: 20px;
+  color: #0978c9;
 }
