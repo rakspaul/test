@@ -13,13 +13,13 @@
                         style="width: auto;">
                     <span class="text"
                           data-ng-bind="vendorType.selectedVendorType.displayName"
-                          data-id="vendorType.selectedVendorType.id">
+                          data-id="{{vendorType.selectedVendorType.id}}">
                     </span>
                     <span class="icon-arrow-solid-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="vendorTypes" id="vendorTypes" data-toggle="dropdown">
                     <li class="available" data-ng-repeat="vendorTypeObj in vendorType.vendorTypes track by $index">
-                        <a data-ng-bind="vendorTypeObj.displayName" data-id="vendorTypeObj.id" href="javascript:void(0)"></a>
+                        <a data-ng-bind="vendorTypeObj.displayName" data-id="{{vendorTypeObj.id}}" href="javascript:void(0)"></a>
                     </li>
                 </ul>
             </div>
