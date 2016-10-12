@@ -5,6 +5,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
         'localStorageService', 'vistoconfig', 'accountService', 'subAccountService', 'advertiserModel', 'urlBuilder', 'pageLoad',
         function ($scope, $rootScope, $routeParams, $location, constants, workflowService, creativeCustomModule, loginModel, utils, localStorageService, vistoconfig,
                   accountService, subAccountService, advertiserModel, urlBuilder, pageLoad) {
+
+        $scope.thirdPartyClickTrackerError = false;
         var postCrDataObj = {},
 
             processEditCreative = function (clientId) {
@@ -34,7 +36,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                                 $scope.creativeFormat = $scope.creativeEditData.creativeFormat;
                                 $scope.pushedCount = $scope.creativeEditData.pushedCount;
                                 $scope.associatedAdCount = $scope.creativeEditData.noOfAds;
-                                $scope.clickUrl=$scope.creativeEditData.clickthroughURL;
+                                $scope.clickUrl = $scope.creativeEditData.clickthroughURL;
 
                                 // make call to set the format type here
                                 // in turn makes call to get possible templates
@@ -54,6 +56,10 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
 
                                 $scope.creative.clientId = $scope.creativeEditData.client.id;
                                 //tracker
+                                if( $scope.creativeEditData.thirdPartyClickTracker){
+                                    $scope.toggleCodeField = true;
+                                    $scope.adData.thirdPartyClickTracker = $scope.creativeEditData.thirdPartyClickTracker;
+                                }
 
                                 if($scope.creativeEditData.thirdPartyTracker){
                                     $scope.toggleCodeField = true;
@@ -648,6 +654,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 indexArr = [],
                 formDataObj,
                 validCreativeUrl,
+                validtThirdPartyClickTrackerUrl,
                 validateTag,
                 i,
                 templateArr,
@@ -668,7 +675,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     'creativeSize',
                     'creativeType',
                     'clickUrl',
-                    'thirdPartyTracker'
+                    'thirdPartyTracker',
+                    'thirdPartyClickTracker'
                 ];
 
             $scope.$broadcast('show-errors-check-validity');
@@ -688,9 +696,24 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 postCrDataObj.creativeTemplateId = formData.creativeTemplate;
                 postCrDataObj.creativeCustomInputs=[];
                 postCrDataObj.thirdPartyTracker = formData.thirdPartyTracker;
+                postCrDataObj.thirdPartyClickTracker = '';
 
                 validCreativeUrl = true;
                 validateTag=true;
+                validtThirdPartyClickTrackerUrl = true;
+
+                if (formData.thirdPartyClickTracker && formData.thirdPartyClickTracker !== '') {
+                    // validate if the url is valid
+                    validtThirdPartyClickTrackerUrl = utils.validateUrl(formData.thirdPartyClickTracker);
+
+                    if (validtThirdPartyClickTrackerUrl === false) {
+                        $scope.thirdPartyClickTrackerError = true;
+                    } else {
+                        postCrDataObj.thirdPartyClickTracker = formData.thirdPartyClickTracker;
+                    }
+
+                }
+
 
                 $('#invalidUrl').remove();
                 $('#invalidScript').remove();
@@ -708,7 +731,6 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 });
 
                 $scope.IncorrectTag = false;
-
                 creativeCustomInputsArr= _.map(templateArr, function (data) {
                     var d = data.name.split('$$');
 
@@ -724,6 +746,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                                    'style="display: block">Please enter a valid url.</label>');
                        }
                     }
+
 
                     if (d[0]=== 'tags.tag' ) {
                         // validate if the url is valid
@@ -756,7 +779,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     }
                 });
 
-                if (validCreativeUrl && validateTag) {
+                if (validCreativeUrl && validateTag && validtThirdPartyClickTrackerUrl) {
                     _.each(creativeCustomInputsArr,function (obj) {
                         if (obj) {
                             postCrDataObj.creativeCustomInputs.push(obj);
@@ -979,7 +1002,10 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 $rootScope.setErrAlertMessage(constants.CAUTION_MSG, '','','warning');
             } else {
                 $scope.adData.thirdPartyTracker = '';
+                $scope.adData.thirdPartyClickTracker = '';
             }
         };
+
+
     }]);
 });
