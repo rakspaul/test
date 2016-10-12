@@ -457,6 +457,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';
         this.VIDEO = 'Video';
+        this.SELLER = 'Seller';
         this.PLAYS = 'plays';
         this.PRICING_METHOD_CPM = 'cpm';
         this.PRICING_METHOD_MARKUP = 'markup';

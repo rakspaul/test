@@ -8,7 +8,7 @@ define(['angularAMD'],
                 var fetchAllSellers =  function(pageNo,platformId,platformSeatsId,searchText) {
                     var clientId = vistoconfig.getSelectedAccountId(),
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/'+ platformId +'/seats/'+
-                            platformSeatsId +'/sellers?pageNo='+pageNo;
+                            platformSeatsId +'/sellers?pageNo='+pageNo+'&pageSize=10';
 
                     if(searchText) {
                         url += '&search='+searchText;

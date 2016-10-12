@@ -613,7 +613,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
                     $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
 
-                    $scope.$broadcast('triggerSeller');
+                    // $scope.$broadcast('triggerSeller');
                 }
 
                 $scope.$broadcast('getDominList', [{

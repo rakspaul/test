@@ -27,6 +27,9 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                     console.log($scope.adData);
                      sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId,searchText).then(function(result) {
                          sellerCtrl.sellers.sellersList = result.data.data;
+                         sellerCtrl.sellers.sellersList[1].isPreferred = true;
+                         sellerCtrl.sellers.sellersList[3].isPreferred = true;
+                         sellerCtrl.sellers.sellersList[5].isPreferred = true;
 
                          //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
                          if(!_.isEmpty($scope.adData.sellersTargetting) && !searchText ){
@@ -42,83 +45,11 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                 },
                 loadMoreSellers: function() {
                     sellersService.fetchAllSellers(pageNo,$scope.adData.platformId,$scope.adData.platformSeatId).then(function(result) {
-                        //TODO: remove the below line and uncomment the line below
-                        result = [{"id": 1,
-                            "name": "Seller 1",
-                            "vendor_id": 1,
-                            "vendor_seat_id" : 1,
-                            "source_id" : 2101,
-                            "created_at": "",
-                            "updated_at": "",
-                            "isPrefered": true
-                        },
-                            {"id": 2,
-                                "name": "Seller 2",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            },
-                            {"id": 2,
-                                "name": "Seller 3",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            },
-                            {"id": 2,
-                                "name": "Seller 4",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            },
-                            {"id": 2,
-                                "name": "Seller 2",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            },
-                            {"id": 2,
-                                "name": "Seller 5",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            },{"id": 2,
-                                "name": "Seller 2",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            },{"id": 2,
-                                "name": "Seller 6",
-                                "vendor_id": 2,
-                                "vendor_seat_id" : 2,
-                                "source_id" : 2102,
-                                "created_at": "",
-                                "updated_at": "",
-                                "isPrefered": false
-                            }
-                        ];
-                        // TODO: end of TODO uncomment line below
-                        // result = result.data.data;
+                        result = result.data.data;
 
                         //concat 2 strings
                         sellerCtrl.sellers.sellersList = _.union(sellerCtrl.sellers.sellersList, result);
+                        _sellerTargetting.checkUserSelectedSellers();
                     });
 
 
@@ -149,6 +80,11 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                             return seller.id === id;
                         });
                         sellerCtrl.sellers.sellersList[index].isChecked = true;
+
+                        // set selectAll flag = true when all sellers are selected
+                        if(sellerCtrl.sellers.userSelectedSeller.length === sellerCtrl.sellers.sellersList.length) {
+                            sellerCtrl.selectAllChecked = true;
+                        }
                     });
                 }
             };
@@ -238,13 +174,29 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
 
         };
 
+        $scope.showKeywords = function(event, keywordText) {
+            event.stopPropagation();
+            if (event.which === 13) {
+                if (keyword.length){
+                    // fetch audience for keyword entered by user
+                    sellerCtrl.searchSellers(keywordText);
+                } else {
+                    // fetch all audience when user clears the textBox
+                    $scope.keywordText = '';
+                    sellerCtrl.searchSellers('');
+                }
+            }
+        };
+
         $scope.$on('triggerSeller', function () {
             _sellerTargetting.showSellerTargetingBox();
             _sellerTargetting.resetBasicParameters();
 
             if($scope.adData.sellersAction === false){
                 $('.toggle-event').bootstrapToggle('off');
+                sellerCtrl.includeAllSellersFlag = false;
             }
+            sellerCtrl.preferedFilterFlag.isPrefered = false;
         });
 
 
@@ -254,7 +206,7 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
         sellerCtrl.sellers.userSelectedSeller = [];
         sellerCtrl.selectAllChecked = false;
         sellerCtrl.includeAllSellersFlag = true;
-        sellerCtrl.preferedFilterFlag = {isPrefered: ''};
+        sellerCtrl.preferedFilterFlag = {isPrefered: false};
         $scope.adData.sellersTargetting = [];
 
     }]);

@@ -41,11 +41,10 @@
                             <div class="clearfix targetting-tab-header">
                                 <div class="pull-left marginTop marginBottom">
                                     <div class="btn-group pull-right" role="group" aria-label="...">
-
-                                        <button type="button" class="btn btn-default pull-right selected" ng-click=" preferedFilterFlag.isPrefered = '';">
+                                        <button type="button" class="btn btn-default pull-right selected" ng-click=" sellerCtrl.preferedFilterFlag.isPreferred = false;">
                                             <span>Show All</span>
                                         </button>
-                                        <button type="button" class="btn btn-default pull-right" ng-click="preferedFilterFlag.isPrefered = true;">
+                                        <button type="button" class="btn btn-default pull-right" ng-click="sellerCtrl.preferedFilterFlag.isPreferred = true;">
                                             <span>Show preferred</span>
                                         </button>
 
@@ -79,7 +78,7 @@
                         <div class="segBodyWrap">
                             <div class="common-loading-area" data-ng-if="showSellerLoader"></div>
                             <div class="segFixedWrap marginBottom" lr-infinite-scroll="sellersCtrl.loadMoreSellers">
-                                <div class="col-md-12 segBodyTable" ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: preferedFilterFlag.isPrefered" >
+                                <div class="col-md-12 segBodyTable" ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: sellerCtrl.preferedFilterFlag.isPreferred" >
                                     <div class="columnOne">
                                         <div class="checkbox">
                                             <input type="checkbox" data-ng-checked="sellers.isChecked" data-ng-click="sellersCtrl.selectSellers(sellers)">
@@ -93,7 +92,7 @@
                                         <div class="pull-left" >{{sellers.id}}</div>
                                     </div>
                                     <div class="columnThree col-md-3">
-                                        <div class="pull-left" >{{sellers.isPrefered? 'x':''}}</div>
+                                        <div class="pull-left" >{{sellers.isPreferred}}</div>
                                     </div>
                                 </div>
 
