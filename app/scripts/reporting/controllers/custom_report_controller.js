@@ -136,6 +136,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                        val.total = data[metrics][val.key];
                    });
                });
+               var isPlural = $scope.reportTitle.split('').pop() != 's' ? 's' : '';
+               $scope.dimTotal = 'Totals ( '+data.dimension.count+' '+$scope.reportTitle+isPlural+' )';
            };
 
             _customctrl.getDataBasedOnTabSelected = function (activeTab, typeofDimension, currIdx) {
