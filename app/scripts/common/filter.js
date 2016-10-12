@@ -668,6 +668,39 @@ define(['angularAMD'],
                 };
             })
 
+            .filter('suffixRBDimensionTotal', function (constants, $filter) {
+                return function (val, type) {
+                    var ret = '';
+                    if(!val || !type){
+                        return ret;
+                    }
+                    if(val === -1 && (type === 'Creative' || type === 'Research')){
+                        return 'NA';
+                    }
+                    switch(type){
+                        case 'eCPM':
+                        case 'eCPC':
+                        case 'eCPA':
+                            ret = $filter('number')(val, 2);
+                            break;
+                        case 'CTR %':
+                        case 'PCCR %':
+                        case 'pacing_metrics':
+                            ret = val.toFixed(2) + '%';
+                            break;
+                        case 'Measurable %':
+                        case 'Viewable %':
+                        case 'Suspicious Activity %':
+                            ret = val.toFixed(0) + '%';
+                            break;
+                        default:
+                            ret = $filter('number')(val, 0);
+                            break;
+                    }
+                    return ret;
+                };
+            })
+
             .filter('startFrom', function() {
                 return function(input, start) {
                     if(input) {
