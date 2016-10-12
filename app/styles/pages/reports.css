@@ -4207,17 +4207,19 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_page .custom_report_response_table .heading_row {
   font-family: "Avenir-bold";
   margin-bottom: 20px ;
-  border-bottom: solid 1px #ccc ;
-  padding: 30px 30px 0 30px;
+  border-bottom: solid 1px #bfc9d7;
+  padding: 20px 20px 0 20px;
 }
 .custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row {
   width: 100% ;
+  color: #57606d;
 }
 .custom_report_response_page .custom_report_response_table .inner_heading_row_total {
-  font-family: "Avenir";
+  font-family: "Avenir-bold";
+  color: #21252b;
 }
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
-  padding: 45px 0px 0px 0px ;
+  padding: 40px 0px 0px 0px ;
   margin-top: 80px;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
@@ -4378,7 +4380,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   z-index: 2;
 }
 .report_response_and_tabs .custom_report_scroll .first_dimension_row_holder {
-  padding-left: 28px;
+  padding-left: 20px;
 }
 .report_response_and_tabs .custom_report_scroll .heading_first_dimension:first-child {
   padding-left: 0 ;
