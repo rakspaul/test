@@ -901,7 +901,6 @@
 }
 .nav_filters .dropdown .dropdown_name_selected {
   padding-right: 20px;
-  cursor: default;
   margin: 0;
   position: relative;
 }
@@ -947,19 +946,6 @@
 .nav_filters .each_filter .header_filter_arrow_dropdown {
   display: inline-block;
   height: 18px;
-}
-.nav_filters .each_filter #advertisersDropdown,
-.nav_filters .each_filter #subAccountDropdown {
-  font-family: "Avenir";
-  font-size: 14px;
-  min-width: 50px;
-  text-overflow: ellipsis;
-  width: 100%;
-  border: medium none;
-  cursor: pointer;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  font-size: 11pt;
-  height: 30px;
 }
 .nav_filters .each_filter #advertisersDropDownList {
   width: 280px;
@@ -1148,45 +1134,12 @@
   font-size: 10px;
   color: #939eae;
 }
-.nav_filters .brandsDropdownSearch {
-  position: relative;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv {
-  width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0px 10px;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
-.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input {
-  font-family: "Avenir";
-  padding-right: 20px;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
-}
 .nav_filters #strategy_dropdown {
   background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
   padding-right: 20px;
 }
-.nav_filters #campaignsDropdownDiv {
-  width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0 10px;
-}
 .nav_filters #campaignsDropdownDiv .campaign_name_length {
   display: none;
-}
-.nav_filters #campaignsDropdownDiv input {
-  float: none;
-  width: 100%;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
-  padding-right: 20px;
-  max-width: 660px;
-  overflow: hidden;
-  display: inline-block;
-  height: 32px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border: 0;
 }
 .main_navigation_holder #reports_nav_link.selected:after {
   content: "";
@@ -2340,21 +2293,21 @@ tags-input .autocomplete {
 }
 .dropdown-menu-with-search .search-inside-dropdown input {
   border: 1px solid #bfc9d7;
-  padding-right: 30px;
-  background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+  padding-right: 15px;
+  background: url("/images/cdesk/search_input.png") no-repeat left 15px center;
   height: 36px;
   width: 100%;
-  padding-left: 15px;
+  padding-left: 40px;
   border-radius: 0 !important;
 }
 .dropdown-menu-with-search .search-inside-dropdown input:hover {
   background: transparent !important;
-  background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+  background: url("/images/cdesk/search_input.png") no-repeat left 15px center !important;
   border: 1px solid #939eae !important;
 }
 .dropdown-menu-with-search .search-inside-dropdown input:focus {
   background: transparent !important;
-  background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+  background: url("/images/cdesk/search_input.png") no-repeat left 15px center !important;
   border: 1px solid #0978c9 !important;
 }
 /*End of Dropdown which has search input box*/

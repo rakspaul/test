@@ -297,7 +297,10 @@
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend |number:0)" style="min-height: 55px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="mediaPlan.adjustmentValue | currency :undefined :0" style="min-height: 55px;"></div>
         <div class="col-md-1 td text-right tableTd" ng-bind="constants.currencySymbol + (mediaPlan.spend - mediaPlan.credits |number:0)" style="min-height: 55px;"></div>
-        <div class="col-md-2 td tableTd" data-ng-bind="mediaPlan.account+'/'+mediaPlan.advertiser" style="min-height: 55px"></div>
+        <div class="col-md-2 td tableTd" style="min-height: 55px">
+            <span class="pull-left clearLeft" style="text-align: left;" data-ng-bind="mediaPlan.account"></span>
+            <span class="pull-left clearLeft" style="text-align: left;" data-ng-bind="mediaPlan.advertiser"></span>
+        </div>
         <!-- <div class="col-md-2 td" ng-bind="mediaPlan.account +'/'+ mediaPlan.advertiser"></div> -->
     </div>
     <div style="display:none;" class="secondDimensionList">
