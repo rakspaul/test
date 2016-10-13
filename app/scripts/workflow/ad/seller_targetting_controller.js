@@ -224,6 +224,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
         vm.setPreferredFlag = function (flag) {
             if (!flag) {
                 flag = '';
+                
             }
             vm.preferedFilterFlag.isPreferred = flag;
             $('.preferred-Btn').removeClass('selected');
