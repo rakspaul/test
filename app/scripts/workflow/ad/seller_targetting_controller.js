@@ -44,7 +44,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                         vm.sellers.sellersList = result.data.data;
 
                         //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
-                        if (!_.isEmpty($scope.adData.sellersTargetting) && !searchText) {
+                        if (!_.isEmpty($scope.adData.sellersTargetting) && !vm.keywordText) {
                             vm.sellers.userSelectedSeller = _.clone($scope.adData.sellersTargetting);
                             _sellerTargetting.checkUserSelectedSellers();
                         }
@@ -214,8 +214,9 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
 
         };
 
-        $scope.showKeywords = function (event) {
+        $scope.showKeywords = function (event,keywordText) {
             event.stopPropagation();
+            vm.keywordText = keywordText;
             if (event.which === 13) {
                 vm.searchSellers();
             }
@@ -224,7 +225,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
         vm.setPreferredFlag = function (flag) {
             if (!flag) {
                 flag = '';
-                
+
             }
             vm.preferedFilterFlag.isPreferred = flag;
             $('.preferred-Btn').removeClass('selected');
