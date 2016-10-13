@@ -700,6 +700,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.showInventory = true;
             $scope.showPerformance = true;
 
+            $scope.show_pri_dim_text_box = false;
+
             if ($scope.isSavedReportGen === true) {
                 $('#dynamicHeader').addClass('smaller');
             }
@@ -1299,6 +1301,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
             $scope.showSecondDimension = function () {
                 $scope.showSecondDimensionBlock = !$scope.showSecondDimensionBlock;
                 $scope.showAddBreakdownButton = false;
+                $scope.showSecondaryTxtBox = false;
             };
 
             $scope.deleteSecondDimensionBlock = function () {
@@ -1699,7 +1702,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 } else {
                     $scope.generateBtnDisabled = true;
                     $('.custom_report_filter').closest('.breakdown_div').find('.filter_input_txtbox').hide();
-                    $('#reportBuilderForm').find('.filter_input_txtbox').hide();
+                    $('#reportBuilderForm').find('.dimension_input_txtbox').hide();
+                    $scope.show_pri_dim_text_box = false;
                 }
             };
 
@@ -2092,6 +2096,9 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         $scope.reports.reportDefinition.dimensions.primary.value = '';
                         $scope.reports.reportDefinition.dimensions.primary.id = '';
 
+
+                        $scope.show_pri_dim_text_box = true;
+
                         $('.custom_report_filter').closest('.breakdown_div').find('.filter_input_txtbox').show();
                         $scope.secondaryDimensionArr = specificFilter.hasOwnProperty(dimension) ?
                             angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
@@ -2157,7 +2164,8 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 elem.closest('.dropdown').find('.dd_txt').text(elem.text());
                 elem.closest('.dropdown').find('.dd_txt').attr('id', elem.attr('id'));
-                elem.closest('.breakdown_div').find('.filter_input_txtbox').show();
+                elem.closest('.breakdown_div').find('.dimension_input_txtbox').show();
+                elem.closest('.breakdown_div').find('.pri_dim_input_txtbox').show();
 
                 if (String(elem.text()) === 'Choose Dimension') {
                     /* when choose dimesion is selected from dimension dropdown check whether it's a primary dimension or secondary dimension, if primary remove both primary and
@@ -2186,8 +2194,12 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         $scope.reports.reportDefinition.dimensions.secondary.id = '';
 
                         $scope.metrics.onPrimaryDimensionSelection();
+                        $scope.showSecondaryTxtBox = false;
                     }
+                } else if(String(arg) === 'secondary') {
+                    $scope.showSecondaryTxtBox = true;
                 }
+
 
                 if (arg && (arg !== 'primary') && (arg !== 'secondary')) {
                     var startDate, endDate;
@@ -3097,8 +3109,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                         fromFilters = fromFilters || false;
 
                         // if a dimension is selected as Primary it should not appear in secondary
-                        $scope.secondaryDimensionArr =
-                            angular.copy($scope.customeDimensionData[0].dimensions);
+                        $scope.secondaryDimensionArr = angular.copy($scope.customeDimensionData[0].dimensions);
 
                         $scope.secondaryDimensionArr =
                             _.filter($scope.secondaryDimensionArr, function (item) {
@@ -3109,8 +3120,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                         $scope.secondaryDimensionArr.splice(removeIndex, 1);
 
-                        $scope.reports.reportDefinition.dimensions.primary.name =
-                            getFilterBreakdownName(obj.dimension);
+                        $scope.reports.reportDefinition.dimensions.primary.name = getFilterBreakdownName(obj.dimension);
 
                         $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
 
@@ -3128,6 +3138,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                         if ($scope.reports.reportDefinition.dimensions.primary.name) {
                             $scope.showPrimaryTxtBox = true;
+                            $scope.show_pri_dim_text_box = true;
                         }
                         $scope.metrics.setTotalMetricsOfDimension('primary');
 
@@ -3248,6 +3259,10 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
 
                 // Get custom metrics
                 getCustomReportMetrics();
+
+                if (!$routeParams.reportId && !localStorage.getItem('customReport')) {
+                    elem.closest('.breakdown_div').find('.pri_dim_input_txtbox').show();
+                }
 
                 metricsTabIdTab.forEach(function (id) {
                     $('#' + id + ' .custom_report_scroll').scroll(function () {
