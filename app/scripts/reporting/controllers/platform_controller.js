@@ -169,6 +169,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                         $scope.costBusy = false;
                         $scope.viewabilityBusy = false;
                         $scope.marginBusy = false;
+                        $scope['dataNotFoundFor' + tab] = false;
 
                         if (result.data.data.length === 0) {
                             errorHandlerForPerformanceTab();
@@ -263,7 +264,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
                                 $scope.platformData = utils.swapValuesInArray($scope.platformData, 0, indexOfFirstColumn);
 
-                                $scope['dataNotFoundFor' + tab] = false;
+
                             }
                         }
                     } else {
@@ -396,18 +397,18 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.resetVariables();
             $scope.strategyChangeHandler();
 
-            // Binding click event on tab and fetch strategy method.
-            $(function () {
-                $('.each_tab').click(function (event) {
-                    var tab_id = $(this).attr('id').split('_tab'),
-                        viewModeSwitchContainer = $('.view_mode_switch_container'),
-                        tabImps = ['cpc', 'cpa', 'cpm', 'vtc', 'action_rate', 'ctr'];
+                function changeTab(selected_tab){
+                    var viewModeSwitchContainer = $('.view_mode_switch_container'),
+                        tabImps = ['cpc', 'cpa', 'cpm', 'vtc', 'action_rate', 'ctr'],
+                        id = 'platform_'+selected_tab;
 
                     $('.reports_tabs_holder').find('.active').removeClass('active');
-                    $(this).addClass('active');
-                    $('.reports_block').hide();
-                    $scope.selected_tab = tab_id[0].split('_')[1];
+                    $('.reports_block, [id ^=reports_][id $=_block]').hide();
+                    $('#'+id).addClass('active');
+
+                    $scope.selected_tab = selected_tab;
                     viewModeSwitchContainer.hide();
+                    vistoconfig.platform_selected_tab = selected_tab;
 
                     if ($scope.selected_tab === 'viewability') {
                         if (jQuery.inArray($scope.sortTypeByViewability, tabImps) !== '-1') {
@@ -461,8 +462,18 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                         viewModeSwitchContainer.hide();
                     }
 
-                    $('#reports_' + tab_id[0] + '_block').show();
+                    $('#reports_' + id + '_block').show();
                     $scope.strategyChangeHandler();
+                }
+
+            // Binding click event on tab and fetch strategy method.
+            $(function () {
+                //if(vistoconfig.cannedReport_selected_tab) {
+                    changeTab(vistoconfig.platform_selected_tab || 'performance');
+                //}
+                $('.each_tab').click(function (event) {
+                    var tab_id = $(this).attr('id').split('_tab');
+                    changeTab(tab_id[0].split('_')[1]);
                     event.preventDefault();
                 });
             });

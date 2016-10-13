@@ -22,8 +22,8 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 {bydiscrepancy: 'Discrepancy'}
             ];
 
-        console.log('PERFORMANCE controller is loaded!');
-        // Hide page loader when the page is loaded
+        console.log('PERFORMANCE controller is loaded!....');
+
         pageLoad.hidePageLoader();
 
         $scope.textConstants = constants;
@@ -628,10 +628,22 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             }
         };
 
+        function changeTab(selected_tab){
+            setTimeout(function(){
+                $scope.selected_tab = selected_tab;
+                vistoconfig.performance_selected_tab = selected_tab;
+                $('.each_tab.cost_tab.active').removeClass('active');
+                $("#"+selected_tab).addClass('active');
+                $('.reports_block').hide();
+                $('#reports_' + selected_tab + '_block').show();
+                $scope.strategyChangeHandler();
+            },1);
+        }
+
         // Binding click event on tab and fetch strategy method.
         $(function () {
             var mainNavigation = $('.main_navigation');
-
+            changeTab(vistoconfig.performance_selected_tab || 'byscreens');
             $('.each_tab').click(function (event) {
                 var tab_id = $(this).attr('id').split('_tab');
 
@@ -640,13 +652,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 if ($scope.kpiDropdownActive === true) {
                     $('.icon_text_holder').removeClass('active');
                 }
-
-                $scope.selected_tab = tab_id[0];
-                $('.reports_tabs_holder').find('.active').removeClass('active');
-                $(this).addClass('active');
-                $('.reports_block').hide();
-                $('#reports_' + tab_id[0] + '_block').show();
-                $scope.strategyChangeHandler();
+                changeTab(tab_id[0]);
                 event.preventDefault();
             });
 
