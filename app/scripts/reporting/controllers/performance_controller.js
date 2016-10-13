@@ -633,7 +633,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $scope.selected_tab = selected_tab;
                 vistoconfig.performance_selected_tab = selected_tab;
                 $('.each_tab.cost_tab.active').removeClass('active');
-                $("#"+selected_tab).addClass('active');
+                $('#'+selected_tab).addClass('active');
                 $('.reports_block').hide();
                 $('#reports_' + selected_tab + '_block').show();
                 $scope.strategyChangeHandler();
