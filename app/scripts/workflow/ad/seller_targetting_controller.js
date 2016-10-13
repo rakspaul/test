@@ -243,6 +243,23 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
             }
         };
 
+        vm.removeUserSelectedSeller = function(sellers) {
+            console.log("removeUserSelectedSeller",sellers);
+            var index = _.findIndex(vm.sellers.userSelectedSeller,function(seller) {
+                return seller.id === sellers.id;
+            });
+
+            if(index != -1) {
+                vm.sellers.userSelectedSeller.splice(index,1);
+                vm.selectAllChecked = false;
+
+                var sellersIndex = _.findIndex(vm.sellers.sellersList,function(seller) {
+                    return seller.id === sellers.id;
+                });
+                vm.sellers.sellersList[sellersIndex].isChecked = false;
+            }
+        };
+
         $scope.$on('triggerSeller', function () {
             _sellerTargetting.resetBasicParameters();
             _sellerTargetting.showSellerTargetingBox();
