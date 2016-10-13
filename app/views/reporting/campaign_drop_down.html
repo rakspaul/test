@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown {{loading_icon_mediaplan}}">
                     <ul class="dropdown-menu campaigns_list dropdown-menu-with-search" role="menu" id="campaigns_list">
-                        <div class="search-inside-dropdown" id="campaignsDropdownDiv">
+                        <div class="col-md-12 zeroPadding search-inside-dropdown" id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"
                                    id="campaignDropdown"
                                    data-ng-keyup="search(fileIndex, $event)"
@@ -24,7 +24,7 @@
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
                             <span class="campaign_name_length" data-ng-bind="selectedObj.name"></span>
                         </div>
-                        <div class="dropdown_list_scroll">
+                        <div class="col-md-12 zeroPadding dropdown_list_scroll">
                             <li data-ng-repeat="campaign in campaignData.campaigns track by $index"
                                 class="campaigns_list_li {{campaign.name === selectedObj.name ? 'active' : ''}}"
                                 value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}"

@@ -3055,6 +3055,23 @@ input[type="submit"] {
   font-size: 10px;
   color: #939eae;
 }
+.nav_filters #campaigns_list li {
+  padding: 0px ;
+}
+.nav_filters #campaigns_list li a {
+  float: left ;
+  width: 100% ;
+  padding: 6px 15px !important;
+}
+.nav_filters #campaigns_list li span {
+  padding: 0;
+}
+.nav_filters #campaigns_list li.active a {
+  background: #fff;
+}
+.nav_filters #campaigns_list li:hover a {
+  background: #E1EDF9;
+}
 .nav_filters .brandsDropdownSearch #brandsDropdownDiv,
 .nav_filters .brandsDropdownSearch #subAccountDropdownDiv,
 .nav_filters .brandsDropdownSearch .advertisersList_ul {
