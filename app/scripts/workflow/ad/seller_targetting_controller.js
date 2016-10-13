@@ -256,7 +256,9 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 var sellersIndex = _.findIndex(vm.sellers.sellersList,function(seller) {
                     return seller.id === sellers.id;
                 });
-                vm.sellers.sellersList[sellersIndex].isChecked = false;
+                if(sellersIndex != -1){
+                    vm.sellers.sellersList[sellersIndex].isChecked = false;
+                }
             }
         };
 
