@@ -399,6 +399,15 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             };
 
 
+            $scope.checkDailyCapValue = function() {
+                if(!($scope.adData.dailyBudgetValue && Number($scope.adData.dailyBudgetValue)>0)) {
+                    $scope.budgetErrorObj.dailyCapValidator = true;
+                } else {
+                    $scope.budgetErrorObj.dailyCapValidator = false;
+                }
+            };
+
+
             /* Method called when selecting primary kpi for Ad. This method sets the correct symbol for kpi value according to type selected.
              * This method also shows/hides auto compute checkbox and enables/disables the correspoding input box to calculate target values.
              * @param event: the event from the drop down from which kpi is selected

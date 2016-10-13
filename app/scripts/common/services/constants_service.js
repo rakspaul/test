@@ -757,6 +757,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VERIFICATION_VENDOR = 'Verification Vendor' ;
         this.VERIFICATION_DEFAULT = 'None (Disable Verification Tracking)' ;
         this.VERIFICATION_DEFAULT_SMALL = 'None' ;
+        this.DAILY_CAP_ERROR_MESSAGE = 'Value is mandatory when selecting Daily Cap';
 
         //Ad Create: 3 Buying Platform
         this.SELECTBUYPLAT = 'Select Buying Platform';
