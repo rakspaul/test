@@ -481,7 +481,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.isAudienceTargetEnabled = false;
             $scope.isDaypartTargetEnabled = false;
             $scope.isVideoTargetEnabled = false;
-            $scope.isSellerTargetting = false
+            $scope.isSellerTargetting = false;
             $scope.adData.domainEnable = false;
             $scope.adData.appEnable = false;
 

@@ -30,7 +30,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                         platformSeatId: $scope.adData.platformSeatId,
                         pageNo: pageNo,
                         search: vm.keywordText
-                    }
+                    };
                 },
 
                 /*
@@ -111,7 +111,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                         var index = _.findIndex(vm.sellers.sellersList, function (seller) {
                             return seller.id === id;
                         });
-                        if (index != -1) {
+                        if (index !== -1) {
                             vm.sellers.sellersList[index].isChecked = true;
 
                             // set selectAll flag = true when all sellers are selected
@@ -248,14 +248,14 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 return seller.id === sellers.id;
             });
 
-            if(index != -1) {
+            if(index !== -1) {
                 vm.sellers.userSelectedSeller.splice(index,1);
                 vm.selectAllChecked = false;
 
                 var sellersIndex = _.findIndex(vm.sellers.sellersList,function(seller) {
                     return seller.id === sellers.id;
                 });
-                if(sellersIndex != -1){
+                if(sellersIndex !== -1){
                     vm.sellers.sellersList[sellersIndex].isChecked = false;
                 }
             }

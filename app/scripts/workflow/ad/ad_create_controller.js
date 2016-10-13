@@ -1442,7 +1442,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     adData,
                     videoTargetsData,
                     inventoryLists,
-                    sellerTargetting,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) {

@@ -87,7 +87,7 @@ define(['angularAMD'], function (angularAMD) {
                 });
             },
 
-            createInputElem = function (inputList, inputGroupList, idx, elem, noGroup) {
+            createInputElem = function (inputList, inputGroupList, idx, elem) {
                 var inputWrapper,
                     options,
                     inputListHTML,
@@ -123,9 +123,9 @@ define(['angularAMD'], function (angularAMD) {
                                 .text(inputList.displayName);
 
                             if(inputList.platformCustomWidgetType === 'CHECKBOX_SMALL') {
-                                fieldLabel.addClass('inputCheckBoxSectionTxt')
+                                fieldLabel.addClass('inputCheckBoxSectionTxt');
                             } else {
-                                fieldLabel.addClass('greyTxt col-md-12 zeroPadding')
+                                fieldLabel.addClass('greyTxt col-md-12 zeroPadding');
                             }
 
                         inputWrapper.append(fieldLabel);
@@ -224,7 +224,7 @@ define(['angularAMD'], function (angularAMD) {
 
                         if(inputList.platformCustomWidgetType === 'CHECKBOX_SMALL') {
                             inputListHTML
-                                .addClass('inputCheckBox')
+                                .addClass('inputCheckBox');
                         } else {
                             inputListHTML
                                 .addClass('cmn-toggle cmn-toggle-round');
@@ -242,7 +242,7 @@ define(['angularAMD'], function (angularAMD) {
                                 .appendTo(fieldLabel);
 
 
-                        inputListHTML && inputListHTML.on('change', function (ev) {
+                        inputListHTML && inputListHTML.on('change', function () {
                             chkSelValue = this.checked ?  'TRUE' : 'FALSE';
                             if (inputList.dependentGroups) {
                                 selectPlatform(chkSelValue , inputList,
@@ -409,7 +409,7 @@ define(['angularAMD'], function (angularAMD) {
 
 
                 if(_.filter(platformCustomInputList, function(obj) {
-                    return obj.platformCustomWidgetType === 'CHECKBOX_SMALL'
+                    return obj.platformCustomWidgetType === 'CHECKBOX_SMALL';
                 }).length > 0) {
                     groupContainer.addClass('inputCheckBoxSection');
                 }

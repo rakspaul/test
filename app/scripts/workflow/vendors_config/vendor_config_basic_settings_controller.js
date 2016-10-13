@@ -2,7 +2,7 @@ define(['angularAMD', 'vendor-config-service'], function (angularAMD) {
     'use strict';
 
     angularAMD.controller('VendorConfigBasicSettingsController', ['$timeout', 'vendorConfigService', 'dataService', 'vistoconfig', 'loginModel',
-        function ($timeout, vendorConfigService, dataService, vistoconfig, loginModel) {
+        function ($timeout, vendorConfigService, dataService, vistoconfig) {
             var vm = this,
                 clientId = vistoconfig.getMasterClientId(),
                 baseUrl = vistoconfig.apiPaths.WORKFLOW_API_URL,
