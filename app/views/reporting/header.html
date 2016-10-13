@@ -61,8 +61,8 @@
 
             <!-- Vendors Configuration page -->
             <!-- TODO: shown without authentication for now -->
-            <div class="pull-left each_nav_link" id="vendors_nav_link">
-                <a reporttitle="adminOverview"
+            <div class="pull-left each_nav_link" id="vendors_nav_link" data-ng-if="isSuperAdmin">
+                <a reporttitle="vendorsConfig"
                    data-ng-click="navigateToTab('', $event, 'vendorsConfig')"
                    data-ng-mouseover="hideNavigationDropdown($event);">
                     Vendors
