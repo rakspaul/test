@@ -241,7 +241,7 @@
     <!--END : Sellers  Targeting Card-->
 
     <!--START : Video Targeting Card-->
-    <div class="col-md-6 cardSelectHolder active clearLeft" data-ng-if="adData.adFormat === 'Video'">
+    <div class="col-md-6 cardSelectHolder active" data-ng-if="adData.adFormat === 'Video'">
         <span class="icon-trash"
               data-ng-style="(adData.videoPreviewData.sizes ||
                              adData.videoPreviewData.positions ||
@@ -289,7 +289,7 @@
                name="platform"
                value="Create"
                data-ng-disabled="!$parent.isPlatformSelected"
-               class="btn btn-default"
+               class="btn btn-default marginVideoCreate"
                data-ng-click="selectVideoTarget()">
     </div>
     <!--END : Video Targeting Card-->
