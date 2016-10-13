@@ -97,8 +97,8 @@
                             </div>-->
 
                             <!-- Primary auto suggestion start -->
-                            <div class="pull-left filter_input_txtbox">
-                                <div class="filter_input_dropdown">
+                            <div class="pull-left pri_dim_input_txtbox" data-ng-show="show_pri_dim_text_box">
+                                <div class="dimension_input_dropdown">
                                     <div class="common_dropdown">
                                         <div class="dropdown">
                                             <div class="dropdown_autoselect_box">
@@ -144,7 +144,9 @@
                                                       data-ng-bind-html=
                                                           "reports.reportDefinition.dimensions.secondary.name ?
                                                               reports.reportDefinition.dimensions.secondary.name :
-                                                              textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis : 16">
+                                                              textConstants.REPORT_CHOOSE_BREAKDOWN | textEllipsis : 16"
+                                                      ng-click
+                                                >
                                                 </span>
                                                 <span class="icon-arrow-solid-down"></span>
                                             </div>
@@ -163,7 +165,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pull-left filter_input_txtbox" data-ng-show="showSecondaryTxtBox">
+                                <div class="pull-left dimension_input_txtbox" data-ng-show="showSecondaryTxtBox">
                                     <!--<input type="text"
                                            name="filter"
                                            class="reportFilter"
@@ -173,7 +175,7 @@
                                            placeholder="Contains keywords...">-->
 
                                     <!-- secondary dimension auto suggestion start -->
-                                    <div class="pull-left filter_input_txtbox">
+                                    <!--<div class="pull-left filter_input_txtbox">-->
                                         <div class="filter_input_dropdown">
                                             <div class="common_dropdown">
                                                 <div class="dropdown">
@@ -198,7 +200,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <!--</div>-->
                                     <!-- Secondary dimension auto suggestion end -->
 
                                 </div>
