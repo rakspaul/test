@@ -3156,6 +3156,30 @@ button, i, input[type="submit"] {
     font-size: 10px;
     color: @label-gray;
   }
+    #campaigns_list {
+        li {
+            padding: 0px ;
+            a {
+                float : left ;
+                width : 100% ;
+                padding: 6px 15px !important;
+            }
+            span {
+                padding: 0;
+            }
+            &.active {
+                a {
+                    background: #fff;
+                }
+
+            }
+            &:hover {
+                a {
+                    background: #E1EDF9;
+                }
+            }
+        }
+    }
   .brandsDropdownSearch {
     //position: relative;
     #brandsDropdownDiv , #subAccountDropdownDiv, .advertisersList_ul {
