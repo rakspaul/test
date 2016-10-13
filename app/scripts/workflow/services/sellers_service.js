@@ -2,18 +2,14 @@ define(['angularAMD'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('sellersService', ['vistoconfig', 'dataService', 'constants', 'workflowService',
-            'loginModel', function (vistoconfig, dataService, constants, workflowService,
-                                    loginModel) {
-                var fetchAllSellers =  function(pageNo,platformId,platformSeatsId,searchText) {
-                    var clientId = vistoconfig.getSelectedAccountId(),
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/'+ platformId +'/seats/'+
-                            platformSeatsId +'/sellers?pageNo='+pageNo+'&pageSize=10';
+        angularAMD.factory('sellersService', ['vistoconfig', 'dataService', function (vistoconfig, dataService) {
+                var fetchAllSellers =  function(params) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + params.clientId + '/vendors/'+ params.platformId +'/seats/'+
+                        params.platformSeatId +'/sellers?pageNo=' + params.pageNo + '&pageSize=10';
 
-                    if(searchText) {
-                        url += '&search='+searchText;
+                    if(params.search) {
+                        url += '&search='+ params.search;
                     }
-
 
                     return dataService.fetch(url);
                 };
