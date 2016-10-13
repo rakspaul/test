@@ -102,7 +102,7 @@
                                         <div class="pull-left">{{sellers.id}}</div>
                                     </div>
                                     <div class="columnThree col-md-3">
-                                        <div class="pull-left">{{sellers.isPreferred}}</div>
+                                        <div class="pull-left">{{(sellers.isPreferred)?'Yes':'No'}}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 segBodyTable text-center" ng-show="sellersCtrl.loadMoreFlag">
