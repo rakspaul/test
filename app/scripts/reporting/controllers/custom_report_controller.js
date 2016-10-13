@@ -609,6 +609,7 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 $scope.firstDimensionoffset = 0;
                 $scope.fetching = false;
                 $scope.secondDimensionOffset = 0;
+                $scope.dimTotal = '';
             };
 
             // Hide page loader when the page is loaded
