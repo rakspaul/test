@@ -40,8 +40,10 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
 
                 fetchAllSellers: function () {
                     var params = _sellerTargetting.buildSellerParams();
+                    vm.loadMoreFlag = true;
                     sellersService.fetchAllSellers(params).then(function (result) {
                         vm.sellers.sellersList = result.data.data;
+                        vm.loadMoreFlag = false;
 
                         //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
                         if (!_.isEmpty($scope.adData.sellersTargetting) && !vm.keywordText) {
@@ -58,8 +60,10 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
 
                 loadMoreSellers: function () {
                     var params = _sellerTargetting.buildSellerParams();
+                    vm.loadMoreFlag = true;
                     sellersService.fetchAllSellers(params).then(function (result) {
                         result = result.data.data;
+                        vm.loadMoreFlag = false;
 
                         //concat 2 Arrays
                         vm.sellers.sellersList = _.union(vm.sellers.sellersList, result);
@@ -238,8 +242,8 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
         };
 
         $scope.$on('triggerSeller', function () {
-            _sellerTargetting.showSellerTargetingBox();
             _sellerTargetting.resetBasicParameters();
+            _sellerTargetting.showSellerTargetingBox();
 
             if ($scope.adData.sellersAction === false) {
                 $('.toggle-event').bootstrapToggle('off');
@@ -255,6 +259,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
         vm.sellers.userSelectedSeller = [];
         vm.selectAllChecked = false;
         vm.includeAllSellersFlag = true;
+        vm.loadMoreFlag = false;
         vm.preferedFilterFlag = {isPreferred: ''};
         $scope.adData.sellersTargetting = [];
 
