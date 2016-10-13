@@ -14,6 +14,8 @@ define(['angularAMD'], function (angularAMD) {
                 isErrorMsg : 0
             };
 
+        this.performance_selected_tab = '';
+        this.platform_selected_tab = '';
         this.supportedBrowser = [
             {
                 name: 'Chrome',
