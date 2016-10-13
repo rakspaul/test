@@ -536,17 +536,16 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
 
                 pacingType = responseData.pacingType;
 
-                if(responseData.dailyBudgetType && responseData.dailyBudgetValue){
-                    $scope.adData.dailyBudgetValue = responseData.dailyBudgetValue;
-                    $('.daily_cap').addClass('active');
-                    $('.daily_cap input').attr('checked', 'checked');
-                    $('.spend_evenly').removeClass('active');
-                    $('#daily_cap_input').show();
-                    }
-
                 if (pacingType !== 'EVENLY') {
-                    $('.spend_asap').addClass('active');
-                    $('.spend_asap input').attr('checked', 'checked');
+                    if(responseData.dailyBudgetType && responseData.dailyBudgetValue){
+                        $scope.adData.dailyBudgetValue = responseData.dailyBudgetValue;
+                        $('.daily_cap').addClass('active');
+                        $('.daily_cap input').attr('checked', 'checked');
+                        $('#daily_cap_input').show();
+                    } else {
+                        $('.spend_asap').addClass('active');
+                        $('.spend_asap input').attr('checked', 'checked');
+                    }
                     $('.spend_evenly').removeClass('active');
                 }
                 
@@ -1360,7 +1359,10 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 target.attr('checked', 'checked');
 
                 if( target.closest('.btn').hasClass('daily_cap')) {
-                   $('#daily_cap_input').show();
+                   var dailyCapInput = $('#daily_cap_input');
+                       dailyCapInput.show();
+                    dailyCapInput.find('input[type="text"]').focus();
+
                 } else {
                    $('#daily_cap_input').hide();
                 }
@@ -1459,6 +1461,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     ($scope.budgetErrorObj.mediaCostValidator ||
                     $scope.budgetErrorObj.availableRevenueValidator ||
                     $scope.budgetErrorObj.impressionPerUserValidator ||
+                    $scope.budgetErrorObj.dailyCapValidator ||
                     $scope.budgetErrorObj.availableMaximumAdRevenueValidator) ||
                     !formData.targetImpressions) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
@@ -1567,7 +1570,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (formData.pacingType === 'DAILYCAP') {
                             postAdDataObj.dailyBudgetType = formData.budgetType ? formData.budgetType : 'impressions';
                             postAdDataObj.dailyBudgetValue = formData.dailyBudgetValue;
-                            postAdDataObj.pacingType = 'EVENLY';
+                            postAdDataObj.pacingType = 'ASAP';
                         } else {
                             postAdDataObj.pacingType = formData.pacingType;
                         }

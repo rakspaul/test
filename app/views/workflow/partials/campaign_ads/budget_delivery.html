@@ -293,7 +293,8 @@
                <div class="col-md-3 " id='daily_cap_input' style="display:none;" >
                    <span class="commonCurrencySymLabel">
                        <span class="KPI_symbol commonCurrencySym" >{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                       <input type="text" name="dailyBudgetValue" ng-model="adData.dailyBudgetValue">
+                       <input type="text" required="true" name="dailyBudgetValue" ng-model="adData.dailyBudgetValue" ng-blur="checkDailyCapValue();">
+                       <label ng-if="budgetErrorObj.dailyCapValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.DAILY_CAP_ERROR_MESSAGE"></label>
                    </span>
                 </div>
             </div>
