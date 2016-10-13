@@ -29,6 +29,9 @@ define(['angularAMD','sellers-service', 'lrInfiniteScroll'], function (angularAM
                          sellerCtrl.sellers.sellersList = result.data.data;
 
                          //TODO remove next 3 lines
+                         sellerCtrl.sellers.sellersList[1].isPreferred = true;
+                         sellerCtrl.sellers.sellersList[3].isPreferred = true;
+                         sellerCtrl.sellers.sellersList[5].isPreferred = true;
                          // var index = _.findIndex(sellerCtrl.sellers.sellersList,function(seller) {rCtrl.sellers.sellersList[5].isPreferred = true;
 
                          //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
