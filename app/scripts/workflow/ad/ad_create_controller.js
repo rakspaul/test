@@ -1179,16 +1179,19 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 // If we are handling an ad of an Adgroup
                 if (location.href.indexOf('adGroup') > -1) {
                     if ($scope.mode === 'edit') {
-                        if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
-                            adGroupStartDate = currentDate;
-                        } else {
-                            adGroupStartDate = $scope.workflowData.adGroupData.startDate;
-                        }
+                        $timeout(function() {
+                            if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
+                                adGroupStartDate = currentDate;
+                            } else {
+                                adGroupStartDate = $scope.workflowData.adGroupData.startDate;
+                            }
 
-                        adGroupEndDate = $scope.workflowData.adGroupData.endDate;
-                        startDateElem.datepicker('setStartDate', adGroupStartDate);
-                        startDateElem.datepicker('setEndDate', adGroupEndDate);
-                        $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+                            adGroupEndDate = $scope.workflowData.adGroupData.endDate;
+                            startDateElem.datepicker('setStartDate', adGroupStartDate);
+                            startDateElem.datepicker('setEndDate', adGroupEndDate);
+                            $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+                        },2000);
+
                     } else {
                         // When creating a new Adgroup ad, if Adgroup start date is:
                         // 1) before currrent date (in the past), default start & end dates will be current date
@@ -1449,7 +1452,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     adData,
                     videoTargetsData,
                     inventoryLists,
-                    sellerTargetting,
 
                     wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
                         _.each(customPlatformData, function(obj) {
