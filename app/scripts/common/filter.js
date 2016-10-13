@@ -671,7 +671,7 @@ define(['angularAMD'],
             .filter('suffixRBDimensionTotal', function (constants, $filter) {
                 return function (val, type) {
                     var ret = '';
-                    if(!val || !type){
+                    if(val === undefined || type === undefined){
                         return ret;
                     }
                     if(val === -1 && (type === 'Creative' || type === 'Research')){
