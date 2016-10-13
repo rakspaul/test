@@ -244,7 +244,6 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
         };
 
         vm.removeUserSelectedSeller = function(sellers) {
-            console.log("removeUserSelectedSeller",sellers);
             var index = _.findIndex(vm.sellers.userSelectedSeller,function(seller) {
                 return seller.id === sellers.id;
             });
