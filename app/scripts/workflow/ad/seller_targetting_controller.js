@@ -34,7 +34,9 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 },
 
                 /*
-
+                    This method is used to fetch all the sellers initially and
+                    in case of edit mode  - make a clone of the sellers the user has previously saved (API RESPONSE) to local array and
+                    set isChecked flag to true in sellers list array
 
                  */
 
@@ -54,8 +56,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 },
 
                 /*
-
-
+                    This function is used when user scrolls down to load more sellers.
                  */
 
                 loadMoreSellers: function () {
@@ -74,7 +75,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 },
 
                 /*
-
+                    Closes sellers targetting screen and redirects user to targetting screen
 
                  */
 
@@ -92,7 +93,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
 
                 /*
 
-
+                    resets page number to 1
                  */
 
                 resetBasicParameters: function () {
@@ -100,7 +101,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 },
 
                 /*
-
+                    Sets the isChecked flag in (vm.sellers.sellersList) array based on user selection (vm.sellers.userSelectedSeller)
 
                  */
 
@@ -226,6 +227,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
             }
         };
 
+        // used to filter preferred sellers from the sellers list
         vm.setPreferredFlag = function (flag) {
             if (!flag) {
                 flag = '';
@@ -255,8 +257,8 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
 
         vm.sellers = {};
         vm.keywordText = '';
-        vm.sellers.sellersList = [];
-        vm.sellers.userSelectedSeller = [];
+        vm.sellers.sellersList = []; // All the sellers fetched from server saved here
+        vm.sellers.userSelectedSeller = []; // user selected sellers saved here
         vm.selectAllChecked = false;
         vm.includeAllSellersFlag = true;
         vm.loadMoreFlag = false;
