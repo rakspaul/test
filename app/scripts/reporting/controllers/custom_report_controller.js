@@ -1342,7 +1342,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     return{
                         copyOfReportDefnObj:{},
                         copyReportDefnObj: function(){
-                            console.log('$scope.reports: ',$scope.reports)
                             this.copyOfReportDefnObj = angular.copy($scope.reports.reportDefinition);
                         },
                         isGenAndDownParamsSame: function(){
