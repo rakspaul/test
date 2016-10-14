@@ -96,7 +96,7 @@
                         <label for="sel1" class="greyTxt" style="margin-top: 0;" data-ng-bind="textConstants.CREATIVE_AD_SERVER"></label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" title={{selectedAdServer.name}}>
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0) || !creative.advertiserId" title={{selectedAdServer.name}}>
                                     <!--<span class="text">{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>-->
                                     <span class="icon-arrow-solid-down"></span>
                                 </button>
@@ -228,7 +228,7 @@
                                 <span class="greyTxt col-md-12 zeroPadding" for="name">Tracking Code</span>
                                 <input type="text" class="form-control" name = "thirdPartyTracker" ng-model="adData.thirdPartyTracker" >
                             </div>
-                           
+
                         </div>
                         <div class="col-md-12 zeroPadding marginTop form-group">
                             <div class="col-md-4 zeroPadding" ng-show="toggleCodeField" >
