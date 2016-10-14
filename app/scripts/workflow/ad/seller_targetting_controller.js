@@ -159,23 +159,6 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 // check if the user has selected the preferred filter
                 if (vm.preferedFilterFlag.isPreferred) {
 
-
-                    // if (seller.isPreferred) {
-                    //     // select only the preferred filter
-                    //     seller.isChecked = vm.selectAllChecked;
-                    //     vm.sellers.userSelectedSeller.push(seller);
-                    // } else {
-                    //     var index = _.findIndex(vm.sellers.userSelectedSeller,function(sell){
-                    //         return seller.id === sell.id
-                    //     });
-                    //
-                    //     if(index !== -1) {
-                    //         // select only the preferred filter
-                    //         seller.isChecked = vm.selectAllChecked;
-                    //         // select only the preferred filter
-                    //         vm.sellers.userSelectedSeller.splice(index,1);
-                    //     }
-                    // }
                     if (seller.isPreferred) {
                         seller.isChecked = vm.selectAllChecked;
                         if (vm.selectAllChecked) {
