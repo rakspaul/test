@@ -11,6 +11,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         $scope.adData.isAudienceSelected = false;
         $scope.adData.isDaypartSelected = false;
         $scope.adData.isVideoSelected = false;
+        $scope.adData.isSellerSelected = false;
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
         $scope.isDayPartTriggered = false;
@@ -35,7 +36,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
-
+            console.log('setTargetingForPreview == ',targetingName);
             switch (targetingName) {
                 case 'Geography':
                     $scope.adData.isGeographySelected = true;
@@ -71,6 +72,11 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 case 'Video':
                     $scope.adData.isVideoSelected = true;
                     break;
+
+                case 'Seller':
+                    $scope.adData.isSellerSelected = true;
+                    break;
+
             }
         };
 
@@ -481,7 +487,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.isAudienceTargetEnabled = false;
             $scope.isDaypartTargetEnabled = false;
             $scope.isVideoTargetEnabled = false;
-            $scope.isSellerTargetting = false;
+            $scope.isSellerTargettingEnabled = false;
             $scope.adData.domainEnable = false;
             $scope.adData.appEnable = false;
 
@@ -503,7 +509,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                         $scope.isVideoTargetEnabled = true;
                         break;
                     case 'Seller Targeting':
-                        $scope.isSellerTargetting = true;
+                        $scope.isSellerTargettingEnabled = true;
                         break;
 
                     case 'Inventory Targeting':

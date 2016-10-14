@@ -19,6 +19,9 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                     $('#seller-toggle-event').bootstrapToggle('on');
                     $('#sellerTargetting').find('.targetting-each-content').show();
 
+                    // show seller in side bar
+                    $scope.adData.isSellerSelected = true;
+
                     // fetch all sellers
                     this.fetchAllSellers();
                 },
@@ -89,6 +92,11 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                         }, function () {
                             $(this).hide();
                         });
+
+                    //  seller tag in side bar
+                    if($scope.adData.sellersTargetting.length === 0) {
+                        $scope.adData.isSellerSelected = false;
+                    }
                 },
 
                 /*

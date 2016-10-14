@@ -617,7 +617,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     (sellerTargettingData.sellerTargets.length > 0)) {
                     $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
                     $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
-
+                    //side bar
+                    $scope.adData.isSellerSelected = true;
                     // $scope.$broadcast('triggerSeller');
                 }
 

@@ -171,13 +171,13 @@
                    data-ng-bind="textConstants.TARGETINGSIDE">
                 </a>
             </span>
-            <div>
+            <div>adData.isSellerSelected == {{adData.isSellerSelected}}
                 <div class="statusLabel disabled"
                      data-ng-if="(!adData.isGeographySelected &&
                                   !adData.isAudienceSelected &&
                                   !adData.isDaypartSelected &&
                                   !adData.isVideoSelected &&
-                                   adData.sellersTargetting.length == 0) ||
+                                  !adData.isSellerSelected ) ||
                                   TrackingIntegrationsSelected">
                     <div class="col-md-12">
                         <span style="color: #000;" data-ng-bind="textConstants.WF_NOT_SET">
@@ -189,7 +189,7 @@
                                   adData.isAudienceSelected ||
                                   adData.isDaypartSelected ||
                                   adData.isVideoSelected ||
-                                  adData.sellersTargetting.length > 0) &&
+                                  adData.isSellerSelected ) &&
                                   !TrackingIntegrationsSelected">
                     <div class="col-md-12" data-ng-if="adData.isGeographySelected" style="margin-bottom: 5px;">
                         <div class="icon-location pull-left"></div>
@@ -207,7 +207,7 @@
                         <div class="icon-video pull-left"></div>
                         <span data-ng-bind="textConstants.VIDEO"></span>
                     </div>
-                    <div class="col-md-12" data-ng-if="adData.sellersTargetting.length > 0" style="margin-bottom: 5px;">
+                    <div class="col-md-12" data-ng-if="adData.isSellerSelected" style="margin-bottom: 5px;">
                         <span data-ng-bind="textConstants.SELLER"></span>
                     </div>
                 </div>
