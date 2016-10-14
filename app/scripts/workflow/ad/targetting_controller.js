@@ -36,7 +36,6 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
-            console.log('setTargetingForPreview == ',targetingName);
             switch (targetingName) {
                 case 'Geography':
                     $scope.adData.isGeographySelected = true;
