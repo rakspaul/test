@@ -416,7 +416,6 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 requestStr = _customctrl.createMetricRequestParams(requestStr);
 
 
-
                 return requestStr;
             };
 
@@ -1338,8 +1337,29 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 }
             };
 
+            /* It handles the download and report generation mismatch issue */
+            var checkGenAndDwldRptMatch = (function(){
+                    return{
+                        copyOfReportDefnObj:{},
+                        copyReportDefnObj: function(){
+                            console.log('$scope.reports: ',$scope.reports)
+                            this.copyOfReportDefnObj = angular.copy($scope.reports.reportDefinition);
+                        },
+                        isGenAndDownParamsSame: function(){
+                            return angular.equals(this.copyOfReportDefnObj,$scope.reports.reportDefinition);
+                        },
+                        showMismatchMsg: function(boolStatus){
+                            $scope.showGenDownMismatchMsg = boolStatus;
+                        }
+
+                    };
+                })();
+
             $scope.generateReport = function () {
                 var str;
+
+                //Don't show generate and download mismatch msg
+                checkGenAndDwldRptMatch.showMismatchMsg(false);
 
                 if (validateGenerateReport()) {
                     _customctrl.resetReportDataCnt();
@@ -1391,6 +1411,9 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                             str += eachObj.key + ':' + eachObj.value + '&';
                         });
                     }
+
+                    //copy report definition object to find whether there is a mismatch in selection params while generated and download report
+                    checkGenAndDwldRptMatch.copyReportDefnObj();
                 }
             };
 
@@ -1673,6 +1696,15 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                 var dropdownElem = $('#reportBuilderForm'),
                     reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
                     params = _customctrl.createRequestParams(null,null, $scope.firstDimensionoffset, 1, 0, 'csv');
+
+                //check if any parameters changed after genearting the report and before downloading report.
+                var isGenAndDownMatch = checkGenAndDwldRptMatch.isGenAndDownParamsSame();
+                if(isGenAndDownMatch) {
+                    checkGenAndDwldRptMatch.showMismatchMsg(false);
+                } else {
+                    checkGenAndDwldRptMatch.showMismatchMsg(true);
+                }
+
 
                 $scope.reportDownloadBusy = true;
 
