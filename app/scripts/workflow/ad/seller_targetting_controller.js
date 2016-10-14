@@ -219,6 +219,11 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
 
         };
 
+        vm.removeSearchParam = function() {
+            vm.keywordText = '';
+            _sellerTargetting.fetchAllSellers();
+        }
+
         $scope.showKeywords = function (event,keywordText) {
             event.stopPropagation();
             vm.keywordText = keywordText;
