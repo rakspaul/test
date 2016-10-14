@@ -48,6 +48,9 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                     vm.loadMoreFlag = true;
                     sellersService.fetchAllSellers(params).then(function (result) {
                         vm.sellers.sellersList = result.data.data;
+                        // TODO delete line
+                        vm.sellers.sellersList[0].isPreferred = true;
+
                         vm.loadMoreFlag = false;
 
                         //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
@@ -158,22 +161,63 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
             _.each(vm.sellers.sellersList, function (seller) {
                 // check if the user has selected the preferred filter
                 if (vm.preferedFilterFlag.isPreferred) {
+
+
+                    // if (seller.isPreferred) {
+                    //     // select only the preferred filter
+                    //     seller.isChecked = vm.selectAllChecked;
+                    //     vm.sellers.userSelectedSeller.push(seller);
+                    // } else {
+                    //     var index = _.findIndex(vm.sellers.userSelectedSeller,function(sell){
+                    //         return seller.id === sell.id
+                    //     });
+                    //
+                    //     if(index !== -1) {
+                    //         // select only the preferred filter
+                    //         seller.isChecked = vm.selectAllChecked;
+                    //         // select only the preferred filter
+                    //         vm.sellers.userSelectedSeller.splice(index,1);
+                    //     }
+                    // }
                     if (seller.isPreferred) {
-                        // select only the preferred filter
                         seller.isChecked = vm.selectAllChecked;
-                        vm.sellers.userSelectedSeller.push(seller);
+                        if (vm.selectAllChecked) {
+                            var index = _.findIndex(vm.sellers.userSelectedSeller, function (sell) {
+                                return seller.id === sell.id
+                            });
+                            if (index === -1) {
+                                vm.sellers.userSelectedSeller.push(seller);
+                            }
+                        } else {
+                            var index = _.findIndex(vm.sellers.userSelectedSeller, function (sell) {
+                                return seller.id === sell.id
+                            });
+                            if (index !== -1) {
+                                vm.sellers.userSelectedSeller.splice(index,1);
+                            }
+                        }
                     }
                 } else {
                     seller.isChecked = vm.selectAllChecked;
-                    vm.sellers.userSelectedSeller.push(seller);
+                    if(vm.selectAllChecked){
+                        var index = _.findIndex(vm.sellers.userSelectedSeller,function(sell){
+                            return seller.id === sell.id
+                        });
+                        if(index === -1) {
+                            vm.sellers.userSelectedSeller.push(seller);
+                        }
+                    } else {
+                        vm.sellers.userSelectedSeller = [];
+                    }
+
                 }
 
             });
 
-            // if the user deselects all the sellers set the array to empty
-            if (!vm.selectAllChecked) {
-                vm.sellers.userSelectedSeller = [];
-            }
+            // // if the user deselects all the sellers set the array to empty
+            // if (!vm.selectAllChecked) {
+            //     vm.sellers.userSelectedSeller = [];
+            // }
 
 
         };
