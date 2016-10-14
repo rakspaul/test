@@ -310,6 +310,10 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
             vm.preferedFilterFlag.isPreferred = '';
         });
 
+        $scope.$on('resetUserSelectedSellers', function () {
+            vm.sellers.userSelectedSeller = [];
+        });
+
 
         vm.sellers = {};
         vm.keywordText = '';

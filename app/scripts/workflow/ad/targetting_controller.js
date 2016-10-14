@@ -150,6 +150,16 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             }
         };
 
+        /****************** START : SELLER TARGETING  ***********************/
+
+
+        $scope.deleteSellerTargetting = function () {
+            $scope.adData.isSellerSelected = null;
+            $scope.adData.sellersTargetting  = [];
+            $scope.adData.sellersAction = true;
+            $scope.$broadcast('resetUserSelectedSellers');
+        };
+
         /****************** START : DAY PARTING TARGETING  ***********************/
         $scope.saveDayPartForPreview = function () {
             $scope.selectedDayParts.selected = audienceService.getDayTimeSelectedObj();
@@ -419,6 +429,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
             $scope.deleteVideoTargetting();
+            $scope.deleteSellerTargetting();
         });
 
         $scope.deleteTargetting = function () {
