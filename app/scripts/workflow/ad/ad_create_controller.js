@@ -624,7 +624,8 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     (sellerTargettingData.sellerTargets.length > 0)) {
                     $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
                     $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
-
+                    //side bar
+                    $scope.adData.isSellerSelected = true;
                     // $scope.$broadcast('triggerSeller');
                 }
 
@@ -1193,22 +1194,25 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         },2000);
 
                     } else {
-                        // When creating a new Adgroup ad, if Adgroup start date is:
-                        // 1) before currrent date (in the past), default start & end dates will be current date
-                        // 2) else (in the future)m default current date will be Adgroup start date.
-                        adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
-                        adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
+                        $timeout(function() {
+                            // When creating a new Adgroup ad, if Adgroup start date is:
+                            // 1) before currrent date (in the past), default start & end dates will be current date
+                            // 2) else (in the future)m default current date will be Adgroup start date.
+                            adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
+                            adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
 
-                        if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
-                            startDateElem.datepicker('setStartDate', currentDate);
-                            startDateElem.datepicker('update', currentDate);
-                        } else {
-                            startDateElem.datepicker('setStartDate', adGroupStartDate);
-                            startDateElem.datepicker('update', adGroupStartDate);
-                        }
+                            if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
+                                startDateElem.datepicker('setStartDate', currentDate);
+                                startDateElem.datepicker('update', currentDate);
+                            } else {
+                                startDateElem.datepicker('setStartDate', adGroupStartDate);
+                                startDateElem.datepicker('update', adGroupStartDate);
+                            }
 
-                        startDateElem.datepicker('setEndDate', adGroupEndDate);
-                        endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate);
+                            startDateElem.datepicker('setEndDate', adGroupEndDate);
+                            endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate);
+                        },2000);
+
                     }
                 } else {
                     // Normal ad (non-Adgroup)
