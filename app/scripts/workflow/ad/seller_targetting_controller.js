@@ -129,6 +129,17 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                         }
 
                     });
+                },
+
+                pushSellerToUserSelectedSeller: function(seller) {
+                    var index = null ;
+
+                    index = _.findIndex(vm.sellers.userSelectedSeller, function (sell) {
+                        return seller.id === sell.id;
+                    });
+                    if (index === -1) {
+                        vm.sellers.userSelectedSeller.push(seller);
+                    }
                 }
             };
 
@@ -162,12 +173,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                     if (seller.isPreferred) {
                         seller.isChecked = vm.selectAllChecked;
                         if (vm.selectAllChecked) {
-                            index = _.findIndex(vm.sellers.userSelectedSeller, function (sell) {
-                                return seller.id === sell.id;
-                            });
-                            if (index === -1) {
-                                vm.sellers.userSelectedSeller.push(seller);
-                            }
+                            _sellerTargetting.pushSellerToUserSelectedSeller(seller);
                         } else {
                             index = _.findIndex(vm.sellers.userSelectedSeller, function (sell) {
                                 return seller.id === sell.id;
@@ -180,12 +186,7 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                 } else {
                     seller.isChecked = vm.selectAllChecked;
                     if(vm.selectAllChecked){
-                        index = _.findIndex(vm.sellers.userSelectedSeller,function(sell){
-                            return seller.id === sell.id;
-                        });
-                        if(index === -1) {
-                            vm.sellers.userSelectedSeller.push(seller);
-                        }
+                        _sellerTargetting.pushSellerToUserSelectedSeller(seller);
                     } else {
                         vm.sellers.userSelectedSeller = [];
                     }
