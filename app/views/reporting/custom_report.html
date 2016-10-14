@@ -840,10 +840,11 @@
                 </div>
                 <div class="col-md-12 zeroPadding">
                     <div class="container">
-                        <span class="pull-right common-loading-btn"
-                              style="width: 91px;"
-                              data-ng-show="loadingBtn">
-                        </span>
+                        <div ng-show="showGenDownMismatchMsg" class="col-md-12 zeroPadding" style="border: solid 1px #6ABDFA;padding:20px 0 20px ;margin-bottom: 20px;border-radius: 5px;">
+                            <div class="pull-left marginRight" style="background:#6ABDFA;height:100%;width:47px ;"><span class="icon-info" style="margin:15px;color:#fff;"></span></div>
+                            <div class="pull-left marginTop" style="line-height: 28px;font-size: 16px;"><span style="font-size:20px;">Note:</span> You have changed the selection, please genearate again to match with Download</div>
+                        </div>
+                        <span class="pull-right common-loading-btn" style="width: 91px;" data-ng-show="loadingBtn"></span>
                         <button
                             class="pull-right btn btn-primary {{generateBtnDisabled ? 'disabled' : ''}} AUTO_Generate"
                                 data-ng-click="scheduleReportAction();"
