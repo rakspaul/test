@@ -48,9 +48,6 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
                     vm.loadMoreFlag = true;
                     sellersService.fetchAllSellers(params).then(function (result) {
                         vm.sellers.sellersList = result.data.data;
-                        // TODO delete line
-                        vm.sellers.sellersList[0].isPreferred = true;
-
                         vm.loadMoreFlag = false;
 
                         //set saved data to the array(the one where we store user selected sellers and set is Checked flag in seller list array)
