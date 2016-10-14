@@ -18,7 +18,7 @@ define(['common'], function (angularAMD) {
 
             rp
                 .when('/', angularAMD.route({
-                    title: 'Bootstrapping Visto',
+                    title: 'Loading...',
                     templateUrl: assets.html_home,
                     controller: function ($scope, $cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
