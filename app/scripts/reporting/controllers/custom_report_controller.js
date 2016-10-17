@@ -325,8 +325,14 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                     if($scope.reports.reportDefinition.dimensions.primary.id) {
                         idFilter ='id_filter='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.id;
                     } else {
-                        nameFilter = 'name_filter='+
-                            $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
+                        if($scope.reports.reportDefinition.dimensions.primary.dimension === 'event_date') {
+                            nameFilterExactMatch = 'name_filter_exact_match='+$scope.reports.reportDefinition.dimensions.primary.dimension+':'+
+                                $scope.reports.reportDefinition.dimensions.primary.value;
+                        } else {
+                            nameFilter = 'name_filter='+
+                                $scope.reports.reportDefinition.dimensions.primary.dimension+':'+$scope.reports.reportDefinition.dimensions.primary.value;
+                        }
+
                     }
 
                 }
@@ -339,11 +345,17 @@ define(['angularAMD', 'campaign-select-model', 'strategy-select-service', 'kpi-s
                             idFilter ='id_filter='+$scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.id;
                         }
                     } else {
-                        if(nameFilter) {
-                            nameFilter+= '~'+ $scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                        if($scope.reports.reportDefinition.dimensions.secondary.dimension === 'event_date'){
+                            nameFilterExactMatch = 'name_filter_exact_match='+$scope.reports.reportDefinition.dimensions.secondary.dimension+':'+
+                                $scope.reports.reportDefinition.dimensions.secondary.value;
                         } else {
-                            nameFilter = 'name_filter='+
-                                $scope.reports.reportDefinition.dimensions.secondary.dimension+':'+$scope.reports.reportDefinition.dimensions.secondary.value;
+                            if (nameFilter) {
+                                nameFilter += '~' + $scope.reports.reportDefinition.dimensions.secondary.dimension + ':' +
+                                              $scope.reports.reportDefinition.dimensions.secondary.value;
+                            } else {
+                                nameFilter = 'name_filter=' +
+                                    $scope.reports.reportDefinition.dimensions.secondary.dimension + ':' + $scope.reports.reportDefinition.dimensions.secondary.value;
+                            }
                         }
                     }
                 }
