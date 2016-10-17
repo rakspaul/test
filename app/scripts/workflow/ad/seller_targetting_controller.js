@@ -1,7 +1,7 @@
 define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('SellerTargettingController', ['$scope', 'sellersService', 'vistoconfig', function ($scope, sellersService, vistoconfig) {
+    angularAMD.controller('SellerTargettingController', ['$scope', '$timeout', 'sellersService', 'vistoconfig', function ($scope, $timeout, sellersService, vistoconfig) {
 
         var vm = this,
             pageNo = 1,
@@ -303,11 +303,17 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
             _sellerTargetting.resetBasicParameters();
             _sellerTargetting.showSellerTargetingBox();
 
+
+
             if ($scope.adData.sellersAction === false) {
                 $('.toggle-event').bootstrapToggle('off');
                 vm.includeAllSellersFlag = false;
             }
             vm.preferedFilterFlag.isPreferred = '';
+
+            $timeout(function() {
+                $('#showAllBtn').trigger('click');
+            }, 50);
         });
 
         $scope.$on('resetUserSelectedSellers', function () {

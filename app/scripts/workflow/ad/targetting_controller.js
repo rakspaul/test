@@ -455,6 +455,11 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     workflowService.setDeleteModule('video');
                     $scope.deleteVideoTargetting();
                     break;
+
+                case 'SELLER' :
+                    workflowService.setDeleteModule('seller');
+                    $scope.deleteSellerTargetting();
+                    break;
             }
         };
 

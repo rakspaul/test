@@ -544,6 +544,15 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                         }
                     }
 
+
+                    if (adsData.targets.sellerTargets && adsData.targets.sellerTargets.length > 0) {
+                        if (selectedStr !== '') {
+                            selectedStr += ', Seller';
+                        } else {
+                            selectedStr += 'Seller';
+                        }
+                    }
+
                     if (selectedStr === '') {
                         selectedStr = constants.WF_NOT_SET;
                     }
