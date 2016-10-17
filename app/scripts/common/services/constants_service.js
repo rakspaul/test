@@ -1371,6 +1371,8 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
          this.NOSELLERSELECTED ='No Sellers Selected';
          this.SELLERNOTE ='Check the checkbox next to the desired Seller name to target.';
 
+        this.RB_SELECTION_CHANGE_MSG = 'You have changed the selection, please genearate again to match with Download';
+        this.NOTE_WITH_COLON = 'Note:';
 
     }]);
 });

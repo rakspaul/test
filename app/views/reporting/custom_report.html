@@ -48,6 +48,7 @@
                           style="margin-left: -27px;"
                           data-ng-bind-html="textConstants.ADD_KEYWORDS">
                     </span>
+
                     <div class="col-md-12 zeroPadding dimensionKeywordSection">
                         <div class="clearfix breakdown_div dimension_block">
                             <div class="pull-left custom_report_filter custom_report_breakdown">
@@ -97,7 +98,7 @@
                             </div>-->
 
                             <!-- Primary auto suggestion start -->
-                            <div class="pull-left pri_dim_input_txtbox" data-ng-show="show_pri_dim_text_box">
+                            <div class="pull-left pri_dim_input_txtbox" data-ng-show="show_pri_dim_text_box" ng-if="(reports.reportDefinition.dimensions.primary.dimension != 'event_date')">
                                 <div class="dimension_input_dropdown">
                                     <div class="common_dropdown">
                                         <div class="dropdown">
@@ -124,6 +125,21 @@
                                 </div>
                             </div>
                             <!-- Primar auto suggestion end -->
+
+                            <!-- primary date picker start -->
+                            <div class="date pull-left input-daterange" ng-show="(reports.reportDefinition.dimensions.primary.dimension == 'event_date')">
+                                <div class="col-md-12 zeroPadding">
+                            <div style="width: 115px;"  >
+                                <input type="text"
+                                       style="background: transparent;"
+                                       id="primaryDayDatePicker"
+                                       class="input-sm form-control timeframe AUTO_startDate"
+                                       data-ng-model="reports.reportDefinition.dimensions.primary.value"
+                                       >
+                            </div>
+                                    </div>
+                                </div>
+                            <!-- primary date picker end -->
 
                         </div>
 
@@ -176,7 +192,7 @@
 
                                     <!-- secondary dimension auto suggestion start -->
                                     <!--<div class="pull-left filter_input_txtbox">-->
-                                        <div class="filter_input_dropdown">
+                                        <div class="filter_input_dropdown" ng-if="(reports.reportDefinition.dimensions.secondary.dimension != 'event_date')">
                                             <div class="common_dropdown">
                                                 <div class="dropdown">
                                                     <div class="dropdown_autoselect_box">
@@ -203,9 +219,24 @@
                                     <!--</div>-->
                                     <!-- Secondary dimension auto suggestion end -->
 
+
+                                    <!-- secondary date picker for 'Day' start -->
+                                    <div class="date pull-left input-daterange" ng-show="(reports.reportDefinition.dimensions.secondary.dimension == 'event_date')">
+                                        <div class="col-md-12 zeroPadding">
+                                            <div style="width: 115px;"  >
+                                                <input type="text"
+                                                       style="background: transparent;"
+                                                       id="secondaryDayDatePicker"
+                                                       class="input-sm form-control timeframe AUTO_startDate"
+                                                       data-ng-model="reports.reportDefinition.dimensions.secondary.value"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- secondary date picker for 'Day' end -->
+
                                 </div>
-                                <div class="pull-left delete_row AUTO_delSecDim"
-                                     data-ng-click="deleteSecondDimensionBlock();"></div>
+                                <div class="pull-left delete_row AUTO_delSecDim" data-ng-click="deleteSecondDimensionBlock();"></div>
                             </div>
                         </div>
 
@@ -842,7 +873,9 @@
                     <div class="container">
                         <div ng-show="showGenDownMismatchMsg" class="col-md-12 zeroPadding" style="border: solid 1px #6ABDFA;padding:20px 0 20px ;margin-bottom: 20px;border-radius: 5px;">
                             <div class="pull-left marginRight" style="background:#6ABDFA;height:100%;width:47px ;"><span class="icon-info" style="margin:15px;color:#fff;"></span></div>
-                            <div class="pull-left marginTop" style="line-height: 28px;font-size: 16px;"><span style="font-size:20px;">Note:</span> You have changed the selection, please genearate again to match with Download</div>
+                            <div class="pull-left marginTop" style="line-height: 28px;font-size: 16px;">
+                                <span style="font-size:20px;">{{textConstants.NOTE_WITH_COLON}}</span>{{textConstants.RB_SELECTION_CHANGE_MSG}}
+                            </div>
                         </div>
                         <span class="pull-right common-loading-btn" style="width: 91px;" data-ng-show="loadingBtn"></span>
                         <button
