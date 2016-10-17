@@ -392,8 +392,7 @@ define(['angularAMD'], function (angularAMD) {
                         });
 
                         if (_config.isPerformanceChart) {
-                            if (chartCallFrom === 'action_optimization' ||
-                                _config.kpiType.toLowerCase() === 'action rate') {
+                            if (_config.kpiType.toLowerCase() === 'action rate') {
                                 adjustY = 10;
                             } else if (_config.kpiType.toLowerCase() === 'impressions') {
                                 adjustY = 14;
@@ -675,7 +674,7 @@ define(['angularAMD'], function (angularAMD) {
                             .append('rect')
                             .attr('class', 'overlay')
                             .attr('width', _config.width)
-                            .attr('height', _config.height)
+                            .attr('height', _config.height )
                             .on('mousemove', mousemove)
                             .on('mouseout', tooltipMouseOut);
 
