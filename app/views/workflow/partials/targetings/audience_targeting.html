@@ -144,9 +144,18 @@
 						</div>
 					</div>
                 </div>
-				<div class="selectedAtRight">
-					<span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS">Selected Segments</span>
-					<a class="pull-right" data-ng-click="clearAllSelectedAudience()" data-ng-bind="textConstants.CLEARALL"></a>
+				<div class="selectedAtRight options-selected-section">
+                    <div class="col-md-12 zeroPadding" ng-if="selectedAudience.length != 0">
+    					<span class="pull-left" >
+                            <h2 data-ng-bind="textConstants.SELECTED_SEGMENTS">Selected Segments</h2>
+                        </span>
+    					<a class="pull-right" data-ng-click="clearAllSelectedAudience()" data-ng-bind="textConstants.CLEARALL"></a>
+                    </div>
+                    <div class="default-selected-section" ng-if="selectedAudience.length == 0">
+                        <span class="icon-audience"></span>
+                        <div data-ng-bind="textConstants.NO_AUDIENCE_SELECTED"></div>
+                        <div class="smallText" ng-bind-html="textConstants.GEONOTE"></div>
+                    </div>
 					<div class="selectedItems">
                         <div class="segWrap" data-ng-repeat="aud in selectedAudience">
                             <span data-ng-bind="aud.displayName"></span>

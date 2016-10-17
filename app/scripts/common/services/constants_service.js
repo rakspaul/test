@@ -1370,9 +1370,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
          this.SAVESELLER ='Save Seller';
          this.NOSELLERSELECTED ='No Sellers Selected';
          this.SELLERNOTE ='Check the checkbox next to the desired Seller name to target.';
+         this.SELECTED_SEGMENTS = 'Selected';
+         this.CLEARALL = 'Clear All';
 
-        this.RB_SELECTION_CHANGE_MSG = 'You have changed the selection, please genearate again to match with Download';
+        this.RB_SELECTION_CHANGE_MSG = 'You have changed the selection, please generate again to match with Download';
         this.NOTE_WITH_COLON = 'Note:';
+        this.NO_AUDIENCE_SELECTED = 'No Audience Selected' ;
 
     }]);
 });
