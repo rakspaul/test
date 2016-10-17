@@ -106,6 +106,15 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   font-size: 12px;
   cursor: pointer;
 }
+/*
+    Admin Page
+*/
+#advtab .arbitrageBillView .inputSymbolAlignment,
+#advtab .cogsBillView .inputSymbolAlignment {
+  top: 21px;
+  left: 103px;
+  width: 10px;
+}
 /* Link: v1sto/invoices
    Content: MediaPlan, Invoices
 */
