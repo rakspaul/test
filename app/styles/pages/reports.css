@@ -4272,9 +4272,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col {
   display: table-cell;
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
+  width: 165px;
+  min-width: 165px;
+  max-width: 165px;
   word-wrap: break-word;
   padding-right: 15px;
   text-align: right;
@@ -4940,13 +4940,13 @@ body.custom_report_page .bodyWrap {
 .custom_report_response_table .sort_order_up.active {
   background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -65px;
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 15px;
   color: #0978c9;
 }
 .custom_report_response_table .sort_order_down,
 .custom_report_response_table .sort_order_up {
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 16px;
 }
 .custom_report_response_table .sort_order_down:hover {
   background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
@@ -4954,6 +4954,6 @@ body.custom_report_page .bodyWrap {
 .custom_report_response_table .sort_order_down.active {
   background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -65px;
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 15px;
   color: #0978c9;
 }
