@@ -376,18 +376,20 @@
                                          data-ng-if="showPerfMetrix === true">
                                         <div class="linkage_bar"></div>
                                         <div class="each_strategy clearfix">
-                                            <div class="col-md-12 zeroPadding  each_col first_col" data-ng-bind="tactic.name"></div>
-                                            <div>
-                                                <div class="clearfix each_row_list sepratorCls"
-                                                     data-ng-repeat="daysOfWeekData in tactic.perf_metrics | limitTo : 1"
-                                                     data-ng-include="'daysOfWeekTpl'" >
+                                            <div class="col-md-12 zeroPadding each_col first_col" data-ng-bind="tactic.name"></div>
+                                            <div class="row_list_holder">
+                                                <div class="col-md-12 zeroPadding">
+                                                    <div class="col-md-12 each_row_list sepratorLineCls"
+                                                         data-ng-repeat="daysOfWeekData in tactic.perf_metrics | limitTo : 1"
+                                                         data-ng-include="'daysOfWeekTpl'" >
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <div class="clearfix each_row_list"
-                                                     data-ng-repeat="daysOfWeekData in tactic.perf_metrics | startFrom : 1|
-                                                                     orderBy : sortType : sortReverse track by $index"
-                                                     data-ng-include="'daysOfWeekTpl'" >
+                                                <div lass="col-md-12">
+                                                    <div class="col-md-12 each_row_list"
+                                                         data-ng-repeat="daysOfWeekData in tactic.perf_metrics | startFrom : 1|
+                                                                         orderBy : sortType : sortReverse track by $index"
+                                                         data-ng-include="'daysOfWeekTpl'" >
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
