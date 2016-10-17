@@ -71,7 +71,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
         // We should not keep selected tab in $scope.selectedFilters object because it is altered by
         // directive_controller in callBackCampaingSuccess and then tab info is not set
-         var reportWidgetName = campaignSelectModel.getReportWidget();
+         var reportWidgetName =  campaignSelectModel.getReportWidget();
 
         if (reportWidgetName && reportWidgetName === 'adsizes') {
             $scope.sortByColumn = 'dimension';
@@ -98,6 +98,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             $scope.defaultDisplayFormat = 'display: none';
         }
 
+        vistoconfig.performance_selected_tab = $scope.selected_tab;
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
         $scope.vendorList = [];
@@ -549,7 +550,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
         $scope.init();
         $scope.resetVariables();
-        $scope.strategyChangeHandler();
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function () {
             $scope.resetVariables();
@@ -632,7 +632,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             setTimeout(function(){
                 $scope.selected_tab = selected_tab;
                 vistoconfig.performance_selected_tab = selected_tab;
-                $('.each_tab.cost_tab.active').removeClass('active');
+                $('.each_tab.active').removeClass('active');
                 $('#'+selected_tab).addClass('active');
                 $('.reports_block').hide();
                 $('#reports_' + selected_tab + '_block').show();
@@ -642,8 +642,11 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
         // Binding click event on tab and fetch strategy method.
         $(function () {
+
             var mainNavigation = $('.main_navigation');
+
             changeTab(vistoconfig.performance_selected_tab || 'byscreens');
+
             $('.each_tab').click(function (event) {
                 var tab_id = $(this).attr('id').split('_tab');
 
