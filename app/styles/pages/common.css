@@ -216,10 +216,10 @@
 .about_popup .close {
   margin: 10px;
   opacity: 1;
-  color: #ccc;
+  color: #cccccc;
 }
 .about_popup .close:hover {
-  color: #bbb;
+  color: #bbbbbb;
 }
 .about_popup .logo {
   background: url("/images/visto_logos/visto-new-logo-about.png") no-repeat center top;
@@ -661,13 +661,13 @@
   float: right;
   height: 16px;
   width: 20px;
-  color: #999;
+  color: #999999;
   font-size: 20px;
   text-align: center;
   margin: 0 8px 5px 0;
 }
 .top_message_box span.msg_box .close_msg_box_holder .close_msg_box:hover {
-  color: #333;
+  color: #333333;
 }
 .red_msg span.msg_box {
   border: solid 1px #F24444;
@@ -694,7 +694,7 @@
   font-family: "visto-con" !important;
   content: "s";
   font-size: 16px;
-  color: #fff;
+  color: #ffffff;
   transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
@@ -711,7 +711,7 @@
   font-family: "visto-con" !important;
   content: "\61";
   font-size: 16px;
-  color: #fff;
+  color: #ffffff;
   transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
@@ -780,17 +780,17 @@
   border: 0px;
   padding: 0px;
   text-decoration: none;
-  color: #fff;
+  color: #ffffff;
   padding: 0 20px;
   text-transform: none;
   font-size: 14px;
 }
 .common_primary_btn:hover {
-  color: #fff;
+  color: #ffffff;
   text-decoration: none;
 }
 .common_secondary_btn {
-  color: #fff;
+  color: #ffffff;
   height: 36px;
   text-align: center;
   width: 150px;
@@ -809,7 +809,7 @@
   color: #a2acba;
 }
 .common_secondary_blue_btn {
-  color: #fff;
+  color: #ffffff;
   height: 36px;
   text-align: center;
   width: 150px;
@@ -893,7 +893,7 @@
   background: #F5F9FD;
 }
 .nav_filters .dropdown-menu li.disabled {
-  color: #999;
+  color: #999999;
   cursor: text;
 }
 .nav_filters .dropdown-menu li.disabled:hover {
@@ -1010,19 +1010,19 @@
 .nav_filters .each_filter a {
   font-family: "Avenir";
   text-decoration: none;
-  color: #333;
+  color: #333333;
   background: transparent;
   padding: 0;
   cursor: pointer;
 }
 .nav_filters .each_filter a:hover {
-  color: #333;
+  color: #333333;
   background: transparent;
   padding: 0;
   cursor: pointer;
 }
 .nav_filters .each_filter a:focus {
-  color: #333;
+  color: #333333;
   background: transparent;
   padding: 0;
   cursor: pointer;
@@ -1066,10 +1066,10 @@
   cursor: default;
 }
 .nav_filters .lifetime_filter #cdbMenu:hover {
-  color: #333;
+  color: #333333;
 }
 .nav_filters .lifetime_filter #cdbMenu:focus {
-  color: #333;
+  color: #333333;
 }
 .nav_filters .lifetime_filter .cdbMenu_options li {
   padding: 0 ;
@@ -1078,15 +1078,15 @@
   padding: 5px 10px;
 }
 .nav_filters .lifetime_filter .cdbMenu_options li:first-child a {
-  color: #817F7F;
+  color: #817f7f;
   font-style: italic;
 }
 .nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a {
-  color: #817F7F;
+  color: #817f7f;
   font-style: italic;
 }
 .nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu {
-  color: #333;
+  color: #333333;
 }
 .nav_filters #brandsDropdown {
   min-width: 50px;
@@ -1096,7 +1096,7 @@
   font-family: "Avenir";
 }
 .nav_filters #brandsDropdown:focus {
-  color: #333;
+  color: #333333;
 }
 .nav_filters .filter_dropdown_open .header_filter_arrow_dropdown {
   background-image: url("/images/cdesk/up_arrow_filter.png");
@@ -1239,7 +1239,7 @@
   height: 15px;
   min-width: 18px;
   background-color: #6ebef8;
-  color: #fff;
+  color: #ffffff;
   border-radius: 8px;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -1305,10 +1305,10 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab a:hover {
-  color: #fff;
+  color: #ffffff;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab:hover a {
-  color: #fff;
+  color: #ffffff;
 }
 .main_navigation_holder .dropdown-menu {
   padding: 10px 0px;
@@ -1325,14 +1325,14 @@
   padding: 5px 10px;
 }
 .main_navigation_holder .dropdown-menu li a {
-  color: #fff;
+  color: #ffffff;
 }
 .main_navigation_holder .dropdown-menu li:hover {
-  color: #fff;
+  color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
 }
 .main_navigation_holder .dropdown-menu li:hover a {
-  color: #fff;
+  color: #ffffff;
 }
 .main_navigation_holder .dropdown-menu:before {
   background: url("/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom;
@@ -1491,7 +1491,7 @@
 .common_dropdown .dropdown .dropdown-menu li:hover {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .common_graph_legend {
   margin: 0px auto 10px 165px;
@@ -1607,7 +1607,7 @@ multiselect .dropdown-menu > li > a {
 .common-close {
   height: 20px;
   width: 20px;
-  color: #999;
+  color: #999999;
   text-align: right;
   display: block;
   cursor: pointer;
@@ -1703,7 +1703,7 @@ multiselect .dropdown-menu > li > a {
   font-size: 26px;
   margin-bottom: 25px;
   font-family: "Avenir";
-  color: #000;
+  color: #000000;
 }
 .common-popup-container .popup .close {
   line-height: 10px;
@@ -1729,7 +1729,7 @@ multiselect .dropdown-menu > li > a {
 }
 .common-popup-container .popup .popup-footer {
   padding: 20px 30px;
-  background: #E1EDF9;
+  background: #e1edf9;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   bottom: 0;
@@ -1820,19 +1820,19 @@ multiselect .dropdown-menu > li > a {
   left: auto;
 }
 .txtError {
-  color: #F24444 !important;
+  color: #f24444 !important;
   font-size: 12px;
   font-weight: normal;
 }
 .errorTxtColor {
-  color: #F24444;
+  color: #f24444;
   font-family: 'Avenir-bold';
 }
 .errorText {
-  color: #F24444;
+  color: #f24444;
 }
 .errorBorder {
-  border-color: #F24444 !important;
+  border-color: #f24444 !important;
 }
 .successText {
   color: #39AE42 ;
@@ -1965,11 +1965,17 @@ tags-input .autocomplete {
 .marginTopTwenty {
   margin-top: 20px ;
 }
+.marginTopThirty {
+  margin-top: 30px ;
+}
 .marginBottomTwenty {
   margin-bottom: 20px ;
 }
 .marginBottomThirty {
   margin-bottom: 30px ;
+}
+.iconSideText {
+  padding-top: 3px ;
 }
 .dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput,
 .dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:hover,
@@ -2419,7 +2425,8 @@ tags-input .autocomplete {
   margin-top: 6px ;
   font-size: 12px ;
 }
-.options-selected-section .default-selected-section .icon-location {
+.options-selected-section .default-selected-section [class^="icon-"],
+.options-selected-section .default-selected-section [class*=" icon-"] {
   font-size: 40px;
   display: block;
   height: auto;
@@ -2528,7 +2535,7 @@ tags-input .autocomplete {
 }
 #brandsPopup #brandsSearchBox,
 #advertisersWrapper #advertisersSearchBox {
-  background: url(/images/cdesk/search_input.png) #fff no-repeat right center !important;
+  background: url(/images/cdesk/search_input.png) #ffffff no-repeat right center !important;
   border: medium none;
   cursor: pointer;
   font-family: Avenir, sans-serif;

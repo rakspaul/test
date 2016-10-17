@@ -112,8 +112,12 @@
                         </div>
                     </div>
                     <div class="selectedAtRight options-selected-section">
-                        <span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS"></span>
-                        <a class="pull-right" data-ng-bind="textConstants.CLEARALL"></a>
+                        <div class="col-md-12 zeroPadding" ng-show="sellersCtrl.sellers.userSelectedSeller.length != 0">
+                            <span class="pull-left">
+                                <h2  data-ng-bind="textConstants.SELECTED_SEGMENTS"></h2>
+                            </span>
+                            <a class="pull-right" data-ng-bind="textConstants.CLEARALL"></a>
+                        </div>
                         <div class="selectedItems ">
                             <div class="default-selected-section"
                                  ng-show="sellersCtrl.sellers.userSelectedSeller.length == 0">
