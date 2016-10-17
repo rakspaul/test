@@ -2,9 +2,9 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
     'use strict';
 
     angularAMD.controller('DashboardController', ['$scope', '$rootScope', '$routeParams', '$location', 'constants', 'dashboardModel', 'brandsModel', 'advertiserModel',
-        'campaignSelectModel', 'loginModel', 'subAccountService', 'vistoconfig', 'pageLoad', function ($scope, $rootScope, $routeParams, $location, constants, dashboardModel,
-                                                                                                       brandsModel, advertiserModel, campaignSelectModel, loginModel,
-                                                                                                       subAccountService, vistoconfig, pageLoad) {
+        'campaignSelectModel', 'loginModel', 'subAccountService', 'vistoconfig', 'pageLoad','localStorageService', function ($scope, $rootScope, $routeParams, $location,
+         constants, dashboardModel, brandsModel, advertiserModel, campaignSelectModel, loginModel, subAccountService, vistoconfig, pageLoad,localStorageService) {
+
             $('.main_navigation_holder').find('.active_tab').removeClass('active_tab');
 
             $('.main_navigation')
@@ -39,9 +39,16 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
 
             $scope.removeAdvertiserButton = function () {
                 var url = '/a/' + $routeParams.accountId;
+                var isdashboardSubaccountSelected = localStorageService.isDashboardSubAccountSelected.get();
 
-                if ($routeParams.subAccountId) {
+                /* if subaccount is selected from the dropdown and when advertiser is slected, on closing advertiser button, it should show the subaccount selected and if
+                only advertiser is selected then respective subaccount will be shown in the dropdown but when the advertiser button is closed the subaccount in the dropdown should
+                be the default 'All-subaccounts'
+                */
+                if ($routeParams.subAccountId && isdashboardSubaccountSelected) {
                     url += '/sa/' + $routeParams.subAccountId;
+                } else if($routeParams.subAccountId) {
+                    url += '/sa/' + vistoconfig.getMasterClientId();
                 }
 
                 url += '/dashboard';
@@ -53,10 +60,17 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
             pageLoad.hidePageLoader();
 
 
-
             $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
                 dashboardModel.setSelectedBrand(vistoconfig.getSelectedBrandId());
                 dashboardModel.setSelectedAdvertiser(vistoconfig.getSelectAdvertiserId());
+            });
+
+            $rootScope.$on(constants.SUBACCOUNT_CHANGED,function(event,subaccount){
+                if(subaccount.id === vistoconfig.getMasterClientId()) {
+                    localStorageService.isDashboardSubAccountSelected.set(false);
+                } else {
+                    localStorageService.isDashboardSubAccountSelected.set(true);
+                }
             });
 
         }

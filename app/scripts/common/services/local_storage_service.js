@@ -125,6 +125,16 @@ define(['angularAMD'], function (angularAMD) {
                 get : function() {
                     return localStorage.getItem('mediaplanDataView');
                 }
+            },
+
+            isDashboardSubAccountSelected : {
+                set : function(booleanData) {
+                    localStorage.setItem('isDashboardSubAccountSelected', booleanData);
+                },
+
+                get : function() {
+                    return localStorage.getItem('isDashboardSubAccountSelected');
+                }
             }
 
         };

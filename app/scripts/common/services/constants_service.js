@@ -1373,9 +1373,12 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
          this.SELECTED_SEGMENTS = 'Selected';
          this.CLEARALL = 'Clear All';
 
+        this.NO_AUDIENCE_SELECTED = 'No Audience Selected' ;
+
         this.RB_SELECTION_CHANGE_MSG = 'You have changed the selection, please generate again to match with Download';
         this.NOTE_WITH_COLON = 'Note:';
-        this.NO_AUDIENCE_SELECTED = 'No Audience Selected' ;
+        this.SUBACCOUNT_CHANGED = 'subaccount_changed';
+
 
     }]);
 });
