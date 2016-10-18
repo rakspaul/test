@@ -705,9 +705,13 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 if (formData.thirdPartyClickTracker && formData.thirdPartyClickTracker !== '') {
                     // validate if the url is valid
                     validtThirdPartyClickTrackerUrl = utils.validateUrl(formData.thirdPartyClickTracker);
-
                     if (validtThirdPartyClickTrackerUrl === false) {
                         $scope.thirdPartyClickTrackerError = true;
+                        $('[name = "thirdPartyClickTracker"]')
+                            .parent()
+                            .append('<label id="invalidUrl" ' +
+                                'class="col-sm-12 control-label errorLabel" ' +
+                                'style="display: block">Please enter a valid url.</label>');
                     } else {
                         postCrDataObj.thirdPartyClickTracker = formData.thirdPartyClickTracker;
                     }
@@ -729,7 +733,6 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                 templateArr = $.grep(formDataObj, function (n, i) {
                     return $.inArray(i, indexArr) === -1;
                 });
-
                 $scope.IncorrectTag = false;
                 creativeCustomInputsArr= _.map(templateArr, function (data) {
                     var d = data.name.split('$$');
@@ -737,7 +740,6 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     if (d[0] === 'clickthrough_url.clickthrough_url' && data.value !== '') {
                        // validate if the url is valid
                        validCreativeUrl = utils.validateUrl(data.value);
-
                        if (validCreativeUrl === false) {
                            $('[name = "' + data.name + '"]')
                                .parent()
@@ -779,7 +781,7 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     }
                 });
 
-                if (validCreativeUrl && validateTag && validtThirdPartyClickTrackerUrl) {
+                if (validCreativeUrl && validateTag && validtThirdPartyClickTrackerUrl && !$scope.thirdPartyClickTrackerError ) {
                     _.each(creativeCustomInputsArr,function (obj) {
                         if (obj) {
                             postCrDataObj.creativeCustomInputs.push(obj);
