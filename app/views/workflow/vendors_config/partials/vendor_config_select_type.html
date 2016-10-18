@@ -56,10 +56,9 @@
                 <a href="javascript:void(0)"
                    class="each-box-option"
                    title="{{vendor.name}}"
-                   style="display: block; color: #000; height: 150px;"
                    data-ng-click="vendorType.selectVendor($event, vendor)">
                     <img data-ng-src="{{vendor.iconURL}}" alt="{{vendor.name}}" title="{{vendor.name}}">
-                    <div class="box-option-bottom" style="margin-top: 10px;">
+                    <div class="box-option-bottom" >
                         <span data-ng-bind="vendor.name"></span>
                         <span class="greyTxt" data-ng-bind="vendor.vendorTypes[0].displayName"></span>
                     </div>
