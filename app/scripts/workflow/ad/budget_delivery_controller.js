@@ -399,8 +399,8 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             };
 
 
-            $scope.checkDailyCapValue = function() {
-                if(!($scope.adData.dailyBudgetValue && Number($scope.adData.dailyBudgetValue)>0)) {
+            $scope.checkDailyCapValue = function(value) {
+                if(value === 'DAILYCAP' && !($scope.adData.dailyBudgetValue && Number($scope.adData.dailyBudgetValue)>0)) {
                     $scope.budgetErrorObj.dailyCapValidator = true;
                 } else {
                     $scope.budgetErrorObj.dailyCapValidator = false;

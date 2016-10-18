@@ -132,7 +132,7 @@ define(['angularAMD'], function (angularAMD) {
                             ykeyVal = _config.keys.yAxis.val,
                             threshold = _config.threshold,
                             kpiType = _config.kpiType,
-                            chartCallFrom = _config.chartCallFrom,
+                            //chartCallFrom = _config.chartCallFrom,  TODO:: Uncomment later if required
                             adjustment = 10,
                             svg,
                             maxData,
