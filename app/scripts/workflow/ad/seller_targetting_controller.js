@@ -299,6 +299,21 @@ define(['angularAMD', 'sellers-service', 'lrInfiniteScroll'], function (angularA
             }
         };
 
+        vm.clearAllSelectedSellers = function() {
+            var indexes = _.pluck(vm.sellers.userSelectedSeller,'id');
+            _.each(indexes,function(sellerId) {
+                var index = _.findIndex(vm.sellers.sellersList,function(seller) {
+                    return seller.id === sellerId;
+                });
+                vm.sellers.sellersList[index].isChecked = false;
+            });
+
+            vm.sellers.userSelectedSeller = [];
+            vm.selectAllChecked = false;
+
+
+        };
+
         $scope.$on('triggerSeller', function () {
             _sellerTargetting.resetBasicParameters();
             _sellerTargetting.showSellerTargetingBox();

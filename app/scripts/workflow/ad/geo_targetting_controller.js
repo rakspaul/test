@@ -1904,17 +1904,18 @@ define(['angularAMD', 'zip-code-service', 'common-utils', 'lrInfiniteScroll'], f
                 var target = $(event.target),
                     position = target.offset(),
                     elem = $('#confirmBox').find('.msgPopup'),
-                    parentPos = $('.targettingFormWrap').offset(),
-                    leftPos = position.left - parentPos.left - target.width() - 46,
+                    elem_width = $('#confirmBox .msgPopup').width() ,
+                    parentPos = $('#geoTargettingFormWrap').offset(),
+                    leftPos = position.left - parentPos.left  - (elem_width) + target.width()  ,
                     topPos = position.top - parentPos.top - target.height() - 6;
+
 
                 $scope.boxType = type;
                 $scope.showConfirmBox = true;
                 elem.css({
                     position: 'absolute',
                     top: topPos,
-                    left: leftPos,
-                    width: '242px'
+                    left: leftPos
                 });
             };
 

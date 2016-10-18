@@ -4936,3 +4936,6 @@
   border-bottom: solid 1px #ddd ;
   padding: 20px ;
 }
+#geographyTargeting .msgPopupHolder .msgPopup:after {
+    left: 251px;
+}
