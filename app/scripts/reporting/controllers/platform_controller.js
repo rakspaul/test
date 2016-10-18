@@ -474,6 +474,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 $('.each_tab').click(function (event) {
                     var tab_id = $(this).attr('id').split('_tab');
                     changeTab(tab_id[0].split('_')[1]);
+                    campaignSelectModel.setReportWidget('');
                     event.preventDefault();
                 });
             });

@@ -1060,6 +1060,8 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     var url = urlBuilder.buildBaseUrl();
                     url += '/mediaplans/' + $routeParams.campaignId;
                     campaignSelectModel.setReportWidget(type); //setting the clicked widget name.
+                    vistoconfig.performance_selected_tab = '';
+                    vistoconfig.platform_selected_tab = '';
                     if (type === 'cost') {
                         url += '/cost';
                     } else if (type === 'quality' || type === 'videoViewability') {
