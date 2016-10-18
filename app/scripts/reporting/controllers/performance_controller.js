@@ -71,34 +71,37 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
 
         // We should not keep selected tab in $scope.selectedFilters object because it is altered by
         // directive_controller in callBackCampaingSuccess and then tab info is not set
-         var reportWidgetName =  campaignSelectModel.getReportWidget();
 
-        if (reportWidgetName && reportWidgetName === 'adsizes') {
-            $scope.sortByColumn = 'dimension';
-            $scope.activeAdSizeClass = 'active';
-            $scope.defaultDisplayAdSize = 'display: block';
-            $scope.defaultDisplayFormat = 'display: none';
-            $scope.defaultDisplayScreen = 'display: none';
+        if(!vistoconfig.performance_selected_tab) {
+            var reportWidgetName = campaignSelectModel.getReportWidget();
 
-            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
-        } else if (reportWidgetName === 'formats') {
-            $scope.sortByColumn = 'dimension';
-            $scope.activeFormatClass = 'active';
-            $scope.defaultDisplayFormat = 'display: block';
-            $scope.defaultDisplayAdSize = 'display: none';
-            $scope.defaultDisplayScreen = 'display: none';
+            if (reportWidgetName && reportWidgetName === 'adsizes') {
+                $scope.sortByColumn = 'dimension';
+                $scope.activeAdSizeClass = 'active';
+                $scope.defaultDisplayAdSize = 'display: block';
+                $scope.defaultDisplayFormat = 'display: none';
+                $scope.defaultDisplayScreen = 'display: none';
 
-            $scope.selected_tab = 'by'+reportWidgetName.toLowerCase();
-        } else {
-            $scope.selected_tab = 'byscreens';
-            $scope.sortByColumn = 'name';
-            $scope.activeScreenClass = 'active';
-            $scope.defaultDisplayScreen = 'display: block';
-            $scope.defaultDisplayAdSize = 'display: none';
-            $scope.defaultDisplayFormat = 'display: none';
+                $scope.selected_tab = 'by' + reportWidgetName.toLowerCase();
+            } else if (reportWidgetName === 'formats') {
+                $scope.sortByColumn = 'dimension';
+                $scope.activeFormatClass = 'active';
+                $scope.defaultDisplayFormat = 'display: block';
+                $scope.defaultDisplayAdSize = 'display: none';
+                $scope.defaultDisplayScreen = 'display: none';
+
+                $scope.selected_tab = 'by' + reportWidgetName.toLowerCase();
+            } else {
+                $scope.selected_tab = 'byscreens';
+                $scope.sortByColumn = 'name';
+                $scope.activeScreenClass = 'active';
+                $scope.defaultDisplayScreen = 'display: block';
+                $scope.defaultDisplayAdSize = 'display: none';
+                $scope.defaultDisplayFormat = 'display: none';
+            }
+
+            vistoconfig.performance_selected_tab = $scope.selected_tab;
         }
-
-        vistoconfig.performance_selected_tab = $scope.selected_tab;
         $scope.strategyLoading =  true;
         $scope.strategyFound = true;
         $scope.vendorList = [];
@@ -655,6 +658,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 if ($scope.kpiDropdownActive === true) {
                     $('.icon_text_holder').removeClass('active');
                 }
+                campaignSelectModel.setReportWidget('');
                 changeTab(tab_id[0]);
                 event.preventDefault();
             });
@@ -669,5 +673,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
             return '/images/platform_favicons/' + ((!iconName || iconName === 'Unknown') ?
                     'platform_logo.png' : iconName.toLowerCase().replace(/ /g, '_') + '.png');
         };
+
     }]);
 });
