@@ -227,6 +227,7 @@ require.config({
         'ad-clone-controller': 'workflow/ad/ad_clone_controller',
         'direct-Inventory-controller': 'workflow/ad/direct_Inventory_controller',
         'login-controller': 'login/login_controller',
+        'tag-preview-controller': 'workflow/creative/tag_preview_controller',
         'campaign-reports-controller': 'reporting/controllers/campaign_reports_controller',
         'campaign-details-controller': 'reporting/controllers/campaign_details_controller',
         'performance-controller': 'reporting/controllers/performance_controller',

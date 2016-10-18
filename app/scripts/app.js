@@ -1096,6 +1096,19 @@ define(['common'], function (angularAMD) {
                 }));
             });
 
+            [
+                '/IAS_tagValidator',
+                '/MOAT_tagValidator'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_tag_preview,
+                    title: 'Tag Validator',
+                    controller: 'TagPreviewController',
+                    standAlone: true,
+                    controllerUrl: 'tag-preview-controller'
+                }));
+            });
+
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         })
 

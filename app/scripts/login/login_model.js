@@ -101,7 +101,7 @@ define(['angularAMD'], function (angularAMD) {
             },
 
             checkCookieExpiry: function () {
-                if (!$cookies.get('cdesk_session')) {
+                if (!$location.path().endsWith('_tagValidator') && !$cookies.get('cdesk_session')) {
                     localStorage.clear();
                     updateRedirectUrl($location.$$path);
 

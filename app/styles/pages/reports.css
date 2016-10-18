@@ -123,6 +123,38 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   color: #0978c9;
   cursor: pointer;
 }
+/*
+Tag Verification Page
+*/
+#tagValidator textarea {
+  resize: both;
+  width: 556px;
+  height: 200px;
+}
+#tagValidator .buttonAlign {
+  margin-top: 15px;
+}
+#tagValidator .browserImage {
+  width: 1171px;
+  margin-top: 25px;
+}
+#tagValidator #tagCnt {
+  position: absolute;
+  left: 200px;
+  top: 562px;
+  width: 1142px;
+  height: 613px;
+  z-index: 10;
+}
+#tagValidator .title {
+  position: absolute;
+  font-style: italic;
+  font-size: xx-large;
+}
+#tagValidator .title .vendor {
+  font-size: 43px;
+  color: #285e8e;
+}
 /* Link: v1sto/invoices/invoiceId
    Type: PopUp window on click on Note Edit
    Content: MediaPlan, Invoices
