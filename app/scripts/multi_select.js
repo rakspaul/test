@@ -37,7 +37,7 @@ angular.module('ui.multiselect', [])
                 link: function (originalScope, element, attrs, modelCtrl) {
                     var exp = attrs.options,
                         parsedResult = optionParser.parse(exp),
-                        isMultiple = attrs.multiple ? true : false,
+                        isMultiple = attrs.multipleoption ? true : false,
                         required = false,
                         scope = originalScope.$new(),
                         changeHandler = attrs.change || angular.noop,
@@ -216,7 +216,7 @@ angular.module('ui.multiselect', [])
 
                     // watch single/multiple state for dynamically change single to multiple
                     scope.$watch(function () {
-                        return $parse(attrs.multiple)(originalScope);
+                        return $parse(attrs.multipleoption)(originalScope);
                     }, function (newVal) {
                         isMultiple = newVal || false;
                     });
