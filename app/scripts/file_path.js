@@ -78,6 +78,7 @@ assets.html_campaign_tactics_card = '/views/reporting/campaign_tactics_card.html
 assets.html_kpi_drop_down = '/views/reporting/kpi_drop_down.html';
 assets.html_login = 'login.html';
 assets.html_home = 'home.html';
+assets.html_tag_preview = 'tag_preview.html';
 assets.html_multi_select = '/views/reporting/multi_select.html';
 assets.html_strategy_drop_down = '/views/reporting/strategy_drop_down.html';
 assets.html_timeperiod_drop_down = '/views/reporting/timeperiod_drop_down.html';

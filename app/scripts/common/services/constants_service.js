@@ -852,6 +852,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.CODE_VERIFICATION = 'Please enter valid 5 alphanumeric characters';
         this.AD_CREATION_INFO = 'will now be created on all the associated buying platforms';
 
+        // Tag validator
+        this.verificationId = 'Verification Id';
+        this.channel = 'Channel';
+        this.vistoTag = 'Visto Tag';
+        this.generateVistoTag = 'Generate Visto Tag';
+        this.enterDetials = 'Please enter all the inputs';
+
         //Overview Page
         this.ADVERTISER = 'Advertiser';
         this.BRAND = 'Brand';
