@@ -688,6 +688,9 @@ define(['angularAMD'],
                         case 'pacing_metrics':
                             ret = val.toFixed(2) + '%';
                             break;
+                        case 'Completion Rate':
+                            ret = $filter('number')(val, 2);
+                            break;
                         case 'Measurable %':
                         case 'Viewable %':
                         case 'Suspicious Activity %':

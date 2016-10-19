@@ -7,7 +7,7 @@ define(['angularAMD'], function (angularAMD) {
             var ventorType = $location.path().endsWith('iastagvalidator') ? 'IAS' : 'MOAT';
 
             $scope.constants = constants;
-            $scope.tagType = 'Select Type';
+            $scope.tagType = 'Display';
 
             $('.commonPagesLoader').hide();
             $('.vendor').text(ventorType);
