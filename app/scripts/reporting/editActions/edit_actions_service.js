@@ -2,7 +2,7 @@ define(['angularAMD', 'url-service'],
     function (angularAMD) {
         'use strict';
 
-        angularAMD.factory('editActionsService', ['dataService', 'urlService',
+        angularAMD.factory('editActionsService', ['dataService', 'urlService', '$routeParams',
             function (dataService, urlService, $routeParams) {
 
             var editAction = function(data) {
