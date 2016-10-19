@@ -1037,7 +1037,11 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     localStorage.setItem('isNavigationFromCampaigns', true);
                     localStorage.setItem('selectedAction', JSON.stringify(action) );
 
-                    utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
+                    var url = urlBuilder.buildBaseUrl();
+                    url += '/mediaplans/' + $routeParams.campaignId;
+                    url+= '/Optimization';
+
+                    utils.goToLocation(url);
                 };
 
                 $scope.setReportMenu = function () {
@@ -1053,7 +1057,12 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                     // we just fetch strategy list and retain selected strategy.
                     localStorage.setItem('isNavigationFromCampaigns', true);
 
-                    utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
+                    var url = urlBuilder.buildBaseUrl();
+                    url += '/mediaplans/' + $routeParams.campaignId;
+                    url+= '/Optimization';
+
+                    utils.goToLocation(url);
+
                 };
 
                 $scope.setGraphData = function (campaign, type) {
