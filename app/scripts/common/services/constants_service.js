@@ -365,7 +365,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.STATUS = 'Status';
         this.CALENDAR = 'Calendar';
-        this.MOST_RELEVANT_CAMPAIGN = 'Most Relevant Media Plans';
+        this.MOST_RELEVANT_CAMPAIGN = '(Most Relevant Media Plans)';
         this.CAMPAIGN_STATUS = 'Media Plan Status';
         this.PERFORMANCE_STATUS = 'Performance Status';
         this.ON_TRACK = 'On Target';
