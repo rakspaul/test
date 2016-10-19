@@ -18,6 +18,7 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
 
             dashboardModel.setSelectedStatus(localStoredCampaignStatus);
             $scope.data = dashboardModel.getData();
+            $scope.data.toolTipText = 'Loading...'
             $scope.data.advertiserSelected = false;
             $scope.textConstants = constants;
 
@@ -31,6 +32,8 @@ define(['angularAMD', 'dashboard-model', 'campaign-select-model', 'bubble-chart-
                     localStorage.setItem('dashboardStatusFilter', dashboardModel.getSelectedStatus());
                     $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
                     $scope.data = dashboardModel.getData();
+                    $scope.data.toolTipText = 'Loading...'
+
                 };
 
             $scope.hide_bubble_tooltip = function() {
