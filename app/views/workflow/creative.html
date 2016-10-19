@@ -67,7 +67,7 @@
                                             <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
-                                            <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)" data-ng-bind="advertiser.name"></a></li>
+                                            <li ng-repeat="advertiser in advertisers" class="available"><a ng-click="selectHandler('advertiser', advertiser)" data-ng-bind="advertiser.name"></a></li>
                                         </ul>
                                     </div>
                                     <input class="form-control" type="hidden" name="advertiserId" ng-model="creative.advertiserId" ng-update-hidden required/>
