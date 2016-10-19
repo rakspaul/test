@@ -511,10 +511,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.fetchValue = false;
                 }
 
+                $scope.adData.isOverbooked = false;
                 if (responseData.overbook) {
                     $scope.adData.isOverbooked = responseData.overbook;
                     $scope.adData.overbookPercent = responseData.overbookPercentage;
                 }
+
 
                 if (responseData.rateType) {
                     idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
