@@ -355,7 +355,7 @@ define(['angularAMD'], function (angularAMD) {
                     '<span ng-show="(txt.length > txtLength)" ' +
                         'tooltip-placement="top" ' +
                         'tooltip="{{txt}}" ' +
-                        'ng-bind-html="(txtHtml|limitTo:txtLength) + \'...\'">' +
+                        'ng-bind-html="txtHtml">' +
                     '</span>' +
                     '<span ng-show="(txt.length <= txtLength)" ' +
                         'class="campaign_name_txt" ' +
