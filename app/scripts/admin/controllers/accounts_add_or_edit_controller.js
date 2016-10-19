@@ -843,7 +843,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             $scope.saveClients = function () {
-                scope.saveAccounts = true;
+                $scope.saveAccounts = true;
                 var clientObj,
                     body;
 
