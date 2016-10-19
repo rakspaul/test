@@ -20,13 +20,12 @@
                    name="verificationID"
                    ng-model="verificationID"
                    placeholder="Enter the id"/>
-        </div>
-        <div class="col-md-6">
+            <br>
             <label class="col-sm-12 greyTxt"
                    data-ng-bind="constants.channel">Channel
             </label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown open">
+                <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle"
                             type="button"
                             data-toggle="dropdown"
@@ -51,11 +50,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="col-md-6">
+            <br>
             <label class="greyTxt col-sm-12"
                    data-ng-bind="constants.CREATIVE_SECURE_TAG"></label>
                 <textarea class="col-md-12"
@@ -63,13 +58,13 @@
                           ng-model="tag"></textarea>
             <span class="btn btn-primary pull-right col-md-4 buttonAlign"
                   data-ng-click="generateVistoTag()" data-ng-bind="constants.generateVistoTag"></span>
+            <br>
         </div>
-
         <div class="col-md-6">
             <label class="greyTxt col-sm-12"
                    data-ng-bind="constants.vistoTag"></label>
                 <textarea placeholder=""
-                          ng-model="vistoTag"></textarea>
+                          ng-model="vistoTag" style="height:336px;"></textarea>
                 <span class="btn btn-primary pull-right col-md-4 buttonAlign"
                       data-ng-disabled="!vistoTag"
                       data-ng-click="preview()" data-ng-bind="constants.PREVIEW"></span>
