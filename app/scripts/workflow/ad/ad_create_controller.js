@@ -1377,8 +1377,13 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 parentElem.find('label').removeClass('active');
                 target.parent().addClass('active');
                 target.attr('checked', 'checked');
+            };
 
-                if( target.closest('.btn').hasClass('daily_cap')) {
+            $scope.checkIfDailyCap = function(event) {
+                 var target;
+                 target = $(event.target);
+
+                 if( target.closest('.btn').hasClass('daily_cap')) {
                    var dailyCapInput = $('#daily_cap_input');
                        dailyCapInput.show();
                     dailyCapInput.find('input[type="text"]').focus();
@@ -1386,7 +1391,6 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 } else {
                    $('#daily_cap_input').hide();
                 }
-
             };
 
             // Create Tag Slide Page
