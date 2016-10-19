@@ -97,12 +97,12 @@
 .main_dashboard .dropdown ul li:hover {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .main_dashboard .dropdown ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .main_dashboard .status_filter .dropdown_ul {
   min-width: 100px ;
@@ -159,7 +159,7 @@
 .main_dashboard .status_filter .status_filter_dd li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .main_dashboard .status_filter .status_filter_dd li.active {
   font-family: "Avenir-bold";
@@ -389,7 +389,7 @@
 }
 .main_dashboard .dashboard_section .dashboard_heading .tooltip_holder {
   margin-left: 10px ;
-  margin-top: 1px ;
+  margin-top: 3px ;
 }
 .main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip {
   background: #323133;
@@ -533,7 +533,7 @@
 .main_dashboard #dashboard_metric_dd .dropdown_ul li:focus {
   color: #21252b;
   text-decoration: none;
-  background-color: #E1EDF9;
+  background-color: #e1edf9;
 }
 .main_dashboard #dashboard_screen_dd .dropdown_ul {
   left: -6px;
