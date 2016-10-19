@@ -707,12 +707,8 @@ define(['angularAMD', 'creative-custom-module', 'common-utils', 'creative-drop-d
                     validtThirdPartyClickTrackerUrl = utils.validateUrl(formData.thirdPartyClickTracker);
                     if (validtThirdPartyClickTrackerUrl === false) {
                         $scope.thirdPartyClickTrackerError = true;
-                        $('[name = "thirdPartyClickTracker"]')
-                            .parent()
-                            .append('<label id="invalidUrl" ' +
-                                'class="col-sm-12 control-label errorLabel" ' +
-                                'style="display: block">Please enter a valid url.</label>');
                     } else {
+                        $scope.thirdPartyClickTrackerError = false;
                         postCrDataObj.thirdPartyClickTracker = formData.thirdPartyClickTracker;
                     }
 
