@@ -81,6 +81,10 @@ define(['angularAMD', 'url-service', 'request-cancel-service'], function (angula
                     selectedStrategy = undefined;
                 },
 
+                setSelectedStrategy: function(strategyObj) {
+                    selectedStrategy = strategyObj;
+                },
+
                 allAdFormats: function () {
                     var result,
                         adFormatsArr;
