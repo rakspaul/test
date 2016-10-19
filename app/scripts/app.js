@@ -1097,8 +1097,8 @@ define(['common'], function (angularAMD) {
             });
 
             [
-                '/IAS_tagValidator',
-                '/MOAT_tagValidator'
+                '/iastagvalidator',
+                '/moattagvalidator'
             ].forEach(function(path) {
                 rp.when(path, angularAMD.route({
                     templateUrl: assets.html_tag_preview,
