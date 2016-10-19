@@ -2813,3 +2813,8 @@ input.btn.fileUploadTxt:hover {
 .cardSelectHolder .btn.marginVideoCreate {
   margin-top: 38px ;
 }
+/*hotfix for the video targetting height increased , will be removed in 1.5.6 release */
+div.videoCardSelectHolder {
+  max-height: none;
+}
+/*end of hotfix for the video targetting*/
