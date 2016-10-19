@@ -280,14 +280,14 @@
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.PACING"></label>
                 <div class="pull-left btn-group miniToggle">
                     <label class="btn btn-default active spend_evenly"><span data-ng-bind="textConstants.PACEEVENLY"></span>
-                        <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);checkDailyCapValue('EVENLY');">
+                        <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);checkDailyCapValue('EVENLY');checkIfDailyCap($event);">
                     </label>
 
                     <label class="btn btn-default spend_asap" ><span data-ng-bind="textConstants.SENDFAST"></span>
-                        <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);checkDailyCapValue('ASAP');">
+                        <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);checkDailyCapValue('ASAP');checkIfDailyCap($event);">
                     </label>
                     <label class="btn btn-default daily_cap"><span data-ng-bind="textConstants.DAILYCAP"></span>
-                       <input type="radio" name="pacingType" group="budgetGroup" value="DAILYCAP" hidden="hidden" class="btn_rad" id="daily_cap" ng-click="toggleBtn($event);checkDailyCapValue('DAILYCAP');">
+                       <input type="radio" name="pacingType" group="budgetGroup" value="DAILYCAP" hidden="hidden" class="btn_rad" id="daily_cap" ng-click="toggleBtn($event);checkDailyCapValue('DAILYCAP');checkIfDailyCap($event);">
                    </label>
                </div>
                <div class="col-md-3 " id='daily_cap_input' style="display:none;" >
