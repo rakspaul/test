@@ -1,0 +1,77 @@
+<popup-msg data-ng-show="alertMessage"
+           data-ng-controller="popUpMsgCtr"
+           data-ng-init="init('alertMessage')">
+</popup-msg>
+<div class="example-video-container" id="tagValidator">
+    <div class="col-md-12">
+        <div class="col-md-10 title"><span class="vendor"></span> Validator</div>
+        <div class="col-md-2 btn btn-primary pull-right buttonAlign"
+             style="margin-right:14px;"
+             data-ng-click="clear('all')"> Clear
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <label class="greyTxt col-sm-12" style="margin-top: 0"
+                   data-ng-bind="constants.verificationId"></label>
+            <input type="number"
+                   class="col-md-12"
+                   id="verificationID"
+                   name="verificationID"
+                   ng-model="verificationID"
+                   placeholder="Enter the id"/>
+            <br>
+            <label class="col-sm-12 greyTxt"
+                   data-ng-bind="constants.channel">Channel
+            </label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true">
+                        <span class="text"
+                              data-ng-bind="tagType"></span>
+                        <span class="icon-arrow-solid-down"></span>
+                    </button>
+                    <ul class="dropdown-menu"
+                        data-toggle="dropdown"><!-- ngRepeat: curr in currency -->
+                        <li class="available"
+                            value="4"
+                            data-ng-selected="false">
+                            <a data-ng-bind="'Display'" data-ng-click="selectType('Display')">Display</a>
+                        </li>
+                        <li class="available"
+                            value="4"
+                            data-ng-selected="false">
+                            <a data-ng-bind="'Video'" data-ng-click="selectType('Video')">Vast</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <label class="greyTxt col-sm-12"
+                   data-ng-bind="constants.CREATIVE_SECURE_TAG"></label>
+                <textarea class="col-md-12"
+                          placeholder=""
+                          ng-model="tag"></textarea>
+            <span class="btn btn-primary pull-right col-md-4 buttonAlign"
+                  data-ng-click="generateVistoTag()" data-ng-bind="constants.generateVistoTag"></span>
+            <br>
+        </div>
+        <div class="col-md-6">
+            <label class="greyTxt col-sm-12"
+                   data-ng-bind="constants.vistoTag"></label>
+                <textarea placeholder=""
+                          ng-model="vistoTag" style="height:336px;"></textarea>
+                <span class="btn btn-primary pull-right col-md-4 buttonAlign"
+                      data-ng-disabled="!vistoTag"
+                      data-ng-click="preview()" data-ng-bind="constants.PREVIEW"></span>
+        </div>
+    </div>
+    <div data-ng-if="vistoTag">
+        <img src="images/mise/browserImage.jpg" class="browserImage"/>
+        <iframe id="tagCnt" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+    </div>
+</div>

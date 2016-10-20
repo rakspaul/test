@@ -266,8 +266,8 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             }
         };
 
-            /* Reset booking method fields whenever a new booking method is selected
-             */
+        /* Reset booking method fields whenever a new booking method is selected
+         */
         $scope.resetBudgetField = function (budgetType) {
             $scope.adData.budgetAmount = '';
             $scope.adData.budgetExceeded = false;
@@ -280,8 +280,8 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
         };
 
-            /* If the 'Fetch Target Impressions' check box is checked on the booking method of the Ad, the value of targetImpression is set to this booking value
-             */
+        /* If the 'Fetch Target Impressions' check box is checked on the booking method of the Ad, the value of targetImpression is set to this booking value
+         */
         $scope.fetch_existing_target_value = function (event) {
             var elem = $(event.target);
             if (elem.is(':checked')) {
@@ -323,8 +323,8 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     Number(value) > 100) {
                     elem.val(100);
                     elem.trigger('input');
-                }
-            };
+                    }
+                };
 
             /* This method is called if the autocompute checkbox is checked on the kpi target fields.
              * The actual computation of target values happen in this method according to the primary kpi selected. The default primary kpi is CPM.
@@ -380,7 +380,7 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                 }
 
             };
-            
+
             $scope.isKpiFieldOptional = function(fieldName) {
                 var res = true;
                 var type = $scope.adData.primaryKpi.toUpperCase()!=='CPM'?$scope.adData.primaryKpi:'CPM';
@@ -396,6 +396,15 @@ define(['angularAMD', 'ng-upload-hidden', 'custom-date-picker'], function (angul
                     }
                 }
                 return res;
+            };
+
+
+            $scope.checkDailyCapValue = function(value) {
+                if(value === 'DAILYCAP' && !($scope.adData.dailyBudgetValue && Number($scope.adData.dailyBudgetValue)>0)) {
+                    $scope.budgetErrorObj.dailyCapValidator = true;
+                } else {
+                    $scope.budgetErrorObj.dailyCapValidator = false;
+                }
             };
 
 

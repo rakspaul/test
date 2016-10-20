@@ -613,6 +613,7 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                         controller: 'AccountsAddOrEditBrand',
                         scope: $scope,
                         windowClass: 'edit-dialog modalAccountRedx',
+                        backdrop: 'static',
                         resolve: {}
                     });
                 };
@@ -669,6 +670,7 @@ define(['angularAMD', 'common-utils', 'admin-account-service', 'accounts-add-or-
                         controller: 'AccountsAddOrEdit',
                         scope: $scope,
                         windowClass: 'edit-dialog modalAccountRedx',
+                        backdrop: 'static',
                         resolve: {
                         }
                     });

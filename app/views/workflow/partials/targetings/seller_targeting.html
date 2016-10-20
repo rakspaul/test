@@ -1,0 +1,142 @@
+<div class="col-md-12 zeroPadding breadcrumbs">
+    <h5 data-ng-click="resetSellerTargetingVariables();" data-ng-bind="textConstants.TARGETING"></h5>
+    <span class="icon-arrow-solid-down"></span>
+    <h5 class="anchor-disabled" data-ng-bind="textConstants.SELLERS"></h5>
+    <button class="pull-right btn btn-default" type="button" data-ng-bind="textConstants.SAVESELLER"
+            data-ng-click="sellersCtrl.saveSellersList()"></button>
+    <button class="pull-right btn btn-link" type="button" data-ng-click="sellersCtrl.resetSellerTargetingVariables();"
+            data-ng-bind="textConstants.CANCEL"></button>
+</div>
+<div class="col-md-12 zeroPadding targettingFormWrap" id="sellerTargetting">
+    <div class="col-md-12 zeroPadding tabbable">
+
+        <div class="tab-content">
+            <div class="col-md-12 zeroPadding tab-pane fade in active">
+                <div class="segmentStepOne">
+                    <div class="listToBeSelected">
+                        <div class="segmentHeader">
+                            <!--Search-->
+                            <div class="btn-group pull-right">
+                                <div class="searchInput col-md-12 zeroPadding">
+                                    <a class="btn btn-default searchInputBtnInline"
+                                       data-ng-click="sellersCtrl.searchSellers()">
+                                        <span class="icon-search" aria-hidden="true"></span>
+                                    </a>
+                                    <div class="input-group searchInputForm">
+                                        <input type="text"
+                                               class="form-control keyword-txt"
+                                               search-box
+                                               name="keywordText"
+                                               placeholder="Search Sellers..."
+                                               data-ng-keyup="showKeywords($event,sellers.keywordText)"
+                                               data-ng-model="sellers.keywordText"
+                                               autocomplete="off">
+                                        <div class="btn btn-default searchClearInputBtn">
+                                            <span class="icon-clear" aria-hidden="true"
+                                                  data-ng-click="sellersCtrl.removeSearchParam();sellers.keywordText = ''"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 zeroPadding targetting-each-content marginTop">
+                            <div class="clearfix targetting-tab-header">
+                                <div class="pull-left marginTop marginBottom">
+                                    <div class="btn-group pull-right" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-default pull-right preferred-Btn selected" id="showAllBtn" ng-click=" sellersCtrl.setPreferredFlag(false)">
+                                            <span>Show All</span>
+                                        </button>
+                                        <button type="button" class="btn btn-default pull-right preferred-Btn" id="preferredBtn" ng-click="sellersCtrl.setPreferredFlag(true)">
+                                            <span>Show preferred</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="pull-right include-toggle-switch"
+                                     data-ng-click="sellersCtrl.toggleIncludeExclude()">
+
+                                    <div class="include-label">
+                                        <span data-ng-bind="textConstants.INCLUDE"></span>
+                                        <input type="checkbox" checked data-toggle="toggle"
+                                               class="toggle-event dmas-toggle" id="seller-toggle-event" data-on=" "
+                                               data-off=" ">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 segHeaderTable">
+                            <div class="columnOne">
+                                <div class="checkbox">
+                                    <input type="checkbox" data-ng-click="sellersCtrl.selectAllSeller()"
+                                           data-ng-checked="sellersCtrl.selectAllChecked">
+                                </div>
+                            </div>
+                            <div class="columnTwo col-md-5">
+                                <span data-ng-bind="textConstants.SELLERNAME"></span>
+                            </div>
+                            <div class="columnThree col-md-3">
+                                <span data-ng-bind="textConstants.SELLERID"></span>
+                            </div>
+                            <div class="columnFour col-md-3">
+                                <span data-ng-bind="textConstants.PREFERRED"></span>
+                            </div>
+                        </div>
+                        <div class="segBodyWrap">
+                            <div class="common-loading-area" data-ng-if="showSellerLoader"></div>
+                            <div class="segFixedWrap marginBottom" lr-infinite-scroll="sellersCtrl.loadMoreSellers">
+
+                                <div class="col-md-12 segBodyTable"
+                                     ng-repeat="sellers in sellersCtrl.sellers.sellersList | filter: {'isPreferred':sellersCtrl.preferedFilterFlag.isPreferred} track by $index">
+                                    <div class="columnOne">
+                                        <div class="checkbox">
+                                            <input type="checkbox" data-ng-checked="sellers.isChecked"
+                                                   data-ng-click="sellersCtrl.selectSellers(sellers)">
+                                        </div>
+                                    </div>
+                                    <div class="columnTwo col-md-5">
+                                        <span> {{sellers.name}}</span>
+                                    </div>
+                                    <div class="columnTwo col-md-3">
+                                        <!--<div class="pull-left">$&nbsp;</div>-->
+                                        <div class="pull-left">{{sellers.id}}</div>
+                                    </div>
+                                    <div class="columnThree col-md-3">
+                                        <div class="pull-left">{{(sellers.isPreferred)?'Yes':'No'}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 segBodyTable text-center" ng-show="sellersCtrl.loadMoreFlag">
+                                    <span  class="common-loading-area" style="display: inline-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="selectedAtRight options-selected-section">
+                        <div class="col-md-12 zeroPadding" ng-show="sellersCtrl.sellers.userSelectedSeller.length != 0">
+                            <span class="pull-left">
+                                <h2  data-ng-bind="textConstants.SELECTED_SEGMENTS"></h2>
+                            </span>
+                            <a class="pull-right" data-ng-bind="textConstants.CLEARALL" data-ng-click="sellersCtrl.clearAllSelectedSellers()"></a>
+                        </div>
+                        <div class="selectedItems ">
+                            <div class="default-selected-section"
+                                 ng-show="sellersCtrl.sellers.userSelectedSeller.length == 0">
+                                <span class="icon-browser"></span>
+                                <div data-ng-bind="textConstants.NOSELLERSELECTED"></div>
+                                <div class="smallText" ng-bind-html="textConstants.SELLERNOTE"></div>
+                            </div>
+                            <div class="segWrap" ng-repeat="seller in sellersCtrl.sellers.userSelectedSeller">
+                                <div class=" pull-left "
+                                     ng-class="sellersCtrl.includeAllSellersFlag? 'icon-success':'icon-exclude'"></div>
+                                <div class="pull-left marginLeft">{{seller.name}}</div>
+                                <div class="icon-close" ng-click="sellersCtrl.removeUserSelectedSeller(seller)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

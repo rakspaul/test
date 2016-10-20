@@ -3,10 +3,10 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
     function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('OptimizationController', ['$timeout', '$rootScope', '$scope', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService',
+    angularAMD.controller('OptimizationController', ['$timeout', '$rootScope', '$scope', '$filter', 'kpiSelectModel', 'campaignSelectModel', 'strategySelectModel', 'dataService',
         'utils', 'actionChart', 'domainReports', 'constants', 'timePeriodModel', 'loginModel', 'momentService', 'urlService', 'advertiserModel', 'brandsModel', 'vistoconfig',
         'pageLoad',
-        function ($timeout, $rootScope, $scope, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, utils, actionChart, domainReports, constants,
+        function ($timeout, $rootScope, $scope, $filter, kpiSelectModel, campaignSelectModel, strategySelectModel, dataService, utils, actionChart, domainReports, constants,
                   timePeriodModel, loginModel, momentService, urlService, advertiserModel, brandsModel, vistoconfig, pageLoad) {
         var getCustomQueryParams,
             actionDataForSelectedCampaign,
@@ -233,8 +233,6 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 clientId = vistoconfig.getSelectedAccountId(),
                 strategyId = Number($scope.selectedStrategy.id);
 
-                strategyId = Number($scope.selectedStrategy.id);
-
             $scope.apiReturnCode = 200;
 
             dataService
@@ -294,7 +292,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                                         $scope.lineChart = {
                                             data: lineData,
                                             kpiValue: parseFloat(kpiValue),
-                                            kpiType: kpiType.toUpperCase(),
+                                            kpiType: $filter('toTitleCase')(kpiType),
                                             from: 'action_performance',
 
                                             deliveryData: {
@@ -356,6 +354,7 @@ define(['angularAMD','kpi-select-model', 'campaign-select-model', 'strategy-sele
                 clientId:  vistoconfig.getSelectedAccountId(),
                 advertiserId: vistoconfig.getSelectAdvertiserId(),
                 brandId: vistoconfig.getSelectedBrandId(),
+                lineitemId : $scope.selectedStrategy.id,
                 dateFilter: dateFilter,
                 make_external : false
             };

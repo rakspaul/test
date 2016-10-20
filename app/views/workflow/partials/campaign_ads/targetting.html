@@ -196,8 +196,57 @@
     </div>
     <!--END : Daypart Targeting Card-->
 
+    <!--START : Sellers Targeting Card-->
+    <div class="col-md-6 cardSelectHolder"
+         data-ng-if="!isPlatformSelected || (isPlatformSelected && isSellerTargettingEnabled)"
+         data-ng-class="{true: 'active'}[selectedTargeting['sellers']]">
+
+        <span data-ng-if="adData.sellersTargetting && adData.sellersTargetting.length > 0"
+              class="icon-trash"
+              data-ng-style="(adData.sellersTargetting.length > 0) ? {'display': 'block'} : {'display': 'none'}"
+              data-ng-click="deletetargets('SELLER', $event)">
+        </span>
+
+        <div class="icon-browser"></div>
+        <p style="margin: 6px 0 6px;">Sellers</p>
+        <div class="cardTxtWrap" data-ng-if="adData.sellersTargetting.length == 0">
+            <span data-ng-bind="textConstants.SELLERS_TARGETING" style="margin: 5px 0 10px;"></span>
+            <p style="margin: 0;">
+                <span>All Sellers (default)</span>
+            </p>
+        </div>
+        <div class="cardTxtWrap targetDataSaved marginTopThirty"
+             data-ng-if="adData.sellersTargetting.length > 0">
+            <div class="targetDataSavedTop" data-ng-if="adData.sellersAction">
+                <div class="icon-target"></div>
+                <span data-ng-bind="textConstants.INCLUDED"></span>
+                <div class="badge" data-ng-bind="adData.sellersTargetting.length"></div>
+            </div>
+            <div class="targetDataSavedTop"
+                 style="padding-top: 20px;"
+                 data-ng-if="adData.sellersAction == false">
+                <div class="icon-exclude"></div>
+                <span data-ng-bind="textConstants.EXCLUDED"></span>
+                <div class="badge" data-ng-bind="adData.sellersTargetting.length"></div>
+            </div>
+            </span>
+        </div>
+        <span data-ng-if="$parent.isPlatformSelected"
+              class="onSelectBtn active"
+              data-ng-click="selectSellerTarget()">
+        </span>
+        <input data-ng-if="adData.sellersTargetting.length == 0"
+               type="button"
+               name="platform"
+               value="Create"
+               data-ng-disabled="!$parent.isPlatformSelected"
+               class="btn btn-default"
+               data-ng-click="selectSellerTarget()">
+    </div>
+    <!--END : Sellers  Targeting Card-->
+
     <!--START : Video Targeting Card-->
-    <div class="col-md-6 cardSelectHolder active clearLeft" data-ng-if="adData.adFormat === 'Video'">
+    <div class="col-md-6 cardSelectHolder active videoCardSelectHolder" data-ng-if="adData.adFormat === 'Video'">
         <span class="icon-trash"
               data-ng-style="(adData.videoPreviewData.sizes ||
                              adData.videoPreviewData.positions ||
@@ -245,7 +294,7 @@
                name="platform"
                value="Create"
                data-ng-disabled="!$parent.isPlatformSelected"
-               class="btn btn-default"
+               class="btn btn-default marginVideoCreate"
                data-ng-click="selectVideoTarget()">
     </div>
     <!--END : Video Targeting Card-->
@@ -274,6 +323,11 @@
      id="audienceTargeting"
      data-ng-include="'/views/workflow/partials/targetings/audience_targeting.html'"
      data-ng-controller="AudienceTargettingController">
+</div>
+<div class="col-md-12 targetingSlide"
+     id="sellerTargeting"
+     data-ng-include="'/views/workflow/partials/targetings/seller_targeting.html'"
+     data-ng-controller="SellerTargettingController as sellersCtrl">
 </div>
 <div class="col-md-12 targetingSlide"
      id="geographyTargeting"

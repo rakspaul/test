@@ -33,11 +33,11 @@
                 <!-- Form Settings Start -->
                 <div class="settingWrap">
                     <div class="modal-header">
-                        <span class="btn btn-primary pull-right" data-ng-click="saveClients()">Save</span>
+                        <span class="common-loading-btn pull-right ng-hide" ng-show="saveAccounts"></span>
+                        <span class="btn btn-primary pull-right" ng-hide="saveAccounts" data-ng-click="saveClients()">Save</span>
                         <span class="btn btn-link pull-right" data-dismiss="modal" data-ng-click="close()">Cancel</span>
                         <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
                     </div>
-
                     <div class="tab-content">
                         <!--About this Account-->
                         <div class="isCollapsed tab-pane fade in active" id="aboutaccount">

@@ -10,22 +10,21 @@
         </div>
         <span class="icon-arrow-solid-down"></span>
     </div>
-    <div class="clearfix dropdown dropdown_type1">
+    <div class="clearfix dropdown dropdown-workflow dropdown_type1">
         <div class="dropdown_ul_text" data-toggle="dropdown">
             <!--Campaign data: {{campaignData.campaigns}}-->
             <ul class="nav navbar-nav">
                 <li class="dropdown {{loading_icon_mediaplan}}">
-                    <ul class="dropdown-menu campaigns_list" role="menu" id="campaigns_list">
-                        <div id="campaignsDropdownDiv">
+                    <ul class="dropdown-menu campaigns_list dropdown-menu-with-search" role="menu" id="campaigns_list">
+                        <div class="col-md-12 zeroPadding search-inside-dropdown" id="campaignsDropdownDiv">
                             <input class="dropdown-toggle inactive dd_txt campaignDropdown"
                                    id="campaignDropdown"
                                    data-ng-keyup="search(fileIndex, $event)"
-                                   style="border: none !important; padding: 0;"
-                                   placeHolder="Select Campaign">
+                                   placeHolder="Search Media Plans...">
                             <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
                             <span class="campaign_name_length" data-ng-bind="selectedObj.name"></span>
                         </div>
-                        <div class="dropdown_list_scroll">
+                        <div class="col-md-12 zeroPadding dropdown_list_scroll">
                             <li data-ng-repeat="campaign in campaignData.campaigns track by $index"
                                 class="campaigns_list_li {{campaign.name === selectedObj.name ? 'active' : ''}}"
                                 value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}"

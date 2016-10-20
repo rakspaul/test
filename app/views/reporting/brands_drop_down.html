@@ -7,9 +7,9 @@
 
 <div class="clearfix">
     <div class="brandsDropdownSearch dropdown-workflow" ng-class="brands.length > 0 ? '' : 'loadedDropdownData' ">
-        <ul class="dropdown-menu" role="menu" id="brandsList">
-            <div id="brandsDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="brandsDropdown"   ng-keyup="disableShowAll();" ng-model="searchInput"/>
+        <ul class="dropdown-menu dropdown-menu-with-search" role="menu" id="brandsList">
+            <div class="search-inside-dropdown" id="brandsDropdownDiv">
+                <input class="dropdown-toggle inactive"  id="brandsDropdown"   ng-keyup="disableShowAll();" ng-model="searchInput" placeholder="Search Brands..."/>
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div class="brandsList_ul" id="brandsList_ul">

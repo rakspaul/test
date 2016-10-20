@@ -34,6 +34,9 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADMIN = 'Admin';
         this.INVOICE_TOOL = 'Billing';
         this.DAILYCAP = 'Use daily cap' ;
+        this.PROVIDER = 'Providers';
+
+
         this.ONTRACK = 'ontrack';
         this.ENDING_SOON = 'Ending Soon';
         this.ACTIVE = 'active';
@@ -362,7 +365,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
 
         this.STATUS = 'Status';
         this.CALENDAR = 'Calendar';
-        this.MOST_RELEVANT_CAMPAIGN = 'Most Relevant Media Plans';
+        this.MOST_RELEVANT_CAMPAIGN = '(Most Relevant Media Plans)';
         this.CAMPAIGN_STATUS = 'Media Plan Status';
         this.PERFORMANCE_STATUS = 'Performance Status';
         this.ON_TRACK = 'On Target';
@@ -455,6 +458,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.GRAPH_REPRESENTS_CAMPAIGNS_WHICH_HAVE_SET_KPI_VALUES_ONLY =
             '% of Performing Media Plan measured against the set KPI or delivery if no KPI is set.';
         this.VIDEO = 'Video';
+        this.SELLER = 'Seller';
         this.PLAYS = 'plays';
         this.PRICING_METHOD_CPM = 'cpm';
         this.PRICING_METHOD_MARKUP = 'markup';
@@ -753,6 +757,7 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.VERIFICATION_VENDOR = 'Verification Vendor' ;
         this.VERIFICATION_DEFAULT = 'None (Disable Verification Tracking)' ;
         this.VERIFICATION_DEFAULT_SMALL = 'None' ;
+        this.DAILY_CAP_ERROR_MESSAGE = 'Value is mandatory when selecting Daily Cap';
 
         //Ad Create: 3 Buying Platform
         this.SELECTBUYPLAT = 'Select Buying Platform';
@@ -846,6 +851,13 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.ADVERTISER_CODE_EXIST = 'Please choose a different Advertiser Code.';
         this.CODE_VERIFICATION = 'Please enter valid 5 alphanumeric characters';
         this.AD_CREATION_INFO = 'will now be created on all the associated buying platforms';
+
+        // Tag validator
+        this.verificationId = 'Verification Id';
+        this.channel = 'Channel';
+        this.vistoTag = 'Visto Tag';
+        this.generateVistoTag = 'Generate Visto Tag';
+        this.enterDetials = 'Please enter all the inputs';
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
@@ -1355,6 +1367,25 @@ define(['angularAMD'], function(angularAMD) { // jshint ignore:line
         this.INVOICE_REPORT = 'Invoice Reports';
         this.INVOICE_NOTES = 'Notes:';
         this.VIDEO_COMPLETION_AND_VIEWABILITY_AT_VARIOUS_QUARTILES_OF_AD = 'Video Viewability at various quartiles of the Ad' ;
+
+        //Seller Targeting
+         this.SELLERNAME = 'Seller Name';
+         this.SELLERID = ' Seller ID';
+         this.PREFERRED = 'Preferred';
+         this.SELLERS = 'Sellers';
+         this.SELLERS_TARGETING = 'Include or exclude specific 3rd party inventory sellers from your Open Exchange buy.';
+         this.SAVESELLER ='Save Seller';
+         this.NOSELLERSELECTED ='No Sellers Selected';
+         this.SELLERNOTE ='Check the checkbox next to the desired Seller name to target.';
+         this.SELECTED_SEGMENTS = 'Selected';
+         this.CLEARALL = 'Clear All';
+
+        this.NO_AUDIENCE_SELECTED = 'No Audience Selected' ;
+
+        this.RB_SELECTION_CHANGE_MSG = 'You have changed the selection, please generate again to match with Download';
+        this.NOTE_WITH_COLON = 'Note:';
+        this.SUBACCOUNT_CHANGED = 'subaccount_changed';
+
 
     }]);
 });

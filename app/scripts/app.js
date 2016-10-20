@@ -18,7 +18,7 @@ define(['common'], function (angularAMD) {
 
             rp
                 .when('/', angularAMD.route({
-                    title: 'Bootstrapping Visto',
+                    title: 'Loading...',
                     templateUrl: assets.html_home,
                     controller: function ($scope, $cookies, $location, RoleBasedService, dataService, accountService, urlBuilder) {
                         var preferredClientId;
@@ -1093,6 +1093,19 @@ define(['common'], function (angularAMD) {
                             return routeResolvers.creativePreviewResolver(routeResolversParams);
                         }
                     }
+                }));
+            });
+
+            [
+                '/iastagvalidator',
+                '/moattagvalidator'
+            ].forEach(function(path) {
+                rp.when(path, angularAMD.route({
+                    templateUrl: assets.html_tag_preview,
+                    title: 'Tag Validator',
+                    controller: 'TagPreviewController',
+                    standAlone: true,
+                    controllerUrl: 'tag-preview-controller'
                 }));
             });
 

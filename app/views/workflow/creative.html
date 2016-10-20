@@ -67,7 +67,7 @@
                                             <span class="icon-arrow-solid-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
-                                            <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)" data-ng-bind="advertiser.name"></a></li>
+                                            <li ng-repeat="advertiser in advertisers" class="available"><a ng-click="selectHandler('advertiser', advertiser)" data-ng-bind="advertiser.name"></a></li>
                                         </ul>
                                     </div>
                                     <input class="form-control" type="hidden" name="advertiserId" ng-model="creative.advertiserId" ng-update-hidden required/>
@@ -96,7 +96,7 @@
                         <label for="sel1" class="greyTxt" style="margin-top: 0;" data-ng-bind="textConstants.CREATIVE_AD_SERVER"></label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" title={{selectedAdServer.name}}>
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0) || !creative.advertiserId" title={{selectedAdServer.name}}>
                                     <!--<span class="text">{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>-->
                                     <span class="icon-arrow-solid-down"></span>
                                 </button>
@@ -225,8 +225,16 @@
                                 <span class="label-txt" style="font-weight: normal">{{textConstants.TRACKING_MESSAGE}}</span>
                             </label>
                             <div class="col-md-4 zeroPadding" ng-show="toggleCodeField" >
-                                <span class="greyTxt col-md-12 zeroPadding" for="name">Tracking Code</span>
+                                <span class="greyTxt col-md-12 zeroPadding" for="name">Impression Tracking Code</span>
                                 <input type="text" class="form-control" name = "thirdPartyTracker" ng-model="adData.thirdPartyTracker" >
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 zeroPadding marginTop form-group">
+                            <div class="col-md-4 zeroPadding" ng-show="toggleCodeField" >
+                                <span class="greyTxt col-md-12 zeroPadding" for="name">Click Tracking URL</span>
+                                <input type="text" class="form-control" id="thirdPartyClickTracker" name = "thirdPartyClickTracker" ng-model="adData.thirdPartyClickTracker" >
+                                <label class="col-sm-12 control-label errorLabel" ng-style="(thirdPartyClickTrackerError)?{'display':'block'}: {'display':'none'}">Please enter a valid url.</label>
                             </div>
 
 

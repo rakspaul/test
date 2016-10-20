@@ -11,6 +11,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
         $scope.adData.isAudienceSelected = false;
         $scope.adData.isDaypartSelected = false;
         $scope.adData.isVideoSelected = false;
+        $scope.adData.isSellerSelected = false;
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
         $scope.isDayPartTriggered = false;
@@ -35,7 +36,6 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
-
             switch (targetingName) {
                 case 'Geography':
                     $scope.adData.isGeographySelected = true;
@@ -71,6 +71,11 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 case 'Video':
                     $scope.adData.isVideoSelected = true;
                     break;
+
+                case 'Seller':
+                    $scope.adData.isSellerSelected = true;
+                    break;
+
             }
         };
 
@@ -143,6 +148,16 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 workflowService.setAdsDetails(adData);
                 audienceService.resetAudienceData();
             }
+        };
+
+        /****************** START : SELLER TARGETING  ***********************/
+
+
+        $scope.deleteSellerTargetting = function () {
+            $scope.adData.isSellerSelected = null;
+            $scope.adData.sellersTargetting  = [];
+            $scope.adData.sellersAction = true;
+            $scope.$broadcast('resetUserSelectedSellers');
         };
 
         /****************** START : DAY PARTING TARGETING  ***********************/
@@ -307,6 +322,14 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             _targeting.setTargetingForPreview('Geography');
         };
 
+            $scope.selectSellerTarget = function () {
+                 colResize();
+                 $scope.$broadcast('triggerSeller');
+                 // show targeting in side bar
+                     _targeting.setTargetingForPreview('Seller');
+            };
+
+
         $scope.deleteGeoTargetting = function () {
             var adData;
 
@@ -393,6 +416,10 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                     case 'Video' :
                         _targeting.showVideoTargetingInfo(adData);
                         break;
+
+                    case 'Seller':
+
+                        break;
                 }
             }
         });
@@ -402,6 +429,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
             $scope.deleteVideoTargetting();
+            $scope.deleteSellerTargetting();
         });
 
         $scope.deleteTargetting = function () {
@@ -426,6 +454,11 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
                 case 'VIDEO' :
                     workflowService.setDeleteModule('video');
                     $scope.deleteVideoTargetting();
+                    break;
+
+                case 'SELLER' :
+                    workflowService.setDeleteModule('seller');
+                    $scope.deleteSellerTargetting();
                     break;
             }
         };
@@ -469,6 +502,7 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
             $scope.isAudienceTargetEnabled = false;
             $scope.isDaypartTargetEnabled = false;
             $scope.isVideoTargetEnabled = false;
+            $scope.isSellerTargettingEnabled = false;
             $scope.adData.domainEnable = false;
             $scope.adData.appEnable = false;
 
@@ -488,6 +522,9 @@ define(['angularAMD', 'audience-service'], function (angularAMD) {
 
                     case 'Video Creative Serving':
                         $scope.isVideoTargetEnabled = true;
+                        break;
+                    case 'Seller Targeting':
+                        $scope.isSellerTargettingEnabled = true;
                         break;
 
                     case 'Inventory Targeting':

@@ -41,6 +41,7 @@ define(['angularAMD', 'url-service', 'dashboard-model', 'request-cancel-service'
                             pct = Math.round(onTrack / (onTrack + underPerforming) * 100);
                         }
 
+                        dashboardModel.setCampaignTotal(response.data.data.total);
                         return {
                             onTrackPct: pct,
                             onTrack: onTrack,

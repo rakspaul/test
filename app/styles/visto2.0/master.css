@@ -403,6 +403,7 @@ strong {
   border: 1px solid #bfc9d7;
   padding: 30px 20px;
   min-height: 280px;
+  max-height: 280px;
   width: 32%;
   margin-right: 2%;
   margin-top: 2%;

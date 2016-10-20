@@ -106,6 +106,15 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   font-size: 12px;
   cursor: pointer;
 }
+/*
+    Admin Page
+*/
+#advtab .arbitrageBillView .inputSymbolAlignment,
+#advtab .cogsBillView .inputSymbolAlignment {
+  top: 21px;
+  left: 103px;
+  width: 10px;
+}
 /* Link: v1sto/invoices
    Content: MediaPlan, Invoices
 */
@@ -113,6 +122,38 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   text-decoration: underline;
   color: #0978c9;
   cursor: pointer;
+}
+/*
+Tag Verification Page
+*/
+#tagValidator textarea {
+  resize: both;
+  width: 556px;
+  height: 200px;
+}
+#tagValidator .buttonAlign {
+  margin-top: 15px;
+}
+#tagValidator .browserImage {
+  width: 1171px;
+  margin-top: 25px;
+}
+#tagValidator #tagCnt {
+  position: absolute;
+  left: 200px;
+  top: 562px;
+  width: 1142px;
+  height: 613px;
+  z-index: 10;
+}
+#tagValidator .title {
+  position: absolute;
+  font-style: italic;
+  font-size: xx-large;
+}
+#tagValidator .title .vendor {
+  font-size: 43px;
+  color: #285e8e;
 }
 /* Link: v1sto/invoices/invoiceId
    Type: PopUp window on click on Note Edit
@@ -1408,6 +1449,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: solid 1px #d2dee7;
   border-top: 0px ;
   margin-top: 0px ;
+}
+#reports_platform_viewability_block .sepratorLineCls .platform_name_col {
+  font-family: "Avenir-bold";
 }
 #reports_platform_viewability_block .each_col {
   float: left;
@@ -2846,6 +2890,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   max-width: 60%;
   line-height: 17px ;
 }
+#reports_platform_cost_block .sepratorLineCls .plat_name {
+  font-family: "Avenir-bold";
+}
+#reports_platform_cost_block .each_strategy .first_col {
+  margin-bottom: 15px ;
+}
 #reports_platform_cost_block .reports_platform_header,
 #reports_platform_cost_block .each_strategy_holder {
   padding: 10px 0 10px 10px !important;
@@ -2921,6 +2971,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_cost_block .strategy_total_container_header .each_row_list {
   padding-left: 15px ;
+}
+#reports_platform_cost_block .kpi_indicator_ul .drop_list {
+  width: 100% !important;
 }
 .optimization_header .duration_filters {
   margin: 10px 45px 0 0 ;
@@ -4204,18 +4257,23 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_page .custom_report_response_table .heading_row {
   font-family: "Avenir-bold";
   margin-bottom: 20px ;
-  border-bottom: solid 1px #ccc ;
-  padding: 30px 30px 0 30px;
+  border-bottom: solid 1px #bfc9d7;
+  padding: 20px 20px 0 20px;
 }
 .custom_report_response_page .custom_report_response_table .heading_row .inner_heading_row {
   width: 100% ;
+  color: #57606d;
 }
 .custom_report_response_page .custom_report_response_table .inner_heading_row_total {
-  font-family: "Avenir";
+  font-family: "Avenir-bold";
+  color: #21252b;
 }
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
-  padding: 45px 0px 0px 0px ;
+  padding: 40px 0px 0px 0px ;
   margin-top: 80px;
+}
+.custom_report_response_page .custom_report_response_table .first_dimension_row_holder_pacing {
+  padding: 0px 0px 0px 20px ;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
   margin-left: 5px ;
@@ -4246,9 +4304,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col {
   display: table-cell;
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
+  width: 165px;
+  min-width: 165px;
+  max-width: 165px;
   word-wrap: break-word;
   padding-right: 15px;
   text-align: right;
@@ -4375,7 +4433,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   z-index: 2;
 }
 .report_response_and_tabs .custom_report_scroll .first_dimension_row_holder {
-  padding-left: 28px;
+  padding-left: 20px;
 }
 .report_response_and_tabs .custom_report_scroll .heading_first_dimension:first-child {
   padding-left: 0 ;
@@ -4914,13 +4972,13 @@ body.custom_report_page .bodyWrap {
 .custom_report_response_table .sort_order_up.active {
   background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -65px;
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 15px;
   color: #0978c9;
 }
 .custom_report_response_table .sort_order_down,
 .custom_report_response_table .sort_order_up {
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 16px;
 }
 .custom_report_response_table .sort_order_down:hover {
   background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
@@ -4928,6 +4986,6 @@ body.custom_report_page .bodyWrap {
 .custom_report_response_table .sort_order_down.active {
   background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -65px;
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 15px;
   color: #0978c9;
 }

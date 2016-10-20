@@ -176,7 +176,8 @@
                      data-ng-if="(!adData.isGeographySelected &&
                                   !adData.isAudienceSelected &&
                                   !adData.isDaypartSelected &&
-                                  !adData.isVideoSelected) ||
+                                  !adData.isVideoSelected &&
+                                  !adData.isSellerSelected ) ||
                                   TrackingIntegrationsSelected">
                     <div class="col-md-12">
                         <span style="color: #000;" data-ng-bind="textConstants.WF_NOT_SET">
@@ -187,23 +188,28 @@
                      data-ng-if="(adData.isGeographySelected ||
                                   adData.isAudienceSelected ||
                                   adData.isDaypartSelected ||
-                                  adData.isVideoSelected) &&
+                                  adData.isVideoSelected ||
+                                  adData.isSellerSelected ) &&
                                   !TrackingIntegrationsSelected">
                     <div class="col-md-12" data-ng-if="adData.isGeographySelected" style="margin-bottom: 5px;">
                         <div class="icon-location pull-left"></div>
-                        <span data-ng-bind="textConstants.GEOGRAPHY"></span>
+                        <span class="iconSideText" data-ng-bind="textConstants.GEOGRAPHY"></span>
                     </div>
                     <div class="col-md-12" data-ng-if="adData.isAudienceSelected" style="margin-bottom: 5px;">
                         <div class="icon-audience pull-left"></div>
-                        <span data-ng-bind="textConstants.AUDIENCE"></span>
+                        <span class="iconSideText" data-ng-bind="textConstants.AUDIENCE"></span>
                     </div>
                     <div class="col-md-12" data-ng-if="adData.isDaypartSelected" style="margin-bottom: 5px;">
                         <div class="icon-activity pull-left"></div>
-                        <span data-ng-bind="textConstants.DAYPART"></span>
+                        <span class="iconSideText" data-ng-bind="textConstants.DAYPART"></span>
                     </div>
                     <div class="col-md-12" data-ng-if="adData.isVideoSelected" style="margin-bottom: 5px;">
                         <div class="icon-video pull-left"></div>
-                        <span data-ng-bind="textConstants.VIDEO"></span>
+                        <span class="iconSideText" data-ng-bind="textConstants.VIDEO"></span>
+                    </div>
+                    <div class="col-md-12" data-ng-if="adData.isSellerSelected" style="margin-bottom: 5px;">
+                        <div class="icon-browser pull-left"></div>
+                        <span class="iconSideText" data-ng-bind="textConstants.SELLER"></span>
                     </div>
                 </div>
             </div>

@@ -976,7 +976,7 @@
 	.dropdown {
 		.dropdown_name_selected {
 			padding-right: 20px;
-			cursor: default;
+			//cursor: default;
 			margin: 0;
 			position: relative;
 			p {
@@ -1028,16 +1028,16 @@
 			height: 18px;
 		}
 		#advertisersDropdown , #subAccountDropdown {
-			font-family: @font-family_4;
-			font-size: 14px;
-			min-width: 50px;
-			text-overflow: ellipsis;
-			width: 100%;
-			border: medium none;
-			cursor: pointer;
-			font-family: @font-family_5;
-			font-size: 11pt;
-			height: 30px;
+			//font-family: @font-family_4;
+			//font-size: 14px;
+			//min-width: 50px;
+			//text-overflow: ellipsis;
+			//width: 100%;
+			//border: medium none;
+			//cursor: pointer;
+			//font-family: @font-family_5;
+			//font-size: 11pt;
+			//height: 30px;
 		}
 		#advertisersDropDownList {
 			width: 280px;
@@ -1252,15 +1252,15 @@
         color: @label-gray;
     }
 	.brandsDropdownSearch {
-		position: relative;
+		//position: relative;
 		#brandsDropdownDiv , #subAccountDropdownDiv {
-			width: 100%;
-			border-bottom: solid 1px #ccc;
-			padding: 0px 10px;
+			//width: 100%;
+			//border-bottom: solid 1px #ccc;
+			//padding: 0px 10px;
 			input {
-				font-family: @font-family_4;
-				padding-right: 20px;
-				background: url("/images/cdesk/search_input.png") no-repeat right center;
+				//font-family: @font-family_4;
+				//padding-right: 20px;
+				//background: url("/images/cdesk/search_input.png") no-repeat right center;
 			}
 		}
 	}
@@ -1269,24 +1269,24 @@
 		padding-right: 20px;
 	}
 	#campaignsDropdownDiv {
-		width: 100%;
-		border-bottom: solid 1px #ccc;
-		padding: 0 10px;
+		//width: 100%;
+		//border-bottom: solid 1px #ccc;
+		//padding: 0 10px;
 		.campaign_name_length {
 			display: none;
 		}
 		input {
-			float: none;
-			width: 100%;
-			background: url("/images/cdesk/search_input.png") no-repeat right center;
-			padding-right: 20px;
-			max-width: 660px;
-			overflow: hidden;
-			display: inline-block;
-			height: 32px;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			border: 0;
+			//float: none;
+			//width: 100%;
+			//background: url("/images/cdesk/search_input.png") no-repeat right center;
+			//padding-right: 20px;
+			//max-width: 660px;
+			//overflow: hidden;
+			//display: inline-block;
+			//height: 32px;
+			//text-overflow: ellipsis;
+			//white-space: nowrap;
+			//border: 0;
 		}
 	}
 }
@@ -2175,13 +2175,24 @@ tags-input .autocomplete {
 	margin-right: 5px ;
 }
 .marginTopTwenty {
-	margin-bottom: 20px ;
+	margin-top: 20px ;
+}
+.marginTopThirty {
+	margin-top: 30px ;
 }
 .marginBottomTwenty {
 	margin-bottom: 20px ;
 }
 .marginBottomThirty {
 	margin-bottom: 30px ;
+}
+.iconSideText {
+	padding-top: 3px ;
+}
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput,
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:hover,
+.dropdown-menu-with-search .search-inside-dropdown input.borderZeroInput:focus {
+	border: 0px !important;
 }
 .clickCursor {
     cursor:pointer;
@@ -2489,7 +2500,7 @@ tags-input .autocomplete {
 .nav_filters .brandsDropdownSearch.loadedDropdownData #subAccountDropdownDiv input,
 .nav_filters .brandsDropdownSearch.loadedDropdownData .advertisersList_ul input ,
 .nav_filters .loadedDropdownData #campaignsDropdownDiv input {
-	background: url("/images/loading.gif") no-repeat right center !important;
+	background: url("/images/loading.gif") no-repeat left 10px center !important;
 }
 /*Dropdown which has search input box*/
 .dropdown-menu-with-search {
@@ -2500,20 +2511,20 @@ tags-input .autocomplete {
 		margin-bottom: 5px ;
 		input {
 			border: 1px solid #bfc9d7;
-			padding-right: 30px;
-			background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+			padding-right: 15px;
+			background: url("/images/cdesk/search_input.png") no-repeat left 15px center;
 			height: 36px;
 			width: 100%;
-			padding-left: 15px;
+			padding-left: 40px;
             border-radius: 0 !important;
             &:hover {
                 background: transparent !important;
-                background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+                background: url("/images/cdesk/search_input.png") no-repeat left 15px center !important;
                 border: 1px solid @label-gray !important;
             }
             &:focus {
                 background: transparent !important;
-                background: url("/images/cdesk/search_input.png") no-repeat right 10px center !important;
+                background: url("/images/cdesk/search_input.png") no-repeat left 15px center !important;
                 border: 1px solid @visto-blue !important;
             }
 		}
@@ -2544,14 +2555,19 @@ tags-input .autocomplete {
 	border: 1px solid @stroke-gray-borders ;
     margin: 10px 10px 0 0;
     padding: 10px;
-    height: 100px;
 	text-align: center;
+	position: relative;
+	display: block; 
+	color: #21252b ;
+	height: 130px;
     img {
-    	width: 80% ;
+    	max-width: 80%;
+    	max-height: 40%;
     }
     .box-option-bottom {
-		width: 100%;
-		margin-top: 20px;
+		position: absolute;
+    	width: 85%;
+    	bottom: 10px;
     	span {
     		display: block;
     		padding: 0 !important;
@@ -2593,6 +2609,30 @@ tags-input .autocomplete {
         transform: scale(1);
     }
 }
+.circle {
+  text-align: center;
+  display: inline-block;
+  /* to allow placement of numbers on top of circles instead of below them */
+  white-space: nowrap;
+  margin : 1px 10px 0px 0px ;
+}
+
+.circle:before {
+  border-radius: 50%;
+  /* = 15%, almost gives us viewport width unit (15vw) */
+  width: 100%;
+  padding-bottom: 100%;
+  /* this way we should have 1px gap between circles */
+  margin: 0px .5px;
+  background: #ccc;
+  content: '';
+  display: inline-block;
+
+  /* to use viewport based units we can safely override the old units in this way */
+  padding-bottom: 0vw;
+  width: 1vw;
+  height: 1vw;
+}
 
 .options-selected-section {
     min-height: 400px;
@@ -2613,7 +2653,7 @@ tags-input .autocomplete {
             margin-top: 6px ;
             font-size: 12px ;
         }
-        .icon-location {
+        [class^="icon-"], [class*=" icon-"] {
             font-size: 40px;
             display: block;
             height: auto;
@@ -2807,7 +2847,7 @@ tags-input .autocomplete {
 	z-index: 999999999 !important ; /*Should be always more than the popup z-index*/
 }
 .targetValueInput {
-	text-indent: 9px; 
+	text-indent: 9px;
 	width: 100%;
 }
 .messageInsideContainer {
@@ -2885,7 +2925,172 @@ input.btn.fileUploadTxt:hover {
 }
 .left_column_nav {
 	.marginTopOne {
-		margin-top: 1px; 
+		margin-top: 1px;
 	}
 }
+.listTable {
+	border: 1px solid #dce6f1 ;
+	min-height: 400px ;
+	.icon-arrow-solid-down {
+		cursor: pointer;
+	}
+	.brandsDropdownSection {
+		padding-left: 20px ;
+		cursor: pointer;
+	}
+	.sectionNavHolder {
+		border-bottom: 1px solid #dce6f1;
+		font-family: "Avenir-bold";
+		padding: 8px 0;
+		color: #57606d;
+	}
+	.icon-next-arrow {
+		cursor: pointer;
+	}
+	.external_chkbox {
+		width: 100% ;
+		margin: 0 0 0 15px ;
+	}
+	.listTableHead {
+		border-bottom: 2px solid #dce6f1;
+    	padding: 15px 0px;
+		color: #57606d;
+		font-family: "Avenir-bold";
+	}
+
+	.eachList {
+		padding: 8px 0;
+		border-bottom: solid 1px #dce6f1;
+		&:hover {
+			background: #E1EDF9 ;
+			.circle:before {
+				background: #0564a9 ;
+			}
+		}
+	}
+	.circle:before {
+		background: #fff ;
+		border: solid 1px #dce6f1 ;
+
+	}
+	.searchBox {
+		border-bottom: solid 1px #dce6f1 ;
+		input , input:hover , input:focus {
+			border: 0px !important;
+			width: 85%;
+		}
+		.searchIcon {
+			cursor: pointer;
+			display: block;
+		    height: 36px;
+		    width: 40px;
+			background: url(/images/cdesk/search_input.png) no-repeat center center;
+
+		}
+	}
+	.firstLevelPermission {
+		.eachList {
+			cursor: pointer;
+		}
+	}
+	.external_chkbox .squaredFour {
+		margin: 0 10px 0 0 ;
+	}
+	.eachList.disabled {
+		opacity: 0.5 ;
+		div , label, span {
+			cursor: default !important;
+		}
+		.squaredFour label:after {
+			display: none;
+		}
+	}
+	.icon-arrow-solid-down {
+		color: #939EAE;
+		font-size: 10px;
+		margin: 4px 6px 0 0;
+	}
+	.pillsWrap {
+		width: 90% ;
+		.icon-close {
+			margin: 2px 0 0 8px;
+		}
+	}
+	.thirdLevelPermission {
+		.sectionNavHolder {
+			font-family: "Avenir" ;
+		}
+		.eachList {
+			padding: 0px ;
+			> div {
+				padding: 8px 0 ;
+			}
+			.brandsDropdownSection {
+				padding: 0px ;
+				.dropdown-workflow .btn-default {
+				    border: 0px !important;
+				    padding: 0;
+				    width: 255px;
+				    padding-left: 20px;
+				    border-radius: 0;
+				    -webkit-border-radius: 0;
+				    -moz-border-radius: 0;
+				}
+			}
+			&:hover {
+				background: none ;
+			}
+		}
+	}
+	.brandsSection {
+		border-left: solid 1px #dce6f1 ;
+	}
+
+}
+
+
+
+
+
+
+.adCreateMaster #targetting .targettingFormWrap#sellerTargetting {
+	.targetting-each-content {
+		display:block;
+		border:0px;
+	}
+	.targetting-tab-header {
+		padding:10px 0 0;
+		.btn-group .btn  {
+			color: #57606d;
+			margin-left: -1px ;
+			&.selected {
+				background-color: #dce6f1 !important;
+			border: 1px solid #bfc9d7 !important;
+			}
+		}
+
+	}
+	.selectedItems {
+		.icon-exclude {
+			color:#939EAD;
+			margin-top:2px;
+		}
+		.icon-success {
+			color:#0978c9;
+			margin-top:2px;
+		}
+	}
+}
+
+.cardSelectHolder .btn.marginVideoCreate {
+	margin-top: 38px ;
+}
+
+
+/*hotfix for the video targetting height increased , will be removed in 1.5.6 release */
+div.videoCardSelectHolder {
+    max-height: none;
+}
+/*end of hotfix for the video targetting*/
+
 

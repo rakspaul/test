@@ -56,9 +56,9 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.durationLeft = function () {
-            var today = this.momentInNetworkTZ.today(),
-                endDate = this.momentInNetworkTZ.newMoment(this.endDate),
-                startDate = this.momentInNetworkTZ.newMoment(this.startDate);
+            var today = moment(this.momentInNetworkTZ.today().format('YYYY-MM-DD')),
+                endDate = moment(this.endDate),
+                startDate = moment(this.startDate);
 
             if (today.isBefore(startDate)) {
                 // campaign yet to start
@@ -83,9 +83,9 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.durationCompletion = function () {
-            var today = this.momentInNetworkTZ.today(),
-                endDate = this.momentInNetworkTZ.newMoment(this.endDate),
-                startDate = this.momentInNetworkTZ.newMoment(this.startDate),
+            var today = moment(this.momentInNetworkTZ.today().format('YYYY-MM-DD')),
+                endDate = moment(this.endDate),
+                startDate = moment(this.startDate),
                 totalDays = endDate && endDate.diff(startDate, 'days'),
                 daysOver = Math.round(today.diff(startDate, 'days', true));
 
@@ -101,8 +101,8 @@ define(['angularAMD'], function (angularAMD) {
         };
 
         this.daysSinceEnded = function () {
-            var today = this.momentInNetworkTZ.today(),
-                endDate = this.momentInNetworkTZ.newMoment(this.endDate);
+            var today = moment(this.momentInNetworkTZ.today().format('YYYY-MM-DD')),
+                endDate = moment(this.endDate);
 
             return !endDate.isBefore(today) ? 0 : Math.round(today.diff(endDate, 'days', true));
         };

@@ -83,6 +83,7 @@ require.config({
         'platform-custom-module': 'workflow/services/platform_custom_module',
         'zip-code-service': 'common/services/zip_code_service',
         'admin-account-service': 'admin/services/admin_account_service',
+        'sellers-service': 'workflow/services/sellers_service',
 
         /*register Services - End*/
 
@@ -187,6 +188,8 @@ require.config({
         'vendor-config-select-type-controller': 'workflow/vendors_config/vendor_config_select_type_controller',
         'vendor-config-basic-settings-controller': 'workflow/vendors_config/vendor_config_basic_settings_controller',
         'vendor-config-service': 'workflow/vendors_config/vendor_config_service',
+        'vendor-config-permissions-controller': 'workflow/vendors_config/vendor_config_permissions_controller',
+
 
         'campaign-service': 'workflow/campaign/campaign_service',
         'pixels-controller': 'workflow/campaign/pixels_controller',
@@ -224,6 +227,7 @@ require.config({
         'ad-clone-controller': 'workflow/ad/ad_clone_controller',
         'direct-Inventory-controller': 'workflow/ad/direct_Inventory_controller',
         'login-controller': 'login/login_controller',
+        'tag-preview-controller': 'workflow/creative/tag_preview_controller',
         'campaign-reports-controller': 'reporting/controllers/campaign_reports_controller',
         'campaign-details-controller': 'reporting/controllers/campaign_details_controller',
         'performance-controller': 'reporting/controllers/performance_controller',
@@ -245,6 +249,7 @@ require.config({
         'creative-preview-controller': 'workflow/creative/creative_preview_controller',
         'creative-bulk-controller': 'workflow/creative/creative_bulk_controller',
         'audit-controller': 'admin/controllers/entity_audit_controller',
+        'seller-targetting-controller' : 'workflow/ad/seller_targetting_controller',
 
         /*register Controllers - Start*/
 

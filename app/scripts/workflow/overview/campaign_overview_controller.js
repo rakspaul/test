@@ -494,7 +494,7 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
             };
 
             $scope.resetAlertMessage = function () {
-                localStorage.removeItem('topAlertMessage');
+                vistoconfig.defaultMessage.reset();
                 $rootScope.setErrAlertMessage('', 0);
             };
 
@@ -541,6 +541,15 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
                             selectedStr += ', Video';
                         } else {
                             selectedStr += 'Video';
+                        }
+                    }
+
+
+                    if (adsData.targets.sellerTargets && adsData.targets.sellerTargets.length > 0) {
+                        if (selectedStr !== '') {
+                            selectedStr += ', Seller';
+                        } else {
+                            selectedStr += 'Seller';
                         }
                     }
 
@@ -1058,10 +1067,10 @@ define(['angularAMD', 'workflow-service', 'campaign-overview-service', 'get-adgr
 
                             if (formData.adgroupId) {
                                 $scope.createAdGroupMessage = 'Ad Group Edited Successfully';
-                                localStorage.setItem('topAlertMessage', $scope.textConstants.AD_GROUP_EDITED_SUCCESS);
+                                vistoconfig.defaultMessage.set({message : $scope.textConstants.AD_GROUP_EDITED_SUCCESS});
                             } else {
                                 $scope.createAdGroupMessage = isCampaignHasAds ? 'Successfully grouped Ads' : 'Ad Group Created Successfully';
-                                localStorage.setItem('topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
+                                vistoconfig.defaultMessage.set({message : $scope.textConstants.AD_GROUP_CREATED_SUCCESS});
                             }
 
                             $route.reload();

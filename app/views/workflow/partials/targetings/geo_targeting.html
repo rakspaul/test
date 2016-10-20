@@ -7,7 +7,7 @@
     <a ng-href="#" class="pull-right btn btn-link" ng-click="showTargettingScreen(true);" data-ng-bind="textConstants.CANCEL"></a>
 </div>
 
-<div class="col-md-12 zeroPadding targettingFormWrap">
+<div class="col-md-12 zeroPadding targettingFormWrap" id="geoTargettingFormWrap">
     <div class="col-md-7 zeroPadding tabbable" >
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
             <span data-ng-bind="textConstants.INCZIP"></span>
@@ -237,7 +237,7 @@
                                 <span class="icon-arrow-solid-down"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-with-search" >
-                                <div id="brandsDropdownDiv" class="search-inside-dropdown">
+                                <div id="brandsDropdownDiv" class="search-inside-dropdown search-inside-dropdown">
                                     <input class="dropdown-toggle inactive" ng-model="geoData.zip.name"/>
                                     <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
                                 </div>

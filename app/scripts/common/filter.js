@@ -569,21 +569,21 @@ define(['angularAMD'],
                 return function (value) {
                     var y = Math.abs(value),
                         returnValue;
-
-                    if (y < 9999) {
-                        returnValue = $filter('currency')(value.toFixed(2));
-                    } else if (y < 1000000) {
-                        returnValue = $filter('currency')((value / 1000).toFixed(2)) + 'K';
-                    } else if (y < 10000000) {
-                        returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-                    } else if (y < 1000000000) {
-                        returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-                    } else if (y < 1000000000000) {
-                        returnValue = $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
-                    } else {
-                        returnValue = '1T+';
+                    if(value) {
+                        if (y < 9999) {
+                            returnValue = $filter('currency')(value.toFixed(2));
+                        } else if (y < 1000000) {
+                            returnValue = $filter('currency')((value / 1000).toFixed(2)) + 'K';
+                        } else if (y < 10000000) {
+                            returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                        } else if (y < 1000000000) {
+                            returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                        } else if (y < 1000000000000) {
+                            returnValue = $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
+                        } else {
+                            returnValue = '1T+';
+                        }
                     }
-
                     return returnValue;
                 };
             })
@@ -671,7 +671,7 @@ define(['angularAMD'],
             .filter('suffixRBDimensionTotal', function (constants, $filter) {
                 return function (val, type) {
                     var ret = '';
-                    if(!val || !type){
+                    if(val === undefined || type === undefined){
                         return ret;
                     }
                     if(val === -1 && (type === 'Creative' || type === 'Research')){
@@ -687,6 +687,9 @@ define(['angularAMD'],
                         case 'PCCR %':
                         case 'pacing_metrics':
                             ret = val.toFixed(2) + '%';
+                            break;
+                        case 'Completion Rate':
+                            ret = $filter('number')(val, 2);
                             break;
                         case 'Measurable %':
                         case 'Viewable %':

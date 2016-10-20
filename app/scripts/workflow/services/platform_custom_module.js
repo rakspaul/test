@@ -7,6 +7,7 @@ define(['angularAMD'], function (angularAMD) {
 
             widgetTypeMapper = {
                 checkbox_boolean : 'checkbox',
+                checkbox_small_boolean : 'checkbox',
                 textbox_integer : 'number',
                 textbox_double : 'number',
                 textbox_string : 'text',
@@ -17,21 +18,14 @@ define(['angularAMD'], function (angularAMD) {
 
             //private method
             platformHeader = function (pJson, elem) {
-                var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">';
-
-                platformHTML += '<div class="col-md-8 zeroPadding">' + pJson.displayName + '<br/>';
-                platformHTML += '</div>';
-
-                platformHTML += ' <div class="col-md-4 zeroPadding pull-left clearLeft"><span>' +
-                    pJson.subName + '</span></div>';
-
-                platformHTML += '</div>';
-
+                var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">' +
+                    '<div class="col-md-8 zeroPadding">' + pJson.displayName + '<br/></div>' +
+                    '<div class="col-md-4 zeroPadding pull-left clearLeft"><span>' + pJson.subName + '</span></div></div>';
                 elem.append(platformHTML);
             },
 
-            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList,
-                                       dependentItems, elem) {
+            selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems, elem) {
+
                 var activationOrderList,
                     selectedOrderList,
                     platformCustomInputGroupId,
@@ -49,29 +43,26 @@ define(['angularAMD'], function (angularAMD) {
                             item.relationWith = dependentItems;
                         }
 
-                        createPlatformCustomInputList(item, elem/*_self.elem*/);
+                        createPlatformCustomInputList(item, elem);
                     };
 
                 if (dependentItems === 'selectBoxchkDependentItems') {
-                    _self
-                        .elem
+                    elem
                         .find('div[relationwith=selectBoxchkDependentItems]')
                         .length > 0 &&
-                            _self.elem.find('div[relationWith=selectBoxchkDependentItems]').parent('.form-group')
+                        elem.find('div[relationWith=selectBoxchkDependentItems]').parent('.form-group')
                         .remove();
 
-                    _self
-                        .elem
+                    elem
                         .find('div[relationwith=chkDependentItems]')
-                        .length > 0 && _self.elem.find('div[relationWith=chkDependentItems]').parent('.form-group')
+                        .length > 0 && elem.find('div[relationWith=chkDependentItems]').parent('.form-group')
                         .remove();
                 }
 
                 if (dependentItems === 'chkDependentItems') {
-                    _self
-                        .elem
+                    elem
                         .find('div[relationwith=chkDependentItems]')
-                        .length > 0 && _self.elem.find('div[relationWith=chkDependentItems]')
+                        .length > 0 && elem.find('div[relationWith=chkDependentItems]')
                         .remove();
                 }
 
@@ -129,8 +120,13 @@ define(['angularAMD'], function (angularAMD) {
                     if (inputList.displayName !== 'NA') {
                         fieldLabel =
                             $('<span />')
-                                .addClass('greyTxt col-md-12 zeroPadding')
                                 .text(inputList.displayName);
+
+                            if(inputList.platformCustomWidgetType === 'CHECKBOX_SMALL') {
+                                fieldLabel.addClass('inputCheckBoxSectionTxt');
+                            } else {
+                                fieldLabel.addClass('greyTxt col-md-12 zeroPadding');
+                            }
 
                         inputWrapper.append(fieldLabel);
                     }
@@ -164,9 +160,7 @@ define(['angularAMD'], function (angularAMD) {
                                 }
 
                                 if (inputList.dependentGroups) {
-                                    selectPlatform(this.value, inputList,
-                                        inputGroupList.platformCustomInputChildrenGroupList,
-                                        'selectBoxchkDependentItems', elem);
+                                    selectPlatform(this.value, inputList, inputGroupList.platformCustomInputChildrenGroupList, 'selectBoxchkDependentItems', elem);
                                 }
                             });
 
@@ -190,6 +184,7 @@ define(['angularAMD'], function (angularAMD) {
                 }
 
                 if (inputList.platformCustomWidgetType === 'CHECKBOX' ||
+                    inputList.platformCustomWidgetType === 'CHECKBOX_SMALL' ||
                     inputList.platformCustomWidgetType === 'TEXTBOX' ||
                     inputList.platformCustomWidgetType === 'HIDDEN' ||
                     inputList.platformCustomWidgetType === 'PLACEMENT_WIDGET') {
@@ -219,13 +214,21 @@ define(['angularAMD'], function (angularAMD) {
                             .addClass('decoratorFloat');
                     }
 
-                    if (platformCustomWidgetType === 'CHECKBOX') {
+                    if (platformCustomWidgetType === 'CHECKBOX' || platformCustomWidgetType === 'CHECKBOX_SMALL') {
                         inputListHTML
-                            .addClass('cmn-toggle cmn-toggle-round')
                             .attr({
                                 id: 'cmn-toggle-' + (idx + 1),
                                 checked : inputList.defaultValue ==='TRUE' ? true : false
                             });
+
+
+                        if(inputList.platformCustomWidgetType === 'CHECKBOX_SMALL') {
+                            inputListHTML
+                                .addClass('inputCheckBox');
+                        } else {
+                            inputListHTML
+                                .addClass('cmn-toggle cmn-toggle-round');
+                        }
 
                         inputWrapper.append(inputListHTML);
 
@@ -238,12 +241,13 @@ define(['angularAMD'], function (angularAMD) {
                                 })
                                 .appendTo(fieldLabel);
 
+
                         inputListHTML && inputListHTML.on('change', function () {
                             chkSelValue = this.checked ?  'TRUE' : 'FALSE';
                             if (inputList.dependentGroups) {
                                 selectPlatform(chkSelValue , inputList,
                                     inputGroupList.platformCustomInputChildrenGroupList,
-                                    'chkDependentItems');
+                                    'chkDependentItems', elem);
                             }
 
                             if (chkSelValue !== undefined) {
@@ -254,7 +258,7 @@ define(['angularAMD'], function (angularAMD) {
                         label = $('<label for="cmn-toggle-' + (idx + 1) + '"/>');
                         inputWrapper.append(label);
 
-                        if (inputList.defaultValue === 'TRUE') {
+                        if (inputList.defaultValue === 'TRUE' && platformCustomWidgetType === 'CHECKBOX') {
                             $timeout(function () {
                                 inputListHTML.trigger('change');
                             }, 300);
@@ -403,9 +407,15 @@ define(['angularAMD'], function (angularAMD) {
                             .addClass(noGroup ? 'form-individual-section' : '');
                 }
 
-                _.each(platformCustomInputList, function (inputList, idx) {
-                    newInpElem = createInputElem(inputList, inputGroupList, idx, elem, 'group');
 
+                if(_.filter(platformCustomInputList, function(obj) {
+                    return obj.platformCustomWidgetType === 'CHECKBOX_SMALL';
+                }).length > 0) {
+                    groupContainer.addClass('inputCheckBoxSection');
+                }
+
+                _.each(platformCustomInputList, function (inputList, idx) {
+                    newInpElem = createInputElem(inputList, inputGroupList, idx, elem);
                     if(inputList.platformCustomWidgetType === 'HIDDEN') {
                         newInpElem.hide();
                     }
@@ -421,6 +431,7 @@ define(['angularAMD'], function (angularAMD) {
                 var platformCustomInputChildrenGroupList;
 
                 createPlatformCustomInputList(inputGroupList, elem, noGroup);
+
                 platformCustomInputChildrenGroupList = inputGroupList.platformCustomInputChildrenGroupList;
 
                 _.each(platformCustomInputChildrenGroupList, function (inputGroupList) {

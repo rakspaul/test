@@ -89,7 +89,7 @@ define(['angularAMD', 'admin-account-service'],
             };
 
             _currCtrl.verifyInput = function () {
-             
+
                 var ret = true,
                     err = '',
                     billingErrors = validateBillingData(),
@@ -103,7 +103,7 @@ define(['angularAMD', 'admin-account-service'],
                     err = constants.SELECT_CLIENT_TYPE;
                     ret = false;
                 } else if (billingErrors && billingErrors !== ''){
-                
+
                     err = billingErrors;
                     ret = false;
                 }
@@ -342,7 +342,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             function initBillingForm() {
-              
+
                 getClientBillingTypes().then(function(res){
 
                     if(res.status === 'OK' || res.status === 'success'){
@@ -417,16 +417,18 @@ define(['angularAMD', 'admin-account-service'],
              function makeDefaultBillingSettings(clientId,billingTypes,settings){
 
              _.each(billingTypes, function(item,index){
-              
+
                 var rateTypeId = item;
 
                 if(!settings[rateTypeId]){
-                    settings[rateTypeId] = {};      
-                     settings[rateTypeId].isPercent = index.indexOf('PERCENTAGE') > -1;              
+                    settings[rateTypeId] = {};
                     settings[rateTypeId].clientId = clientId;
                     settings[rateTypeId].rateTypeId = item;
                     settings[rateTypeId].slices = [{'label':'', 'value':''}];
                   }
+
+                  settings[rateTypeId].isPercent = index.indexOf('PERCENTAGE') > -1;
+                  settings[rateTypeId].isPercent = (item === 21) ? false : settings[rateTypeId].isPercent;
                });
 
                return settings;
@@ -535,7 +537,7 @@ define(['angularAMD', 'admin-account-service'],
                         console.log('Error = ', err);
                     });
 
-  
+
 
 
             }
@@ -550,7 +552,7 @@ define(['angularAMD', 'admin-account-service'],
                     if(item && item.rate  || flatFeeSelected){
                        if(item.rate && item.itemize){
                             var total = 0;
-                           
+
                             for(var i = 0 ; i < item.slices.length; i++){
                                 if(item.slices[i].label && item.slices[i].label != ''){
                                     total += Number(item.slices[i].value);
@@ -576,7 +578,7 @@ define(['angularAMD', 'admin-account-service'],
                               isValid = false;
                             }
 
-                        }                    
+                        }
                     }
                 });
 
@@ -584,7 +586,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             function validateBillingData(){
-                var errors = ''; 
+                var errors = '';
                 errors = !validateBillingDataSet($scope.clientBillingSettings) ? $scope.textConstants.CLIENT_BILLING_SETTINGS_ERROR : '';
                 errors += !validateBillingDataSet($scope.advertiserBillingSettings) ?  '<br /> ' + $scope.textConstants.ADVERTISER_BILLING_SETTINGS_ERROR : '';
 
@@ -593,14 +595,14 @@ define(['angularAMD', 'admin-account-service'],
 
             function getBillingDataToSave(billingSettings,clientId){
                 var settingsToSave = [],isError = false;
-               
+
                 _.each(billingSettings, function(item,index){
 
                     var flatFeeSelected = (typeof item.useFlatFee !== 'undefined');
 
 
                     if(item && item.rate  || flatFeeSelected){
-                        var tempItem = {}; 
+                        var tempItem = {};
 
                         if(item.id)
                             tempItem.id = item.id;
@@ -609,6 +611,7 @@ define(['angularAMD', 'admin-account-service'],
                         tempItem.rateTypeId = item.rateTypeId;
                         tempItem.clientId = clientId;
                         tempItem.startTime = item.startTime;
+                        tempItem.isPercent = item.isPercent;
 
                         if(item.updatedAt)
                             tempItem.updatedAt = item.updatedAt;
@@ -624,7 +627,7 @@ define(['angularAMD', 'admin-account-service'],
                                 if(item.slices[i].label && item.slices[i].label != ''){
                                     tempItem['slice'+ (i+1) + 'Label'] = item.slices[i].label;
                                     tempItem['slice'+ (i+1) + 'Value'] = item.slices[i].value;
-                                   
+
                                 }
                             }
 
@@ -840,6 +843,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             $scope.saveClients = function () {
+                $scope.saveAccounts = true;
                 var clientObj,
                     body;
 
@@ -941,7 +945,7 @@ define(['angularAMD', 'admin-account-service'],
             }
 
             $scope.filterCountries = function(){
-               
+
                 $scope.GeographyList = [];
 
                 var input = $('#accountGeography').val();
@@ -964,7 +968,7 @@ define(['angularAMD', 'admin-account-service'],
 
             $scope.selectCurrency = function (curr) {
                 $scope.selectedCurrency = curr.currencyCode;
-                $scope.selectedCurrencyId = curr.id;               
+                $scope.selectedCurrencyId = curr.id;
             };
 
             $scope.selectCountry = function (country) {
@@ -993,8 +997,8 @@ define(['angularAMD', 'admin-account-service'],
 
                 setTimeout(function () {
                     $('#geography, .setSelectedClientCode').addClass('disabled');
-                    $('#accountGeography').attr("disabled","disabled"); 
-                    $('#accountGeographyDD').hide();               
+                    $('#accountGeography').attr("disabled","disabled");
+                    $('#accountGeographyDD').hide();
                 }, 100);
             }
 

@@ -1,6 +1,6 @@
 define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budget-delivery-controller', 'buying-platform-controller', 'targetting-controller',
     'geo-targetting-controller', 'audience-targetting-controller', 'daypart-create-controller', 'video-targetting-controller', 'inventory-filters-controller',
-    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller'],
+    'creative-controller', 'creative-list-controller', 'creative-tag-controller', 'platform-custom-module', 'ad-clone-controller', 'seller-targetting-controller'],
     function (angularAMD) {
 
     angularAMD.controller('CampaignAdsCreateController', ['$scope', '$modal', '$rootScope', '$routeParams', '$locale', '$location', '$filter', '$timeout', 'constants',
@@ -300,6 +300,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     idx,
                     i,
                     videoTargetsData,
+                    sellerTargettingData,
                     pacingType,
 
                     findFunc = function (item) {
@@ -510,10 +511,12 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     $scope.adData.fetchValue = false;
                 }
 
+                $scope.adData.isOverbooked = false;
                 if (responseData.overbook) {
                     $scope.adData.isOverbooked = responseData.overbook;
                     $scope.adData.overbookPercent = responseData.overbookPercentage;
                 }
+
 
                 if (responseData.rateType) {
                     idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
@@ -531,17 +534,24 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         .html($scope.adData.unitType.name + '<span class="icon-arrow-solid-down"></span>');
                 }
 
-                $('.cap_no input').attr('checked', 'checked');
+                $('.spend_evenly').addClass('active');
                 $('.spend_evenly input').attr('checked', 'checked');
 
                 pacingType = responseData.pacingType;
 
                 if (pacingType !== 'EVENLY') {
-                    $('.spend_asap').addClass('active');
-                    $('.spend_asap input').attr('checked', 'checked');
+                    if(responseData.dailyBudgetType && responseData.dailyBudgetValue){
+                        $scope.adData.dailyBudgetValue = responseData.dailyBudgetValue;
+                        $('.daily_cap').addClass('active');
+                        $('.daily_cap input').attr('checked', 'checked');
+                        $('#daily_cap_input').show();
+                    } else {
+                        $('.spend_asap').addClass('active');
+                        $('.spend_asap input').attr('checked', 'checked');
+                    }
                     $('.spend_evenly').removeClass('active');
                 }
-
+                
                 if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
                     $scope.adData.setCap = true;
                     $scope.enableFreqCap = true;
@@ -608,6 +618,17 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     videoTargetsData.videoTargets.positions.length > 0 ||
                     videoTargetsData.videoTargets.playbackMethods.length > 0)) {
                     $scope.$broadcast('setTargeting', ['Video']);
+                }
+
+                // sellers part edit
+                sellerTargettingData = responseData.targets;
+                if (sellerTargettingData.sellerTargets &&
+                    (sellerTargettingData.sellerTargets.length > 0)) {
+                    $scope.adData.sellersTargetting = sellerTargettingData.sellerTargets;
+                    $scope.adData.sellersAction = (responseData.sellersAction === 'INCLUDE')? true : false;
+                    //side bar
+                    $scope.adData.isSellerSelected = true;
+                    // $scope.$broadcast('triggerSeller');
                 }
 
                 $scope.$broadcast('getDominList', [{
@@ -763,7 +784,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             $scope.adArchiveLoader = false;
 
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_ARCHIVE_SUCCESS});
                         } else {
                             errorAchiveAdHandler();
                         }
@@ -796,7 +817,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adArchive = false;
                             url = '/mediaplan/' + $scope.campaignId + '/overview';
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_PAUSE_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_PAUSE_SUCCESS});
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         } else {
                             errorAchiveAdHandler();
@@ -828,7 +849,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.adArchive = false;
-                            localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
+                            vistoconfig.defaultMessage.set({message:$scope.textConstants.WF_AD_RESUME_SUCCESS});
                             $location.url(urlBuilder.mediaPlanOverviewUrl($scope.campaignId));
                         } else {
                             errorAchiveAdHandler();
@@ -1161,33 +1182,39 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 // If we are handling an ad of an Adgroup
                 if (location.href.indexOf('adGroup') > -1) {
                     if ($scope.mode === 'edit') {
-                        if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
-                            adGroupStartDate = currentDate;
-                        } else {
-                            adGroupStartDate = $scope.workflowData.adGroupData.startDate;
-                        }
+                        $timeout(function() {
+                            if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
+                                adGroupStartDate = currentDate;
+                            } else {
+                                adGroupStartDate = $scope.workflowData.adGroupData.startDate;
+                            }
 
-                        adGroupEndDate = $scope.workflowData.adGroupData.endDate;
-                        startDateElem.datepicker('setStartDate', adGroupStartDate);
-                        startDateElem.datepicker('setEndDate', adGroupEndDate);
-                        $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
-                    } else {
-                        // When creating a new Adgroup ad, if Adgroup start date is:
-                        // 1) before currrent date (in the past), default start & end dates will be current date
-                        // 2) else (in the future)m default current date will be Adgroup start date.
-                        adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
-                        adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
-
-                        if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
-                            startDateElem.datepicker('setStartDate', currentDate);
-                            startDateElem.datepicker('update', currentDate);
-                        } else {
+                            adGroupEndDate = $scope.workflowData.adGroupData.endDate;
                             startDateElem.datepicker('setStartDate', adGroupStartDate);
-                            startDateElem.datepicker('update', adGroupStartDate);
-                        }
+                            startDateElem.datepicker('setEndDate', adGroupEndDate);
+                            $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+                        },2000);
 
-                        startDateElem.datepicker('setEndDate', adGroupEndDate);
-                        endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate);
+                    } else {
+                        $timeout(function() {
+                            // When creating a new Adgroup ad, if Adgroup start date is:
+                            // 1) before currrent date (in the past), default start & end dates will be current date
+                            // 2) else (in the future)m default current date will be Adgroup start date.
+                            adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
+                            adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
+
+                            if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
+                                startDateElem.datepicker('setStartDate', currentDate);
+                                startDateElem.datepicker('update', currentDate);
+                            } else {
+                                startDateElem.datepicker('setStartDate', adGroupStartDate);
+                                startDateElem.datepicker('update', adGroupStartDate);
+                            }
+
+                            startDateElem.datepicker('setEndDate', adGroupEndDate);
+                            endDateElem.datepicker('update',$scope.workflowData.adGroupData.endDate);
+                        },2000);
+
                     }
                 } else {
                     // Normal ad (non-Adgroup)
@@ -1350,11 +1377,19 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                 parentElem.find('label').removeClass('active');
                 target.parent().addClass('active');
                 target.attr('checked', 'checked');
+            };
 
-                if( target.closest('.btn').hasClass('daily_cap')) {
-                    $('#daily_cap_input').show();
+            $scope.checkIfDailyCap = function(event) {
+                 var target;
+                 target = $(event.target);
+
+                 if( target.closest('.btn').hasClass('daily_cap')) {
+                   var dailyCapInput = $('#daily_cap_input');
+                       dailyCapInput.show();
+                    dailyCapInput.find('input[type="text"]').focus();
+
                 } else {
-                    $('#daily_cap_input').hide();
+                   $('#daily_cap_input').hide();
                 }
             };
 
@@ -1450,6 +1485,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                     ($scope.budgetErrorObj.mediaCostValidator ||
                     $scope.budgetErrorObj.availableRevenueValidator ||
                     $scope.budgetErrorObj.impressionPerUserValidator ||
+                    $scope.budgetErrorObj.dailyCapValidator ||
                     $scope.budgetErrorObj.availableMaximumAdRevenueValidator) ||
                     !formData.targetImpressions) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
@@ -1550,12 +1586,18 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                             postAdDataObj.frequencyCaps = getfreqCapParams(formData);
                         }
 
-                        if (formData.isOverbooked){
+                        if (formData.isOverbooked) {
                             postAdDataObj.overbook = formData.isOverbooked;
                             postAdDataObj.overbookPercentage = formData.overbookPercent;
                         }
 
-                        postAdDataObj.pacingType = formData.pacingType;
+                        if (formData.pacingType === 'DAILYCAP') {
+                            postAdDataObj.dailyBudgetType = formData.budgetType ? formData.budgetType : 'impressions';
+                            postAdDataObj.dailyBudgetValue = formData.dailyBudgetValue;
+                            postAdDataObj.pacingType = 'ASAP';
+                        } else {
+                            postAdDataObj.pacingType = formData.pacingType;
+                        }
 
                         if (formData.budgetType && formData.budgetAmount) {
                             postAdDataObj.budgetType = formData.budgetType;
@@ -1736,6 +1778,14 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                                     }
                                 }
                             }
+
+                            //sellers targetting
+                            if ($scope.adData.sellersTargetting && $scope.adData.sellersTargetting.length > 0) {
+                                postAdDataObj.targets.sellerTargets = _.pluck($scope.adData.sellersTargetting,'id');
+                                postAdDataObj.sellersAction = $scope.adData.sellersAction ? 'INCLUDE':'EXCLUDE';
+                            }
+
+
                         }
 
                         inventoryLists = workflowService.segrigateInventory($scope.workflowData.selectedLists);
@@ -1750,6 +1800,7 @@ define(['angularAMD', 'audience-service', 'video-service', 'common-utils', 'budg
                         if (inventoryLists.appList.length > 0){
                             appListsIds = inventoryLists.appList;
                         }
+
 
                         // domains save
                         if ($scope.adData.inventory &&

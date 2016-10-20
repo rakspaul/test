@@ -68,7 +68,7 @@
                 <div class="commonCurrencySymLabel">
                     <span class="KPI_symbol commonCurrencySym" >{{textConstants.currencySymbol}}</span>
                     <input ng-if="((adData.primaryKpi).toLowerCase()=='impressions')||((adData.primaryKpi).toLowerCase()=='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off" fcsa-number="{  }" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();percentageValueCheck($event,adData.primaryKpi);" round-converter whole-number-only="whole-number-only" autocomplete="off">
-                    <input ng-if="((adData.primaryKpi).toLowerCase()!='impressions')&&((adData.primaryKpi).toLowerCase()!='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off"  fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();percentageValueCheck($event,adData.primaryKpi);" autocomplete="off">
+                    <input ng-if="((adData.primaryKpi).toLowerCase()!='impressions')&&((adData.primaryKpi).toLowerCase()!='viewable impressions')" class="target_val_input targetValueInput" type="text" ng-model="adData.targetValue" fcsa-number="{ }" ng-value="adData.targetValue" autocomplete="off"  fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="checkBudgetExceed();computeTargetValue();percentageValueCheck($event,adData.primaryKpi)" autocomplete="off">
                 </div>
             </div>
         </div>
@@ -79,10 +79,10 @@
                 <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Impressions</span>
             </div>
 
-            <div class="col-md-2 targetInputs targetImpressions ">
-                <span class="commonCurrencySymLabel">
+            <div class="col-md-2 targetInputs targetImpressions">
+                 <span class="commonCurrencySymLabel">
                     <span class="KPI_symbol commonCurrencySym" >#</span>
-                    <input class="target_val_input disabled-field" disabled  type="text" ng-blur="checkImpsValue()" ng-keyup="checkBudgetExceed();computeTargetValue();checkImpsValue();" ng-model="adData.targetImpressions" autocomplete="off" fcsa-number="{  }" round-converter whole-number-only="whole-number-only">
+                    <input class="target_val_input disabled-field" disabled type="text" ng-blur="checkImpsValue()" ng-keyup="checkBudgetExceed();computeTargetValue();checkImpsValue();" ng-model="adData.targetImpressions" autocomplete="off" fcsa-number="{  }" round-converter whole-number-only="whole-number-only">
                     <input type="hidden" name="targetImpressions" ng-model="adData.targetImpressions" ng-value="adData.targetImpressions"  >
                     <label ng-if="budgetErrorObj.targetImpressionValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_TARGET_IMPRESSIONS_MANDATORY"></label>
                 </span>
@@ -110,10 +110,10 @@
                 <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Actions<span class="text" style="margin-left: 3px;" ng-if="isKpiFieldOptional('actions')">(Optional)</span></span>
             </div>
 
-            <div class="col-md-2 targetInputs targetActions ">
+            <div class="col-md-2 targetInputs targetActions">
                 <span class="commonCurrencySymLabel">
-                    <span class="KPI_symbol commonCurrencySym ">#</span>
-                    <input class="target_val_input" round-converter  type="text" ng-model="adData.targetActions" ng-value="adData.targetActions" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                    <span class="KPI_symbol commonCurrencySym" >#</span>
+                    <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetActions" ng-value="adData.targetActions" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
                     <input type="hidden" name="targetActions" ng-model="adData.targetActions" ng-value="adData.targetActions">
                 </span>
             </div>
@@ -126,10 +126,10 @@
                 <span class="col-md-12 zeroPadding text-right" style="color: #939EAE; margin-top: 7px;">Target Clicks<span style="margin-left: 3px;" class="text" ng-if="isKpiFieldOptional('clicks')">(Optional)</span></span>
             </div>
 
-            <div class="col-md-2 targetInputs targetClicks ">
+            <div class="col-md-2 targetInputs targetClicks">
                 <span class="commonCurrencySymLabel">
-                    <span class="KPI_symbol commonCurrencySym">#</span>
-                    <input class="target_val_input" round-converter type="text" ng-model="adData.targetClicks" ng-value="adData.targetClicks" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
+                    <span class="KPI_symbol commonCurrencySym" >#</span>
+                    <input class="target_val_input" round-converter style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetClicks" ng-value="adData.targetClicks" fcsa-number="{  }" autocomplete="off" whole-number-only="whole-number-only" >
                     <input type="hidden" name="targetClicks" ng-model="adData.targetClicks" ng-value="adData.targetClicks">
                 </span>
             </div>
@@ -137,6 +137,33 @@
     </div>
 
     <h2 class="col-md-12 zeroPadding adHeader" data-ng-bind="textConstants.SETUPBUDGET"></h2>
+
+    <!--Row 2-->
+    <!--<div class="col-md-12 zeroPadding unitCost symbolAbs">-->
+    <!--    <div class="col-md-2 zeroPadding" style="margin-right: 10px;">-->
+    <!--        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>-->
+    <!--        <div class="col-md-12 zeroPadding dropdown-workflow">-->
+    <!--             <div class="dropdown">-->
+    <!--                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+    <!--                       <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>-->
+    <!--                       <span class="icon-arrow-solid-down"></span>-->
+    <!--                  </button>-->
+    <!--                  <ul class="dropdown-menu" aria-labelledby="unitcostType"  id="unitcostType" data-toggle="dropdown">-->
+    <!--                       <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">-->
+    <!--                        <a  data-ng-bind="unitType.name"></a>-->
+    <!--                       </li>-->
+    <!--                  </ul>-->
+    <!--                 <input type="hidden" name="unitType" ng-model="unitName" ng-update-hidden/>-->
+    <!--             </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!---->
+    <!--    <div class="col-md-2 zeroPadding">-->
+    <!--        <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>-->
+    <!--        <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>-->
+    <!--        <input style="text-indent: 9px;" type="text" class="form-control" ng-model="adData.unitCost" autocomplete="off" fcsa-number="{ }" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();ImpressionPerUserValidator();" autocomplete="off">-->
+    <!--    </div>-->
+    <!--</div>-->
 
     <!--Row 3-->
     <div class="col-md-12 zeroPadding symbolAbs impressions_holder">
@@ -193,8 +220,8 @@
             <div class="col-sm-12 zeroPadding budgetFields">
                 <div class="col-sm-12 zeroPadding" >
                     <span class="pull-left commonCurrencySymLabel">
-                        <span class="commonCurrencySym" >{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                        <input id="adBudgetInput" ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
+                        <span class="commonCurrencySym">{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
+                        <input ng-if="(adData.budgetType).toLowerCase()=='cost'" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()" autocomplete="off">
                         <input ng-if="(adData.budgetType).toLowerCase()=='impressions'" round-converter autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text"  whole-number-only="whole-number-only" class="form-control pull-left" ng-model="adData.budgetAmount" fcsa-number="{  }" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
                         <input type="hidden" name="budgetAmount" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount">
                     </span>
@@ -215,7 +242,7 @@
                 <div ng-if="(adData.budgetType.toLowerCase() !== 'cost' && adData.fetchValue) ? true : false" class="col-sm-12 zeroPadding marginTop">
                     <span class="pull-left commonCurrencySymLabel">
                         <span class="commonCurrencySym" >%</span>
-                        <input id="overbookPercent" name="overbookPercent" autocomplete="off" style="width:130px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-disabled="!adData.isOverbooked"
+                        <input id="overbookPercent" name="overbookPercent" autocomplete="off" style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" fraction-numbers="fraction-numbers" class="form-control pull-left" ng-disabled="!adData.isOverbooked"
                                ng-model="adData.overbookPercent" fcsa-number="{  }" ng-value="adData.overbookPercent" id="overbookPercent" placeholder="Enter Value" autocomplete="off" ng-keyup="percentageValueCheck($event,'OVERBOOK')">
                     </span>
                     <div class="col-md-5 control-label marginLeft zeroPadding">
@@ -225,8 +252,10 @@
                                     <input type="checkbox" id="overbook_squaredFour" name="isOverbooked" class="squaredFourChkbox" ng-checked="adData.isOverbooked" ng-change="adData.overbookPercent=adData.isOverbooked?adData.overbookPercent:''"  ng-model="adData.isOverbooked" ng-value="adData.isOverbooked">
                                     <label for="overbook_squaredFour"></label>
                                 </div>
+
                                 <span class="pull-left greyTxt">Overbook</span>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -251,21 +280,22 @@
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.PACING"></label>
                 <div class="pull-left btn-group miniToggle">
                     <label class="btn btn-default active spend_evenly"><span data-ng-bind="textConstants.PACEEVENLY"></span>
-                        <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);">
+                        <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);checkDailyCapValue('EVENLY');checkIfDailyCap($event);">
                     </label>
 
-                    <label class="btn btn-default spend_asap"><span data-ng-bind="textConstants.SENDFAST"></span>
-                        <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);">
+                    <label class="btn btn-default spend_asap" ><span data-ng-bind="textConstants.SENDFAST"></span>
+                        <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);checkDailyCapValue('ASAP');checkIfDailyCap($event);">
                     </label>
                     <label class="btn btn-default daily_cap"><span data-ng-bind="textConstants.DAILYCAP"></span>
-                        <input type="radio" name="pacingType" group="budgetGroup" value="DAILYCAP" hidden="hidden" class="btn_rad" id="daily_cap" ng-click="toggleBtn($event);">
-                    </label>
-                </div>
-                <div class="col-md-3 " id='daily_cap_input' style="display:none;" >
-                    <span class="commonCurrencySymLabel">
-                        <span class="KPI_symbol commonCurrencySym" >{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                        <input type="text">
-                    </span>
+                       <input type="radio" name="pacingType" group="budgetGroup" value="DAILYCAP" hidden="hidden" class="btn_rad" id="daily_cap" ng-click="toggleBtn($event);checkDailyCapValue('DAILYCAP');checkIfDailyCap($event);">
+                   </label>
+               </div>
+               <div class="col-md-3 " id='daily_cap_input' style="display:none;" >
+                   <span class="commonCurrencySymLabel">
+                       <span class="KPI_symbol commonCurrencySym" >{{adData.budgetType.toLowerCase()=='cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
+                       <input type="text" required="true" name="dailyBudgetValue" ng-model="adData.dailyBudgetValue" ng-blur="checkDailyCapValue('DAILYCAP');">
+                       <label ng-if="budgetErrorObj.dailyCapValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.DAILY_CAP_ERROR_MESSAGE"></label>
+                   </span>
                 </div>
             </div>
 
@@ -288,7 +318,7 @@
             </div>
 
             <div class="row col-md-9 zeroPadding" ng-show="enableFreqCap">
-                <div class="col-md-12 zeroPadding symbolAbs marginTop"  >
+                <div class="col-md-12 zeroPadding symbolAbs marginTop" >
                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
                     <div class="form-group col-md-7 zeroPadding">
                         <div class="commonCurrencySymLabel" style="display:block;">

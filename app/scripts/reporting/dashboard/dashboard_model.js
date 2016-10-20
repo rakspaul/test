@@ -8,28 +8,12 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
 
                 var dashboardData = {},
 
-                getMediaPlanToolTip = function() {
+                getMediaPlanToolTip = function(campaignTotal) {
                     var total = 0,
-                        toolTipText,
-                        stateMapper = {
-                            'In Flight' : 'In_flight',
-                            'Ended' : 'Ended'
-                        },
-                        selectedStatus = getSelectedStatus();
-
-
-                    if(stateMapper[selectedStatus]) {
-                        _.each(dashboardData.campaignData.advertisers, function (obj) {
-                            total += _.filter(obj.campaigns, function (campaign) {
-                                return campaign.state === stateMapper[selectedStatus];
-                            }).length;
-                        });
-                    } else {
-                        total = dashboardData.campaignData.total_campaigns;
-                    }
+                        toolTipText;
 
                     toolTipText = 'Media Plan' + (total > 1 ? 's' : '');
-                    dashboardData.toolTipText = 'Showing data for ' + total + ' ' + toolTipText;
+                    dashboardData.toolTipText = 'Showing data for ' + campaignTotal + ' ' + toolTipText;
                 },
 
                 getAdvertisers = function () {
@@ -42,8 +26,6 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                         .then(function (response) {
                             if(response.data && response.data.data && response.status === 'success') {
                                 dashboardData.campaignData = response.data.data;
-
-                                getMediaPlanToolTip();
                             }
                         });
                 },
@@ -90,6 +72,10 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                     return dashboardData;
                 },
 
+                setCampaignTotal = function(total) {
+                    getMediaPlanToolTip(total);
+                },
+
                 campaignStatusToSend = function () {
                     var campStatus = getSelectedStatus();
 
@@ -127,6 +113,7 @@ define(['angularAMD', 'time-period-model', 'url-service', 'request-cancel-servic
                 campaignStatusToSend: campaignStatusToSend,
                 setSelectedStatus: setSelectedStatus,
                 getSelectedStatus: getSelectedStatus,
+                setCampaignTotal : setCampaignTotal
 
             };
         }

@@ -108,7 +108,7 @@
   position: fixed;
   top: 0;
   width: 1200px;
-  z-index: 999;
+  z-index: 9999999;
   padding: 0;
   left: initial;
 }

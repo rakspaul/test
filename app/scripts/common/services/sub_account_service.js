@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     angularAMD.service('subAccountService', ['$rootScope', '$location', '$q', '$route', '$timeout', 'vistoconfig', 'workflowService', 'campaignSelectModel', 'advertiserModel',
-        'brandsModel', 'pageFinder', function ($rootScope, $location, $q, $route, $timeout, vistoconfig, workflowService, campaignSelectModel,
-                                               advertiserModel, brandsModel, pageFinder) {
+        'brandsModel', 'pageFinder','constants', function ($rootScope, $location, $q, $route, $timeout, vistoconfig, workflowService, campaignSelectModel,
+                                               advertiserModel, brandsModel, pageFinder,constants) {
             var subAccountList = [],
                 mediaplanCreateSubAccountList = [],
                 selectedSubAccount,
@@ -178,6 +178,9 @@ define(['angularAMD'], function (angularAMD) {
 
                 changeSubAccount =  function (account, subAccount) {
                     var url = '/a/' + account + '/sa/' + subAccount.id;
+
+                    //Required to find whether subaccount changed on dashboard page
+                    $rootScope.$broadcast(constants.SUBACCOUNT_CHANGED, subAccount);
 
                     $location.url(pageFinder.pageBuilder($location.path()).buildPage(url));
                 };

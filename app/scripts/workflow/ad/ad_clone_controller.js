@@ -3,8 +3,10 @@ define(['angularAMD'], function (angularAMD) {
 
     angularAMD.controller('AdClone', ['$scope', '$rootScope', '$timeout', '$routeParams', '$location', '$modalInstance',
         'vistoconfig', 'getMediaPlansForClone', 'workflowService', 'constants', 'localStorageService', 'urlBuilder',
+
         function ($scope, $rootScope, $timeout, $routeParams, $location, $modalInstance, vistoconfig, getMediaPlansForClone, workflowService, constants,
                   localStorageService, urlBuilder) {
+
             var selectedMediaPlanId,
                 selectedAdGroupId = -1,
 

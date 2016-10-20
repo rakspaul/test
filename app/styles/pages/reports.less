@@ -118,6 +118,18 @@ div.reports_tabs_content_container {
     }
 }
 
+/*
+    Admin Page
+*/
+#advtab{
+    .arbitrageBillView, .cogsBillView{
+        .inputSymbolAlignment{
+            top: 21px;
+            left: 103px;
+            width: 10px;
+        }
+    }
+}
 /* Link: v1sto/invoices
    Content: MediaPlan, Invoices
 */
@@ -126,6 +138,43 @@ div.reports_tabs_content_container {
         text-decoration: underline;
         color: @visto-blue;
         cursor: pointer;
+    }
+}
+/*
+Tag Verification Page
+*/
+#tagValidator{
+    textarea{
+        resize: both;
+        width: 556px;
+        height: 200px;
+    }
+
+    .buttonAlign{
+        margin-top: 15px;
+    }
+
+    .browserImage{
+        width: 1171px;
+        margin-top: 25px;
+    }
+
+    #tagCnt{
+        position: absolute;
+        left: 200px;
+        top: 562px;
+        width: 1142px;
+        height: 613px;
+        z-index: 10;
+    }
+    .title{
+        position: absolute;
+        font-style: italic;
+        font-size: xx-large;
+        .vendor{
+            font-size: 43px;
+            color: #285e8e;
+        }
     }
 }
 
@@ -1362,7 +1411,11 @@ div.strategy_total_container {
         border-top: 0px ;
         margin-top: 0px ;
     }
-
+    .sepratorLineCls {
+        .platform_name_col {
+            font-family: "Avenir-bold" ;
+        }
+    }
     .each_col{
         float: left;
         width: 185px;
@@ -2948,6 +3001,16 @@ div.strategy_total_container {
             }
         }
     }
+    .sepratorLineCls {
+        .plat_name {
+            font-family: "Avenir-bold" ;
+        }
+    }
+    .each_strategy {
+        .first_col {
+            margin-bottom: 15px ;
+        }
+    }
     .reports_platform_header ,  .each_strategy_holder {
         padding: 10px 0 10px 10px !important;
     }
@@ -3013,6 +3076,13 @@ div.strategy_total_container {
     .strategy_total_container_header {
         .each_row_list {
             padding-left: 15px ;
+        }
+    }
+
+
+    .kpi_indicator_ul {
+        .drop_list {
+            width : 100% !important;
         }
     }
 }
@@ -4427,18 +4497,24 @@ only screen and (min-device-pixel-ratio: 2) {
         .heading_row {
             font-family: "Avenir-bold" ;
             margin-bottom: 20px ;
-            border-bottom: solid 1px #ccc ;
-            padding: 30px 30px 0 30px;
+            border-bottom: solid 1px #bfc9d7;
+            padding: 20px 20px 0 20px;
             .inner_heading_row {
                 width: 100% ;
+                color: @lead-gray;
             }
         }
         .inner_heading_row_total{
-            font-family: "Avenir";
+            font-family: "Avenir-bold";
+            color: @raven-text;
         }
         .first_dimension_row_holder {
-            padding: 45px 0px 0px 0px ;
+            padding: 40px 0px 0px 0px ;
             margin-top: 80px;
+        }
+
+        .first_dimension_row_holder_pacing {
+            padding: 0px 0px 0px 20px ;
         }
         .second_dimension_row_holder  {
             margin-left: 5px ;
@@ -4469,9 +4545,9 @@ only screen and (min-device-pixel-ratio: 2) {
         }
         .each_col {
             display: table-cell;
-            width: 160px;
-            min-width: 160px;
-            max-width: 160px;
+            width: 165px;
+            min-width: 165px;
+            max-width: 165px;
             word-wrap: break-word;
             padding-right: 15px;
             //padding-bottom: 15px;
@@ -4625,7 +4701,7 @@ div.reports_tabs_content_container {
     }
     .custom_report_scroll {
         .first_dimension_row_holder {
-            padding-left: 28px;
+            padding-left: 20px;
         }
         .heading_first_dimension:first-child {
             padding-left: 0 ;
@@ -5231,12 +5307,12 @@ body.custom_report_page {
 .custom_report_response_table .sort_order_up.active {
     background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -65px;
     cursor: pointer;
-    padding-right: 20px;
+    padding-right: 15px;
     color: #0978c9;
 }
 .custom_report_response_table .sort_order_down , .custom_report_response_table .sort_order_up{
     cursor: pointer;
-    padding-right: 20px;
+    padding-right: 16px;
 }
 .custom_report_response_table .sort_order_down:hover {
     background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px;
@@ -5244,7 +5320,7 @@ body.custom_report_page {
 .custom_report_response_table .sort_order_down.active {
     background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -65px;
     cursor: pointer;
-    padding-right: 20px;
+    padding-right: 15px;
     color: #0978c9;
 }
 
