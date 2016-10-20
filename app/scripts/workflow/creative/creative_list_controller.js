@@ -476,10 +476,10 @@ define(['angularAMD', 'creative-bulk-controller', 'filter-directive'], function 
 
             $('.main_navigation')
                 .find('.active')
-                .removeClass('active')
+                .removeClass('active active_tab')
                 .end()
                 .find('#creative_nav_link')
-                .addClass('active');
+                .addClass('active active_tab');
 
             $('html').css('background', '#fff');
             $('.bodyWrap').css('width', '100%');

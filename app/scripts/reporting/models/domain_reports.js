@@ -74,10 +74,10 @@ define(['angularAMD', 'time-period-directive', 'sub-account-directive',
                 // Hot fix to show the campaign tab selected
                 $('.main_navigation')
                     .find('.active')
-                    .removeClass('active')
+                    .removeClass('active active_tab')
                     .end()
                     .find('#reports_nav_link')
-                    .addClass('active');
+                    .addClass('active active_tab');
             },
 
             checkForCampaignFormat: function (adFormats) {
