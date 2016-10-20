@@ -1651,10 +1651,10 @@ define(['angularAMD', 'time-period-model', 'transformer-service', 'campaign-cdb-
                 // Hot fix to show the campaign tab selected
                 $('.main_navigation')
                     .find('.active')
-                    .removeClass('active')
+                    .removeClass('active active_tab')
                     .end()
                     .find('#reports_nav_link')
-                    .addClass('active');
+                    .addClass('active active_tab');
 
                 // angularAMD.inject(function ($rootScope, $route, vistoconfig) {
                 //     $rootScope.$on('$locationChangeSuccess',function (evt, absNewUrl, absOldUrl) {
