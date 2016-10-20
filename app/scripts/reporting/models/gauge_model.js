@@ -42,7 +42,6 @@ define(['angularAMD', 'url-service', 'dashboard-model', 'request-cancel-service'
                         }
 
                         dashboardModel.setCampaignTotal(response.data.data.total);
-  ;
                         return {
                             onTrackPct: pct,
                             onTrack: onTrack,

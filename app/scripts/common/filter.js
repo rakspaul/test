@@ -569,21 +569,21 @@ define(['angularAMD'],
                 return function (value) {
                     var y = Math.abs(value),
                         returnValue;
-
-                    if (y < 9999) {
-                        returnValue = $filter('currency')(value.toFixed(2));
-                    } else if (y < 1000000) {
-                        returnValue = $filter('currency')((value / 1000).toFixed(2)) + 'K';
-                    } else if (y < 10000000) {
-                        returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-                    } else if (y < 1000000000) {
-                        returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-                    } else if (y < 1000000000000) {
-                        returnValue = $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
-                    } else {
-                        returnValue = '1T+';
+                    if(value) {
+                        if (y < 9999) {
+                            returnValue = $filter('currency')(value.toFixed(2));
+                        } else if (y < 1000000) {
+                            returnValue = $filter('currency')((value / 1000).toFixed(2)) + 'K';
+                        } else if (y < 10000000) {
+                            returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                        } else if (y < 1000000000) {
+                            returnValue = $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                        } else if (y < 1000000000000) {
+                            returnValue = $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
+                        } else {
+                            returnValue = '1T+';
+                        }
                     }
-
                     return returnValue;
                 };
             })

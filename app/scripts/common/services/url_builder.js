@@ -139,10 +139,22 @@ define(['angularAMD'],
                     },
 
                     mediaPlanCreateUrl = function () {
-                        var url = this.buildBaseUrl($routeParams.accountId, $routeParams.subAccountId, -1, -1);
 
+                        var accountId = Number($routeParams.accountId),
+                            acccountData = accountService.getSelectedAccount(),
+                            subAccountId = Number($routeParams.subAccountId),
+                            url,
+                            subAccountData;
+
+                        if (!acccountData.isLeafNode) {
+                            if (subAccountId && (subAccountId === accountId)) {
+                                subAccountData = _.reject(subAccountService.getSubAccounts(), function(data){ return data.id === accountId;});
+                                subAccountId = subAccountData[0].id;
+                            }
+                        }
+
+                        url = this.buildBaseUrl(accountId, subAccountId, -1, -1);
                         url += '/mediaplan/create';
-
                         $location.url(url);
                     },
 
